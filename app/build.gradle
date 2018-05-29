@@ -3,9 +3,10 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         config {
-            keyAlias 'MyAndroidKey'
-            keyPassword 'valecom2018'
-            storeFile file('/home/eddy/Escritorio/android.jks')
+            keyAlias 'MyYingulKey'
+            keyPassword 'valecom'
+            /*storeFile file('/home/gonzalo/Escritorio/yingul.jks')*/
+            storeFile file('/home/gonzalo/AndroidStudioProjects/PLANTILLA EDDY/app-master/yingul.jks')
             storePassword 'valecom2018'
         }
     }

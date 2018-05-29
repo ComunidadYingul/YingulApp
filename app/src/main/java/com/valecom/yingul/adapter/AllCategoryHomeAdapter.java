@@ -5,6 +5,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,18 +58,18 @@ public class AllCategoryHomeAdapter extends RecyclerView.Adapter<AllCategoryHome
             }
         });
 
-        /*ScaleAnimation scaleAnim = new ScaleAnimation(
+        ScaleAnimation scaleAnim = new ScaleAnimation(
                 0f, 1f,
                 0f, 1f,
                 Animation.ABSOLUTE, 0,
                 Animation.RELATIVE_TO_SELF , 1);
-        scaleAnim.setDuration(1000);
+        scaleAnim.setDuration(750);
         scaleAnim.setRepeatCount(0);
         scaleAnim.setInterpolator(new AccelerateDecelerateInterpolator());
         scaleAnim.setFillAfter(true);
         scaleAnim.setFillBefore(true);
         scaleAnim.setFillEnabled(true);
-        holder.lyt_parent.startAnimation(scaleAnim);*/
+        holder.lyt_parent.startAnimation(scaleAnim);
     }
 
     @Override

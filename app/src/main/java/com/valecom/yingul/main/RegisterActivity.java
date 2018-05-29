@@ -1,12 +1,14 @@
 package com.valecom.yingul.main;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -35,6 +37,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private EditText editLastname;
     private EditText editEmail;
     private EditText editPassword;
+    private TextView textLogo, textTitle;
 
     Yng_Person persona;
     Yng_User user;
@@ -55,6 +58,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 .cancelable(false)
                 .progress(true, 0).build();
 
+        Typeface typeface1 = Typeface.createFromAsset(RegisterActivity.this.getAssets(), "fonts/font-yingul.ttf");
+
+        textLogo = (TextView)findViewById(R.id.text_logo);
+        textTitle = (TextView)findViewById(R.id.text_title);
+        textLogo.setTypeface(typeface1);
+        textTitle.setTypeface(typeface1);
         editFirstname = (EditText) findViewById(R.id.editFirstname);
         editLastname = (EditText) findViewById(R.id.editLastname);
         editEmail = (EditText) findViewById(R.id.editEmail);
