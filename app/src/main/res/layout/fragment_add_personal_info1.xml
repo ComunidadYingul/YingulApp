@@ -1,0 +1,132 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#ccc"
+    tools:context="com.valecom.yingul.main.Buy_envio_Fragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="50dp"
+        android:background="@color/mdtp_white"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:orientation="horizontal"
+            android:background="@color/yngOrange"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Completa tu ubicación"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:textColor="@color/mdtp_white"
+                />
+
+        </LinearLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp">
+
+            <EditText
+                android:id="@+id/editPhone"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Teléfono"
+                android:singleLine="true"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:orientation="horizontal"
+            android:weightSum="7">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2">
+
+                <com.rey.material.widget.Spinner
+                    android:id="@+id/spinner_type_document"
+                    style="@style/Material.Widget.Spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="3"
+                    android:minHeight="50dp"
+                    app:rd_style="@style/Material.Drawable.Ripple.Wave"
+                    app:spn_arrowSize="6dp"
+                    app:spn_label="Tipo"
+                    app:spn_labelEnable="true"
+                    app:spn_labelPadding="5dp"
+                    app:spn_labelTextColor="@color/colorSecondaryText"
+                    app:spn_labelTextSize="12sp"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4">
+
+                <EditText
+                    android:id="@+id/editDocument"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Número de documento"
+                    android:text=""
+                    android:singleLine="true"
+                    android:inputType="numberDecimal"/>
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="20dp"
+            >
+
+            <Button
+                android:id="@+id/buttonSetPersonalInfo1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:background="@color/yngBlue"
+                android:textColor="@android:color/white"
+                android:text="Continuar"
+                />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</FrameLayout>

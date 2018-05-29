@@ -1,0 +1,55 @@
+{
+  "homeslider" :
+  [
+    {
+      "title":"",
+      "description":"",
+      "image":"slide1.jpg"
+    },
+    {
+      "title":"",
+      "description":"",
+      "image":"slide2.jpg"
+    },
+    {
+      "title":"",
+      "description":"",
+      "image":"slide3.jpg"
+    },
+    {
+      "title":"",
+      "description":"",
+      "image":"slide4.jpg"
+    },
+    {
+      "title":"",
+      "description":"",
+      "image":"slide5.jpg"
+    },
+    {
+      "title":"",
+      "description":"",
+      "image":"slide6.jpg"
+    }
+    /*{
+       "title":"Fashion sale",
+       "description":"Fashion sale upto 50% off on all product",
+       "image":"banner1.png"
+    },
+    {
+       "title":"Furniture sale",
+       "description":"Furniture sale in all item",
+       "image":"banner2.jpg"
+    },
+    {
+       "title":"Used Furniture for Sale",
+       "description":"Used Furniture for Sale in all item",
+       "image":"banner3.jpg"
+    },
+    {
+       "title":"Electronics sale",
+       "description":"Electronics sale in all product",
+       "image":"banner4.jpg"
+    }*/
+  ]
+}

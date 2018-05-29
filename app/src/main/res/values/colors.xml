@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ff5000</color>
+    <color name="colorPrimaryDark">#ff4000</color>
+    <color name="colorPrimaryLight">#FFCDD2</color>
+    <color name="colorAccent">#ff5e3a</color>
+    <color name="colorPrimaryText">#212121</color>
+    <color name="colorSecondaryText">#727272</color>
+    <color name="colorDivider">#B6B6B6</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="colorRedWindowBackground">#fbfafa</color>
+    <color name="colorGreen">#91c459</color>
+    <color name="yngOrange">#ff5e3a</color>
+    <color name="yngBlue">#014a8f</color>
+    <color name="yngGrayPrimary">#727272</color>
+    <color name="yngGraySecondary">#B6B6B6</color>
+    <color name="gray_light">#DBDADF</color>
+
+    <color name="black">#777</color>
+    <color name="white">#fff</color>
+    <color name="red">#6dbcff</color>
+    <color name="bg">#EEEFF3</color>
+    <color name="gray">#9299A1</color>
+    <color name="yngBlack">#222</color>
+
+    <color name="colorPrimary_green">#6DD042 </color>
+    <color name="colorPrimaryDark_green">#57A832 </color>
+    <color name="colorAccent_green">#6DD042</color>
+
+    <color name="divider">#646464</color>
+</resources>

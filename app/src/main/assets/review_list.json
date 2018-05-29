@@ -1,0 +1,29 @@
+{
+  "EcommerceApp" :
+  [
+    {
+      "review_user":"Johnson",
+      "review_message":"100% Polyester. hand Wash in cold Water. Dry in shade for Lasting Color.",
+      "review_time":"2 Hours Ago",
+      "review_rating":"4.5"
+    },
+    {
+      "review_user":"Maverick",
+      "review_message":"Explore the modern and western look by wearing this Cap Sleeve Multicolor top.",
+      "review_time":"3 Hours Ago",
+      "review_rating":"5.0"
+    },
+    {
+      "review_user":"Tom Nariya",
+      "review_message":"Orange top in a patterned weave and ruffle detailing, has a round neck",
+      "review_time":"2 Hours Ago",
+      "review_rating":"3"
+    } ,
+    {
+      "review_user":"Peter John",
+      "review_message":"Dry in shade for Lasting Color.",
+      "review_time":"4 Hours Ago",
+      "review_rating":"3.5"
+    }
+  ]
+}

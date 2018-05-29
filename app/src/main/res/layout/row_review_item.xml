@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/lay_home_slider"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/lay_rating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.github.ornolfr.ratingview.RatingView
+                android:id="@+id/rating_home_slider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left|center_vertical"
+                android:layout_marginBottom="0dp"
+                android:layout_marginRight="0dp"
+                card_view:drawable_empty="@drawable/ic_star_empty"
+                card_view:drawable_filled="@drawable/ic_star_filled"
+                card_view:drawable_half="@drawable/ic_star_half"
+                card_view:drawable_margin="2dp"
+                card_view:drawable_size="20dp"
+                card_view:is_indicator="true"
+                card_view:max_count="5" />
+
+            <TextView
+                android:id="@+id/text_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:gravity="center_vertical"
+                android:textColor="@color/gray"
+                android:layout_marginLeft="5dp"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/text_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:gravity="right"
+                android:textColor="@color/gray"
+                android:layout_marginLeft="5dp"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_below="@+id/lay_rating"
+            android:gravity="center|left"
+            android:textColor="@color/gray"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.6dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_below="@+id/text_message"
+            android:background="#e7e7e7"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
