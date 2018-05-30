@@ -19,6 +19,7 @@
         android:layout_above="@+id/adView"
         android:layout_below="@+id/card_view"
         android:layout_margin="3dp"
+        android:background="#eee"
         android:clipToPadding="false" />
 
     <!--com.google.android.gms.ads.AdView

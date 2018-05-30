@@ -1,6 +1,7 @@
 package com.valecom.yingul.main;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +13,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.Surface;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,6 +34,8 @@ import com.valecom.yingul.R;
 import com.valecom.yingul.Util.ItemOffsetDecoration;
 import com.valecom.yingul.adapter.CategoryListViewAdapter;
 import com.valecom.yingul.adapter.LatestListAdapter;
+import com.valecom.yingul.adapter.ListGridAdapter;
+import com.valecom.yingul.adapter.ListRowAdapter;
 import com.valecom.yingul.adapter.SelectColorAdapter;
 import com.valecom.yingul.adapter.SelectSizeAdapter;
 import com.valecom.yingul.network.MySingleton;
@@ -47,9 +52,9 @@ import java.util.Map;
 public class ActivityPubliSellerList extends AppCompatActivity {
 
     RecyclerView recycler_cat_list;
-    LatestListAdapter adapter_cat_list;
+    ListGridAdapter adapter_cat_list;
     ArrayList<ItemCategoryList> array_cat_list;
-    CategoryListViewAdapter adapter_cat_list_listview;
+    ListRowAdapter adapter_cat_list_listview;
     TextView txtNoOfItem;
     ImageView ImgList,ImgGrid,ImgFilter;
     Dialog dialog;
@@ -94,7 +99,7 @@ public class ActivityPubliSellerList extends AppCompatActivity {
         recycler_cat_list = (RecyclerView) findViewById(R.id.vertical_cat_list);
         recycler_cat_list.setHasFixedSize(false);
         recycler_cat_list.setNestedScrollingEnabled(false);
-        recycler_cat_list.setLayoutManager(new GridLayoutManager(ActivityPubliSellerList.this, 3));
+        recycler_cat_list.setLayoutManager(new GridLayoutManager(ActivityPubliSellerList.this, 2));
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(ActivityPubliSellerList.this, R.dimen.item_offset);
         recycler_cat_list.addItemDecoration(itemDecoration);
 
@@ -110,8 +115,8 @@ public class ActivityPubliSellerList extends AppCompatActivity {
         ImgGrid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recycler_cat_list.setLayoutManager(new GridLayoutManager(ActivityPubliSellerList.this, 3));
-                adapter_cat_list = new LatestListAdapter(ActivityPubliSellerList.this, array_cat_list);
+                recycler_cat_list.setLayoutManager(new GridLayoutManager(ActivityPubliSellerList.this, 2));
+                adapter_cat_list = new ListGridAdapter(ActivityPubliSellerList.this, array_cat_list);
                 recycler_cat_list.setAdapter(adapter_cat_list);
                 ImgGrid.setImageResource(R.drawable.ic_grid_hover);
                 ImgList.setImageResource(R.drawable.ic_list);
@@ -122,7 +127,7 @@ public class ActivityPubliSellerList extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 recycler_cat_list.setLayoutManager(new GridLayoutManager(ActivityPubliSellerList.this, 1));
-                adapter_cat_list_listview = new CategoryListViewAdapter(ActivityPubliSellerList.this, array_cat_list);
+                adapter_cat_list_listview = new ListRowAdapter(ActivityPubliSellerList.this, array_cat_list);
                 recycler_cat_list.setAdapter(adapter_cat_list_listview);
                 ImgList.setImageResource(R.drawable.ic_listview_hover);
                 ImgGrid.setImageResource(R.drawable.ic_grid);
@@ -269,7 +274,7 @@ public class ActivityPubliSellerList extends AppCompatActivity {
     }
 
     public void setAdapterHomeCategoryList() {
-        adapter_cat_list = new LatestListAdapter(ActivityPubliSellerList.this, array_cat_list);
+        adapter_cat_list = new ListGridAdapter(ActivityPubliSellerList.this, array_cat_list);
         txtNoOfItem.setText(adapter_cat_list.getItemCount()+"");
         recycler_cat_list.setAdapter(adapter_cat_list);
     }
