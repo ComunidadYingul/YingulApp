@@ -154,6 +154,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             user.putString("documentNumber",response.getString("documentNumber"));
                             user.putString("phone2",response.getString("phone2"));
                             user.putString("webSite",response.getString("webSite"));
+                            user.putString("profilePhoto",response.getString("profilePhoto"));
                             if(response.has("yng_Ubication") && !response.isNull("yng_Ubication")){
                                 user.putString("yng_Ubication", String.valueOf(response.getJSONObject("yng_Ubication")));
                             }else{
