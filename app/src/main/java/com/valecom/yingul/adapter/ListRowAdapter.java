@@ -54,7 +54,7 @@ public class ListRowAdapter extends RecyclerView.Adapter<ListRowAdapter.ItemRowH
         holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mInterstitial = new InterstitialAd(mContext);
+                /*mInterstitial = new InterstitialAd(mContext);
                 mInterstitial.setAdUnitId(mContext.getString(R.string.admob_interstitial_id));
                 mInterstitial.loadAd(new AdRequest.Builder().build());
                 mInterstitial.setAdListener(new AdListener() {
@@ -74,7 +74,11 @@ public class ListRowAdapter extends RecyclerView.Adapter<ListRowAdapter.ItemRowH
                         mContext.startActivity(intent_detail);
                     }
 
-                });
+                });*/
+                Intent intent_detail=new Intent(mContext, ActivityProductDetail.class);
+                intent_detail.putExtra("itemId",itemCategorylist.getCategoryListId());
+                //intent_detail.putExtra("seller",itemCategorylist.getCategorySeller());
+                mContext.startActivity(intent_detail);
 
             }
         });
