@@ -1,7 +1,9 @@
 package com.valecom.yingul.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 import com.valecom.yingul.Item.ItemAllCategory;
 import com.valecom.yingul.R;
 import com.squareup.picasso.Picasso;
+import com.valecom.yingul.main.categories.CategoryActivity;
 
 import java.util.ArrayList;
 
@@ -51,14 +54,15 @@ public class AllCategoryHomeAdapter extends RecyclerView.Adapter<AllCategoryHome
             @Override
             public void onClick(View v) {
 
-                /*Intent intent_list_coupon=new Intent(mContext, ActivityCouponDetail.class);
-                intent_list_coupon.putExtra("DESC",itemCoupon.getCouponDescription());
-                mContext.startActivity(intent_list_coupon);*/
-                Toast.makeText(mContext,"Lanzar a todas las categorias",Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(mContext, CategoryActivity.class);
+                intent.putExtra("categoryId",itemAllCategory.getAllCategoryId());
+                mContext.startActivity(intent);
+                //Log.e("categoryId:----",""+itemAllCategory.getAllCategoryId());
+                //Toast.makeText(mContext,"Lanzar a todas las categorias",Toast.LENGTH_SHORT).show();
             }
         });
 
-        ScaleAnimation scaleAnim = new ScaleAnimation(
+        /*ScaleAnimation scaleAnim = new ScaleAnimation(
                 0f, 1f,
                 0f, 1f,
                 Animation.ABSOLUTE, 0,
@@ -69,7 +73,7 @@ public class AllCategoryHomeAdapter extends RecyclerView.Adapter<AllCategoryHome
         scaleAnim.setFillAfter(true);
         scaleAnim.setFillBefore(true);
         scaleAnim.setFillEnabled(true);
-        holder.lyt_parent.startAnimation(scaleAnim);
+        holder.lyt_parent.startAnimation(scaleAnim);*/
     }
 
     @Override

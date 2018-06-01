@@ -290,6 +290,7 @@ public class PrincipalFragment extends Fragment {
                 JSONObject jo_inside = m_jArry.getJSONObject(i);
                 ItemAllCategory itemHomeAllCategory = new ItemAllCategory();
 
+                itemHomeAllCategory.setAllCategoryId(jo_inside.getString("all_category_id"));
                 itemHomeAllCategory.setAllCategoryTitle(jo_inside.getString("all_category_title"));
                 itemHomeAllCategory.setAllCategoryImage(jo_inside.getString("all_category_image"));
                 itemHomeAllCategory.setAllCategoryLink(jo_inside.getString("all_category_link"));
