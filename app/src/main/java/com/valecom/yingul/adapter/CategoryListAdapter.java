@@ -7,6 +7,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -56,7 +59,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             public void onClick(View v) {
                 Intent intent_detail=new Intent(mContext, ActivityProductDetail.class);
                 intent_detail.putExtra("itemId",itemCategorylist.getCategoryListId());
-                intent_detail.putExtra("seller",itemCategorylist.getCategorySeller());
+                //intent_detail.putExtra("seller",itemCategorylist.getCategorySeller());
 
 
                 //LocalBroadcastManager.getInstance(context).sendBroadcast(intent_detail);
@@ -86,18 +89,18 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             }
         });
 
-        /*ScaleAnimation scaleAnim = new ScaleAnimation(
+        ScaleAnimation scaleAnim = new ScaleAnimation(
                 0f, 1f,
                 0f, 1f,
                 Animation.ABSOLUTE, 0,
                 Animation.RELATIVE_TO_SELF , 1);
-        scaleAnim.setDuration(1000);
+        scaleAnim.setDuration(750);
         scaleAnim.setRepeatCount(0);
         scaleAnim.setInterpolator(new AccelerateDecelerateInterpolator());
         scaleAnim.setFillAfter(true);
         scaleAnim.setFillBefore(true);
         scaleAnim.setFillEnabled(true);
-        holder.lyt_parent.startAnimation(scaleAnim);*/
+        holder.lyt_parent.startAnimation(scaleAnim);
 
     }
 

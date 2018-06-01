@@ -2,6 +2,7 @@ package com.valecom.yingul.main;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
@@ -36,6 +37,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private EditText editEmail;
     private EditText editPassword;
+    private TextView textLogo, textTitle;
 
     public static final String TAG = "LoginActivity";
     private MaterialDialog progressDialog;
@@ -55,6 +57,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         TextView txtSignUp = (TextView) findViewById(R.id.txtSignUp);
         txtSignUp.setOnClickListener(this);
 
+        Typeface typeface1 = Typeface.createFromAsset(LoginActivity.this.getAssets(), "fonts/font-yingul.ttf");
+
+        textLogo = (TextView)findViewById(R.id.text_logo);
+        textTitle = (TextView)findViewById(R.id.text_title);
+        textLogo.setTypeface(typeface1);
+        textTitle.setTypeface(typeface1);
         editEmail = (EditText) findViewById(R.id.editEmail);
         editPassword = (EditText) findViewById(R.id.editPassword);
 

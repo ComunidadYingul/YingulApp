@@ -3,47 +3,52 @@ package com.valecom.yingul.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.ads.InterstitialAd;
+import com.squareup.picasso.Picasso;
 import com.valecom.yingul.Item.ItemCategoryList;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.ActivityProductDetail;
+import com.valecom.yingul.main.store.ActivityStore;
 import com.valecom.yingul.network.Network;
-import com.google.android.gms.ads.InterstitialAd;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 /**
- * Created by gonzalo on 14-05-18.
+ * Created by gonzalo on 29-05-18.
  */
 
-public class LatestListAdapter extends RecyclerView.Adapter<LatestListAdapter.ItemRowHolder>{
+public class ListGridAdapter extends RecyclerView.Adapter<ListGridAdapter.ItemRowHolder>{
     private ArrayList<ItemCategoryList> dataList;
     private Context mContext;
     private InterstitialAd mInterstitial;
 
-    public LatestListAdapter(Context context, ArrayList<ItemCategoryList> dataList) {
+    public ListGridAdapter(Context context, ArrayList<ItemCategoryList> dataList) {
         this.dataList = dataList;
         this.mContext = context;
     }
 
     @Override
-    public ItemRowHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_latest_home_item, parent, false);
-        return new ItemRowHolder(v);
+    public ListGridAdapter.ItemRowHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_grid_item, parent, false);
+        return new ListGridAdapter.ItemRowHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(ItemRowHolder holder, final int position) {
+    public void onBindViewHolder(ListGridAdapter.ItemRowHolder holder, final int position) {
         final ItemCategoryList itemCategorylist = dataList.get(position);
 
         holder.text_cat_list_title.setText(itemCategorylist.getCategoryListName());
@@ -56,8 +61,9 @@ public class LatestListAdapter extends RecyclerView.Adapter<LatestListAdapter.It
             public void onClick(View v) {
                 Intent intent_detail=new Intent(mContext, ActivityProductDetail.class);
                 intent_detail.putExtra("itemId",itemCategorylist.getCategoryListId());
-                intent_detail.putExtra("seller",itemCategorylist.getCategorySeller());
+                //intent_detail.putExtra("seller",itemCategorylist.getCategorySeller());
                 mContext.startActivity(intent_detail);
+                //Log.e("gonzalo:----","hola");
 
                 /*
                 Log.e("Eddy","click");
@@ -83,7 +89,7 @@ public class LatestListAdapter extends RecyclerView.Adapter<LatestListAdapter.It
 
             }
         });
-        ScaleAnimation scaleAnim = new ScaleAnimation(
+        /*ScaleAnimation scaleAnim = new ScaleAnimation(
                 0f, 1f,
                 0f, 1f,
                 Animation.ABSOLUTE, 0,
@@ -94,7 +100,7 @@ public class LatestListAdapter extends RecyclerView.Adapter<LatestListAdapter.It
         scaleAnim.setFillAfter(true);
         scaleAnim.setFillBefore(true);
         scaleAnim.setFillEnabled(true);
-        holder.lyt_parent.startAnimation(scaleAnim);
+        holder.lyt_parent.startAnimation(scaleAnim);*/
     }
 
     @Override
@@ -115,4 +121,5 @@ public class LatestListAdapter extends RecyclerView.Adapter<LatestListAdapter.It
             lyt_parent = (LinearLayout) itemView.findViewById(R.id.rootLayout);
         }
     }
+
 }

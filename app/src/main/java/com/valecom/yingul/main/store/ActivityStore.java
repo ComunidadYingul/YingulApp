@@ -1,10 +1,9 @@
-package com.valecom.yingul.main;
+package com.valecom.yingul.main.store;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -13,9 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.Surface;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,19 +22,27 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.valecom.yingul.Item.ItemCategoryList;
 import com.valecom.yingul.Item.ItemColorSize;
 import com.valecom.yingul.R;
 import com.valecom.yingul.Util.ItemOffsetDecoration;
-import com.valecom.yingul.adapter.CategoryListViewAdapter;
-import com.valecom.yingul.adapter.LatestListAdapter;
 import com.valecom.yingul.adapter.ListGridAdapter;
 import com.valecom.yingul.adapter.ListRowAdapter;
 import com.valecom.yingul.adapter.SelectColorAdapter;
 import com.valecom.yingul.adapter.SelectSizeAdapter;
+import com.valecom.yingul.main.MainActivity;
+import com.valecom.yingul.model.Yng_IpApi;
+import com.valecom.yingul.model.Yng_Store;
+import com.valecom.yingul.model.Yng_Ubication;
+import com.valecom.yingul.model.Yng_User;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
 
@@ -49,7 +54,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ActivityPubliSellerList extends AppCompatActivity {
+public class ActivityStore extends AppCompatActivity {
 
     RecyclerView recycler_cat_list;
     ListGridAdapter adapter_cat_list;
@@ -68,12 +73,14 @@ public class ActivityPubliSellerList extends AppCompatActivity {
     LinearLayout lay_filter_click;
     private MaterialDialog progressDialog;
 
-    String itemId,itemSeller;
+    String itemId,itemSeller,store;
+    Yng_Store objStore;
+    Yng_User objUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_publi_seller_list);
+        setContentView(R.layout.activity_store);
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.home_latest));
@@ -82,9 +89,13 @@ public class ActivityPubliSellerList extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Bundle datos = this.getIntent().getExtras();
+        store = datos.getString("store");
         //itemId = datos.getString("itemId");
-        itemSeller = datos.getString("seller");
-        Log.e("Eddy:-------","recupero:"+itemId);
+        //itemSeller = datos.getString("seller");
+        Log.e("Eddy:-------","recupero:"+store);
+
+        getStoreItem();
+
 
         progressDialog = new MaterialDialog.Builder(this)
                 .title(R.string.progress_dialog)
@@ -99,8 +110,8 @@ public class ActivityPubliSellerList extends AppCompatActivity {
         recycler_cat_list = (RecyclerView) findViewById(R.id.vertical_cat_list);
         recycler_cat_list.setHasFixedSize(false);
         recycler_cat_list.setNestedScrollingEnabled(false);
-        recycler_cat_list.setLayoutManager(new GridLayoutManager(ActivityPubliSellerList.this, 2));
-        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(ActivityPubliSellerList.this, R.dimen.item_offset);
+        recycler_cat_list.setLayoutManager(new GridLayoutManager(ActivityStore.this, 2));
+        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(ActivityStore.this, R.dimen.item_offset);
         recycler_cat_list.addItemDecoration(itemDecoration);
 
         txtNoOfItem=(TextView)findViewById(R.id.text_cat_list_item);
@@ -115,8 +126,8 @@ public class ActivityPubliSellerList extends AppCompatActivity {
         ImgGrid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recycler_cat_list.setLayoutManager(new GridLayoutManager(ActivityPubliSellerList.this, 3));
-                adapter_cat_list = new ListGridAdapter(ActivityPubliSellerList.this, array_cat_list);
+                recycler_cat_list.setLayoutManager(new GridLayoutManager(ActivityStore.this, 2));
+                adapter_cat_list = new ListGridAdapter(ActivityStore.this, array_cat_list);
                 recycler_cat_list.setAdapter(adapter_cat_list);
                 ImgGrid.setImageResource(R.drawable.ic_grid_hover);
                 ImgList.setImageResource(R.drawable.ic_list);
@@ -126,8 +137,8 @@ public class ActivityPubliSellerList extends AppCompatActivity {
         ImgList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recycler_cat_list.setLayoutManager(new GridLayoutManager(ActivityPubliSellerList.this, 1));
-                adapter_cat_list_listview = new ListRowAdapter(ActivityPubliSellerList.this, array_cat_list);
+                recycler_cat_list.setLayoutManager(new GridLayoutManager(ActivityStore.this, 1));
+                adapter_cat_list_listview = new ListRowAdapter(ActivityStore.this, array_cat_list);
                 recycler_cat_list.setAdapter(adapter_cat_list_listview);
                 ImgList.setImageResource(R.drawable.ic_listview_hover);
                 ImgGrid.setImageResource(R.drawable.ic_grid);
@@ -138,17 +149,16 @@ public class ActivityPubliSellerList extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //showFilterDialog();
-                Toast.makeText(ActivityPubliSellerList.this, "Filtro aun no implementado", Toast.LENGTH_LONG).show();
+                Toast.makeText(ActivityStore.this, "Filtro aun no implementado", Toast.LENGTH_LONG).show();
             }
         });
 
-        loadJSONFromAssetCategoryList();
 
     }
 
     public ArrayList<ItemCategoryList> loadJSONFromAssetCategoryList() {
 
-        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "item/Item/"+itemSeller,
+        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "item/Item/"+objUser.getUsername(),
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -177,7 +187,7 @@ public class ActivityPubliSellerList extends AppCompatActivity {
                         catch(Exception ex)
                         {
                             //if (isAdded()) {
-                            Toast.makeText(ActivityPubliSellerList.this, R.string.error_try_again_support, Toast.LENGTH_LONG).show();
+                            Toast.makeText(ActivityStore.this, R.string.error_try_again_support, Toast.LENGTH_LONG).show();
                             //}
                         }
 
@@ -204,16 +214,16 @@ public class ActivityPubliSellerList extends AppCompatActivity {
                     try
                     {
                         JSONObject json = new JSONObject(new String(response.data));
-                        Toast.makeText(ActivityPubliSellerList.this, json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
+                        Toast.makeText(ActivityStore.this, json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
                     }
                     catch (JSONException e)
                     {
-                        Toast.makeText(ActivityPubliSellerList.this, R.string.error_try_again_support, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityStore.this, R.string.error_try_again_support, Toast.LENGTH_SHORT).show();
                     }
                 }
                 else
                 {
-                    Toast.makeText(ActivityPubliSellerList.this, error != null && error.getMessage() != null ? error.getMessage() : error.toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(ActivityStore.this, error != null && error.getMessage() != null ? error.getMessage() : error.toString(), Toast.LENGTH_LONG).show();
                 }
             }
         })
@@ -235,7 +245,7 @@ public class ActivityPubliSellerList extends AppCompatActivity {
 
         postRequest.setTag(MainActivity.TAG);
 
-        MySingleton.getInstance(ActivityPubliSellerList.this).addToRequestQueue(postRequest);
+        MySingleton.getInstance(ActivityStore.this).addToRequestQueue(postRequest);
         return array_cat_list;
 
         /*ArrayList<ItemCategoryList> locList = new ArrayList<>();
@@ -274,13 +284,13 @@ public class ActivityPubliSellerList extends AppCompatActivity {
     }
 
     public void setAdapterHomeCategoryList() {
-        adapter_cat_list = new ListGridAdapter(ActivityPubliSellerList.this, array_cat_list);
+        adapter_cat_list = new ListGridAdapter(ActivityStore.this, array_cat_list);
         txtNoOfItem.setText(adapter_cat_list.getItemCount()+"");
         recycler_cat_list.setAdapter(adapter_cat_list);
     }
 
     private void showFilterDialog() {
-        dialog = new Dialog(ActivityPubliSellerList.this, R.style.Theme_AppCompat_Translucent);
+        dialog = new Dialog(ActivityStore.this, R.style.Theme_AppCompat_Translucent);
         dialog.setContentView(R.layout.select_filter_dialog);
 
         //appCompatSeekBar = (CrystalRangeSeekbar) dialog.findViewById(R.id.rangeSeekbar3);
@@ -310,8 +320,8 @@ public class ActivityPubliSellerList extends AppCompatActivity {
         recyclerView_color = (RecyclerView) dialog.findViewById(R.id.vertical_color);
         recyclerView_color.setHasFixedSize(false);
         recyclerView_color.setNestedScrollingEnabled(false);
-        recyclerView_color.setLayoutManager(new GridLayoutManager(ActivityPubliSellerList.this, 6));
-        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(ActivityPubliSellerList.this, R.dimen.item_offset);
+        recyclerView_color.setLayoutManager(new GridLayoutManager(ActivityStore.this, 6));
+        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(ActivityStore.this, R.dimen.item_offset);
         recyclerView_color.addItemDecoration(itemDecoration);
         prepareColorData();
 
@@ -319,7 +329,7 @@ public class ActivityPubliSellerList extends AppCompatActivity {
         recyclerView_size = (RecyclerView) dialog.findViewById(R.id.vertical_size);
         recyclerView_size.setHasFixedSize(false);
         recyclerView_size.setNestedScrollingEnabled(false);
-        recyclerView_size.setLayoutManager(new GridLayoutManager(ActivityPubliSellerList.this, 6));
+        recyclerView_size.setLayoutManager(new GridLayoutManager(ActivityStore.this, 6));
         recyclerView_size.addItemDecoration(itemDecoration);
         prepareSizeData();
 
@@ -345,7 +355,7 @@ public class ActivityPubliSellerList extends AppCompatActivity {
             itemColorSize.setSelectSize(color[k]);
             array_size.add(itemColorSize);
         }
-        adapter_size = new SelectSizeAdapter(ActivityPubliSellerList.this, array_size);
+        adapter_size = new SelectSizeAdapter(ActivityStore.this, array_size);
         recyclerView_size.setAdapter(adapter_size);
     }
 
@@ -397,5 +407,45 @@ public class ActivityPubliSellerList extends AppCompatActivity {
                 return super.onOptionsItemSelected(menuItem);
         }
         return true;
+    }
+
+    JSONObject storeItem;
+    public void getStoreItem(){
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, Network.API_URL + "/store/findByName/" + store, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.e("RespuestaReq:-----",response.toString());
+
+
+                Gson gson = new Gson();
+
+                try {
+                    objStore = gson.fromJson(String.valueOf(response), Yng_Store.class);
+                    objUser = gson.fromJson(String.valueOf(response.get("user")), Yng_User.class);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+                String json = gson.toJson(objUser);
+
+                Log.e("objeto store:---",json);
+
+                loadJSONFromAssetCategoryList();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("ErrorResp:-----",error.getMessage());
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return super.getHeaders();
+            }
+        };
+        MySingleton.getInstance(ActivityStore.this).addToRequestQueue(request);
     }
 }

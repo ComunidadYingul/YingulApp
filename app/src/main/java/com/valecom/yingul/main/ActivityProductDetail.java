@@ -51,6 +51,7 @@ import com.valecom.yingul.adapter.SelectColorAdapter;
 import com.valecom.yingul.adapter.SelectSizeAdapter;
 import com.valecom.yingul.main.buy.BuyActivity;
 import com.valecom.yingul.model.Yng_Item;
+import com.valecom.yingul.model.Yng_User;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
 import com.github.ornolfr.ratingview.RatingView;
@@ -99,6 +100,7 @@ public class ActivityProductDetail extends AppCompatActivity {
     private MaterialDialog progressDialog;
     String itemId,itemSeller;
     Yng_Item itemTemp;
+    Yng_User userTemp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +115,7 @@ public class ActivityProductDetail extends AppCompatActivity {
 
         Bundle datos = this.getIntent().getExtras();
         itemId = datos.getString("itemId");
-        itemSeller = datos.getString("seller");
+        //itemSeller = datos.getString("seller");
         Log.e("Eddy:-------","recupero:"+itemId);
         progressDialog = new MaterialDialog.Builder(this)
                 .title(R.string.progress_dialog)
@@ -214,11 +216,8 @@ public class ActivityProductDetail extends AppCompatActivity {
         button_public_seller.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ActivityProductDetail.this,"Ir a mas publicaciones del vendedor",Toast.LENGTH_SHORT).show();
-
-
                 Intent intent=new Intent(ActivityProductDetail.this, ActivityPubliSellerList.class);
-                intent.putExtra("itemId",itemId);
+                //intent.putExtra("itemId",itemId);
                 intent.putExtra("seller",itemSeller);
                 startActivity(intent);
             }
@@ -428,11 +427,16 @@ public class ActivityProductDetail extends AppCompatActivity {
                     public void onResponse(JSONArray response) {
                         try
                         {
-
+                            int size_jArray;
                             JSONArray m_jArry = response;
                             Log.e("Eddy",m_jArry.toString());
-                            //for (int i = 0; i < m_jArry.length(); i++) {
-                            for (int i = 0; i < 3; i++) {
+                            if(m_jArry.length() >= 3){
+                                size_jArray = 3;
+                            }else{
+                                size_jArray = m_jArry.length();
+                            }
+                            for (int i = 0; i < size_jArray; i++) {
+                                //for (int i = 0; i < 3; i++) {
                                 JSONObject jo_inside = m_jArry.getJSONObject(i);
                                 ItemReviewPublic itemPublicSellerList = new ItemReviewPublic();
                                 itemPublicSellerList.setReviewId(jo_inside.getString("itemId"));
@@ -444,6 +448,7 @@ public class ActivityProductDetail extends AppCompatActivity {
                                 array_publicaciones.add(itemPublicSellerList);
 
                             }
+
                             setAdapterReviewList();
 
                             /**/
@@ -911,7 +916,15 @@ public class ActivityProductDetail extends AppCompatActivity {
                                     //Yng_Item itemTemp=gson.fromJson(response.toString(),Yng_Item.class);
                                     itemTemp=gson.fromJson(response.toString(),Yng_Item.class);
                                     String s=response.getString("description");
-                                    Log.e("daniel description:",itemTemp.getDescription());
+                                    try {
+                                        Log.e("daniel description:",itemTemp.getDescription());
+                                    }catch (Exception e){
+                                        Log.e("daniel description:","sin descripcion");
+                                    }
+
+                                    userTemp=itemTemp.getUser();
+                                    itemSeller = userTemp.getUsername();
+                                    Log.e("seller",""+itemSeller);
 
                                     if(itemTemp.getType().equals("Product") || itemTemp.getType().equals("Motorized")){
                                         text_product_buy.setText("Comprar");
@@ -991,7 +1004,11 @@ public class ActivityProductDetail extends AppCompatActivity {
         else {text_no_cost.setText("Envío a todo el país");}
         // text_no_cost.setText(itemTemp.get);
         //text_product_rate.setText("4.8");
-        web_desc.setText(itemTemp.getDescription());
+        try{
+            web_desc.setText(itemTemp.getDescription());
+        }catch (Exception e){
+            web_desc.setText("");
+        }
     }
 
 }
