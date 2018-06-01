@@ -22,20 +22,16 @@
             android:id="@+id/nav_clients"
             android:icon="@drawable/ic_menu_clients"
             android:title="Clients" />
-        <!--item
-            android:id="@+id/nav_buy"
-            android:icon="@drawable/ic_menu_send"
-            android:title="Comprar" /-->
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_menu_settings"
+            android:title="Mi cuenta" />
     </group>
 
     <group android:id="@+id/group_settings"  android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_menu_settings"
-            android:title="Settings" />
-        <item
             android:id="@+id/nav_sell"
-            android:icon="@drawable/ic_menu_settings"
+            android:icon="@drawable/ic_menu_items"
             android:title="Vender gratis" />
     </group>
 </menu>

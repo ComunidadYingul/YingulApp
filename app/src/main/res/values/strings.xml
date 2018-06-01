@@ -93,7 +93,7 @@
 
     <string name="currency">Currency</string>
     <string name="address">Address</string>
-    <string name="logout">Logout</string>
+    <string name="logout">Salir</string>
 
     <string name="title_activity_setting">Settings</string>
     <string name="logo">Logo</string>

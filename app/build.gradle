@@ -7,6 +7,7 @@ android {
             keyPassword 'valecom'
             /*storeFile file('/home/gonzalo/Escritorio/yingul.jks')*/
             storeFile file('/home/gonzalo/AndroidStudioProjects/PLANTILLA EDDY/app-master/yingul.jks')
+            //storeFile file('/home/eddy/Escritorio/yingul.jks')
             storePassword 'valecom2018'
         }
     }
