@@ -3,6 +3,7 @@ package com.valecom.yingul.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.View;
@@ -14,12 +15,14 @@ import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.InterstitialAd;
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.Item.ItemCategoryList;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.ActivityProductDetail;
+import com.valecom.yingul.main.store.ActivityStore;
 import com.valecom.yingul.network.Network;
 
 import java.util.ArrayList;
@@ -60,6 +63,7 @@ public class ListGridAdapter extends RecyclerView.Adapter<ListGridAdapter.ItemRo
                 intent_detail.putExtra("itemId",itemCategorylist.getCategoryListId());
                 intent_detail.putExtra("seller",itemCategorylist.getCategorySeller());
                 mContext.startActivity(intent_detail);
+                //Log.e("gonzalo:----","hola");
 
                 /*
                 Log.e("Eddy","click");
@@ -85,7 +89,7 @@ public class ListGridAdapter extends RecyclerView.Adapter<ListGridAdapter.ItemRo
 
             }
         });
-        ScaleAnimation scaleAnim = new ScaleAnimation(
+        /*ScaleAnimation scaleAnim = new ScaleAnimation(
                 0f, 1f,
                 0f, 1f,
                 Animation.ABSOLUTE, 0,
@@ -96,7 +100,7 @@ public class ListGridAdapter extends RecyclerView.Adapter<ListGridAdapter.ItemRo
         scaleAnim.setFillAfter(true);
         scaleAnim.setFillBefore(true);
         scaleAnim.setFillEnabled(true);
-        holder.lyt_parent.startAnimation(scaleAnim);
+        holder.lyt_parent.startAnimation(scaleAnim);*/
     }
 
     @Override

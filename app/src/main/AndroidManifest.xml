@@ -162,7 +162,8 @@
         <activity android:name=".main.ActivityProductDetail" />
         <activity android:name=".main.ActivityPlaceOrder" />
         <activity android:name=".main.ActivityGalleryDetail" />
-        <activity android:name=".main.ActivityPubliSellerList"></activity>
+        <activity android:name=".main.ActivityPubliSellerList" />
+        <activity android:name=".main.store.ActivityStore"></activity>
     </application>
 
 </manifest>

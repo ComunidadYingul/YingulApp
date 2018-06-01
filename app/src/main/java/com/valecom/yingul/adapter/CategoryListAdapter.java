@@ -59,7 +59,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             public void onClick(View v) {
                 Intent intent_detail=new Intent(mContext, ActivityProductDetail.class);
                 intent_detail.putExtra("itemId",itemCategorylist.getCategoryListId());
-                intent_detail.putExtra("seller",itemCategorylist.getCategorySeller());
+                //intent_detail.putExtra("seller",itemCategorylist.getCategorySeller());
 
 
                 //LocalBroadcastManager.getInstance(context).sendBroadcast(intent_detail);

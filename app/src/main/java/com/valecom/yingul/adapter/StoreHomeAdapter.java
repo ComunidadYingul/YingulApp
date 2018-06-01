@@ -1,6 +1,7 @@
 package com.valecom.yingul.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 
 import com.valecom.yingul.Item.ItemCategory;
 import com.valecom.yingul.R;
+import com.valecom.yingul.main.ActivityPubliSellerList;
+import com.valecom.yingul.main.store.ActivityStore;
 import com.valecom.yingul.network.Network;
 import com.squareup.picasso.Picasso;
 
@@ -51,8 +54,9 @@ public class StoreHomeAdapter extends RecyclerView.Adapter<StoreHomeAdapter.Item
             @Override
             public void onClick(View v) {
 
-                /*Intent intent = new Intent(mContext, ActivityCategoryList.class);
-                mContext.startActivity(intent);*/
+                Intent intent = new Intent(mContext, ActivityStore.class);
+                intent.putExtra("store",itemCategory.getCategoryName());
+                mContext.startActivity(intent);
             }
         });
 

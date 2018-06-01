@@ -51,6 +51,7 @@ import com.valecom.yingul.adapter.SelectColorAdapter;
 import com.valecom.yingul.adapter.SelectSizeAdapter;
 import com.valecom.yingul.main.buy.BuyActivity;
 import com.valecom.yingul.model.Yng_Item;
+import com.valecom.yingul.model.Yng_User;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
 import com.github.ornolfr.ratingview.RatingView;
@@ -99,6 +100,7 @@ public class ActivityProductDetail extends AppCompatActivity {
     private MaterialDialog progressDialog;
     String itemId,itemSeller;
     Yng_Item itemTemp;
+    Yng_User userTemp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +115,7 @@ public class ActivityProductDetail extends AppCompatActivity {
 
         Bundle datos = this.getIntent().getExtras();
         itemId = datos.getString("itemId");
-        itemSeller = datos.getString("seller");
+        //itemSeller = datos.getString("seller");
         Log.e("Eddy:-------","recupero:"+itemId);
         progressDialog = new MaterialDialog.Builder(this)
                 .title(R.string.progress_dialog)
@@ -214,11 +216,8 @@ public class ActivityProductDetail extends AppCompatActivity {
         button_public_seller.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ActivityProductDetail.this,"Ir a mas publicaciones del vendedor",Toast.LENGTH_SHORT).show();
-
-
                 Intent intent=new Intent(ActivityProductDetail.this, ActivityPubliSellerList.class);
-                intent.putExtra("itemId",itemId);
+                //intent.putExtra("itemId",itemId);
                 intent.putExtra("seller",itemSeller);
                 startActivity(intent);
             }
@@ -912,6 +911,9 @@ public class ActivityProductDetail extends AppCompatActivity {
                                     itemTemp=gson.fromJson(response.toString(),Yng_Item.class);
                                     String s=response.getString("description");
                                     Log.e("daniel description:",itemTemp.getDescription());
+
+                                    userTemp=itemTemp.getUser();
+                                    itemSeller = userTemp.getUsername();
 
                                     if(itemTemp.getType().equals("Product") || itemTemp.getType().equals("Motorized")){
                                         text_product_buy.setText("Comprar");

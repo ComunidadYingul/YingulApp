@@ -37,7 +37,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="160dp">
+                android:layout_height="160dp"
+                >
 
                 <ImageView
                     android:id="@+id/image_item_cat_list_image"
@@ -58,11 +59,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center|left"
-                android:layout_margin="3dp"
-                android:maxLines="1"
-                android:minLines="1"
+                android:layout_margin="5dp"
+                android:maxLines="2"
+                android:minLines="2"
                 android:ellipsize="end"
-                android:text=" "
+                android:text=""
+                android:textSize="12sp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 android:textColor="@color/black" />
 
@@ -71,10 +73,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center|left"
-                android:layout_margin="3dp"
+                android:layout_margin="5dp"
                 android:maxLines="1"
                 android:minLines="1"
-                android:text=" "
+                android:text=""
+                android:textSize="20sp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 android:textColor="@color/red" />
         </LinearLayout>
