@@ -5,7 +5,7 @@ import android.net.ConnectivityManager;
 
 public class Network
 {
-    public static final String API_URL = "http://192.168.100.16:8080/";
+    //public static final String API_URL = "http://192.168.100.16:8080/";
     //public static final String API_URL = "http://192.168.0.14:8080/";
     public static final String API_URL = "http://192.168.100.51:8080/";
     //public static final String API_URL = "http://192.168.100.51:8080/";
