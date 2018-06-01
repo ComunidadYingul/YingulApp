@@ -70,7 +70,7 @@ public class ListRowAdapter extends RecyclerView.Adapter<ListRowAdapter.ItemRowH
                     public void onAdClosed() {
                         Intent intent_detail=new Intent(mContext, ActivityProductDetail.class);
                         intent_detail.putExtra("itemId",itemCategorylist.getCategoryListId());
-                        intent_detail.putExtra("seller",itemCategorylist.getCategorySeller());
+                        //intent_detail.putExtra("seller",itemCategorylist.getCategorySeller());
                         mContext.startActivity(intent_detail);
                     }
 

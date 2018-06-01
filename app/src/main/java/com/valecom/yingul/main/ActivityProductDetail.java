@@ -427,11 +427,16 @@ public class ActivityProductDetail extends AppCompatActivity {
                     public void onResponse(JSONArray response) {
                         try
                         {
-
+                            int size_jArray;
                             JSONArray m_jArry = response;
                             Log.e("Eddy",m_jArry.toString());
-                            //for (int i = 0; i < m_jArry.length(); i++) {
-                            for (int i = 0; i < 3; i++) {
+                            if(m_jArry.length() >= 3){
+                                size_jArray = 3;
+                            }else{
+                                size_jArray = m_jArry.length();
+                            }
+                            for (int i = 0; i < size_jArray; i++) {
+                                //for (int i = 0; i < 3; i++) {
                                 JSONObject jo_inside = m_jArry.getJSONObject(i);
                                 ItemReviewPublic itemPublicSellerList = new ItemReviewPublic();
                                 itemPublicSellerList.setReviewId(jo_inside.getString("itemId"));
@@ -443,6 +448,7 @@ public class ActivityProductDetail extends AppCompatActivity {
                                 array_publicaciones.add(itemPublicSellerList);
 
                             }
+
                             setAdapterReviewList();
 
                             /**/
@@ -910,10 +916,15 @@ public class ActivityProductDetail extends AppCompatActivity {
                                     //Yng_Item itemTemp=gson.fromJson(response.toString(),Yng_Item.class);
                                     itemTemp=gson.fromJson(response.toString(),Yng_Item.class);
                                     String s=response.getString("description");
-                                    Log.e("daniel description:",itemTemp.getDescription());
+                                    try {
+                                        Log.e("daniel description:",itemTemp.getDescription());
+                                    }catch (Exception e){
+                                        Log.e("daniel description:","sin descripcion");
+                                    }
 
                                     userTemp=itemTemp.getUser();
                                     itemSeller = userTemp.getUsername();
+                                    Log.e("seller",""+itemSeller);
 
                                     if(itemTemp.getType().equals("Product") || itemTemp.getType().equals("Motorized")){
                                         text_product_buy.setText("Comprar");
@@ -993,7 +1004,11 @@ public class ActivityProductDetail extends AppCompatActivity {
         else {text_no_cost.setText("Envío a todo el país");}
         // text_no_cost.setText(itemTemp.get);
         //text_product_rate.setText("4.8");
-        web_desc.setText(itemTemp.getDescription());
+        try{
+            web_desc.setText(itemTemp.getDescription());
+        }catch (Exception e){
+            web_desc.setText("");
+        }
     }
 
 }
