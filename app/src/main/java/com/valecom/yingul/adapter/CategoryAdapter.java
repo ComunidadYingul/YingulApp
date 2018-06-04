@@ -53,4 +53,6 @@ public class CategoryAdapter extends ArrayAdapter<Yng_Category>
 
         return rowView;
     }
+
+
 }

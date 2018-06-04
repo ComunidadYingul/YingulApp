@@ -1,11 +1,14 @@
 package com.valecom.yingul.main.categories;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -59,6 +62,18 @@ public class SubCategoryFragment extends Fragment {
 
         Bundle bundle = getArguments();
         categoryId = bundle.getString("categoryId");
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(),ItemsByCategoryActivity.class);
+                Yng_Category item = adapter.getItem(position);
+                Log.e("cateoria id:---",""+item.getCategoryId().toString());
+                intent.putExtra("categoryId",item.getCategoryId().toString());
+                startActivity(intent);
+
+            }
+        });
 
         progressDialog = new MaterialDialog.Builder(getActivity())
                 .title(R.string.progress_dialog)
