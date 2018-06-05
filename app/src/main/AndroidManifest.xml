@@ -167,7 +167,8 @@
         <activity android:name=".main.ActivityPubliSellerList" />
         <activity android:name=".main.store.ActivityStore" />
         <activity android:name=".main.categories.CategoryActivity" />
-        <activity android:name=".main.categories.ItemsByCategoryActivity"></activity>
+        <activity android:name=".main.categories.ItemsByCategoryActivity" />
+        <activity android:name=".main.store.AllStoreActivity"></activity>
     </application>
 
 </manifest>

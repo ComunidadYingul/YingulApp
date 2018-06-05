@@ -18,6 +18,7 @@ import com.valecom.yingul.Item.ItemAllCategory;
 import com.valecom.yingul.R;
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.main.categories.CategoryActivity;
+import com.valecom.yingul.main.store.AllStoreActivity;
 
 import java.util.ArrayList;
 
@@ -53,12 +54,19 @@ public class AllCategoryHomeAdapter extends RecyclerView.Adapter<AllCategoryHome
         holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent=new Intent(mContext, CategoryActivity.class);
-                intent.putExtra("categoryId",itemAllCategory.getAllCategoryId());
-                mContext.startActivity(intent);
-                //Log.e("categoryId:----",""+itemAllCategory.getAllCategoryId());
-                //Toast.makeText(mContext,"Lanzar a todas las categorias",Toast.LENGTH_SHORT).show();
+                Intent intent;
+                Log.e("seleccionado:--",itemAllCategory.getAllCategoryId());
+                switch (itemAllCategory.getAllCategoryId()){
+                    case "stores":
+                        intent = new Intent(mContext, AllStoreActivity.class);
+                        mContext.startActivity(intent);
+                    break;
+                    default:
+                        intent = new Intent(mContext, CategoryActivity.class);
+                        intent.putExtra("categoryId", itemAllCategory.getAllCategoryId());
+                        mContext.startActivity(intent);
+                    break;
+                }
             }
         });
 

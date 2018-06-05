@@ -92,7 +92,7 @@ public class ActivityStore extends AppCompatActivity {
         store = datos.getString("store");
         //itemId = datos.getString("itemId");
         //itemSeller = datos.getString("seller");
-        Log.e("Eddy:-------","recupero:"+store);
+        Log.e("rec tienda:-------",""+store);
 
         getStoreItem();
 

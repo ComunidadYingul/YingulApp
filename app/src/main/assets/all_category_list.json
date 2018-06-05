@@ -2,28 +2,28 @@
   "EcommerceApp" :
   [
     {
-      "all_category_id":"sin",
+      "all_category_id":"motorized",
       "all_category_title":"Autos, motos y otros",
       "all_category_link":"https://play.google.com/store",
       "all_category_image":"cat_1.png",
       "all_category_desc":""
     },
     {
-      "all_category_id":"sin",
+      "all_category_id":"services",
       "all_category_title":"Servicios",
       "all_category_link":"http://www.amazon.in/",
       "all_category_image":"cat_2.png",
       "all_category_desc":""
     },
     {
-      "all_category_id":"sin",
+      "all_category_id":"property",
       "all_category_title":"Inmuebles",
       "all_category_link":"https://play.google.com/store",
       "all_category_image":"cat_3.png",
       "all_category_desc":""
     },
     {
-      "all_category_id":"sin",
+      "all_category_id":"stores",
       "all_category_title":"Tiendas oficiales",
       "all_category_link":"http://www.amazon.in/",
       "all_category_image":"cat_4.png",
