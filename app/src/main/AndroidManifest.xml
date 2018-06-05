@@ -169,6 +169,7 @@
         <activity android:name=".main.categories.CategoryActivity" />
         <activity android:name=".main.categories.ItemsByCategoryActivity" />
         <activity android:name=".main.store.AllStoreActivity"></activity>
+        <activity android:name=".main.service.ServiceActivity"></activity>
     </application>
 
 </manifest>

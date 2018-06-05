@@ -140,6 +140,8 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
 
     public ArrayList<ItemCategoryList> loadJSONFromAssetCategoryList() {
 
+        progressDialog.show();
+
         JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "item/itemsByCategory/"+categoryId,
                 new Response.Listener<JSONArray>() {
                     @Override

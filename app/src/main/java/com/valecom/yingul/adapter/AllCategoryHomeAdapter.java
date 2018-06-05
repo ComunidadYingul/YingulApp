@@ -18,6 +18,7 @@ import com.valecom.yingul.Item.ItemAllCategory;
 import com.valecom.yingul.R;
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.main.categories.CategoryActivity;
+import com.valecom.yingul.main.service.ServiceActivity;
 import com.valecom.yingul.main.store.AllStoreActivity;
 
 import java.util.ArrayList;
@@ -57,6 +58,10 @@ public class AllCategoryHomeAdapter extends RecyclerView.Adapter<AllCategoryHome
                 Intent intent;
                 Log.e("seleccionado:--",itemAllCategory.getAllCategoryId());
                 switch (itemAllCategory.getAllCategoryId()){
+                    case "service":
+                        intent = new Intent(mContext, ServiceActivity.class);
+                        mContext.startActivity(intent);
+                        break;
                     case "stores":
                         intent = new Intent(mContext, AllStoreActivity.class);
                         mContext.startActivity(intent);
