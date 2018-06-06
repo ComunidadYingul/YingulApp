@@ -38,7 +38,7 @@ public class MyAccountFragment extends Fragment
     private JSONObject api_parameter;
 
     private Button buttonSell,settings_logout_button;
-    private LinearLayout shoppingQuestions;
+    private LinearLayout shoppingQuestions,purchasesLayout;
 
     public MyAccountFragment()
     {
@@ -81,6 +81,7 @@ public class MyAccountFragment extends Fragment
         buttonSell = (Button) view.findViewById(R.id.buttonSell);
         settings_logout_button = (Button) view.findViewById(R.id.settings_logout_button);
         shoppingQuestions = (LinearLayout) view.findViewById(R.id.shoppingQuestions);
+        purchasesLayout = (LinearLayout) view.findViewById(R.id.purchasesLayout);
 
         buttonSell.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -101,7 +102,16 @@ public class MyAccountFragment extends Fragment
         });
         shoppingQuestions.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ShoppingQuestionsListFragment fragment = new ShoppingQuestionsListFragment();
+                MyAccountShoppingQuestionsListFragment fragment = new MyAccountShoppingQuestionsListFragment();
+                FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+        purchasesLayout.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                MyAccountPurchasesListFragment fragment = new MyAccountPurchasesListFragment();
                 FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.content_frame, fragment);
                 fragmentTransaction.addToBackStack(null);
