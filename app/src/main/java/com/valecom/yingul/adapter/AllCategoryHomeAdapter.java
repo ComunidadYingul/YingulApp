@@ -7,17 +7,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.valecom.yingul.Item.ItemAllCategory;
 import com.valecom.yingul.R;
 import com.squareup.picasso.Picasso;
-import com.valecom.yingul.main.PropertyActivity;
+import com.valecom.yingul.main.property.PropertyActivity;
 import com.valecom.yingul.main.categories.CategoryActivity;
 import com.valecom.yingul.main.motorized.MotorizedActivity;
 import com.valecom.yingul.main.service.ServiceActivity;
