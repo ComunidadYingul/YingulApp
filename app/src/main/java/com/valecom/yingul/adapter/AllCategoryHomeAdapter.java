@@ -17,7 +17,9 @@ import android.widget.Toast;
 import com.valecom.yingul.Item.ItemAllCategory;
 import com.valecom.yingul.R;
 import com.squareup.picasso.Picasso;
+import com.valecom.yingul.main.PropertyActivity;
 import com.valecom.yingul.main.categories.CategoryActivity;
+import com.valecom.yingul.main.motorized.MotorizedActivity;
 import com.valecom.yingul.main.service.ServiceActivity;
 import com.valecom.yingul.main.store.AllStoreActivity;
 
@@ -58,6 +60,16 @@ public class AllCategoryHomeAdapter extends RecyclerView.Adapter<AllCategoryHome
                 Intent intent;
                 Log.e("seleccionado:--",itemAllCategory.getAllCategoryId());
                 switch (itemAllCategory.getAllCategoryId()){
+                    case "motorized":
+                        intent = new Intent(mContext, MotorizedActivity.class);
+                        mContext.startActivity(intent);
+                        //Toast.makeText(mContext,"Mostrar motorizados",Toast.LENGTH_SHORT).show();
+                        break;
+                    case "property":
+                        intent = new Intent(mContext, PropertyActivity.class);
+                        mContext.startActivity(intent);
+                        //Toast.makeText(mContext,"Mostrar inmuebles",Toast.LENGTH_SHORT).show();
+                        break;
                     case "service":
                         intent = new Intent(mContext, ServiceActivity.class);
                         mContext.startActivity(intent);

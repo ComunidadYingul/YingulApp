@@ -159,6 +159,7 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
                                 itemPublicSellerList.setCategoryListImage(jo_inside.getString("principalImage"));
                                 itemPublicSellerList.setCategoryListDescription(jo_inside.getString("description"));
                                 itemPublicSellerList.setCategoryListPrice(jo_inside.getString("price"));
+                                itemPublicSellerList.setCategoryListType(jo_inside.getString("type"));
 
                                 array_cat_list.add(itemPublicSellerList);
 

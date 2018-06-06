@@ -10,6 +10,9 @@ public class ItemCategoryList {
     private String CategoryListImage;
     private String CategoryListDescription;
     private String CategoryListPrice;
+    private String CategoryListDuildedArea;
+    private String CategoryListMoney;
+    private String CategoryListType;
 
     private String CategorySeller;
 
@@ -43,5 +46,29 @@ public class ItemCategoryList {
 
     public void setCategorySeller(String categorySeller) {
         CategorySeller = categorySeller;
+    }
+
+    public String getCategoryListDuildedArea() {
+        return CategoryListDuildedArea;
+    }
+
+    public void setCategoryListDuildedArea(String categoryListDuildedArea) {
+        CategoryListDuildedArea = categoryListDuildedArea;
+    }
+
+    public String getCategoryListMoney() {
+        return CategoryListMoney;
+    }
+
+    public void setCategoryListMoney(String categoryListMoney) {
+        CategoryListMoney = categoryListMoney;
+    }
+
+    public String getCategoryListType() {
+        return CategoryListType;
+    }
+
+    public void setCategoryListType(String categoryListType) {
+        CategoryListType = categoryListType;
     }
 }
