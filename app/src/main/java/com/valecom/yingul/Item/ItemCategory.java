@@ -11,6 +11,9 @@ public class ItemCategory {
     private String CategoryImage;
     private String CategoryImageBanner;
     private String CategoryNoItem;
+    private String CategoryPrice;
+
+    private String CategoryDuildedArea;
 
     public String getCategoryId() {
         return CategoryId;
@@ -39,4 +42,20 @@ public class ItemCategory {
         this.CategoryNoItem = CategoryNoItem;
     }
 
+
+    public String getCategoryPrice() {
+        return CategoryPrice;
+    }
+
+    public void setCategoryPrice(String categoryPrice) {
+        CategoryPrice = categoryPrice;
+    }
+
+    public String getCategoryDuildedArea() {
+        return CategoryDuildedArea;
+    }
+
+    public void setCategoryDuildedArea(String categoryDuildedArea) {
+        CategoryDuildedArea = categoryDuildedArea;
+    }
 }

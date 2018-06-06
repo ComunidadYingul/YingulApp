@@ -1,15 +1,14 @@
-package com.valecom.yingul.main.categories;
-
+package com.valecom.yingul.main.service;
 
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -22,6 +21,8 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.valecom.yingul.R;
 import com.valecom.yingul.adapter.CategoryAdapter;
 import com.valecom.yingul.main.MainActivity;
+import com.valecom.yingul.main.categories.ItemsByCategoryActivity;
+import com.valecom.yingul.main.sell.SellActivity;
 import com.valecom.yingul.model.Yng_Category;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
@@ -34,56 +35,53 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class SubCategoryFragment extends Fragment {
+public class ServiceActivity extends AppCompatActivity {
 
     ListView list;
     CategoryAdapter adapter;
     ArrayList<Yng_Category> array_list;
     MaterialDialog progressDialog;
-    String categoryId;
-
-    public SubCategoryFragment() {
-        // Required empty public constructor
-    }
-
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_sub_category, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_service);
 
-        array_list = new ArrayList<Yng_Category>();
-        adapter = new CategoryAdapter(getContext(), array_list);
-        list = (ListView) v.findViewById(R.id.list);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Servicios");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        Bundle bundle = getArguments();
-        categoryId = bundle.getString("categoryId");
-
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(),ItemsByCategoryActivity.class);
-                Yng_Category item = adapter.getItem(position);
-                Log.e("cateoria id:---",""+item.getCategoryId().toString());
-                intent.putExtra("categoryId",item.getCategoryId().toString());
-                startActivity(intent);
-
-            }
-        });
-
-        progressDialog = new MaterialDialog.Builder(getActivity())
+        progressDialog = new MaterialDialog.Builder(ServiceActivity.this)
                 .title(R.string.progress_dialog)
                 .content(R.string.please_wait)
                 .cancelable(false)
                 .progress(true, 0).build();
 
+        array_list = new ArrayList<Yng_Category>();
+        adapter = new CategoryAdapter(ServiceActivity.this, array_list);
+
+        list = (ListView)findViewById(R.id.list);
+        // Assigning the adapter to ListView
+        list.setAdapter(adapter);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                Yng_Category item = adapter.getItem(position);
+                Log.e("category id:--",item.getCategoryId().toString());
+
+                Intent intent = new Intent(ServiceActivity.this,ItemsByCategoryActivity.class);
+                intent.putExtra("categoryId",item.getCategoryId().toString());
+                startActivity(intent);
+            }
+        });
+
         RunGetCategoryService();
 
-        return v;
     }
 
     public void RunGetCategoryService()
@@ -91,7 +89,7 @@ public class SubCategoryFragment extends Fragment {
         progressDialog.show();
 
 
-        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "category/father/"+categoryId,
+        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "category/Service/0",
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -100,10 +98,7 @@ public class SubCategoryFragment extends Fragment {
 
 
                             JSONArray items = response;
-                            if(items.length()==0){
-
-                            }
-
+                            Log.e("Eddy",items.toString());
                             array_list.clear();
                             for (int i = 0; i < items.length(); i++) {
                                 JSONObject obj = items.getJSONObject(i);
@@ -124,9 +119,7 @@ public class SubCategoryFragment extends Fragment {
                         }
                         catch(Exception ex)
                         {
-                            if (isAdded()) {
-                                Toast.makeText(getContext(), R.string.error_try_again_support, Toast.LENGTH_LONG).show();
-                            }
+                            Toast.makeText(ServiceActivity.this, R.string.error_try_again_support, Toast.LENGTH_LONG).show();
                         }
 
                         if (progressDialog != null && progressDialog.isShowing()) {
@@ -152,16 +145,16 @@ public class SubCategoryFragment extends Fragment {
                     try
                     {
                         JSONObject json = new JSONObject(new String(response.data));
-                        Toast.makeText(getContext(), json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
+                        Toast.makeText(ServiceActivity.this, json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
                     }
                     catch (JSONException e)
                     {
-                        Toast.makeText(getContext(), R.string.error_try_again_support, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ServiceActivity.this, R.string.error_try_again_support, Toast.LENGTH_SHORT).show();
                     }
                 }
                 else
                 {
-                    Toast.makeText(getContext(), error != null && error.getMessage() != null ? error.getMessage() : error.toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(ServiceActivity.this, error != null && error.getMessage() != null ? error.getMessage() : error.toString(), Toast.LENGTH_LONG).show();
                 }
             }
         })
@@ -172,7 +165,7 @@ public class SubCategoryFragment extends Fragment {
             {
                 //SharedPreferences settings = getActivity().getSharedPreferences(ActivityLogin.SESSION_USER, getActivity().MODE_PRIVATE);
                 Map<String, String> params = new HashMap<String, String>();
-                //params.put("X-API-KEY", Network.API_KEY);
+                params.put("X-API-KEY", Network.API_KEY);
                 /*params.put("Authorization",
                         "Basic " + Base64.encodeToString(
                                 (settings.getString("email","")+":" + settings.getString("api_key","")).getBytes(), Base64.NO_WRAP)
@@ -182,21 +175,12 @@ public class SubCategoryFragment extends Fragment {
         };
 
         // Get a RequestQueue
-        RequestQueue queue = MySingleton.getInstance( getContext()).getRequestQueue();
+        RequestQueue queue = MySingleton.getInstance( ServiceActivity.this).getRequestQueue();
 
         //Used to mark the request, so we can cancel it on our onStop method
         postRequest.setTag(MainActivity.TAG);
 
-        MySingleton.getInstance(getContext()).addToRequestQueue(postRequest);
-
-        setAdapterList();
+        MySingleton.getInstance(ServiceActivity.this).addToRequestQueue(postRequest);
 
     }
-
-    public void setAdapterList() {
-
-        adapter = new CategoryAdapter(getActivity(), array_list);
-        list.setAdapter(adapter);
-    }
-
 }

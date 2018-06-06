@@ -1,17 +1,12 @@
-package com.valecom.yingul.main.store;
+package com.valecom.yingul.main.categories;
 
 import android.app.Dialog;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,14 +17,9 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import com.valecom.yingul.Item.ItemCategoryList;
 import com.valecom.yingul.Item.ItemColorSize;
 import com.valecom.yingul.R;
@@ -39,10 +29,7 @@ import com.valecom.yingul.adapter.ListRowAdapter;
 import com.valecom.yingul.adapter.SelectColorAdapter;
 import com.valecom.yingul.adapter.SelectSizeAdapter;
 import com.valecom.yingul.main.MainActivity;
-import com.valecom.yingul.model.Yng_IpApi;
-import com.valecom.yingul.model.Yng_Store;
-import com.valecom.yingul.model.Yng_Ubication;
-import com.valecom.yingul.model.Yng_User;
+import com.valecom.yingul.main.store.ActivityStore;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
 
@@ -54,7 +41,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ActivityStore extends AppCompatActivity {
+public class ItemsByCategoryActivity extends AppCompatActivity {
 
     RecyclerView recycler_cat_list;
     ListGridAdapter adapter_cat_list;
@@ -73,9 +60,7 @@ public class ActivityStore extends AppCompatActivity {
     LinearLayout lay_filter_click;
     private MaterialDialog progressDialog;
 
-    String itemId,itemSeller,store;
-    Yng_Store objStore;
-    Yng_User objUser;
+    String categoryId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,14 +73,10 @@ public class ActivityStore extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        Bundle datos = this.getIntent().getExtras();
-        store = datos.getString("store");
-        //itemId = datos.getString("itemId");
-        //itemSeller = datos.getString("seller");
-        Log.e("rec tienda:-------",""+store);
+        Bundle bundle = this.getIntent().getExtras();
+        categoryId = bundle.getString("categoryId");
 
-        getStoreItem();
-
+        Log.e("CategoryId recuperado:",""+categoryId);
 
         progressDialog = new MaterialDialog.Builder(this)
                 .title(R.string.progress_dialog)
@@ -110,8 +91,8 @@ public class ActivityStore extends AppCompatActivity {
         recycler_cat_list = (RecyclerView) findViewById(R.id.vertical_cat_list);
         recycler_cat_list.setHasFixedSize(false);
         recycler_cat_list.setNestedScrollingEnabled(false);
-        recycler_cat_list.setLayoutManager(new GridLayoutManager(ActivityStore.this, 2));
-        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(ActivityStore.this, R.dimen.item_offset);
+        recycler_cat_list.setLayoutManager(new GridLayoutManager(ItemsByCategoryActivity.this, 2));
+        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(ItemsByCategoryActivity.this, R.dimen.item_offset);
         recycler_cat_list.addItemDecoration(itemDecoration);
 
         txtNoOfItem=(TextView)findViewById(R.id.text_cat_list_item);
@@ -126,8 +107,8 @@ public class ActivityStore extends AppCompatActivity {
         ImgGrid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recycler_cat_list.setLayoutManager(new GridLayoutManager(ActivityStore.this, 2));
-                adapter_cat_list = new ListGridAdapter(ActivityStore.this, array_cat_list);
+                recycler_cat_list.setLayoutManager(new GridLayoutManager(ItemsByCategoryActivity.this, 2));
+                adapter_cat_list = new ListGridAdapter(ItemsByCategoryActivity.this, array_cat_list);
                 recycler_cat_list.setAdapter(adapter_cat_list);
                 ImgGrid.setImageResource(R.drawable.ic_grid_hover);
                 ImgList.setImageResource(R.drawable.ic_list);
@@ -137,8 +118,8 @@ public class ActivityStore extends AppCompatActivity {
         ImgList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recycler_cat_list.setLayoutManager(new GridLayoutManager(ActivityStore.this, 1));
-                adapter_cat_list_listview = new ListRowAdapter(ActivityStore.this, array_cat_list);
+                recycler_cat_list.setLayoutManager(new GridLayoutManager(ItemsByCategoryActivity.this, 1));
+                adapter_cat_list_listview = new ListRowAdapter(ItemsByCategoryActivity.this, array_cat_list);
                 recycler_cat_list.setAdapter(adapter_cat_list_listview);
                 ImgList.setImageResource(R.drawable.ic_listview_hover);
                 ImgGrid.setImageResource(R.drawable.ic_grid);
@@ -149,16 +130,19 @@ public class ActivityStore extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //showFilterDialog();
-                Toast.makeText(ActivityStore.this, "Filtro aun no implementado", Toast.LENGTH_LONG).show();
+                Toast.makeText(ItemsByCategoryActivity.this, "Filtro aun no implementado", Toast.LENGTH_LONG).show();
             }
         });
 
+        loadJSONFromAssetCategoryList();
 
     }
 
     public ArrayList<ItemCategoryList> loadJSONFromAssetCategoryList() {
 
-        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "item/Item/"+objUser.getUsername(),
+        progressDialog.show();
+
+        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "item/itemsByCategory/"+categoryId,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -176,7 +160,6 @@ public class ActivityStore extends AppCompatActivity {
                                 itemPublicSellerList.setCategoryListDescription(jo_inside.getString("description"));
                                 itemPublicSellerList.setCategoryListPrice(jo_inside.getString("price"));
                                 itemPublicSellerList.setCategoryListType(jo_inside.getString("type"));
-                                itemPublicSellerList.setCategoryListDuildedArea(jo_inside.getString("duildedArea"));
 
                                 array_cat_list.add(itemPublicSellerList);
 
@@ -189,7 +172,7 @@ public class ActivityStore extends AppCompatActivity {
                         catch(Exception ex)
                         {
                             //if (isAdded()) {
-                            Toast.makeText(ActivityStore.this, R.string.error_try_again_support, Toast.LENGTH_LONG).show();
+                            Toast.makeText(ItemsByCategoryActivity.this, R.string.error_try_again_support, Toast.LENGTH_LONG).show();
                             //}
                         }
 
@@ -216,16 +199,16 @@ public class ActivityStore extends AppCompatActivity {
                     try
                     {
                         JSONObject json = new JSONObject(new String(response.data));
-                        Toast.makeText(ActivityStore.this, json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
+                        Toast.makeText(ItemsByCategoryActivity.this, json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
                     }
                     catch (JSONException e)
                     {
-                        Toast.makeText(ActivityStore.this, R.string.error_try_again_support, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ItemsByCategoryActivity.this, R.string.error_try_again_support, Toast.LENGTH_SHORT).show();
                     }
                 }
                 else
                 {
-                    Toast.makeText(ActivityStore.this, error != null && error.getMessage() != null ? error.getMessage() : error.toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(ItemsByCategoryActivity.this, error != null && error.getMessage() != null ? error.getMessage() : error.toString(), Toast.LENGTH_LONG).show();
                 }
             }
         })
@@ -247,7 +230,7 @@ public class ActivityStore extends AppCompatActivity {
 
         postRequest.setTag(MainActivity.TAG);
 
-        MySingleton.getInstance(ActivityStore.this).addToRequestQueue(postRequest);
+        MySingleton.getInstance(ItemsByCategoryActivity.this).addToRequestQueue(postRequest);
         return array_cat_list;
 
         /*ArrayList<ItemCategoryList> locList = new ArrayList<>();
@@ -286,168 +269,8 @@ public class ActivityStore extends AppCompatActivity {
     }
 
     public void setAdapterHomeCategoryList() {
-        adapter_cat_list = new ListGridAdapter(ActivityStore.this, array_cat_list);
+        adapter_cat_list = new ListGridAdapter(ItemsByCategoryActivity.this, array_cat_list);
         txtNoOfItem.setText(adapter_cat_list.getItemCount()+"");
         recycler_cat_list.setAdapter(adapter_cat_list);
-    }
-
-    private void showFilterDialog() {
-        dialog = new Dialog(ActivityStore.this, R.style.Theme_AppCompat_Translucent);
-        dialog.setContentView(R.layout.select_filter_dialog);
-
-        //appCompatSeekBar = (CrystalRangeSeekbar) dialog.findViewById(R.id.rangeSeekbar3);
-        buttonPriceMin = (Button) dialog.findViewById(R.id.btn_seek_price_min);
-        buttonPriceMax=(Button)dialog.findViewById(R.id.btn_seek_price_max);
-        buttonApply = (Button) dialog.findViewById(R.id.btn_apply);
-        buttonPriceMax.setText(getResources().getString(R.string.max_value)+"10000");
-        buttonPriceMin.setText(getResources().getString(R.string.min_value)+"100");
-        //appCompatSeekBar.setMaxValue(10000);
-        //appCompatSeekBar.setMinValue(100);
-
-        /*appCompatSeekBar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
-            @Override
-            public void valueChanged(Number minValue, Number maxValue) {
-                buttonPriceMin.setText(getResources().getString(R.string.min_value)+String.valueOf(minValue));
-                buttonPriceMax.setText(getResources().getString(R.string.max_value)+String.valueOf(maxValue));
-            }
-        });*/
-        buttonApply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        array_color = new ArrayList<>();
-        recyclerView_color = (RecyclerView) dialog.findViewById(R.id.vertical_color);
-        recyclerView_color.setHasFixedSize(false);
-        recyclerView_color.setNestedScrollingEnabled(false);
-        recyclerView_color.setLayoutManager(new GridLayoutManager(ActivityStore.this, 6));
-        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(ActivityStore.this, R.dimen.item_offset);
-        recyclerView_color.addItemDecoration(itemDecoration);
-        prepareColorData();
-
-        array_size = new ArrayList<>();
-        recyclerView_size = (RecyclerView) dialog.findViewById(R.id.vertical_size);
-        recyclerView_size.setHasFixedSize(false);
-        recyclerView_size.setNestedScrollingEnabled(false);
-        recyclerView_size.setLayoutManager(new GridLayoutManager(ActivityStore.this, 6));
-        recyclerView_size.addItemDecoration(itemDecoration);
-        prepareSizeData();
-
-        dialog.show();
-    }
-
-    private void prepareColorData() {
-        String[] color = getResources().getStringArray(R.array.color_array);
-        for (int k = 0; k < color.length; k++) {
-            ItemColorSize itemColorSize = new ItemColorSize();
-            itemColorSize.setSelectColor(color[k]);
-            array_color.add(itemColorSize);
-        }
-        adapter_color = new SelectColorAdapter(this,array_color);
-        recyclerView_color.setAdapter(adapter_color);
-
-    }
-
-    private void prepareSizeData() {
-        String[] color = getResources().getStringArray(R.array.size_array);
-        for (int k = 0; k < color.length; k++) {
-            ItemColorSize itemColorSize = new ItemColorSize();
-            itemColorSize.setSelectSize(color[k]);
-            array_size.add(itemColorSize);
-        }
-        adapter_size = new SelectSizeAdapter(ActivityStore.this, array_size);
-        recyclerView_size.setAdapter(adapter_size);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_search, menu);
-        final MenuItem searchMenuItem = menu.findItem(R.id.search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
-
-        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                // TODO Auto-generated method stub
-                if (!hasFocus) {
-                    MenuItemCompat.collapseActionView(searchMenuItem);
-                    searchView.setQuery("", false);
-                }
-            }
-        });
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
-            @Override
-            public boolean onQueryTextSubmit(String arg0) {
-                // TODO Auto-generated method stub
-
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String arg0) {
-                // TODO Auto-generated method stub
-                return false;
-            }
-        });
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
-
-            default:
-                return super.onOptionsItemSelected(menuItem);
-        }
-        return true;
-    }
-
-    JSONObject storeItem;
-    public void getStoreItem(){
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, Network.API_URL + "/store/findByName/" + store, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.e("RespuestaReq:-----",response.toString());
-
-
-                Gson gson = new Gson();
-
-                try {
-                    objStore = gson.fromJson(String.valueOf(response), Yng_Store.class);
-                    objUser = gson.fromJson(String.valueOf(response.get("user")), Yng_User.class);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-                String json = gson.toJson(objUser);
-
-                Log.e("objeto store:---",json);
-
-                loadJSONFromAssetCategoryList();
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("ErrorResp:-----",error.getMessage());
-            }
-        }){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                return super.getHeaders();
-            }
-        };
-        MySingleton.getInstance(ActivityStore.this).addToRequestQueue(request);
     }
 }

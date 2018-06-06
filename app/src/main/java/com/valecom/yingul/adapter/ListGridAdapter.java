@@ -53,6 +53,26 @@ public class ListGridAdapter extends RecyclerView.Adapter<ListGridAdapter.ItemRo
 
         holder.text_cat_list_title.setText(itemCategorylist.getCategoryListName());
         holder.text_cat_list_price.setText(itemCategorylist.getCategoryListPrice());
+
+        try{
+            Log.e("Money:--",itemCategorylist.getCategoryListMoney().toString());
+            if(itemCategorylist.getCategoryListMoney().equals("ARS")){
+                holder.moneyUsd.setVisibility(View.GONE);
+            }else{
+                holder.moneyArs.setVisibility(View.GONE);
+            }
+
+
+        }catch (Exception e){
+
+        }
+
+        try {
+            if (itemCategorylist.getCategoryListType().toString().equals("Property")) {
+                holder.lyt_otro.setVisibility(View.VISIBLE);
+                holder.text_cat_list_otro.setText(itemCategorylist.getCategoryListDuildedArea() + " m2");
+            }
+        }catch (Exception e){}
         Picasso.with(mContext).load(Network.BUCKET_URL+itemCategorylist.getCategoryListImage()).into(holder.image_cat_list);
 
 
@@ -110,15 +130,21 @@ public class ListGridAdapter extends RecyclerView.Adapter<ListGridAdapter.ItemRo
 
     public class ItemRowHolder extends RecyclerView.ViewHolder {
         public ImageView image_cat_list;
-        public TextView text_cat_list_title,text_cat_list_price;
-        public LinearLayout lyt_parent;
+        public TextView text_cat_list_title,text_cat_list_price,text_cat_list_otro,moneyArs,moneyUsd;
+        public LinearLayout lyt_parent,lyt_otro;
 
         public ItemRowHolder(View itemView) {
             super(itemView);
+            moneyArs = (TextView) itemView.findViewById(R.id.money_ars);
+            moneyUsd = (TextView) itemView.findViewById(R.id.money_usd);
             image_cat_list = (ImageView) itemView.findViewById(R.id.image_item_cat_list_image);
             text_cat_list_title = (TextView) itemView.findViewById(R.id.text_item_cat__list_title);
+            text_cat_list_otro = (TextView) itemView.findViewById(R.id.text_item_cat__list_otro);
             text_cat_list_price = (TextView) itemView.findViewById(R.id.text_item_cat_list_price);
             lyt_parent = (LinearLayout) itemView.findViewById(R.id.rootLayout);
+            lyt_otro = (LinearLayout) itemView.findViewById(R.id.layout_otro);
+            lyt_otro.setVisibility(View.GONE);
+
         }
     }
 
