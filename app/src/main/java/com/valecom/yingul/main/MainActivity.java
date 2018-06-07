@@ -40,7 +40,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, HomeFragment.OnFragmentInteractionListener,
         ItemFragment.OnFragmentInteractionListener, ClientFragment.OnFragmentInteractionListener,
-        InvoiceFragment.OnFragmentInteractionListener,  EstimateFragment.OnFragmentInteractionListener, MyAccountFragment.OnFragmentInteractionListener{
+        FavoriteFragment.OnFragmentInteractionListener,  EstimateFragment.OnFragmentInteractionListener, MyAccountFragment.OnFragmentInteractionListener{
 
     public static String api_key;
     public static final String TAG = "MainActivity";
@@ -128,14 +128,6 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         }
-        else if (tab != null && tab.equals("invoices"))
-        {
-            InvoiceFragment fragment = new InvoiceFragment();
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.content_frame, fragment);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
-        }
         else
         {
             /*HomeFragment fragment = new HomeFragment();
@@ -214,15 +206,10 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.content_frame, fragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
-            /*HomeFragment fragment = new HomeFragment();
-            FragmentTransaction fragmentTransaction  = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.content_frame, fragment);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();*/
         }
         else if (id == R.id.nav_invoices)
         {
-            InvoiceFragment fragment = new InvoiceFragment();
+            FavoriteFragment fragment = new FavoriteFragment();
             FragmentTransaction fragmentTransaction  = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.content_frame, fragment);
             fragmentTransaction.addToBackStack(null);

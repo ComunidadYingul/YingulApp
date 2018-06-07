@@ -38,7 +38,7 @@ public class MyAccountFragment extends Fragment
     private JSONObject api_parameter;
 
     private Button buttonSell,settings_logout_button;
-    private LinearLayout shoppingQuestions,purchasesLayout;
+    private LinearLayout shoppingQuestions,purchasesLayout,publicationsLayout,salesQuestionsLayout;
 
     public MyAccountFragment()
     {
@@ -82,6 +82,8 @@ public class MyAccountFragment extends Fragment
         settings_logout_button = (Button) view.findViewById(R.id.settings_logout_button);
         shoppingQuestions = (LinearLayout) view.findViewById(R.id.shoppingQuestions);
         purchasesLayout = (LinearLayout) view.findViewById(R.id.purchasesLayout);
+        publicationsLayout = (LinearLayout) view.findViewById(R.id.publicationsLayout);
+        salesQuestionsLayout = (LinearLayout) view.findViewById(R.id.salesQuestionsLayout);
 
         buttonSell.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -112,6 +114,24 @@ public class MyAccountFragment extends Fragment
         purchasesLayout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 MyAccountPurchasesListFragment fragment = new MyAccountPurchasesListFragment();
+                FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+        publicationsLayout.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                MyAccountPublicationsListFragment fragment = new MyAccountPublicationsListFragment();
+                FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+        salesQuestionsLayout.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                MyAccountSalesQuestionsListFragment fragment = new MyAccountSalesQuestionsListFragment();
                 FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.content_frame, fragment);
                 fragmentTransaction.addToBackStack(null);

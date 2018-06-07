@@ -5,38 +5,32 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.google.gson.Gson;
 import com.valecom.yingul.R;
+import com.valecom.yingul.adapter.FavoriteAdapter;
 import com.valecom.yingul.adapter.ItemAdapter;
-import com.valecom.yingul.helper.helper_string;
-import com.valecom.yingul.model.Item;
+import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,12 +38,12 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ItemFragment.OnFragmentInteractionListener} interface
+ * {@link FavoriteFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ItemFragment#newInstance} factory method to
+ * Use the {@link FavoriteFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ItemFragment extends Fragment
+public class FavoriteFragment extends Fragment
 {
     private OnFragmentInteractionListener mListener;
 
@@ -57,10 +51,10 @@ public class ItemFragment extends Fragment
     private JSONObject api_parameter;
 
     private ListView list;
-    private ItemAdapter adapter;
-    private ArrayList<Item> array_list;
+    private FavoriteAdapter adapter;
+    private ArrayList<Yng_Item> array_list;
 
-    public ItemFragment()
+    public FavoriteFragment()
     {
         // Required empty public constructor
     }
@@ -69,12 +63,12 @@ public class ItemFragment extends Fragment
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment ItemFragment.
+     * @return A new instance of fragment InvoiceFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ItemFragment newInstance(String param1, String param2)
+    public static FavoriteFragment newInstance(String param1, String param2)
     {
-        ItemFragment fragment = new ItemFragment();
+        FavoriteFragment fragment = new FavoriteFragment();
         return fragment;
     }
 
@@ -94,20 +88,12 @@ public class ItemFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.fragment_item, container, false);
-
-        FloatingActionButton add_client_button = (FloatingActionButton) view.findViewById(R.id.add_button);
-        add_client_button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), NewItemActivity.class);
-                startActivityForResult(intent , 1);
-            }
-        });
+        View view = inflater.inflate(R.layout.fragment_favorite, container, false);
 
         SharedPreferences settings = getActivity().getSharedPreferences(LoginActivity.SESSION_USER, getActivity().MODE_PRIVATE);
 
-        array_list = new ArrayList<Item>();
-        //adapter = new ItemAdapter(getContext(), array_list);
+        array_list = new ArrayList<Yng_Item>();
+        adapter = new FavoriteAdapter(getContext(), array_list);
 
         list = (ListView) view.findViewById(R.id.list);
         // Assigning the adapter to ListView
@@ -118,27 +104,14 @@ public class ItemFragment extends Fragment
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                /*Item item = adapter.getItem(position);
-
-                Intent intent = new Intent(getActivity(), NewItemActivity.class);
-                intent.putExtra("data", item);
-
-                startActivity(intent);*/
+                Yng_Item item = adapter.getItem(position);
+                Intent intent_detail=new Intent(getActivity(), ActivityProductDetail.class);
+                intent_detail.putExtra("itemId",String.valueOf(item.getItemId()));
+                startActivity(intent_detail);
             }
         });
 
-        AdView mAdView = (AdView) view.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-
-        api_parameter = new JSONObject();
-        try
-        {
-            api_parameter.put("user_id", settings.getLong("id", 0));
-        }
-        catch(JSONException ex) {}
-
-        RunGetItemService();
+        RunGetInvoiceService();
 
         return view;
     }
@@ -164,7 +137,6 @@ public class ItemFragment extends Fragment
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-
     }
 
     @Override
@@ -174,9 +146,9 @@ public class ItemFragment extends Fragment
         //Checks to make sure fragment is still attached to activity
         if (isAdded())
         {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_activity_items);
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Favoritos");
             NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
-            navigationView.setCheckedItem(R.id.nav_items);
+            navigationView.setCheckedItem(R.id.nav_invoices);
         }
     }
 
@@ -187,53 +159,34 @@ public class ItemFragment extends Fragment
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener
     {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 
-    public void RunGetItemService()
+    public void RunGetInvoiceService()
     {
         progressDialog.show();
 
-        JsonObjectRequest postRequest = new JsonObjectRequest
-                (Request.Method.POST, Network.API_URL + "items/get", api_parameter, new Response.Listener<JSONObject>()
-                {
+        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL+"favorite/getItemFavorite/EDDYQUENALLATA",
+                new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(JSONObject response)
-                    {
+                    public void onResponse(JSONArray response) {
                         try
                         {
-                            JSONObject result = ((JSONObject)response.get("data"));
-                            JSONArray items = (JSONArray)result.get("items");
+                            Log.e("Eddy","Respuesta JSON data:"+response.toString());
+
+                            JSONArray items = response;
 
                             array_list.clear();
                             for (int i = 0; i < items.length(); i++) {
                                 JSONObject obj = items.getJSONObject(i);
-
-                                Item item = new Item();
-
-                                item.Id = obj.optInt("id");
-                                item.UserId = obj.optInt("user_id");
-
-                                item.Name = helper_string.optString(obj, "name");
-                                item.Description = helper_string.optString(obj, "description");
-                                item.Rate = obj.optDouble("rate");
-
-                                item.Created = obj.optInt("created_on", 0);
-                                item.Updated = obj.optInt("updated_on", 0);
-
+                                Yng_Item item = new Yng_Item();
+                                Gson gson = new Gson();
+                                item = gson.fromJson(String.valueOf(obj) , Yng_Item.class);
+                                String jsonBody = gson.toJson(item);
+                                Log.e("itemfavorite",jsonBody);
                                 array_list.add(item);
                             }
 
@@ -252,49 +205,51 @@ public class ItemFragment extends Fragment
                         }
                     }
                 }, new Response.ErrorListener()
+        {
+
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                // TODO Auto-generated method stub
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    // If the response is JSONObject instead of expected JSONArray
+                    progressDialog.dismiss();
+                }
+
+                NetworkResponse response = error.networkResponse;
+                if (response != null && response.data != null)
                 {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error)
+                    try
                     {
-                        // TODO Auto-generated method stub
-                        if (progressDialog != null && progressDialog.isShowing()) {
-                            // If the response is JSONObject instead of expected JSONArray
-                            progressDialog.dismiss();
-                        }
-
-                        NetworkResponse response = error.networkResponse;
-                        if (response != null && response.data != null)
-                        {
-                            try
-                            {
-                                JSONObject json = new JSONObject(new String(response.data));
-                                Toast.makeText(getContext(), json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
-                            }
-                            catch (JSONException e)
-                            {
-                                Toast.makeText(getContext(), R.string.error_try_again_support, Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        else
-                        {
-                            Toast.makeText(getContext(), error != null && error.getMessage() != null ? error.getMessage() : error.toString(), Toast.LENGTH_LONG).show();
-                        }
+                        JSONObject json = new JSONObject(new String(response.data));
+                        Toast.makeText(getContext(), json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
                     }
-                })
+                    catch (JSONException e)
+                    {
+                        Toast.makeText(getContext(), R.string.error_try_again_support, Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(getContext(), error != null && error.getMessage() != null ? error.getMessage() : error.toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+        })
         {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError
             {
+                SharedPreferences settings = getActivity().getSharedPreferences(LoginActivity.SESSION_USER, getActivity().MODE_PRIVATE);
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("X-API-KEY", MainActivity.api_key);
+                /*params.put("X-API-KEY", Network.API_KEY);
+                params.put("Authorization",
+                        "Basic " + Base64.encodeToString(
+                                (settings.getString("email","")+":" + settings.getString("api_key","")).getBytes(), Base64.NO_WRAP)
+                );*/
                 return params;
             }
         };
-
-        // Get a RequestQueue
-        RequestQueue queue = MySingleton.getInstance( getContext()).getRequestQueue();
 
         //Used to mark the request, so we can cancel it on our onStop method
         postRequest.setTag(MainActivity.TAG);

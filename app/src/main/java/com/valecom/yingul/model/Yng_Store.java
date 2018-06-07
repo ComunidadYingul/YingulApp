@@ -1,10 +1,12 @@
 package com.valecom.yingul.model;
 
+import java.io.Serializable;
+
 /**
  * Created by gonzalo on 30-05-18.
  */
 
-public class Yng_Store {
+public class Yng_Store implements Serializable {
     private Long storeId;
     private String employeesQuantity;
     private String ecommerceExperience;
