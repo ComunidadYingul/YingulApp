@@ -7,64 +7,81 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.google.gson.Gson;
 import com.valecom.yingul.R;
-import com.valecom.yingul.adapter.InvoiceAdapter;
-import com.valecom.yingul.adapter.QueryAdapter;
-import com.valecom.yingul.helper.helper_string;
+import com.valecom.yingul.adapter.QueryChatAdapter;
 import com.valecom.yingul.main.LoginActivity;
 import com.valecom.yingul.main.MainActivity;
-import com.valecom.yingul.main.NewInvoiceActivity;
-import com.valecom.yingul.model.Invoice;
-import com.valecom.yingul.model.Yng_IpApi;
+import com.valecom.yingul.main.buy.BuyActivity;
 import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.model.Yng_Query;
+import com.valecom.yingul.model.Yng_Ubication;
+import com.valecom.yingul.model.Yng_User;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
-public class ShoppingQuestionsListFragment extends Fragment
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+
+public class MyAccountShoppingQuestionsByItemIdFragment extends Fragment
 {
     private OnFragmentInteractionListener mListener;
 
     private MaterialDialog progressDialog;
     private JSONObject api_parameter;
-    private String username;
+    private Yng_Item item;
+    private Yng_User user;
+    private Yng_Ubication userUbication;
 
     private ListView list;
-    private QueryAdapter adapter;
+    private QueryChatAdapter adapter;
     private ArrayList<Yng_Query> array_list;
+    private Button buttonBuyItem,buttonNewQuestion;
+    private EditText editNewQuestion;
 
-    public ShoppingQuestionsListFragment()
+    String TAG="OkHttpConection";
+    public static final MediaType JSON= MediaType.parse("application/json; charset=utf-8");
+
+    public MyAccountShoppingQuestionsByItemIdFragment()
     {
         // Required empty public constructor
     }
 
     // TODO: Rename and change types and number of parameters
-    public static ShoppingQuestionsListFragment newInstance(String param1, String param2)
+    public static MyAccountShoppingQuestionsByItemIdFragment newInstance(String param1, String param2)
     {
-        ShoppingQuestionsListFragment fragment = new ShoppingQuestionsListFragment();
+        MyAccountShoppingQuestionsByItemIdFragment fragment = new MyAccountShoppingQuestionsByItemIdFragment();
         return fragment;
     }
 
@@ -84,8 +101,11 @@ public class ShoppingQuestionsListFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.fragment_shopping_questions_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_account_shopping_questions_by_item_id, container, false);
 
+        user = new Yng_User();
+        userUbication = new Yng_Ubication();
+        item = new Yng_Item();
         SharedPreferences settings = getActivity().getSharedPreferences(LoginActivity.SESSION_USER, getActivity().MODE_PRIVATE);
 
         if (settings == null || settings.getInt("logged_in", 0) == 0 || settings.getString("api_key", "").equals(""))
@@ -95,11 +115,28 @@ public class ShoppingQuestionsListFragment extends Fragment
             settingsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(settingsIntent);
         }else{
-            username = settings.getString("username","");
+            user.setUsername(settings.getString("username",""));
+            /*para obtener la ubicacion del usuario*/
+            if(settings.getString("yng_Ubication","").equals("null")){
+                userUbication=null;
+            }else{
+                Gson gson = new Gson();
+                userUbication = gson.fromJson(settings.getString("yng_Ubication","") , Yng_Ubication.class);
+            }
+            /*fin de la ubicacion del usuario*/
+            user.setPhone(settings.getString("phone",""));
+            user.setDocumentType(settings.getString("documentType",""));
+            user.setDocumentNumber(settings.getString("documentNumber",""));
+            user.setPassword(settings.getString("password",""));
+            user.setYng_Ubication(userUbication);
         }
 
+        Bundle bundle = getArguments();
+        Gson gson = new Gson();
+        item = gson.fromJson(bundle.getString("item"), Yng_Item.class);
+
         array_list = new ArrayList<Yng_Query>();
-        adapter = new QueryAdapter(getContext(), array_list);
+        adapter = new QueryChatAdapter(getContext(), array_list);
         list = (ListView) view.findViewById(R.id.list);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener()
@@ -109,19 +146,24 @@ public class ShoppingQuestionsListFragment extends Fragment
             {
                 Yng_Query query = adapter.getItem(position);
 
-                Bundle bundle = new Bundle();
-                Gson gson = new Gson();
-                String jsonBody = gson.toJson(query.getYng_Item());
-                Log.e("ITEM:---",jsonBody);
-                bundle.putString("item",jsonBody);
-
-                ShoppingQuestionsByItemIdFragment fragment = new ShoppingQuestionsByItemIdFragment();
-                fragment.setArguments(bundle);
-                FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-
+            }
+        });
+        editNewQuestion = (EditText) view.findViewById(R.id.editNewQuestion);
+        buttonBuyItem = (Button) view.findViewById(R.id.buttonBuyItem);
+        buttonNewQuestion = (Button) view.findViewById(R.id.buttonNewQuestion);
+        buttonBuyItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), BuyActivity.class);
+                intent.putExtra("itemId",item.getItemId());
+                intent.putExtra("itemQuantity",1);
+                startActivity(intent);
+            }
+        });
+        buttonNewQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            RunCreateNewQuery();
             }
         });
 
@@ -158,7 +200,7 @@ public class ShoppingQuestionsListFragment extends Fragment
         super.onResume();
         if (isAdded())
         {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Preguntas");
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(item.getName());
             NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
             navigationView.setCheckedItem(R.id.nav_settings);
         }
@@ -181,13 +223,14 @@ public class ShoppingQuestionsListFragment extends Fragment
     {
         progressDialog.show();
 
-        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "query/queryByBuyer/"+username,
+        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "query/queryByItemAndBuyer/"+item.getItemId()+"/"+user.getUsername(),
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         try
                         {
-                            Log.e("preguntas por usuario",response.toString());
+                            Log.e("url",Network.API_URL + "query/queryByItemAndBuyer/"+item.getItemId()+"/"+user.getUsername());
+                            Log.e("preguntas item u usuario",response.toString());
                             JSONArray queries = response;
                             array_list.clear();
                             for (int i = 0; i < queries.length(); i++) {
@@ -271,8 +314,74 @@ public class ShoppingQuestionsListFragment extends Fragment
 
         //Used to mark the request, so we can cancel it on our onStop method
         postRequest.setTag(MainActivity.TAG);
-        postRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS*5, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         MySingleton.getInstance(getContext()).addToRequestQueue(postRequest);
     }
+    public void RunCreateNewQuery(){
+        Yng_Query newQuery = new Yng_Query();
+        newQuery.setQuery(editNewQuestion.getText().toString().trim());
+        newQuery.setYng_Item(item);
+        newQuery.setUser(user);
+        Gson gson = new Gson();
+        String jsonBody = gson.toJson(newQuery);
+        Log.e("query final", jsonBody);
+        requestArrayPost(Network.API_URL + "query/create",jsonBody);
 
+    }
+
+    public void requestArrayPost(String url, String json){
+        start("inicio");
+        OkHttpClient httpClient = new OkHttpClient.Builder()
+                .connectTimeout(9000, TimeUnit.SECONDS)
+                .writeTimeout(9000, TimeUnit.SECONDS)
+                .readTimeout(9000, TimeUnit.SECONDS)
+                .build();
+        RequestBody body = RequestBody.create(JSON, json);
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(url)
+                .addHeader("Content-Type","application/json")
+                .post(body)
+                .build();
+        httpClient.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "error in getting response using async okhttp call");
+            }
+            @Override public void onResponse(Call call, okhttp3.Response response) throws IOException {
+                ResponseBody responseBody = response.body();
+                if (!response.isSuccessful()) {
+                    throw new IOException("Error response " + response);
+                }
+                //
+
+                final String responce=""+(responseBody.string());
+                try {
+                    end(""+responce);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.i("responce:------------",""+responce);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(responce.equals("save")) {
+                            Toast.makeText(getContext(), "consulta realizada exitosamente", Toast.LENGTH_SHORT).show();
+                            RunGetQueriesByUser();
+                        }else{
+                            Toast.makeText(getContext(),"No se guardo",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+            }
+        });
+    }
+
+    public void end(String end) throws JSONException {
+        Log.i("end",""+end);
+        progressDialog.dismiss();
+    }
+    public void start(String start){
+        Log.i("start",""+start);
+        progressDialog.show();
+    }
 }

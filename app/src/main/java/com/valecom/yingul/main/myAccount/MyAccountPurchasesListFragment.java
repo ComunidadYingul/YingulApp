@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,18 +19,24 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.google.gson.Gson;
 import com.valecom.yingul.R;
+import com.valecom.yingul.adapter.BuyAdapter;
 import com.valecom.yingul.adapter.QueryAdapter;
 import com.valecom.yingul.main.LoginActivity;
 import com.valecom.yingul.main.MainActivity;
+import com.valecom.yingul.model.Yng_Buy;
+import com.valecom.yingul.model.Yng_Card;
+import com.valecom.yingul.model.Yng_CashPayment;
 import com.valecom.yingul.model.Yng_Item;
+import com.valecom.yingul.model.Yng_Payment;
 import com.valecom.yingul.model.Yng_Query;
-import com.valecom.yingul.model.Yng_Ubication;
+import com.valecom.yingul.model.Yng_Shipping;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
 
@@ -41,28 +48,27 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ShoppingQuestionsByItemIdFragment extends Fragment
+public class MyAccountPurchasesListFragment extends Fragment
 {
     private OnFragmentInteractionListener mListener;
 
     private MaterialDialog progressDialog;
     private JSONObject api_parameter;
     private String username;
-    Yng_Item item;
 
     private ListView list;
-    private QueryAdapter adapter;
-    private ArrayList<Yng_Query> array_list;
+    private BuyAdapter adapter;
+    private ArrayList<Yng_Buy> array_list;
 
-    public ShoppingQuestionsByItemIdFragment()
+    public MyAccountPurchasesListFragment()
     {
         // Required empty public constructor
     }
 
     // TODO: Rename and change types and number of parameters
-    public static ShoppingQuestionsByItemIdFragment newInstance(String param1, String param2)
+    public static MyAccountPurchasesListFragment newInstance(String param1, String param2)
     {
-        ShoppingQuestionsByItemIdFragment fragment = new ShoppingQuestionsByItemIdFragment();
+        MyAccountPurchasesListFragment fragment = new MyAccountPurchasesListFragment();
         return fragment;
     }
 
@@ -82,7 +88,7 @@ public class ShoppingQuestionsByItemIdFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.fragment_shopping_questions_by_item_id, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_account_purchases_list, container, false);
 
         SharedPreferences settings = getActivity().getSharedPreferences(LoginActivity.SESSION_USER, getActivity().MODE_PRIVATE);
 
@@ -96,12 +102,8 @@ public class ShoppingQuestionsByItemIdFragment extends Fragment
             username = settings.getString("username","");
         }
 
-        Bundle bundle = getArguments();
-        Gson gson = new Gson();
-        item = gson.fromJson(bundle.getString("item"), Yng_Item.class);
-
-        array_list = new ArrayList<Yng_Query>();
-        adapter = new QueryAdapter(getContext(), array_list);
+        array_list = new ArrayList<Yng_Buy>();
+        adapter = new BuyAdapter(getContext(), array_list);
         list = (ListView) view.findViewById(R.id.list);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener()
@@ -109,7 +111,20 @@ public class ShoppingQuestionsByItemIdFragment extends Fragment
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                Yng_Query query = adapter.getItem(position);
+                Yng_Buy buy = adapter.getItem(position);
+
+                Bundle bundle = new Bundle();
+                Gson gson = new Gson();
+                String jsonBody = gson.toJson(buy);
+                Log.e("ITEM:---",jsonBody);
+                bundle.putString("buy",jsonBody);
+
+                MyAccountPurchaseDetailFragment fragment = new MyAccountPurchaseDetailFragment();
+                fragment.setArguments(bundle);
+                FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
 
             }
         });
@@ -147,7 +162,7 @@ public class ShoppingQuestionsByItemIdFragment extends Fragment
         super.onResume();
         if (isAdded())
         {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(item.getName());
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Compras");
             NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
             navigationView.setCheckedItem(R.id.nav_settings);
         }
@@ -170,29 +185,50 @@ public class ShoppingQuestionsByItemIdFragment extends Fragment
     {
         progressDialog.show();
 
-        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "query/queryByItemAndBuyer/"+item.getItemId()+"/"+username,
+        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "buy/getPurchaseByUser/"+username,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         try
                         {
-                            Log.e("url",Network.API_URL + "query/queryByItemAndBuyer/"+item.getItemId()+"/"+username);
-                            Log.e("preguntas item u usuario",response.toString());
-                            JSONArray queries = response;
+                            Log.e("compras por usuario",response.toString());
+                            JSONArray buys = response;
                             array_list.clear();
-                            for (int i = 0; i < queries.length(); i++) {
-                                JSONObject obj = queries.getJSONObject(i);
-                                Yng_Query query = new Yng_Query();
-                                query.setQueryId(obj.optLong("queryId"));
-                                query.setQuery(obj.optString("query"));
-                                query.setAnswer(obj.getString("answer"));
-                                query.setDate(obj.getString("date"));
-                                query.setStatus(obj.optString("status"));
+                            for (int i = 0; i < buys.length(); i++) {
+                                JSONObject obj = buys.getJSONObject(i);
+                                Yng_Buy buy = new Yng_Buy();
+                                buy.setBuyId(obj.optLong("buyId"));
+                                buy.setCost(obj.optDouble("cost"));
+                                buy.setItemCost(obj.optDouble("itemCost"));
+                                buy.setShippingCost(obj.optDouble("shippingCost"));
+                                buy.setTime(obj.optString("time"));
+                                buy.setQuantity(obj.optInt("quantity"));
                                 Yng_Item item = new Yng_Item();
                                 Gson gson = new Gson();
-                                item = gson.fromJson(String.valueOf(obj.optJSONObject("yng_Item")), Yng_Item.class);
-                                query.setYng_Item(item);
-                                array_list.add(query);
+                                item = gson.fromJson(String.valueOf(obj.optJSONObject("yng_item")), Yng_Item.class);
+                                Yng_Shipping shipping = new Yng_Shipping();
+                                shipping = gson.fromJson(String.valueOf(obj.optJSONObject("shipping")), Yng_Shipping.class);
+                                Yng_Payment payment = new Yng_Payment();
+                                JSONObject paymentObj = obj.optJSONObject("yng_Payment");
+                                payment.setType(paymentObj.optString("type"));
+                                if(payment.getType().equals("CARD")){
+                                    Yng_Card card = new Yng_Card();
+                                    card = gson.fromJson(String.valueOf(paymentObj.optJSONObject("yng_Card")), Yng_Card.class);
+                                    payment.setYng_Card(card);
+                                }else{
+                                    JSONObject cashPaymentObj = paymentObj.optJSONObject("cashPayment");
+                                    Log.e("cash",String.valueOf(cashPaymentObj));
+                                    Yng_CashPayment cashPayment = new Yng_CashPayment();
+                                    cashPayment.setCashPaymentId(cashPaymentObj.optLong("cashPaymentId"));
+                                    cashPayment.setURL_PAYMENT_RECEIPT_HTML(cashPaymentObj.optString("url_PAYMENT_RECEIPT_HTML"));
+                                    cashPayment.setURL_PAYMENT_RECEIPT_PDF(cashPaymentObj.optString("url_PAYMENT_RECEIPT_PDF"));
+                                    cashPayment.setPaymentMethod(cashPaymentObj.optString("paymentMethod"));
+                                    payment.setCashPayment(cashPayment);
+                                }
+                                buy.setShipping(shipping);
+                                buy.setYng_Payment(payment);
+                                buy.setYng_item(item);
+                                array_list.add(buy);
                             }
 
                             adapter.notifyDataSetChanged();
@@ -261,7 +297,8 @@ public class ShoppingQuestionsByItemIdFragment extends Fragment
 
         //Used to mark the request, so we can cancel it on our onStop method
         postRequest.setTag(MainActivity.TAG);
-
+        postRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS*5, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         MySingleton.getInstance(getContext()).addToRequestQueue(postRequest);
     }
+
 }
