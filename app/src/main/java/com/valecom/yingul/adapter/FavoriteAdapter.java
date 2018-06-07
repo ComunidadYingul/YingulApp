@@ -16,13 +16,13 @@ import com.valecom.yingul.network.Network;
 
 import java.util.ArrayList;
 
-public class ItemAdapter extends ArrayAdapter<Yng_Item>
+public class FavoriteAdapter extends ArrayAdapter<Yng_Item>
 {
     private final Context context;
     private final ArrayList<Yng_Item> values;
 
-    public ItemAdapter(Context context, ArrayList<Yng_Item> values) {
-        super(context, R.layout.layout_item_row, values);
+    public FavoriteAdapter(Context context, ArrayList<Yng_Item> values) {
+        super(context, R.layout.layout_favorite_row, values);
 
         this.context = context;
         this.values = values;
@@ -43,7 +43,7 @@ public class ItemAdapter extends ArrayAdapter<Yng_Item>
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View rowView = inflater.inflate(R.layout.layout_item_row, parent, false);
+        View rowView = inflater.inflate(R.layout.layout_favorite_row, parent, false);
 
         Yng_Item item = values.get(position);
 

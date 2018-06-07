@@ -8,8 +8,8 @@
             android:title="Home" />
         <item
             android:id="@+id/nav_invoices"
-            android:icon="@drawable/ic_menu_invoices"
-            android:title="Invoices" />
+            android:icon="@drawable/ic_star_filled"
+            android:title="Favoritos" />
         <item
             android:id="@+id/nav_estimates"
             android:icon="@drawable/ic_menu_estimates"

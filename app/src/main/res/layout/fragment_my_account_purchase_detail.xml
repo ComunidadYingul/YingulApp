@@ -427,6 +427,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layoutStatusShipment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/activity_vertical_margin"
@@ -437,7 +438,7 @@
                 android:paddingRight="@dimen/activity_horizontal_margin">
 
                 <Button
-                    android:id="@+id/buttonSetCard1"
+                    android:id="@+id/btnFindShipping"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="0dp"
