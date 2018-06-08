@@ -14,6 +14,17 @@ public class Yng_Province implements Serializable {
 		super();
 	}
 
+	public Yng_Province(int provinceId, String name) {
+		this.provinceId = provinceId;
+		this.name = name;
+	}
+
+	public Yng_Province(int provinceId, String name, String codigo31662) {
+		this.provinceId = provinceId;
+		this.name = name;
+		this.codigo31662 = codigo31662;
+	}
+
 	public int getProvinceId() {
 		return provinceId;
 	}
