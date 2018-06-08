@@ -60,11 +60,24 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/text_item_cat_list_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|left"
+                    android:layout_margin="5dp"
+                    android:maxLines="1"
+                    android:minLines="1"
+                    android:text="precio"
+                    android:textSize="20sp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:textColor="@color/red" />
+
+                <TextView
                     android:id="@+id/money_usd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:text="U$S"
+                    android:text=""
                     android:textSize="20sp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     android:textColor="@color/red" />
@@ -74,20 +87,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:text="$"
-                    android:textSize="20sp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:textColor="@color/red" />
-
-                <TextView
-                    android:id="@+id/text_item_cat_list_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center|left"
-                    android:layout_margin="5dp"
-                    android:maxLines="1"
-                    android:minLines="1"
-                    android:text="precio"
+                    android:text=""
                     android:textSize="20sp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     android:textColor="@color/red" />
