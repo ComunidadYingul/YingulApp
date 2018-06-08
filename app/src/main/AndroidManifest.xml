@@ -171,7 +171,7 @@
         <activity android:name=".main.store.AllStoreActivity" />
         <activity android:name=".main.service.ServiceActivity" />
         <activity android:name=".main.motorized.MotorizedActivity" />
-        <activity android:name=".main.PropertyActivity"></activity>
+        <activity android:name=".main.property.PropertyActivity"></activity>
     </application>
 
 </manifest>

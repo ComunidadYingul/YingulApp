@@ -1,20 +1,12 @@
-package com.valecom.yingul.main;
+package com.valecom.yingul.main.property;
 
-import android.app.Dialog;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -23,19 +15,12 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.valecom.yingul.Item.ItemCategory;
 import com.valecom.yingul.Item.ItemCategoryList;
-import com.valecom.yingul.Item.ItemColorSize;
 import com.valecom.yingul.R;
 import com.valecom.yingul.Util.ItemOffsetDecoration;
 import com.valecom.yingul.adapter.ListGridAdapter;
-import com.valecom.yingul.adapter.ListRowAdapter;
-import com.valecom.yingul.adapter.SelectColorAdapter;
-import com.valecom.yingul.adapter.SelectSizeAdapter;
+import com.valecom.yingul.main.MainActivity;
 import com.valecom.yingul.main.store.ActivityStore;
-import com.valecom.yingul.model.Yng_Category;
-import com.valecom.yingul.model.Yng_Store;
-import com.valecom.yingul.model.Yng_User;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
 
@@ -47,40 +32,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class PropertyActivity extends AppCompatActivity {
 
-    RecyclerView recycler_cat_list;
-    ListGridAdapter adapter_cat_list;
-    ArrayList<ItemCategoryList> array_cat_list;
-
-    ListRowAdapter adapter_cat_list_listview;
-    TextView txtNoOfItem;
-    ImageView ImgList,ImgGrid,ImgFilter;
-    Dialog dialog;
-    //CrystalRangeSeekbar appCompatSeekBar;
-    Button buttonPriceMin,buttonPriceMax, buttonApply;
-    int progressChangedValue = 100;
-    ArrayList<ItemColorSize> array_color, array_size;
-    SelectColorAdapter adapter_color;
-    SelectSizeAdapter adapter_size;
-    RecyclerView recyclerView_color, recyclerView_size;
-    LinearLayout lay_filter_click;
     private MaterialDialog progressDialog;
+    private Context mContext;
 
-    String itemId,itemSeller,store;
-    Yng_Store objStore;
-    Yng_User objUser;
-
-    RelativeLayout layout_header;
-    CircleImageView boton1,boton2,boton3;
-    Spinner spinnerOptions;
+    RecyclerView recycler_list;
+    ListGridAdapter adapter_list;
+    ArrayList<ItemCategoryList> array_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_property);
+
+        mContext = PropertyActivity.this;
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Inmuebles");
@@ -94,23 +60,13 @@ public class PropertyActivity extends AppCompatActivity {
                 .cancelable(false)
                 .progress(true, 0).build();
 
-        layout_header = (RelativeLayout) findViewById(R.id.content_header);
-        boton1 = (CircleImageView) findViewById(R.id.imageButton1);
-        boton2 = (CircleImageView)findViewById(R.id.imageButton2);
-        boton3 = (CircleImageView)findViewById(R.id.imageButton3);
-        spinnerOptions = (Spinner)findViewById(R.id.spinner_options);
-
-
-
-        array_cat_list = new ArrayList<>();
-
-        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(PropertyActivity.this, R.dimen.item_offset);
-
-        recycler_cat_list = (RecyclerView) findViewById(R.id.vertical_cat_list);
-        recycler_cat_list.setHasFixedSize(false);
-        recycler_cat_list.setNestedScrollingEnabled(false);
-        recycler_cat_list.setLayoutManager(new GridLayoutManager(PropertyActivity.this, 2));
-        recycler_cat_list.addItemDecoration(itemDecoration);
+        array_list = new ArrayList<>();
+        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(mContext, R.dimen.item_offset);
+        recycler_list = (RecyclerView) findViewById(R.id.vertical_cat_list);
+        recycler_list.setHasFixedSize(false);
+        recycler_list.setNestedScrollingEnabled(false);
+        recycler_list.setLayoutManager(new GridLayoutManager(mContext, 2));
+        recycler_list.addItemDecoration(itemDecoration);
 
         loadJSONFromAssetCategoryList();
 
@@ -126,21 +82,20 @@ public class PropertyActivity extends AppCompatActivity {
                         {
 
                             JSONArray m_jArry = response;
-                            Log.e("Eddy property:--",m_jArry.toString());
+                            Log.e("Eddy",m_jArry.toString());
                             for (int i = 0; i < m_jArry.length(); i++) {
                                 JSONObject jo_inside = m_jArry.getJSONObject(i);
-                                ItemCategoryList item = new ItemCategoryList();
-                                item.setCategoryListId(jo_inside.getString("itemId"));
-                                item.setCategoryListName(jo_inside.getString("name"));
-                                item.setCategoryListImage(jo_inside.getString("principalImage"));
-                                item.setCategoryListDuildedArea(jo_inside.getString("duildedArea"));
-                                item.setCategoryListPrice(jo_inside.getString("price"));
-                                item.setCategoryListMoney(jo_inside.getString("money"));
-                                item.setCategoryListType(jo_inside.getString("type"));
+                                ItemCategoryList itemPublicSellerList = new ItemCategoryList();
+                                itemPublicSellerList.setCategoryListId(jo_inside.getString("itemId"));
+                                itemPublicSellerList.setCategoryListName(jo_inside.getString("name"));
+                                itemPublicSellerList.setCategoryListImage(jo_inside.getString("principalImage"));
+                                itemPublicSellerList.setCategoryListDescription(jo_inside.getString("description"));
+                                itemPublicSellerList.setCategoryListPrice(jo_inside.getString("price"));
+                                itemPublicSellerList.setCategoryListType(jo_inside.getString("type"));
+                                itemPublicSellerList.setCategoryListDuildedArea(jo_inside.getString("duildedArea"));
+                                itemPublicSellerList.setCategoryListMoney(jo_inside.getString("money"));
 
-                                array_cat_list.add(item);
-
-                                Log.e("property name:--",""+item.getCategoryListType());
+                                array_list.add(itemPublicSellerList);
 
                             }
                             setAdapterHomeCategoryList();
@@ -151,7 +106,7 @@ public class PropertyActivity extends AppCompatActivity {
                         catch(Exception ex)
                         {
                             //if (isAdded()) {
-                            Toast.makeText(PropertyActivity.this, R.string.error_try_again_support, Toast.LENGTH_LONG).show();
+                            Toast.makeText(mContext, R.string.error_try_again_support, Toast.LENGTH_LONG).show();
                             //}
                         }
 
@@ -178,16 +133,16 @@ public class PropertyActivity extends AppCompatActivity {
                     try
                     {
                         JSONObject json = new JSONObject(new String(response.data));
-                        Toast.makeText(PropertyActivity.this, json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext, json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
                     }
                     catch (JSONException e)
                     {
-                        Toast.makeText(PropertyActivity.this, R.string.error_try_again_support, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, R.string.error_try_again_support, Toast.LENGTH_SHORT).show();
                     }
                 }
                 else
                 {
-                    Toast.makeText(PropertyActivity.this, error != null && error.getMessage() != null ? error.getMessage() : error.toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, error != null && error.getMessage() != null ? error.getMessage() : error.toString(), Toast.LENGTH_LONG).show();
                 }
             }
         })
@@ -209,12 +164,14 @@ public class PropertyActivity extends AppCompatActivity {
 
         postRequest.setTag(MainActivity.TAG);
 
-        MySingleton.getInstance(PropertyActivity.this).addToRequestQueue(postRequest);
-        return array_cat_list;
+        MySingleton.getInstance(mContext).addToRequestQueue(postRequest);
+        return array_list;
     }
 
     public void setAdapterHomeCategoryList() {
-        adapter_cat_list = new ListGridAdapter(PropertyActivity.this, array_cat_list);
-        recycler_cat_list.setAdapter(adapter_cat_list);
+        adapter_list = new ListGridAdapter(mContext, array_list);
+        //txtNoOfItem.setText(adapter_list.getItemCount()+"");
+        recycler_list.setAdapter(adapter_list);
     }
+
 }

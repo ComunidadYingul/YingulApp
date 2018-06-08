@@ -250,8 +250,8 @@ public class PrincipalFragment extends Fragment {
             image_slider.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent_detail=new Intent(getActivity(), ActivityProductDetail.class);
-                    startActivity(intent_detail);
+                    /*Intent intent_detail=new Intent(getActivity(), ActivityProductDetail.class);
+                    startActivity(intent_detail);*/
                 }
             });
 
@@ -334,6 +334,7 @@ public class PrincipalFragment extends Fragment {
                                 itemHomeCategoryList.setCategoryListImage(jo_inside.getString("principalImage"));
                                 itemHomeCategoryList.setCategoryListDescription(jo_inside.getString("description"));
                                 itemHomeCategoryList.setCategoryListPrice(jo_inside.getString("price"));
+                                itemHomeCategoryList.setCategoryListMoney(jo_inside.getString("money"));
 
 
                                 JSONObject user = jo_inside.getJSONObject("user");
@@ -444,6 +445,7 @@ public class PrincipalFragment extends Fragment {
                                 itemHomeCategoryList.setCategoryListImage(jo_inside.getString("principalImage"));
                                 itemHomeCategoryList.setCategoryListDescription(jo_inside.getString("description"));
                                 itemHomeCategoryList.setCategoryListPrice(jo_inside.getString("price"));
+                                itemHomeCategoryList.setCategoryListMoney(jo_inside.getString("money"));
 
                                 JSONObject user = jo_inside.getJSONObject("user");
                                 Gson gson = new Gson();

@@ -9,6 +9,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,7 @@ public class MyAccountFragment extends Fragment
     private JSONObject api_parameter;
 
     private Button buttonSell,settings_logout_button;
-    private LinearLayout shoppingQuestions,purchasesLayout,publicationsLayout,salesQuestionsLayout;
+    private LinearLayout shoppingQuestions,purchasesLayout,publicationsLayout,salesQuestionsLayout,userProfile;
 
     public MyAccountFragment()
     {
@@ -76,7 +77,7 @@ public class MyAccountFragment extends Fragment
     {
         View view = inflater.inflate(R.layout.fragment_my_account, container, false);
 
-        SharedPreferences settings = getActivity().getSharedPreferences(LoginActivity.SESSION_USER, getActivity().MODE_PRIVATE);
+        final SharedPreferences settings = getActivity().getSharedPreferences(LoginActivity.SESSION_USER, getActivity().MODE_PRIVATE);
 
         buttonSell = (Button) view.findViewById(R.id.buttonSell);
         settings_logout_button = (Button) view.findViewById(R.id.settings_logout_button);
@@ -84,6 +85,7 @@ public class MyAccountFragment extends Fragment
         purchasesLayout = (LinearLayout) view.findViewById(R.id.purchasesLayout);
         publicationsLayout = (LinearLayout) view.findViewById(R.id.publicationsLayout);
         salesQuestionsLayout = (LinearLayout) view.findViewById(R.id.salesQuestionsLayout);
+        userProfile = (LinearLayout) view.findViewById(R.id.userProfile);
 
         buttonSell.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -136,6 +138,32 @@ public class MyAccountFragment extends Fragment
                 fragmentTransaction.replace(R.id.content_frame, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+            }
+        });
+        userProfile.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String tempUsername = settings.getString("username",null);
+                //Bundle bundle = new Bundle();
+                //bundle.putString("item",tempUsername);
+
+
+                if (settings == null || settings.getInt("logged_in", 0) == 0 || settings.getString("api_key", "").equals(""))
+                {
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    getActivity().finish();
+                    return;
+                }else{
+                    Log.e("Username:--",tempUsername);
+
+                    MyAccountUserProfileFragment fragment = new MyAccountUserProfileFragment();
+                    //fragment.setArguments(bundle);
+                    FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.content_frame, fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
             }
         });
 

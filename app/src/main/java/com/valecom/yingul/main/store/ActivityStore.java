@@ -177,6 +177,7 @@ public class ActivityStore extends AppCompatActivity {
                                 itemPublicSellerList.setCategoryListPrice(jo_inside.getString("price"));
                                 itemPublicSellerList.setCategoryListType(jo_inside.getString("type"));
                                 itemPublicSellerList.setCategoryListDuildedArea(jo_inside.getString("duildedArea"));
+                                itemPublicSellerList.setCategoryListMoney(jo_inside.getString("money"));
 
                                 array_cat_list.add(itemPublicSellerList);
 

@@ -11,4 +11,70 @@
         android:id="@+id/toolbar_main"
         layout="@layout/toolbar" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/white">
+
+            <RelativeLayout
+                android:id="@+id/content_header"
+                android:layout_width="match_parent"
+                android:layout_height="300dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1000dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/automovil"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1000dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:background="@drawable/banner_gradient"/>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginBottom="30dp"
+                    android:gravity="center"
+                    android:text="¿Qué estás buscando?"
+                    android:textColor="@color/white"
+                    android:textSize="25sp" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/vertical_cat_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:background="#eee"
+                android:clipToPadding="false" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
 </LinearLayout>
