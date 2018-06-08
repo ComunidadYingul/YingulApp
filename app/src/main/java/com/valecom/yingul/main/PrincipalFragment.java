@@ -250,8 +250,8 @@ public class PrincipalFragment extends Fragment {
             image_slider.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent_detail=new Intent(getActivity(), ActivityProductDetail.class);
-                    startActivity(intent_detail);
+                    /*Intent intent_detail=new Intent(getActivity(), ActivityProductDetail.class);
+                    startActivity(intent_detail);*/
                 }
             });
 
