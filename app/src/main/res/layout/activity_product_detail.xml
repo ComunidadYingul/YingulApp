@@ -185,7 +185,7 @@ android:background="@color/bg">
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:text="5"/>
+                    android:text="1"/>
 
             </LinearLayout>
 
