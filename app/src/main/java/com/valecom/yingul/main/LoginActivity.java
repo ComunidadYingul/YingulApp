@@ -175,9 +175,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     (editEmail.getText().toString().trim() + ":" + editPassword.getText().toString().trim()).getBytes(), Base64.NO_WRAP));
                             user.commit();
 
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            onBackPressed();
                             finish();
-                            startActivity(intent);
+
+                            /*Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            finish();
+                            startActivity(intent);*/
                         }
                         catch (Exception ex)
                         {
