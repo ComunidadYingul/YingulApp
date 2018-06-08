@@ -7,12 +7,12 @@ android {
             keyPassword 'valecom'
             /*storeFile file('/home/gonzalo/Escritorio/yingul.jks')*/
             //storeFile file('/home/gonzalo/AndroidStudioProjects/PLANTILLA EDDY/app-master/yingul.jks')
-            storeFile file('/home/eddy/Escritorio/yingul.jks')
+            storeFile file('C:\\Users\\gsant\\Desktop\\yingul\\android\\app-master\\yingul.jks')
             storePassword 'valecom2018'
         }
     }
     compileSdkVersion 23
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.valecom.yingul"
         manifestPlaceholders = [manifestApplicationId          : "${applicationId}",
@@ -22,11 +22,9 @@ android {
         targetSdkVersion 23
         versionCode 2
         versionName '1.1'
-        multiDexEnabled true
         signingConfig signingConfigs.config
     }
     dexOptions {
-        incremental = true
         preDexLibraries = false
         javaMaxHeapSize "4g" // 2g should be also OK
     }

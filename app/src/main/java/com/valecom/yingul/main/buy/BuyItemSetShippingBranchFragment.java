@@ -13,6 +13,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.valecom.yingul.R;
 import com.valecom.yingul.adapter.QuoteAdapter;
 import com.valecom.yingul.model.Yng_Branch;
+import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.model.Yng_Quote;
 import com.google.gson.Gson;
 import org.json.JSONArray;
@@ -107,6 +108,9 @@ public class BuyItemSetShippingBranchFragment extends Fragment {
             Gson gson = new Gson();
             branch = gson.fromJson(String.valueOf(obj.getJSONObject("yng_Branch")) , Yng_Branch.class);
             item.setYng_Branch(branch);
+            Yng_Item newItem = new Yng_Item();
+            newItem = gson.fromJson(String.valueOf(obj.getJSONObject("yng_Item")) , Yng_Item.class);
+            item.setYng_Item(newItem);
             String jsonBody = gson.toJson(item);
             Log.e("quote return", jsonBody);
             array_list.add(item);

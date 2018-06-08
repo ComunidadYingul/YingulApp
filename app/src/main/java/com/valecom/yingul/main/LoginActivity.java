@@ -170,9 +170,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             }
                             /*Decidir si va ser el password o authorization*/
                             user.putString("api_key", Base64.encodeToString(
-                                    (editEmail.getText().toString().trim() + ":" + editPassword.getText().toString().trim()).getBytes(), Base64.NO_WRAP));
+                                    (response.getString("username") + ":" + editPassword.getText().toString().trim()).getBytes(), Base64.NO_WRAP));
                             user.putString("password", Base64.encodeToString(
-                                    (editEmail.getText().toString().trim() + ":" + editPassword.getText().toString().trim()).getBytes(), Base64.NO_WRAP));
+                                    (response.getString("username") + ":" + editPassword.getText().toString().trim()).getBytes(), Base64.NO_WRAP));
                             user.commit();
 
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -223,10 +223,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("X-API-KEY", Network.API_KEY);
-                params.put("Authorization",
+                /*params.put("Authorization",
                         "Basic " + Base64.encodeToString(
                                 (editEmail.getText().toString().trim() + ":" + editPassword.getText().toString().trim()).getBytes(), Base64.NO_WRAP)
-                );
+                );*/
                 return params;
             }
         };

@@ -2,6 +2,9 @@ package com.valecom.yingul.main.buy;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +23,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.LoginActivity;
 import com.valecom.yingul.main.MainActivity;
+import com.valecom.yingul.main.newUserUbicationEditPersonalInfo.NewUserUbicationEditPersonalInfoActivity;
+import com.valecom.yingul.main.sell.SellActivity;
+import com.valecom.yingul.main.sell.SellItemSetTitleFragment;
 import com.valecom.yingul.model.Yng_Buy;
 import com.valecom.yingul.model.Yng_Card;
 import com.valecom.yingul.model.Yng_CashPayment;
@@ -27,6 +33,7 @@ import com.valecom.yingul.model.Yng_City;
 import com.valecom.yingul.model.Yng_Country;
 import com.valecom.yingul.model.Yng_IpApi;
 import com.valecom.yingul.model.Yng_Item;
+import com.valecom.yingul.model.Yng_ItemImage;
 import com.valecom.yingul.model.Yng_Payment;
 import com.valecom.yingul.model.Yng_Product;
 import com.valecom.yingul.model.Yng_Province;
@@ -40,9 +47,14 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -79,6 +91,7 @@ public class BuyActivity extends AppCompatActivity {
     Yng_CashPayment cashPaymentToTicket;
     /***************/
     public static final String TAG = "bUYActivity";
+    static final int ITEM_PICKER_TAG = 1;
     private JSONObject api_parameter;
 
     String TAG1="OkHttpConection";
@@ -191,14 +204,19 @@ public class BuyActivity extends AppCompatActivity {
 
                         try
                         {
-                            Log.e("item desde backend: " , response.toString());
+                            Log.e("item desde backend ===>" , response.toString());
                             Gson gson = new Gson();
                             item = gson.fromJson(String.valueOf(response), Yng_Item.class);
                             BuySetShippingTypeFragment fragment = new BuySetShippingTypeFragment();
                             FragmentTransaction fragmentTransaction  = getSupportFragmentManager().beginTransaction();
                             fragmentTransaction.replace(R.id.content_frame, fragment);
                             fragmentTransaction.commit();
-
+                            Log.e("esta llegando ===>","vhjk:"+user.getDocumentNumber());
+                            if(userUbication==null||user.getPhone().equals("null")||user.getDocumentNumber().equals("null")||user.getDocumentType().equals("null")||user.getPhone().equals("")||user.getDocumentNumber().equals("")||user.getDocumentType().equals("")){
+                                Intent intent = new Intent(BuyActivity.this, NewUserUbicationEditPersonalInfoActivity.class);
+                                intent.putExtra("data", user);
+                                startActivityForResult(intent, ITEM_PICKER_TAG);
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -513,5 +531,27 @@ public class BuyActivity extends AppCompatActivity {
         postRequest.setTag(TAG);
 
         MySingleton.getInstance(this).addToRequestQueue(postRequest);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        switch (requestCode) {
+            case ITEM_PICKER_TAG:
+                if (resultCode == RESULT_OK) {
+                    Yng_User newUser = (Yng_User)data.getSerializableExtra("data");
+                    user = newUser;
+                    userUbication = newUser.getYng_Ubication();
+                    Gson gson = new Gson();
+                    String jsonBody = gson.toJson(newUser.getYng_Ubication());
+                    Log.e("ubica:---",jsonBody);
+                    SharedPreferences.Editor user = getSharedPreferences(LoginActivity.SESSION_USER, MODE_PRIVATE).edit();
+                    user.putString("yng_Ubication",jsonBody);
+                    user.putString("phone",newUser.getPhone());
+                    user.putString("documentType",newUser.getDocumentType());
+                    user.putString("documentNumber",newUser.getDocumentNumber());
+                    user.commit();
+                }
+                break;
+        }
     }
 }

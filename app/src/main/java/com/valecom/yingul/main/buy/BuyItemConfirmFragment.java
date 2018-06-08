@@ -18,7 +18,7 @@ import com.squareup.picasso.Picasso;
  * A simple {@link Fragment} subclass.
  */
 public class BuyItemConfirmFragment extends Fragment {
-    Button buttonSetBuy;
+    Button buttonSetBuy,buttonSetBuy1;
     TextView txtItemType,txtCurrencyPrice,txtTotal,txtItemName,txtQuantity,txtPayment,txtViewShipping,txtViewPayment,txtShippingCost,txtViewBranch,txtTypeOSchedules,txtBranchName,txtBranchStreet;
     ImageView principalImage,imgPayment,imgShipping;
     LinearLayout layoutShipping,layBranch;
@@ -52,6 +52,7 @@ public class BuyItemConfirmFragment extends Fragment {
         layBranch = (LinearLayout) v.findViewById(R.id.layBranch);
         txtBranchName = (TextView) v.findViewById(R.id.txtBranchName);
         txtBranchStreet = (TextView) v.findViewById(R.id.txtBranchStreet);
+        buttonSetBuy1 = (Button) v.findViewById(R.id.buttonSetBuy1);
 
         if(((BuyActivity)getActivity()).shipping.getTypeShipping().equals("home")){
             imgShipping.setImageResource(R.drawable.home);
@@ -102,6 +103,12 @@ public class BuyItemConfirmFragment extends Fragment {
 
         buttonSetBuy = (Button) v.findViewById(R.id.buttonSetBuy);
         buttonSetBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((BuyActivity)getActivity()).getLocalIpAddress();
+            }
+        });
+        buttonSetBuy1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((BuyActivity)getActivity()).getLocalIpAddress();
