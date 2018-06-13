@@ -171,7 +171,8 @@
         <activity android:name=".main.store.AllStoreActivity" />
         <activity android:name=".main.service.ServiceActivity" />
         <activity android:name=".main.motorized.MotorizedActivity" />
-        <activity android:name=".main.property.PropertyActivity"></activity>
+        <activity android:name=".main.property.PropertyActivity" />
+        <activity android:name=".main.myAccount.yingulPay.YingulPayActivity"></activity>
     </application>
 
 </manifest>

@@ -148,6 +148,11 @@
     <string name="max_value">Max:-</string>
     <string name="menu_search">Search</string>
 
+    <string name="stage_address">Address</string>
+    <string name="stage_deliver">Delivered</string>
+    <string name="stage_cancel">Canceled</string>
+    <string name="cash_on">Cashondelivery</string>
+
     <string-array name="color_array">
         <item>#FF5152</item>
         <item>#000000</item>

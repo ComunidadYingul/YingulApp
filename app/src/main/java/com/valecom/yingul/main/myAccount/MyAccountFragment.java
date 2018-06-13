@@ -15,10 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.LoginActivity;
+import com.valecom.yingul.main.myAccount.yingulPay.ActividadYingulPayFragment;
+import com.valecom.yingul.main.myAccount.yingulPay.YingulPayActivity;
 import com.valecom.yingul.main.sell.SellActivity;
 
 import org.json.JSONObject;
@@ -39,7 +42,7 @@ public class MyAccountFragment extends Fragment
     private JSONObject api_parameter;
 
     private Button buttonSell,settings_logout_button;
-    private LinearLayout shoppingQuestions,purchasesLayout,publicationsLayout,salesQuestionsLayout,userProfile;
+    private LinearLayout shoppingQuestions,purchasesLayout,publicationsLayout,salesQuestionsLayout,userProfile,yingulPay;
 
     public MyAccountFragment()
     {
@@ -86,6 +89,7 @@ public class MyAccountFragment extends Fragment
         publicationsLayout = (LinearLayout) view.findViewById(R.id.publicationsLayout);
         salesQuestionsLayout = (LinearLayout) view.findViewById(R.id.salesQuestionsLayout);
         userProfile = (LinearLayout) view.findViewById(R.id.userProfile);
+        yingulPay = (LinearLayout) view.findViewById(R.id.yingulPay);
 
         buttonSell.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -164,6 +168,14 @@ public class MyAccountFragment extends Fragment
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                 }
+            }
+        });
+
+        yingulPay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), YingulPayActivity.class);
+                startActivity(intent);
             }
         });
 
