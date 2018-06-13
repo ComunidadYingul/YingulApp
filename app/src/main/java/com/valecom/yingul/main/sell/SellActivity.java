@@ -255,7 +255,7 @@ public class SellActivity extends AppCompatActivity {
     
     public void setItemAditionalDescription() {
         //aditionalDescription=description;
-        if(userUbication==null||user.getPhone().equals("null")||user.getDocumentNumber().equals("null")||user.getDocumentType().equals("null")){
+        if(userUbication==null||user.getPhone().equals("null")||user.getDocumentNumber().equals("null")||user.getDocumentType().equals("null")||user.getPhone().equals("")||user.getDocumentNumber().equals("")||user.getDocumentType().equals("")){
             Intent intent = new Intent(SellActivity.this, NewUserUbicationEditPersonalInfoActivity.class);
             intent.putExtra("data", user);
             startActivityForResult(intent, ITEM_PICKER_TAG);

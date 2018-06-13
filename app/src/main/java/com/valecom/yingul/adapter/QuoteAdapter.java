@@ -51,7 +51,11 @@ public class QuoteAdapter extends ArrayAdapter<Yng_Quote>
         text_quote_branch_location.setText(invoice.getYng_Branch().getNameMail()+" ("+invoice.getYng_Branch().getLocation()+")");
         text_quote_street.setText(invoice.getYng_Branch().getStreet());
         text_quote_schedules.setText(invoice.getYng_Branch().getSchedules());
-        text_quote_rate.setText("$ "+invoice.getRate());
+        if(invoice.getYng_Item().getProductPagoEnvio().equals("gratis")){
+            text_quote_rate.setText("GRATIS");
+        }else{
+            text_quote_rate.setText("$ "+invoice.getRate());
+        }
         return rowView;
     }
 }

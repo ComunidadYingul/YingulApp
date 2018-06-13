@@ -31,6 +31,7 @@ import com.valecom.yingul.main.LoginActivity;
 import com.valecom.yingul.main.MainActivity;
 import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.model.Yng_Query;
+import com.valecom.yingul.model.Yng_User;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
 
@@ -82,7 +83,7 @@ public class MyAccountSalesQuestionsListFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.fragment_my_account_shopping_questions_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_account_sales_questions_list, container, false);
 
         SharedPreferences settings = getActivity().getSharedPreferences(LoginActivity.SESSION_USER, getActivity().MODE_PRIVATE);
 
@@ -109,11 +110,10 @@ public class MyAccountSalesQuestionsListFragment extends Fragment
 
                 Bundle bundle = new Bundle();
                 Gson gson = new Gson();
-                String jsonBody = gson.toJson(query.getYng_Item());
-                Log.e("ITEM:---",jsonBody);
-                bundle.putString("item",jsonBody);
+                String jsonBody = gson.toJson(query);
+                bundle.putString("query",jsonBody);
 
-                MyAccountShoppingQuestionsByItemIdFragment fragment = new MyAccountShoppingQuestionsByItemIdFragment();
+                MyAccountSaleQuestionAnswerFragment fragment = new MyAccountSaleQuestionAnswerFragment();
                 fragment.setArguments(bundle);
                 FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.content_frame, fragment);
@@ -199,7 +199,10 @@ public class MyAccountSalesQuestionsListFragment extends Fragment
                                 Yng_Item item = new Yng_Item();
                                 Gson gson = new Gson();
                                 item = gson.fromJson(String.valueOf(obj.optJSONObject("yng_Item")), Yng_Item.class);
+                                Yng_User buyer = new Yng_User();
+                                buyer = gson.fromJson(String.valueOf(obj.optJSONObject("user")), Yng_User.class);
                                 query.setYng_Item(item);
+                                query.setUser(buyer);
                                 array_list.add(query);
                             }
 

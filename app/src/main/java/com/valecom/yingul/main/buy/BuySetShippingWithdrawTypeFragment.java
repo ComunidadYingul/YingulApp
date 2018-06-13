@@ -41,7 +41,7 @@ public class BuySetShippingWithdrawTypeFragment extends Fragment {
 
         array_list = new ArrayList();
         array_list.add("Retiro en sucursal");
-        array_list.add("Retiro en domicilio del vendedor");
+        array_list.add("Retiro en domicilio del vendedor (Al finalizar te daremos los datos del vendedor)");
         adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, array_list);
 
         list = (ListView) v.findViewById(R.id.list);

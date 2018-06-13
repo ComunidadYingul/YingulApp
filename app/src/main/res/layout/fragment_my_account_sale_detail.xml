@@ -1,25 +1,25 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#ccc"
-    tools:context="com.valecom.yingul.main.buy.BuyItemConfirmFragment">
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".main.myAccount.MyAccountSaleDetailFragment">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/white">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/white">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingBottom="5dp"
                 android:orientation="horizontal"
                 android:background="@color/yngOrange"
                 android:gravity="center">
@@ -27,9 +27,25 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
-                    android:text="Confirma tu compra"
+                    android:text="Detalle de la compra"
                     android:textSize="20sp"
+                    android:gravity="center"
+                    android:textColor="@color/mdtp_white"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/yngOrange"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/buyTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5 de junio"
+                    android:textSize="12sp"
                     android:gravity="center"
                     android:textColor="@color/mdtp_white"/>
             </LinearLayout>
@@ -55,7 +71,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Producto"
+                        android:text="Servicio"
                         android:layout_weight="1"
                         android:textColor="@android:color/white"
                         android:textSize="15sp"/>
@@ -103,7 +119,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Envio"
+                        android:text="Cargo de envio"
                         android:layout_weight="1"
                         android:textColor="@android:color/white"
                         android:textSize="15sp"/>
@@ -163,7 +179,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Pagas"
+                        android:text="Total"
                         android:layout_weight="1"
                         android:textColor="@android:color/white"
                         android:textSize="15sp"/>
@@ -188,46 +204,6 @@
 
                 </LinearLayout>
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:orientation="horizontal"
-                android:background="@color/yngOrange"
-                android:gravity="center"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin">
-
-                <Button
-                    android:id="@+id/buttonSetBuy"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:background="@color/yngBlue"
-                    android:textColor="@android:color/white"
-                    android:text="Confirmar compra"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:orientation="horizontal"
-                android:gravity="">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Producto"
-                    android:textSize="18sp"
-                    android:gravity="center"
-                    android:textColor="@color/yngBlack"/>
             </LinearLayout>
 
             <LinearLayout
@@ -302,24 +278,6 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:orientation="horizontal"
-                android:gravity="">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Envio"
-                    android:textSize="18sp"
-                    android:gravity="center"
-                    android:textColor="@color/yngBlack"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
                 android:layout_height="130dp"
                 android:paddingTop="@dimen/activity_vertical_margin"
                 android:paddingBottom="@dimen/activity_vertical_margin"
@@ -381,24 +339,6 @@
                         android:textColor="@color/black"/>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/activity_vertical_margin"
-                    android:paddingBottom="@dimen/activity_vertical_margin"
-                    android:orientation="horizontal"
-                    android:gravity="center">
-
-                    <TextView
-                        android:id="@+id/txtViewBranch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Modificar sucursal"
-                        android:textSize="18sp"
-                        android:gravity="center"
-                        android:textColor="@color/md_material_blue_600"/>
-
-                </LinearLayout>
             </LinearLayout>
 
 
@@ -422,25 +362,6 @@
                     android:textColor="@color/yngBlack"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:orientation="horizontal"
-                android:gravity="center">
-
-                <TextView
-                    android:id="@+id/txtViewShipping"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Modificar envio"
-                    android:textSize="18sp"
-                    android:gravity="center"
-                    android:textColor="@color/md_material_blue_600"/>
-
-            </LinearLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -448,82 +369,7 @@
             </View>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:orientation="horizontal"
-                android:gravity="">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Pagas"
-                    android:textSize="18sp"
-                    android:gravity="center"
-                    android:textColor="@color/yngBlack"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin">
-
-                <ImageView
-                    android:id="@+id/imgPayment"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_horizontal"
-                    android:src="@drawable/card1" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:orientation="horizontal"
-                android:gravity="center">
-
-                <TextView
-                    android:id="@+id/txtPayment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Paga $762 con Visa Débito terminada en 1024"
-                    android:textSize="20sp"
-                    android:gravity="center"
-                    android:textColor="@color/yngBlack"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:orientation="horizontal"
-                android:gravity="center">
-
-                <TextView
-                    android:id="@+id/txtViewPayment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Modificar medio de pago"
-                    android:textSize="18sp"
-                    android:gravity="center"
-                    android:textColor="@color/md_material_blue_600"/>
-
-            </LinearLayout>
-
-            <LinearLayout
+                android:id="@+id/layoutStatusShipment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/activity_vertical_margin"
@@ -534,17 +380,17 @@
                 android:paddingRight="@dimen/activity_horizontal_margin">
 
                 <Button
-                    android:id="@+id/buttonSetBuy1"
+                    android:id="@+id/btnFindShipping"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="0dp"
                     android:background="@color/yngBlue"
                     android:textColor="@android:color/white"
-                    android:text="Confirmar compra"/>
+                    android:text="Donde esta el producto"/>
 
             </LinearLayout>
+
         </LinearLayout>
 
     </ScrollView>
-
 </FrameLayout>

@@ -47,7 +47,7 @@
                     android:id="@+id/editEmail"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Correo electrónico"
+                    android:hint="Correo electrónico o nombre de usuario"
                     android:inputType="textEmailAddress"
                     android:singleLine="true"
                     android:text="EDDYQUENALLATA"
