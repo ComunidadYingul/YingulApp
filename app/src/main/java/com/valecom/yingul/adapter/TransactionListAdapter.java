@@ -36,7 +36,7 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
         final Yng_Transaction item = dataList.get(position);
 
         holder.textNumber.setText(item.getTransactionId().toString());
-        holder.textDate.setText(item.getDay()+"/"+item.getMonth()+"/"+item.getYear());
+        holder.textDate.setText(item.getDay()+"/"+item.getMonth()+"/"+item.getYear()+"  "+item.getHour()+":"+item.getMinute()+":"+item.getSecond());
         holder.textType.setText(item.getType());
         holder.textCurrency.setText(item.getCurrency());
         holder.textAmount.setText(String.valueOf(item.getAmount()));
