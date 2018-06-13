@@ -39,7 +39,7 @@ public class MyAccountFragment extends Fragment
     private JSONObject api_parameter;
 
     private Button buttonSell,settings_logout_button;
-    private LinearLayout shoppingQuestions,purchasesLayout,publicationsLayout,salesQuestionsLayout,userProfile;
+    private LinearLayout shoppingQuestions,purchasesLayout,publicationsLayout,salesQuestionsLayout,userProfile,salesListLayout;
 
     public MyAccountFragment()
     {
@@ -86,6 +86,7 @@ public class MyAccountFragment extends Fragment
         publicationsLayout = (LinearLayout) view.findViewById(R.id.publicationsLayout);
         salesQuestionsLayout = (LinearLayout) view.findViewById(R.id.salesQuestionsLayout);
         userProfile = (LinearLayout) view.findViewById(R.id.userProfile);
+        salesListLayout = (LinearLayout) view.findViewById(R.id.salesListLayout);
 
         buttonSell.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -134,6 +135,15 @@ public class MyAccountFragment extends Fragment
         salesQuestionsLayout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 MyAccountSalesQuestionsListFragment fragment = new MyAccountSalesQuestionsListFragment();
+                FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+        salesListLayout.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                MyAccountSalesListFragment fragment = new MyAccountSalesListFragment();
                 FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.content_frame, fragment);
                 fragmentTransaction.addToBackStack(null);

@@ -1,6 +1,8 @@
 package com.valecom.yingul.main.categories;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -17,9 +19,12 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.valecom.yingul.Item.ItemCategoryList;
 import com.valecom.yingul.Item.ItemColorSize;
 import com.valecom.yingul.R;
@@ -29,7 +34,9 @@ import com.valecom.yingul.adapter.ListRowAdapter;
 import com.valecom.yingul.adapter.SelectColorAdapter;
 import com.valecom.yingul.adapter.SelectSizeAdapter;
 import com.valecom.yingul.main.MainActivity;
+import com.valecom.yingul.main.filter.FilterActivity;
 import com.valecom.yingul.main.store.ActivityStore;
+import com.valecom.yingul.model.Yng_StateShipping;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
 
@@ -61,6 +68,7 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
     private MaterialDialog progressDialog;
 
     String categoryId;
+    private MaterialDialog setting_address_edit_dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,8 +137,9 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
         lay_filter_click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //showFilterDialog();
-                Toast.makeText(ItemsByCategoryActivity.this, "Filtro aun no implementado", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(ItemsByCategoryActivity.this, FilterActivity.class);
+                finish();
+                startActivity(intent);
             }
         });
 
@@ -274,4 +283,5 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
         txtNoOfItem.setText(adapter_cat_list.getItemCount()+"");
         recycler_cat_list.setAdapter(adapter_cat_list);
     }
+
 }
