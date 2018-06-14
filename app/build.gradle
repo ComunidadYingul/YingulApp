@@ -7,8 +7,8 @@ android {
             keyPassword 'valecom'
             /*storeFile file('/home/gonzalo/Escritorio/yingul.jks')*/
             //storeFile file('/home/gonzalo/AndroidStudioProjects/PLANTILLA EDDY/app-master/yingul.jks')
-            storeFile file('C:\\Users\\gsant\\Desktop\\yingul\\android\\app-master\\yingul.jks')
-            //storeFile file('/home/gonzalo/AndroidStudioProjects/PLANTILLA EDDY/app-master/yingul.jks')
+            //storeFile file('C:\\Users\\gsant\\Desktop\\yingul\\android\\app-master\\yingul.jks')
+            storeFile file('/home/gonzalo/AndroidStudioProjects/PLANTILLA EDDY/app-master/yingul.jks')
             //storeFile file('/home/eddy/Escritorio/yingul.jks')
             storePassword 'valecom2018'
         }
@@ -72,4 +72,5 @@ dependencies {
     compile 'com.github.ornolfr:rating-view:0.1.2@aar'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     compile 'com.onesignal:OneSignal:3.4.2@aar'
+    compile 'com.yahoo.mobile.client.android.util.rangeseekbar:rangeseekbar-library:0.1.0'
 }

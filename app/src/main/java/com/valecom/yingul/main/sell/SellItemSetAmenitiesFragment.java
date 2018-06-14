@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.valecom.yingul.R;
+import com.valecom.yingul.Util.Validacion;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,8 +40,9 @@ public class SellItemSetAmenitiesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String amenities = editAmenities.getText().toString();
-                if(amenities=="" || amenities==null){
-                    Toast.makeText(getActivity(),"Ingresar el número de ambientes",Toast.LENGTH_SHORT).show();
+                Validacion val = new Validacion();
+                if(val.validarNumero(editAmenities,amenities)){
+                    editAmenities.setError("Ingresar número de ambientes");
                 }else{
                     ((SellActivity)getActivity()).item.setAmbientes(Integer.parseInt(amenities));
 
