@@ -114,6 +114,7 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
     private LinearLayout layoutFreeShipping,layoutClearFilter,layoutCircleFreeShipping,layoutCircleNew,layoutCircleUsed,layoutDiscounts,layoutCity,layoutSetCity,layoutClearUbication,layoutSetUbication;
     private ImageView imgFreeShipping;
     private TextView txtNew,txtUsed,textDiscount,textUbicationName,textPathUbication;
+    private TextView textPrecio;
 
     private FilterParam filterParams;
     ArrayList<ItemCategoryList> array_cat_list;
@@ -230,14 +231,17 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
         layoutCity = (LinearLayout) findViewById(R.id.layoutCity);
         textUbicationName = (TextView) findViewById(R.id.textUbicationName);
         layoutSetCity = (LinearLayout) findViewById(R.id.layoutSetCity);
+        textPrecio = (TextView)findViewById(R.id.textPrecio);
 
-        RangeSeekBar<Integer> seekBar = new RangeSeekBar<Integer>(FilterActivity.this);
-        seekBar.setRangeValues(0, 100);
+        //RangeSeekBar<Integer> seekBar = new RangeSeekBar<Integer>(FilterActivity.this);
+        RangeSeekBar seekBar = (RangeSeekBar) findViewById(R.id.rangeSeekbar);
+        seekBar.setRangeValues(0, 1000);
 
         seekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
             @Override
             public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
-                Toast.makeText(getApplicationContext(), minValue + "-" + maxValue, Toast.LENGTH_LONG).show();
+                textPrecio.setText(minValue + "/" + maxValue);
+                //Toast.makeText(getApplicationContext(), minValue + "-" + maxValue, Toast.LENGTH_LONG).show();
             }
         });
 
