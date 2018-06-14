@@ -39,7 +39,16 @@ public class SellItemSetTitleFragment extends Fragment {
         switch (((SellActivity)getActivity()).item.getType()){
             case "Motorized":
                 txtTitle.setText("¿Que vehículo quieres vender?");
-                editTitle.setHint("Ejemplo: Renault Clio");
+                editTitleContent.setHint("Ejemplo: Renault Clio");
+                break;
+            case "Property":
+                editTitleContent.setHint("Ejemplo: Casa de 5 ambientes y 2 baños");
+                break;
+            case "Service":
+                editTitleContent.setHint("Ejemplo: Clases particulares de inglés");
+                break;
+            case "Product":
+                editTitleContent.setHint("Ejemplo: Camisa Lacoste hombre manga larga");
                 break;
             default:
                 break;
