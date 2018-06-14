@@ -159,6 +159,10 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
                 intent.putExtra("itemList", json.toJson(array_cat_list).toString());
                 intent.putExtra("filterParams", filterParams);
                 startActivityForResult(intent, ITEM_PICKER_TAG);
+
+                /*for(int i=0;i<array_cat_list.size();i++){
+                    Log.e("envio:----",array_cat_list.get(i).getCategoryListUbication());
+                }*/
             }
         });
         /*****************/
@@ -189,6 +193,12 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
                                 itemPublicSellerList.setCategoryListPrice(jo_inside.getString("price"));
                                 itemPublicSellerList.setCategoryListType(jo_inside.getString("type"));
                                 itemPublicSellerList.setCategoryListMoney(jo_inside.getString("money"));
+                                itemPublicSellerList.setCategoryListCondition(jo_inside.getString("condition"));
+                                itemPublicSellerList.setCategoryListEnvio(jo_inside.getString("productPagoEnvio"));
+                                itemPublicSellerList.setCategoryListOver(jo_inside.getString("over"));
+                                itemPublicSellerList.setCategoryListPriceNormal(jo_inside.getString("priceNormal"));
+                                itemPublicSellerList.setCategoryListPriceDiscount(jo_inside.getString("priceDiscount"));
+                                itemPublicSellerList.setCategoryListUbication(jo_inside.getString("yng_Ubication"));
 
                                 array_cat_list.add(itemPublicSellerList);
 

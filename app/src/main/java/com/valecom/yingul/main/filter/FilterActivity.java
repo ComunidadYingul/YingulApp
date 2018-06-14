@@ -947,6 +947,12 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
             itemPublicSellerList.setCategoryListPrice(jo_inside.getString("CategoryListPrice"));
             itemPublicSellerList.setCategoryListType(jo_inside.getString("CategoryListType"));
             itemPublicSellerList.setCategoryListMoney(jo_inside.getString("CategoryListMoney"));
+            itemPublicSellerList.setCategoryListCondition(jo_inside.getString("CategoryListCondition"));
+            itemPublicSellerList.setCategoryListEnvio(jo_inside.getString("CategoryListEnvio"));
+            itemPublicSellerList.setCategoryListOver(jo_inside.getString("CategoryListOver"));
+            itemPublicSellerList.setCategoryListPriceNormal(jo_inside.getString("CategoryListPriceNormal"));
+            itemPublicSellerList.setCategoryListPriceDiscount(jo_inside.getString("CategoryListPriceDiscount"));
+            itemPublicSellerList.setCategoryListUbication(jo_inside.getString("CategoryListUbication"));
 
             array_cat_list_new.add(itemPublicSellerList);
 

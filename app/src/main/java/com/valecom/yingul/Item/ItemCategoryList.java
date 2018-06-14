@@ -13,6 +13,12 @@ public class ItemCategoryList {
     private String CategoryListDuildedArea;
     private String CategoryListMoney;
     private String CategoryListType;
+    private String CategoryListOver;
+    private String CategoryListEnvio;
+    private String CategoryListCondition;
+    private String CategoryListPriceNormal;
+    private String CategoryListPriceDiscount;
+    private String CategoryListUbication;
 
     private String CategorySeller;
 
@@ -70,5 +76,53 @@ public class ItemCategoryList {
 
     public void setCategoryListType(String categoryListType) {
         CategoryListType = categoryListType;
+    }
+
+    public String getCategoryListOver() {
+        return CategoryListOver;
+    }
+
+    public void setCategoryListOver(String categoryListOver) {
+        CategoryListOver = categoryListOver;
+    }
+
+    public String getCategoryListEnvio() {
+        return CategoryListEnvio;
+    }
+
+    public void setCategoryListEnvio(String categoryListEnvio) {
+        CategoryListEnvio = categoryListEnvio;
+    }
+
+    public String getCategoryListCondition() {
+        return CategoryListCondition;
+    }
+
+    public void setCategoryListCondition(String categoryListCondition) {
+        CategoryListCondition = categoryListCondition;
+    }
+
+    public String getCategoryListPriceNormal() {
+        return CategoryListPriceNormal;
+    }
+
+    public void setCategoryListPriceNormal(String categoryListPriceNormal) {
+        CategoryListPriceNormal = categoryListPriceNormal;
+    }
+
+    public String getCategoryListPriceDiscount() {
+        return CategoryListPriceDiscount;
+    }
+
+    public void setCategoryListPriceDiscount(String categoryListPriceDiscount) {
+        CategoryListPriceDiscount = categoryListPriceDiscount;
+    }
+
+    public String getCategoryListUbication() {
+        return CategoryListUbication;
+    }
+
+    public void setCategoryListUbication(String categoryListUbication) {
+        CategoryListUbication = categoryListUbication;
     }
 }
