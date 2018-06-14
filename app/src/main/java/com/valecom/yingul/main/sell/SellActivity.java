@@ -549,8 +549,36 @@ public class SellActivity extends AppCompatActivity {
     }
     private String encodeImage(Bitmap bm)
     {
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.JPEG,100,baos);
+        int bitmapByteCount=android.support.v4.graphics.BitmapCompat.getAllocationByteCount(bm);
+        int byteCount=bitmapByteCount/1024;
+        Log.e("tamaño byte",""+bitmapByteCount/1024);
+        if(byteCount>0 && byteCount<600) {
+			bm.compress(Bitmap.CompressFormat.JPEG,100,baos);
+		}
+		if(byteCount>=600 && byteCount<1800) {
+			bm.compress(Bitmap.CompressFormat.JPEG,90,baos);
+		}
+		if(byteCount>=1800 && byteCount<3600) {
+			bm.compress(Bitmap.CompressFormat.JPEG,80,baos);
+		}
+		if(byteCount>=3600 && byteCount<10800) {
+			bm.compress(Bitmap.CompressFormat.JPEG,60,baos);
+		}
+		if(byteCount>=10800 && byteCount<32400) {
+			bm.compress(Bitmap.CompressFormat.JPEG,40,baos);
+		}
+		if(byteCount>=32400 && byteCount<40000) {
+			bm.compress(Bitmap.CompressFormat.JPEG,20,baos);
+		}
+		if(byteCount>=40000 && byteCount<50000) {
+			bm.compress(Bitmap.CompressFormat.JPEG,10,baos);
+		}
+		if(byteCount>=50000) {
+			bm.compress(Bitmap.CompressFormat.JPEG,1,baos);
+		}
+
         byte[] b = baos.toByteArray();
         String encImage;
         encImage = Base64.encodeToString(b, Base64.DEFAULT);
