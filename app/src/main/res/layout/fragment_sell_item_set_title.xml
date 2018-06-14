@@ -45,7 +45,6 @@
                 android:id="@+id/editTitle"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="Ej: Clases particulares de inglés."
                 android:singleLine="true"/>
         </android.support.design.widget.TextInputLayout>
 
