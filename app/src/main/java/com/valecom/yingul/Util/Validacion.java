@@ -38,4 +38,14 @@ public class Validacion {
             return false;
         }
     }
+
+    public boolean validarCadena(View view, String cadena){
+        if (cadena.trim().length() < 5)
+        {
+            view.requestFocus();
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

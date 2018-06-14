@@ -52,7 +52,6 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:hint="Marca"
-                        android:text="Toyota"
                         android:singleLine="true"/>
                 </android.support.design.widget.TextInputLayout>
 
@@ -69,7 +68,6 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:hint="Modelo"
-                        android:text="Hilux"
                         android:singleLine="true"/>
                 </android.support.design.widget.TextInputLayout>
 

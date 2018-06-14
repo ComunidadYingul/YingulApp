@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.valecom.yingul.R;
+import com.valecom.yingul.Util.Validacion;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,8 +42,9 @@ public class SellItemSetBrandFragment extends Fragment {
             public void onClick(View v) {
                 String brand = editBrand.getText().toString();
                 String model = editModel.getText().toString();
-                if(brand=="" || brand==null){
-                    Toast.makeText(getActivity(),"Ingresar marca",Toast.LENGTH_SHORT).show();
+                Validacion val = new Validacion();
+                if(val.validarCadena(editBrand,brand)){
+                    editBrand.setError("Ingresar marca");
                 }else{
                     ((SellActivity)getActivity()).motorized.setMotorizedBrand(brand);
                     ((SellActivity)getActivity()).motorized.setMotorizedModel(model);

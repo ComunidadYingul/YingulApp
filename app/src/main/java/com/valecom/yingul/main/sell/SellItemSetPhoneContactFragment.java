@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.valecom.yingul.R;
+import com.valecom.yingul.Util.Validacion;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,8 +40,9 @@ public class SellItemSetPhoneContactFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String phoneContact = editPhoneContact.getText().toString();
-                if(phoneContact=="" || phoneContact==null){
-                    Toast.makeText(getActivity(),"Ingrese telefono",Toast.LENGTH_SHORT).show();
+                Validacion val = new Validacion();
+                if(val.validarNumero(editPhoneContact,phoneContact)){
+                    editPhoneContact.setError("Ingrese teléfono");
                 }else{
                     ((SellActivity)getActivity()).user.setPhone(phoneContact);
 

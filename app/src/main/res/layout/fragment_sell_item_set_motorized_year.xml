@@ -52,7 +52,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:hint="Año"
-                        android:text="2007"
+                        android:inputType="number"
                         android:singleLine="true"/>
                 </android.support.design.widget.TextInputLayout>
 

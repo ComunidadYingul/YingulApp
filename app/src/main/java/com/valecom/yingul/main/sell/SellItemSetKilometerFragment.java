@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.valecom.yingul.R;
+import com.valecom.yingul.Util.Validacion;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,9 +39,10 @@ public class SellItemSetKilometerFragment extends Fragment {
         buttonKilometer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Validacion val = new Validacion();
                 String kilometer = editKilometer.getText().toString();
-                if(kilometer=="" || kilometer==null){
-                    Toast.makeText(getActivity(),"Ingresar peso",Toast.LENGTH_SHORT).show();
+                if(val.validarNumero(editKilometer,kilometer)){
+                    editKilometer.setError("Ingrese kilómetros");
                 }else{
                     ((SellActivity)getActivity()).item.setKilometer(Integer.parseInt(kilometer));
 
