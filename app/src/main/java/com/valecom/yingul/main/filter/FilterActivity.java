@@ -63,6 +63,7 @@ import com.itextpdf.text.pdf.draw.LineSeparator;
 import com.rey.material.widget.Spinner;
 import com.rey.material.widget.Switch;
 import com.squareup.picasso.Picasso;
+import com.valecom.yingul.Item.ItemCategoryList;
 import com.valecom.yingul.R;
 import com.valecom.yingul.adapter.CityAdapter;
 import com.valecom.yingul.adapter.CountryAdapter;
@@ -113,7 +114,8 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
     private ImageView imgFreeShipping;
     private TextView txtNew,txtUsed,textDiscount,textUbicationName,textPathUbication;
 
-    private FilterParam params;
+    private FilterParam filterParams;
+    ArrayList<ItemCategoryList> array_cat_list;
 
     ListView list;
     CountryAdapter adapter;
@@ -172,17 +174,25 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
         toolbar.findViewById(R.id.toolbar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e(TAG,"Clicked");
+                Intent returnIntent = new Intent();
+                Gson json = new Gson();
+                returnIntent.putExtra("itemList", json.toJson(array_cat_list).toString());
+                returnIntent.putExtra("filterParams", filterParams);
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
             }
         });
 
-        params = new FilterParam();
-        params.setFreeShipping(false);
-        params.setCondition("none");
-        params.setDiscount("none");
-        params.setUbication(null);
-        params.setMinPrice(null);
-        params.setMaxPrice(null);
+        //array_cat_list = (ArrayList<ItemCategoryList>)getIntent().getSerializableExtra("itemList");
+        try {
+            array_cat_list=stringToArrayItemCategoryList((String)getIntent().getSerializableExtra("itemList"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        filterParams = (FilterParam)getIntent().getSerializableExtra("filterParams");
+        Gson json = new Gson();
+        Log.e("itemList response",json.toJson(array_cat_list).toString());
+        Log.e("filer response",json.toJson(filterParams).toString());
 
         discount_list = new ArrayList();
         discount_list.add("Todos");
@@ -304,14 +314,14 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
     }
 
     public void setShipping(){
-        params.setFreeShipping(!params.isFreeShipping());
+        filterParams.setFreeShipping(!filterParams.isFreeShipping());
         drawActivity();
     }
     public void setCondition(String cond){
-        if(params.getCondition().equals(cond)){
-            params.setCondition("none");
+        if(filterParams.getCondition().equals(cond)){
+            filterParams.setCondition("none");
         }else{
-            params.setCondition(cond);
+            filterParams.setCondition(cond);
         }
         drawActivity();
     }
@@ -337,19 +347,19 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
                             {
                                 switch (position){
                                     case 0:
-                                        params.setDiscount("all");
+                                        filterParams.setDiscount("all");
                                         break;
                                     case 1:
-                                        params.setDiscount("10");
+                                        filterParams.setDiscount("10");
                                         break;
                                     case 2:
-                                        params.setDiscount("20");
+                                        filterParams.setDiscount("20");
                                         break;
                                     case 3:
-                                        params.setDiscount("30");
+                                        filterParams.setDiscount("30");
                                         break;
                                     case 4:
-                                        params.setDiscount("40");
+                                        filterParams.setDiscount("40");
                                         break;
                                 }
                                 drawActivity();
@@ -369,7 +379,7 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
     }
     public void setCountry(){
         setting_address_edit_dialog = new MaterialDialog.Builder(this)
-                .customView(R.layout.filter_set_country_layout, true)
+                .customView(R.layout.filter_set_country_layout, false)
                 .cancelable(true)
                 .showListener(new DialogInterface.OnShowListener()
                 {
@@ -389,7 +399,7 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
                             @Override
                             public void onClick(View v)
                             {
-                                params.setUbication(null);
+                                filterParams.setUbication(null);
                                 drawActivity();
                                 if (setting_address_edit_dialog != null && setting_address_edit_dialog.isShowing()) {
                                     // If the response is JSONObject instead of expected JSONArray
@@ -427,7 +437,7 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
     }
     public void setProvince(){
         setting_address_edit_dialog = new MaterialDialog.Builder(this)
-                .customView(R.layout.filter_set_country_layout, true)
+                .customView(R.layout.filter_set_country_layout, false)
                 .cancelable(true)
                 .showListener(new DialogInterface.OnShowListener()
                 {
@@ -447,7 +457,7 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
                             @Override
                             public void onClick(View v)
                             {
-                                params.setUbication(null);
+                                filterParams.setUbication(null);
                                 RunGetCountryService();
                                 if (setting_address_edit_dialog != null && setting_address_edit_dialog.isShowing()) {
                                     // If the response is JSONObject instead of expected JSONArray
@@ -460,8 +470,8 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
                             @Override
                             public void onClick(View v)
                             {
-                                params.setUbication(new Yng_Ubication());
-                                params.getUbication().setYng_Country(country);
+                                filterParams.setUbication(new Yng_Ubication());
+                                filterParams.getUbication().setYng_Country(country);
                                 drawActivity();
                                 if (setting_address_edit_dialog != null && setting_address_edit_dialog.isShowing()) {
                                     // If the response is JSONObject instead of expected JSONArray
@@ -498,7 +508,7 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
     }
     public void setCity(){
         setting_address_edit_dialog = new MaterialDialog.Builder(this)
-                .customView(R.layout.filter_set_country_layout, true)
+                .customView(R.layout.filter_set_country_layout, false)
                 .cancelable(true)
                 .showListener(new DialogInterface.OnShowListener()
                 {
@@ -518,7 +528,7 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
                             @Override
                             public void onClick(View v)
                             {
-                                params.setUbication(null);
+                                filterParams.setUbication(null);
                                 RunGetCountryService();
                                 if (setting_address_edit_dialog != null && setting_address_edit_dialog.isShowing()) {
                                     // If the response is JSONObject instead of expected JSONArray
@@ -531,9 +541,9 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
                             @Override
                             public void onClick(View v)
                             {
-                                params.setUbication(new Yng_Ubication());
-                                params.getUbication().setYng_Country(country);
-                                params.getUbication().setYng_Province(province);
+                                filterParams.setUbication(new Yng_Ubication());
+                                filterParams.getUbication().setYng_Country(country);
+                                filterParams.getUbication().setYng_Province(province);
                                 drawActivity();
                                 if (setting_address_edit_dialog != null && setting_address_edit_dialog.isShowing()) {
                                     // If the response is JSONObject instead of expected JSONArray
@@ -542,7 +552,7 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
                             }
                         });
 
-                        textPathUbication.setText("Todas > "+country.getName()+" > "+province.getName());
+                        textPathUbication.setText("Todas > "+country.getName()+" > "+province.getName().substring(0,7)+"...");
 
                         list = (ListView) view.findViewById(R.id.list);
                         list.setAdapter(adapter2);
@@ -553,10 +563,10 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
                             {
                                 Yng_City getCity = adapter2.getItem(position);
                                 city=getCity;
-                                params.setUbication(new Yng_Ubication());
-                                params.getUbication().setYng_Country(country);
-                                params.getUbication().setYng_Province(province);
-                                params.getUbication().setYng_City(city);
+                                filterParams.setUbication(new Yng_Ubication());
+                                filterParams.getUbication().setYng_Country(country);
+                                filterParams.getUbication().setYng_Province(province);
+                                filterParams.getUbication().setYng_City(city);
                                 drawActivity();
                                 if (setting_address_edit_dialog != null && setting_address_edit_dialog.isShowing()) {
                                     // If the response is JSONObject instead of expected JSONArray
@@ -574,33 +584,33 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
     }
 
     public void drawActivity(){
-        if(params.isFreeShipping()){
+        if(filterParams.isFreeShipping()){
             Picasso.with(this).load("file:///android_asset/image/car.png").into(imgFreeShipping);
             layoutCircleFreeShipping.setBackgroundResource(R.drawable.circle_background_white);
         }else{
             Picasso.with(this).load("file:///android_asset/image/carwhite.png").into(imgFreeShipping);
             layoutCircleFreeShipping.setBackgroundResource(R.drawable.circle_margin_white);
         }
-        if(params.getUbication()==null){
+        if(filterParams.getUbication()==null){
             layoutCity.setVisibility(View.GONE);
         }else{
             layoutCity.setVisibility(View.VISIBLE);
-            if(params.getUbication().getYng_City()==null){
-                if(params.getUbication().getYng_Province()==null){
-                    if(params.getUbication().getYng_Country()==null){
-                        params.setUbication(null);
+            if(filterParams.getUbication().getYng_City()==null){
+                if(filterParams.getUbication().getYng_Province()==null){
+                    if(filterParams.getUbication().getYng_Country()==null){
+                        filterParams.setUbication(null);
                         layoutCity.setVisibility(View.GONE);
                     }else{
-                        textUbicationName.setText(params.getUbication().getYng_Country().getName());
+                        textUbicationName.setText(filterParams.getUbication().getYng_Country().getName());
                     }
                 }else{
-                    textUbicationName.setText(params.getUbication().getYng_Province().getName());
+                    textUbicationName.setText(filterParams.getUbication().getYng_Province().getName());
                 }
             }else{
-                textUbicationName.setText(params.getUbication().getYng_City().getName());
+                textUbicationName.setText(filterParams.getUbication().getYng_City().getName());
             }
         }
-        switch (params.getCondition()){
+        switch (filterParams.getCondition()){
             case "none":
                 layoutCircleNew.setBackgroundResource(R.drawable.oval_margin_white);
                 layoutCircleUsed.setBackgroundResource(R.drawable.oval_margin_white);
@@ -620,7 +630,7 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
                 txtNew.setTextColor(getResources().getColor(R.color.white));
                 break;
         }
-        switch (params.getDiscount()){
+        switch (filterParams.getDiscount()){
             case "none":
                 textDiscount.setText("Elegir");
                 break;
@@ -644,10 +654,10 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
     }
 
     public void cleanFilter(){
-        params.setFreeShipping(false);
-        params.setCondition("none");
-        params.setDiscount("none");
-        params.setUbication(null);
+        filterParams.setFreeShipping(false);
+        filterParams.setCondition("none");
+        filterParams.setDiscount("none");
+        filterParams.setUbication(null);
         drawActivity();
     }
 
@@ -920,5 +930,28 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
 
         MySingleton.getInstance(FilterActivity.this).addToRequestQueue(postRequest);
 
+    }
+
+    public ArrayList<ItemCategoryList> stringToArrayItemCategoryList(String itemList) throws JSONException {
+        ArrayList<ItemCategoryList> array_cat_list_new= new ArrayList<>();
+
+        JSONArray m_jArry = new JSONArray(itemList);
+        Log.e("Eddy",m_jArry.toString());
+        for (int i = 0; i < m_jArry.length(); i++) {
+            JSONObject jo_inside = m_jArry.getJSONObject(i);
+            ItemCategoryList itemPublicSellerList = new ItemCategoryList();
+            itemPublicSellerList.setCategoryListId(jo_inside.getString("CategoryListId"));
+            itemPublicSellerList.setCategoryListName(jo_inside.getString("CategoryListName"));
+            itemPublicSellerList.setCategoryListImage(jo_inside.getString("CategoryListImage"));
+            itemPublicSellerList.setCategoryListDescription(jo_inside.getString("CategoryListDescription"));
+            itemPublicSellerList.setCategoryListPrice(jo_inside.getString("CategoryListPrice"));
+            itemPublicSellerList.setCategoryListType(jo_inside.getString("CategoryListType"));
+            itemPublicSellerList.setCategoryListMoney(jo_inside.getString("CategoryListMoney"));
+
+            array_cat_list_new.add(itemPublicSellerList);
+
+        }
+
+        return array_cat_list_new;
     }
 }

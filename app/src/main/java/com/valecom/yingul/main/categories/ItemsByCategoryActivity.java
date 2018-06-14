@@ -25,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.Gson;
 import com.valecom.yingul.Item.ItemCategoryList;
 import com.valecom.yingul.Item.ItemColorSize;
 import com.valecom.yingul.R;
@@ -36,6 +37,7 @@ import com.valecom.yingul.adapter.SelectSizeAdapter;
 import com.valecom.yingul.main.MainActivity;
 import com.valecom.yingul.main.filter.FilterActivity;
 import com.valecom.yingul.main.store.ActivityStore;
+import com.valecom.yingul.model.FilterParam;
 import com.valecom.yingul.model.Yng_StateShipping;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
@@ -52,7 +54,7 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
 
     RecyclerView recycler_cat_list;
     ListGridAdapter adapter_cat_list;
-    ArrayList<ItemCategoryList> array_cat_list;
+    ArrayList<ItemCategoryList> array_cat_list;//ArrayList<Yng_Item> array_cat_list;
     ListRowAdapter adapter_cat_list_listview;
     TextView txtNoOfItem;
     ImageView ImgList,ImgGrid,ImgFilter;
@@ -69,7 +71,11 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
 
     String categoryId;
     private MaterialDialog setting_address_edit_dialog;
-
+    /******filtros*****/
+    static final int ITEM_PICKER_TAG = 1;
+    ArrayList<ItemCategoryList> array_cat_list_backup;
+    private FilterParam filterParams;
+    /*********/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +98,18 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
                 .cancelable(false)
                 .progress(true, 0).build();
 
+        /*******filtros******/
+        filterParams = new FilterParam();
+        filterParams.setFreeShipping(false);
+        filterParams.setCondition("none");
+        filterParams.setDiscount("none");
+        filterParams.setUbication(null);
+        filterParams.setMinPrice(null);
+        filterParams.setMaxPrice(null);
+        /*************/
+
         array_cat_list = new ArrayList<>();
+        array_cat_list_backup = new ArrayList<>();
         //AdView mAdView = (AdView) findViewById(R.id.adView);
         //mAdView.loadAd(new AdRequest.Builder().build());
 
@@ -133,16 +150,18 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
                 ImgGrid.setImageResource(R.drawable.ic_grid);
             }
         });
-
+        /*******filtro********/
         lay_filter_click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ItemsByCategoryActivity.this, FilterActivity.class);
-                finish();
-                startActivity(intent);
+                Gson json = new Gson();
+                intent.putExtra("itemList", json.toJson(array_cat_list).toString());
+                intent.putExtra("filterParams", filterParams);
+                startActivityForResult(intent, ITEM_PICKER_TAG);
             }
         });
-
+        /*****************/
         loadJSONFromAssetCategoryList();
 
     }
@@ -174,6 +193,7 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
                                 array_cat_list.add(itemPublicSellerList);
 
                             }
+                            array_cat_list_backup=array_cat_list;
                             setAdapterHomeCategoryList();
 
                             /**/
@@ -284,4 +304,49 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
         recycler_cat_list.setAdapter(adapter_cat_list);
     }
 
+    /**************filtros**************/
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        // Check which request we're responding to
+        if (requestCode == ITEM_PICKER_TAG) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                try {
+                    array_cat_list=stringToArrayItemCategoryList((String)data.getSerializableExtra("itemList"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                filterParams = (FilterParam)data.getSerializableExtra("filterParams");
+                Gson json = new Gson();
+                Log.e("itemList response",json.toJson(array_cat_list).toString());
+                Log.e("filer response",json.toJson(filterParams).toString());
+                setAdapterHomeCategoryList();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public ArrayList<ItemCategoryList> stringToArrayItemCategoryList(String itemList) throws JSONException {
+        ArrayList<ItemCategoryList> array_cat_list_new= new ArrayList<>();
+
+        JSONArray m_jArry = new JSONArray(itemList);
+        Log.e("Eddy",m_jArry.toString());
+        for (int i = 0; i < m_jArry.length(); i++) {
+            JSONObject jo_inside = m_jArry.getJSONObject(i);
+            ItemCategoryList itemPublicSellerList = new ItemCategoryList();
+            itemPublicSellerList.setCategoryListId(jo_inside.getString("CategoryListId"));
+            itemPublicSellerList.setCategoryListName(jo_inside.getString("CategoryListName"));
+            itemPublicSellerList.setCategoryListImage(jo_inside.getString("CategoryListImage"));
+            itemPublicSellerList.setCategoryListDescription(jo_inside.getString("CategoryListDescription"));
+            itemPublicSellerList.setCategoryListPrice(jo_inside.getString("CategoryListPrice"));
+            itemPublicSellerList.setCategoryListType(jo_inside.getString("CategoryListType"));
+            itemPublicSellerList.setCategoryListMoney(jo_inside.getString("CategoryListMoney"));
+
+            array_cat_list_new.add(itemPublicSellerList);
+
+        }
+
+        return array_cat_list_new;
+    }
 }
