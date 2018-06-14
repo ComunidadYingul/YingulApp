@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.valecom.yingul.R;
+import com.valecom.yingul.Util.Validacion;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,8 +40,9 @@ public class SellItemSetAreaFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String area = editArea.getText().toString();
-                if(area=="" || area==null){
-                    Toast.makeText(getActivity(),"Ingresar marca",Toast.LENGTH_SHORT).show();
+                Validacion val = new Validacion();
+                if(val.validarNumero(editArea,area)){
+                    editArea.setError("Ingrese la superficie total");
                 }else{
                     ((SellActivity)getActivity()).property.setPropertyTotalArea(area);
 

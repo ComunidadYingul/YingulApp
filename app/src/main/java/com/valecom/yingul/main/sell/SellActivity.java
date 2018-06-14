@@ -46,6 +46,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -669,7 +670,11 @@ public class SellActivity extends AppCompatActivity {
 
     /**************************** METODO DANNY *******************************/
     public void  requestArrayPost(String url, String json){
-        OkHttpClient httpClient = new OkHttpClient();
+        OkHttpClient httpClient = new OkHttpClient.Builder()
+                .connectTimeout(9000, TimeUnit.SECONDS)
+                .writeTimeout(9000, TimeUnit.SECONDS)
+                .readTimeout(9000, TimeUnit.SECONDS)
+                .build();
         RequestBody body = RequestBody.create(JSON, json);
         okhttp3.Request request = new okhttp3.Request.Builder()
                 .url(url)

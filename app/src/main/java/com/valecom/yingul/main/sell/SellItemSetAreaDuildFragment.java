@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.valecom.yingul.R;
+import com.valecom.yingul.Util.Validacion;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,8 +40,9 @@ public class SellItemSetAreaDuildFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String areaDuild = editAreaDuild.getText().toString();
-                if(areaDuild=="" || areaDuild==null){
-                    Toast.makeText(getActivity(),"Ingresar superficie cubierta",Toast.LENGTH_SHORT).show();
+                Validacion val = new Validacion();
+                if(val.validarNumero(editAreaDuild,areaDuild)){
+                    editAreaDuild.setError("Ingrese la superficie cubierta");
                 }else{
                     ((SellActivity)getActivity()).item.setDuildedArea(Integer.parseInt(areaDuild));
 
