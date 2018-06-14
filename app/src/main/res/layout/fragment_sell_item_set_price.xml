@@ -82,7 +82,6 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:hint="Precio"
-                    android:text="3234"
                     android:singleLine="true"
                     android:inputType="numberDecimal"/>
             </android.support.design.widget.TextInputLayout>

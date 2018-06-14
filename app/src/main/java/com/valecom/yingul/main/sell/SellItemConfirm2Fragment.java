@@ -47,7 +47,7 @@ public class SellItemConfirm2Fragment extends Fragment {
         editTitle.setText(((SellActivity)getActivity()).item.getName());
         editPrice.setText(valor);
         editDescription.setText(((SellActivity)getActivity()).aditionalDescription);
-        if(((SellActivity)getActivity()).item.getCondition()=="New")
+        if(((SellActivity)getActivity()).product.getProductCondition().equals("Nuevo"))
             editCondition.setText("Nuevo");
         else
             editCondition.setText("Usado");

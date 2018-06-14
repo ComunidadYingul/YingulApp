@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.valecom.yingul.R;
+import com.valecom.yingul.Util.Validacion;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,9 +39,10 @@ public class SellItemSetQuantityFragment extends Fragment {
         buttonQuantity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Validacion val = new Validacion();
                 String quantity = editQuantity.getText().toString();
-                if(quantity=="" || quantity==null){
-                    Toast.makeText(getActivity(),"Ingresar Cantidad",Toast.LENGTH_SHORT).show();
+                if(val.validarNumero(editQuantity,quantity)){
+                    editQuantity.setError("Ingresa cuantos deseas publicar");
                 }else{
                     ((SellActivity)getActivity()).item.setQuantity(Integer.parseInt(quantity));
 

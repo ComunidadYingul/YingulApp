@@ -40,8 +40,9 @@ public class SellItemSetWeightFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String weight = editWeight.getText().toString();
-                if(weight=="" || weight==null){
-                    Toast.makeText(getActivity(),"Ingresar peso",Toast.LENGTH_SHORT).show();
+                if(weight.trim().length()==0){
+                    editWeight.setError("Ingrese el peso de su producto");
+                    editWeight.requestFocus();
                 }else{
                     ((SellActivity)getActivity()).product.setProductWeight(Integer.parseInt(weight));
 

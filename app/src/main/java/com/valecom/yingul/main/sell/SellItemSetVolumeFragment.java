@@ -54,12 +54,16 @@ public class SellItemSetVolumeFragment extends Fragment {
 
                 if(editWidth.getText().toString().trim().length() == 0) {
                     editWidthContent.setError("Ingresar ancho");
+                    editWidthContent.requestFocus();
                 }else if(editHeight.getText().toString().trim().length() == 0){
                     editHeightContent.setError("Ingresar Altura");
+                    editHeightContent.requestFocus();
                 }else if(editLength.getText().toString().trim().length() == 0){
                     editLengthContent.setError("Ingresar longitud");
+                    editLengthContent.requestFocus();
                 }else if(txtVolume.getText().toString().trim().length() == 0){
                     txtVolumeContent.setError("Ingresar volumen");
+                    txtVolumeContent.requestFocus();
                 }
                 else{
 

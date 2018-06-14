@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.valecom.yingul.R;
+import com.valecom.yingul.Util.Validacion;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,8 +58,10 @@ public class SellItemSetTitleFragment extends Fragment {
         buttonSetTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(editTitle.getText().toString().trim().length() == 0){
-                    editTitleContent.setError("Ingresar título");
+                Validacion val=new Validacion();
+                if(val.validarCadena(editTitle.getText().toString())){
+                    editTitleContent.setError("Ingresar título no menos de 5 caracteres");
+                    editTitleContent.requestFocus();
                 }else{
                     ((SellActivity)getActivity()).setItemTitle(editTitle.getText().toString().trim());
                 }
