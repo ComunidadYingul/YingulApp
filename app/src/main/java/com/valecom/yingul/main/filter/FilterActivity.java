@@ -116,6 +116,7 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
 
     private FilterParam filterParams;
     ArrayList<ItemCategoryList> array_cat_list;
+    ArrayList<ItemCategoryList> array_cat_list_filter;
 
     ListView list;
     CountryAdapter adapter;
@@ -182,8 +183,10 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
                 finish();
             }
         });
+        array_cat_list = new ArrayList<>();
+        array_cat_list_filter = new ArrayList<>();
+        filterParams = new FilterParam();
 
-        //array_cat_list = (ArrayList<ItemCategoryList>)getIntent().getSerializableExtra("itemList");
         try {
             array_cat_list=stringToArrayItemCategoryList((String)getIntent().getSerializableExtra("itemList"));
         } catch (JSONException e) {
@@ -302,7 +305,21 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
         int id = item.getItemId();
         if (id == R.id.action_save)
         {
-
+            Intent returnIntent = new Intent();
+            Gson json = new Gson();
+            if(!filterParams.isFreeShipping()&&filterParams.getCondition().equals("none")&&filterParams.getDiscount().equals("none")&&filterParams.getUbication()==null){
+                returnIntent.putExtra("itemList", "clean");
+            }else{
+                if(filterParams.isFreeShipping()){
+                    filterFreeShipping();
+                }
+                filterCondition(filterParams.getCondition());
+                //filterDiscount(filterParams.getDiscount());
+                returnIntent.putExtra("itemList", json.toJson(array_cat_list_filter).toString());
+            }
+            returnIntent.putExtra("filterParams", filterParams);
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -960,4 +977,35 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
 
         return array_cat_list_new;
     }
+
+    public void filterFreeShipping(){
+        for (ItemCategoryList itemCategoryList : array_cat_list){
+            if(itemCategoryList.getCategoryListEnvio().equals("gratis")){
+                array_cat_list_filter.add(itemCategoryList);
+            }
+        }
+        array_cat_list=array_cat_list_filter;
+    }
+    public void filterCondition(String cond){
+        switch (filterParams.getCondition()){
+            case "new":
+                for (ItemCategoryList itemCategoryList : array_cat_list){
+                    if(itemCategoryList.getCategoryListCondition().equals("New")){
+                        array_cat_list_filter.add(itemCategoryList);
+                    }
+                }
+                break;
+            case "used":
+                for (ItemCategoryList itemCategoryList : array_cat_list){
+                    if(itemCategoryList.getCategoryListCondition().equals("Used")){
+                        array_cat_list_filter.add(itemCategoryList);
+                    }
+                }
+                break;
+        }
+        array_cat_list=array_cat_list_filter;
+    }
+    /*public void filterDiscount(){
+
+    }*/
 }

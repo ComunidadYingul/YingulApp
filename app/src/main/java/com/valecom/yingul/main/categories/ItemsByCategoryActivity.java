@@ -156,13 +156,10 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ItemsByCategoryActivity.this, FilterActivity.class);
                 Gson json = new Gson();
-                intent.putExtra("itemList", json.toJson(array_cat_list).toString());
+                intent.putExtra("itemList", json.toJson(array_cat_list_backup).toString());
                 intent.putExtra("filterParams", filterParams);
                 startActivityForResult(intent, ITEM_PICKER_TAG);
 
-                /*for(int i=0;i<array_cat_list.size();i++){
-                    Log.e("envio:----",array_cat_list.get(i).getCategoryListUbication());
-                }*/
             }
         });
         /*****************/
@@ -322,10 +319,14 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
         if (requestCode == ITEM_PICKER_TAG) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
-                try {
-                    array_cat_list=stringToArrayItemCategoryList((String)data.getSerializableExtra("itemList"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if(((String)data.getSerializableExtra("itemList")).equals("clean")){
+                    array_cat_list=array_cat_list_backup;
+                }else{
+                    try {
+                        array_cat_list=stringToArrayItemCategoryList((String)data.getSerializableExtra("itemList"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
                 filterParams = (FilterParam)data.getSerializableExtra("filterParams");
                 Gson json = new Gson();
@@ -341,7 +342,7 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
         ArrayList<ItemCategoryList> array_cat_list_new= new ArrayList<>();
 
         JSONArray m_jArry = new JSONArray(itemList);
-        Log.e("Eddy",m_jArry.toString());
+
         for (int i = 0; i < m_jArry.length(); i++) {
             JSONObject jo_inside = m_jArry.getJSONObject(i);
             ItemCategoryList itemPublicSellerList = new ItemCategoryList();
@@ -352,6 +353,12 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
             itemPublicSellerList.setCategoryListPrice(jo_inside.getString("CategoryListPrice"));
             itemPublicSellerList.setCategoryListType(jo_inside.getString("CategoryListType"));
             itemPublicSellerList.setCategoryListMoney(jo_inside.getString("CategoryListMoney"));
+            itemPublicSellerList.setCategoryListCondition(jo_inside.getString("CategoryListCondition"));
+            itemPublicSellerList.setCategoryListEnvio(jo_inside.getString("CategoryListEnvio"));
+            itemPublicSellerList.setCategoryListOver(jo_inside.getString("CategoryListOver"));
+            itemPublicSellerList.setCategoryListPriceNormal(jo_inside.getString("CategoryListPriceNormal"));
+            itemPublicSellerList.setCategoryListPriceDiscount(jo_inside.getString("CategoryListPriceDiscount"));
+            itemPublicSellerList.setCategoryListUbication(jo_inside.getString("CategoryListUbication"));
 
             array_cat_list_new.add(itemPublicSellerList);
 
