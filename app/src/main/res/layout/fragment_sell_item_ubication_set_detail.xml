@@ -44,7 +44,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Calle"
-                android:text="Juan Oquendo"
                 android:singleLine="true"/>
         </android.support.design.widget.TextInputLayout>
 
@@ -74,8 +73,8 @@
                         android:id="@+id/editNumber"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Number"
-                        android:text="654"
+                        android:hint="Número"
+                        android:inputType="number"
                         android:singleLine="true" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.valecom.yingul.R;
+import com.valecom.yingul.Util.Validacion;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,8 +51,13 @@ public class SellItemSetDescriptionFragment extends Fragment {
         buttonSetDescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((SellActivity)getActivity()).includes=editDescription.getText().toString();
-                //if(((SellActivity)getActivity()).item.getType()=="Service"){
+                String incluye = editDescription.getText().toString();
+                Validacion val = new Validacion();
+                if(val.validarCadena(editDescription,incluye)){
+                    editDescription.setError("Debes especificar que incluye tu servicio");
+                }else{
+                    ((SellActivity)getActivity()).includes=editDescription.getText().toString();
+                    //if(((SellActivity)getActivity()).item.getType()=="Service"){
                     SellItemSetDescription1Fragment fragment = new SellItemSetDescription1Fragment();
                     FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.content_frame, fragment);
@@ -66,6 +72,7 @@ public class SellItemSetDescriptionFragment extends Fragment {
                     fragmentTransaction.commit();
                 }*/
 
+                }
             }
         });
         return v;

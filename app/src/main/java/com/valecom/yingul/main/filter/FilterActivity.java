@@ -986,12 +986,10 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
             itemPublicSellerList.setCategoryListPriceDiscount(jo_inside.getString("CategoryListPriceDiscount"));
 
             Gson gson = new Gson();
-            Yng_Ubication yngUbication = gson.fromJson(jo_inside.getString("yng_Ubication"), Yng_Ubication.class);
+            Yng_Ubication yngUbication = gson.fromJson(jo_inside.getString("CategoryListUbication"), Yng_Ubication.class);
             itemPublicSellerList.setCategoryListUbication(yngUbication);
 
-
-
-            //itemPublicSellerList.setCategoryListUbication(jo_inside.getString("CategoryListUbication"));
+            //Log.e("recibe",itemPublicSellerList.getCategoryListId()+"");
 
             array_cat_list_new.add(itemPublicSellerList);
 
