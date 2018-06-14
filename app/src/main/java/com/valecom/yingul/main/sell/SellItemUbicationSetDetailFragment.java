@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.valecom.yingul.R;
+import com.valecom.yingul.Util.Validacion;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,7 +38,17 @@ public class SellItemUbicationSetDetailFragment extends Fragment {
         buttonSetUbicationDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((SellActivity)getActivity()).setUbicationDetail(editStreet.getText().toString(),editNumber.getText().toString());
+                String street = editStreet.getText().toString();
+                String number = editNumber.getText().toString();
+                Validacion val = new Validacion();
+                if(val.validarCadena(editStreet,street)){
+                    editStreet.setError("Ingrese calle");
+                }else if(val.validarNumero(editNumber,number)){
+                    editNumber.setError("Ingrese número");
+                }
+                else{
+                    ((SellActivity)getActivity()).setUbicationDetail(editStreet.getText().toString(),editNumber.getText().toString());
+                }
             }
         });
         return v;

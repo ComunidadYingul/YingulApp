@@ -201,6 +201,8 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
                                 Yng_Ubication yngUbication = gson.fromJson(jo_inside.getString("yng_Ubication"), Yng_Ubication.class);
                                 itemPublicSellerList.setCategoryListUbication(yngUbication);
 
+                                //Log.e("envia",jo_inside.getString("yng_Ubication"));
+
                                 array_cat_list.add(itemPublicSellerList);
 
                             }
@@ -367,6 +369,9 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
             Yng_Ubication yngUbication = gson.fromJson(jo_inside.getString("yng_Ubication"), Yng_Ubication.class);
             itemPublicSellerList.setCategoryListUbication(yngUbication);
             //itemPublicSellerList.setCategoryListUbication(jo_inside.getString("CategoryListUbication"));
+
+            Log.e("envia",itemPublicSellerList.getCategoryListId()+"");
+
 
             array_cat_list_new.add(itemPublicSellerList);
 

@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.valecom.yingul.R;
+import com.valecom.yingul.Util.Validacion;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,12 +35,18 @@ public class SellItemSetDescription1Fragment extends Fragment {
         buttonSetDescription1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((SellActivity)getActivity()).notInclude=editDescription1.getText().toString();
-                SellItemSetDescription2Fragment fragment = new SellItemSetDescription2Fragment();
-                FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                String noIncluye = editDescription1.getText().toString();
+                Validacion val = new Validacion();
+                if(val.validarCadena(editDescription1,noIncluye)){
+                    editDescription1.setError("Debes especificar que no incluye tu servicio");
+                }else {
+                    ((SellActivity) getActivity()).notInclude = editDescription1.getText().toString();
+                    SellItemSetDescription2Fragment fragment = new SellItemSetDescription2Fragment();
+                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.content_frame, fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
             }
         });
         return v;
