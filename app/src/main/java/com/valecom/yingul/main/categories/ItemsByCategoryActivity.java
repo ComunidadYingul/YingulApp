@@ -39,6 +39,7 @@ import com.valecom.yingul.main.filter.FilterActivity;
 import com.valecom.yingul.main.store.ActivityStore;
 import com.valecom.yingul.model.FilterParam;
 import com.valecom.yingul.model.Yng_StateShipping;
+import com.valecom.yingul.model.Yng_Ubication;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
 
@@ -198,7 +199,10 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
                                 itemPublicSellerList.setCategoryListOver(jo_inside.getString("over"));
                                 itemPublicSellerList.setCategoryListPriceNormal(jo_inside.getString("priceNormal"));
                                 itemPublicSellerList.setCategoryListPriceDiscount(jo_inside.getString("priceDiscount"));
-                                itemPublicSellerList.setCategoryListUbication(jo_inside.getString("yng_Ubication"));
+
+                                Gson gson = new Gson();
+                                Yng_Ubication yngUbication = gson.fromJson(jo_inside.getString("yng_Ubication"), Yng_Ubication.class);
+                                itemPublicSellerList.setCategoryListUbication(yngUbication);
 
                                 array_cat_list.add(itemPublicSellerList);
 

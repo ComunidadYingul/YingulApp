@@ -87,6 +87,7 @@ import com.valecom.yingul.model.Yng_Ubication;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+import com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -226,6 +227,19 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
         layoutCity = (LinearLayout) findViewById(R.id.layoutCity);
         textUbicationName = (TextView) findViewById(R.id.textUbicationName);
         layoutSetCity = (LinearLayout) findViewById(R.id.layoutSetCity);
+
+        RangeSeekBar<Integer> seekBar = new RangeSeekBar<Integer>(FilterActivity.this);
+        seekBar.setRangeValues(0, 100);
+
+        seekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
+            @Override
+            public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
+                Toast.makeText(getApplicationContext(), minValue + "-" + maxValue, Toast.LENGTH_LONG).show();
+            }
+        });
+
+        // Get noticed while dragging
+        seekBar.setNotifyWhileDragging(true);
 
         layoutFreeShipping.setOnClickListener(new View.OnClickListener()
         {
@@ -952,7 +966,14 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
             itemPublicSellerList.setCategoryListOver(jo_inside.getString("CategoryListOver"));
             itemPublicSellerList.setCategoryListPriceNormal(jo_inside.getString("CategoryListPriceNormal"));
             itemPublicSellerList.setCategoryListPriceDiscount(jo_inside.getString("CategoryListPriceDiscount"));
-            itemPublicSellerList.setCategoryListUbication(jo_inside.getString("CategoryListUbication"));
+
+            Gson gson = new Gson();
+            Yng_Ubication yngUbication = gson.fromJson(jo_inside.getString("yng_Ubication"), Yng_Ubication.class);
+            itemPublicSellerList.setCategoryListUbication(yngUbication);
+
+
+
+            //itemPublicSellerList.setCategoryListUbication(jo_inside.getString("CategoryListUbication"));
 
             array_cat_list_new.add(itemPublicSellerList);
 

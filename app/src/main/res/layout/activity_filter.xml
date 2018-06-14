@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -272,6 +271,105 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:weightSum="3">
+
+                    <!--com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
+                        android:id="@+id/rangeSeekbar3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:bar_color="#9299A1"
+                        app:bar_highlight_color="#FF5152"
+                        app:corner_radius="5"
+                        app:data_type="_integer"
+                        app:gap="500"
+                        app:left_thumb_color="#FF5152"
+                        app:left_thumb_color_pressed="#FF5152"
+                        app:right_thumb_color="#FF5152"
+                        app:right_thumb_color_pressed="#FF5152" /-->
+                    <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
+                        android:id="@+id/rangeSeekbar"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"/>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <Button
+                            android:id="@+id/btn_seek_price_min"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="5dp"
+                            android:textAllCaps="false"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/price_button"
+                            android:text=""
+                            android:textColor="@color/white" />
+
+                        <Button
+                            android:id="@+id/btn_seek_price_max"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_gravity="center"
+                            android:textAllCaps="false"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/price_button"
+                            android:text=""
+                            android:textColor="@color/white" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 <LinearLayout
                     android:layout_width="match_parent"

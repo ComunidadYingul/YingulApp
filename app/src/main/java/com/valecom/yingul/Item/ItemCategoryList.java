@@ -1,5 +1,7 @@
 package com.valecom.yingul.Item;
 
+import com.valecom.yingul.model.Yng_Ubication;
+
 /**
  * Created by gonzalo on 14-05-18.
  */
@@ -18,7 +20,7 @@ public class ItemCategoryList {
     private String CategoryListCondition;
     private String CategoryListPriceNormal;
     private String CategoryListPriceDiscount;
-    private String CategoryListUbication;
+    private Yng_Ubication CategoryListUbication;
 
     private String CategorySeller;
 
@@ -118,11 +120,11 @@ public class ItemCategoryList {
         CategoryListPriceDiscount = categoryListPriceDiscount;
     }
 
-    public String getCategoryListUbication() {
+    public Yng_Ubication getCategoryListUbication() {
         return CategoryListUbication;
     }
 
-    public void setCategoryListUbication(String categoryListUbication) {
+    public void setCategoryListUbication(Yng_Ubication categoryListUbication) {
         CategoryListUbication = categoryListUbication;
     }
 }
