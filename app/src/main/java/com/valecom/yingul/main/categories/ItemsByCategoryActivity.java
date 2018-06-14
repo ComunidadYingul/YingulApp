@@ -362,7 +362,9 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
             itemPublicSellerList.setCategoryListOver(jo_inside.getString("CategoryListOver"));
             itemPublicSellerList.setCategoryListPriceNormal(jo_inside.getString("CategoryListPriceNormal"));
             itemPublicSellerList.setCategoryListPriceDiscount(jo_inside.getString("CategoryListPriceDiscount"));
-            itemPublicSellerList.setCategoryListUbication(jo_inside.getString("CategoryListUbication"));
+            Gson gson = new Gson();
+            Yng_Ubication yngUbication = gson.fromJson(jo_inside.getString("yng_Ubication"), Yng_Ubication.class);
+            itemPublicSellerList.setCategoryListUbication(yngUbication);
 
             array_cat_list_new.add(itemPublicSellerList);
 
