@@ -2,6 +2,7 @@ package com.valecom.yingul.main;
 
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +36,7 @@ import com.valecom.yingul.adapter.AllCategoryHomeAdapter;
 import com.valecom.yingul.adapter.CategoryListAdapter;
 import com.valecom.yingul.adapter.LatestListAdapter;
 import com.valecom.yingul.adapter.StoreHomeAdapter;
+import com.valecom.yingul.main.buy.BuyActivity;
 import com.valecom.yingul.model.Yng_User;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
@@ -86,6 +89,7 @@ public class PrincipalFragment extends Fragment {
     private MaterialDialog progressDialog;
     private FragmentManager fragmentManager;
 
+    private LinearLayout copyrightLayout;
     public PrincipalFragment() {
         // Required empty public constructor
     }
@@ -137,6 +141,17 @@ public class PrincipalFragment extends Fragment {
         recycler_home_category.setNestedScrollingEnabled(false);
         recycler_home_category.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recycler_home_category.addItemDecoration(itemDecoration);
+
+        copyrightLayout = (LinearLayout) rootView.findViewById(R.id.copyrightLayout);
+        copyrightLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent viewIntent =
+                        new Intent("android.intent.action.VIEW",
+                                Uri.parse("https://s3-us-west-2.amazonaws.com/jsa-s3-bucketimage/politicas/terminos-y-condiciones-de-uso.pdf"));
+                startActivity(viewIntent);
+            }
+        });
 
 
 

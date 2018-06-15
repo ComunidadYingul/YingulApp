@@ -76,6 +76,7 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
     static final int ITEM_PICKER_TAG = 1;
     ArrayList<ItemCategoryList> array_cat_list_backup;
     private FilterParam filterParams;
+    private Double maxPriceItem;
     /*********/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +108,7 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
         filterParams.setUbication(null);
         filterParams.setMinPrice(null);
         filterParams.setMaxPrice(null);
+        maxPriceItem= Double.valueOf(0);
         /*************/
 
         array_cat_list = new ArrayList<>();
@@ -159,6 +161,7 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
                 Gson json = new Gson();
                 intent.putExtra("itemList", json.toJson(array_cat_list_backup).toString());
                 intent.putExtra("filterParams", filterParams);
+                intent.putExtra("maxPriceItem",maxPriceItem);
                 startActivityForResult(intent, ITEM_PICKER_TAG);
 
             }
@@ -202,6 +205,11 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
                                 itemPublicSellerList.setCategoryListUbication(yngUbication);
 
                                 //Log.e("envia",jo_inside.getString("yng_Ubication"));
+                                /***********filtro**************/
+                                if(maxPriceItem<Double.parseDouble(itemPublicSellerList.getCategoryListPrice())){
+                                    maxPriceItem=Double.parseDouble(itemPublicSellerList.getCategoryListPrice());
+                                }
+                                /********************************/
 
                                 array_cat_list.add(itemPublicSellerList);
 
