@@ -329,8 +329,8 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
                 }
                 filterCondition(filterParams.getCondition());
                 filterDiscount(filterParams.getDiscount());
-                filterUbication(filterParams.getUbication());
-                returnIntent.putExtra("itemList", json.toJson(array_cat_list_filter).toString());
+                filterUbication();
+                returnIntent.putExtra("itemList", json.toJson(array_cat_list).toString());
             }
             returnIntent.putExtra("filterParams", filterParams);
             setResult(Activity.RESULT_OK, returnIntent);
@@ -1041,7 +1041,7 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
                 break;
             case "10":
                 for (ItemCategoryList itemCategoryList : array_cat_list){
-                    if((Double.parseDouble(itemCategoryList.getCategoryListPriceDiscount())*100)/Double.parseDouble(itemCategoryList.getCategoryListPrice())>=10){
+                    if((Double.parseDouble(itemCategoryList.getCategoryListPriceDiscount())*100)/Double.parseDouble(itemCategoryList.getCategoryListPriceNormal())>=10){
                         array_cat_list_filter.add(itemCategoryList);
                     }
                 }
@@ -1049,7 +1049,7 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
                 break;
             case "20":
                 for (ItemCategoryList itemCategoryList : array_cat_list){
-                    if((Double.parseDouble(itemCategoryList.getCategoryListPriceDiscount())*100)/Double.parseDouble(itemCategoryList.getCategoryListPrice())>=20){
+                    if((Double.parseDouble(itemCategoryList.getCategoryListPriceDiscount())*100)/Double.parseDouble(itemCategoryList.getCategoryListPriceNormal())>=20){
                         array_cat_list_filter.add(itemCategoryList);
                     }
                 }
@@ -1057,7 +1057,7 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
                 break;
             case "30":
                 for (ItemCategoryList itemCategoryList : array_cat_list){
-                    if((Double.parseDouble(itemCategoryList.getCategoryListPriceDiscount())*100)/Double.parseDouble(itemCategoryList.getCategoryListPrice())>=30){
+                    if((Double.parseDouble(itemCategoryList.getCategoryListPriceDiscount())*100)/Double.parseDouble(itemCategoryList.getCategoryListPriceNormal())>=30){
                         array_cat_list_filter.add(itemCategoryList);
                     }
                 }
@@ -1065,7 +1065,7 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
                 break;
             case "40":
                 for (ItemCategoryList itemCategoryList : array_cat_list){
-                    if((Double.parseDouble(itemCategoryList.getCategoryListPriceDiscount())*100)/Double.parseDouble(itemCategoryList.getCategoryListPrice())>=40){
+                    if((Double.parseDouble(itemCategoryList.getCategoryListPriceDiscount())*100)/Double.parseDouble(itemCategoryList.getCategoryListPriceNormal())>=40){
                         array_cat_list_filter.add(itemCategoryList);
                     }
                 }
@@ -1073,35 +1073,39 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
                 break;
         }
     }
-    public void filterUbication(Yng_Ubication ubic){
+    public void filterUbication(){
         array_cat_list_filter = new ArrayList<>();
-        if(ubic.getYng_City()==null){
-            if(ubic.getYng_Province()==null){
-                if(ubic.getYng_Country()==null){
+        if(filterParams.getUbication()==null){
 
-                }else{
-                    for (ItemCategoryList itemCategoryList : array_cat_list){
-                        if(ubic.getYng_Country().getCountryId()==itemCategoryList.getCategoryListUbication().getYng_Country().getCountryId()){
+        }else {
+            if (filterParams.getUbication().getYng_City() == null) {
+                if (filterParams.getUbication().getYng_Province() == null) {
+                    if (filterParams.getUbication().getYng_Country() == null) {
+
+                    } else {
+                        for (ItemCategoryList itemCategoryList : array_cat_list) {
+                            if (filterParams.getUbication().getYng_Country().getCountryId() == itemCategoryList.getCategoryListUbication().getYng_Country().getCountryId()) {
+                                array_cat_list_filter.add(itemCategoryList);
+                            }
+                        }
+                        array_cat_list = array_cat_list_filter;
+                    }
+                } else {
+                    for (ItemCategoryList itemCategoryList : array_cat_list) {
+                        if (filterParams.getUbication().getYng_Province().getProvinceId() == itemCategoryList.getCategoryListUbication().getYng_Province().getProvinceId()) {
                             array_cat_list_filter.add(itemCategoryList);
                         }
                     }
-                    array_cat_list=array_cat_list_filter;
+                    array_cat_list = array_cat_list_filter;
                 }
-            }else{
-                for (ItemCategoryList itemCategoryList : array_cat_list){
-                    if(ubic.getYng_Province().getProvinceId()==itemCategoryList.getCategoryListUbication().getYng_Province().getProvinceId()){
+            } else {
+                for (ItemCategoryList itemCategoryList : array_cat_list) {
+                    if (filterParams.getUbication().getYng_City().getCityId() == itemCategoryList.getCategoryListUbication().getYng_City().getCityId()) {
                         array_cat_list_filter.add(itemCategoryList);
                     }
                 }
-                array_cat_list=array_cat_list_filter;
+                array_cat_list = array_cat_list_filter;
             }
-        }else{
-            for (ItemCategoryList itemCategoryList : array_cat_list){
-                if(ubic.getYng_City().getCityId()==itemCategoryList.getCategoryListUbication().getYng_City().getCityId()){
-                    array_cat_list_filter.add(itemCategoryList);
-                }
-            }
-            array_cat_list=array_cat_list_filter;
         }
     }
 }
