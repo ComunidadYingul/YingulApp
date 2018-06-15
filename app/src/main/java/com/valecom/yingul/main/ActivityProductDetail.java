@@ -830,12 +830,14 @@ public class ActivityProductDetail extends AppCompatActivity {
                 return true;
 
             case R.id.menu_share:
+                /*********poner en el chat**********
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_msg) + getPackageName());
                 sendIntent.setType("text/plain");
                 startActivity(sendIntent);
-
+                /*********poner en el chat**********/
+                shareTextUrl(itemId);
                 return true;
 
             case R.id.menu_fav:
@@ -1009,6 +1011,19 @@ public class ActivityProductDetail extends AppCompatActivity {
         }catch (Exception e){
             web_desc.setText("");
         }
+    }
+
+    private void shareTextUrl(String id) {
+        Intent share = new Intent(android.content.Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+
+        // Add data to the intent, the receiving app will decide
+        // what to do with it.
+        share.putExtra(Intent.EXTRA_SUBJECT, "Title Of The Post");
+        share.putExtra(Intent.EXTRA_TEXT, "http://backendyingul-env.cqx28e6j2j.us-west-2.elasticbeanstalk.com/sell/meta/"+id);
+
+        startActivity(Intent.createChooser(share, "Share link!"));
     }
 
 }
