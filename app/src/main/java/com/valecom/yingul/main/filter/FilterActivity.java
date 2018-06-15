@@ -69,6 +69,7 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
     ArrayList<ItemCategoryList> array_cat_list;
     ArrayList<ItemCategoryList> array_cat_list_filter;
     private Double maxPriceItem;
+    private Double minPriceItem;
 
     ListView list;
     CountryAdapter adapter;
@@ -146,7 +147,8 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
         }
         filterParams = (FilterParam)getIntent().getSerializableExtra("filterParams");
         maxPriceItem = (Double)getIntent().getSerializableExtra("maxPriceItem");
-        Log.e("Precio maximo",""+maxPriceItem);
+        minPriceItem = (Double)getIntent().getSerializableExtra("minPriceItem");
+        Log.e("Precio minimo",""+minPriceItem);
         discount_list = new ArrayList();
         discount_list.add("Todos");
         discount_list.add("10% off");
@@ -183,7 +185,7 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
 
         //RangeSeekBar<Integer> seekBar = new RangeSeekBar<Integer>(FilterActivity.this);
         seekBar = (RangeSeekBar) findViewById(R.id.rangeSeekbar);
-        seekBar.setRangeValues(0, maxPriceItem);
+        seekBar.setRangeValues(minPriceItem.intValue(), maxPriceItem);
 
         seekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
             @Override
@@ -192,7 +194,7 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
                 filterParams.setMinPrice(Double.valueOf(minValue));
                 filterParams.setMaxPrice(Double.valueOf(maxValue));
                 Log.e("min,max,maxitem",filterParams.getMinPrice()+","+filterParams.getMaxPrice()+","+maxPriceItem);
-                if(filterParams.getMinPrice().equals(0.0)&&filterParams.getMaxPrice().equals(maxPriceItem)){
+                if(filterParams.getMinPrice().equals(minPriceItem)&&filterParams.getMaxPrice().equals(maxPriceItem)){
                     Log.e("min,max,maxitem","entro");
                     textPrecio.setText("Precio");
                 }
@@ -642,7 +644,7 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
                 break;
         }
         if(filterParams.getMinPrice()==null&&filterParams.getMaxPrice()==null){
-            seekBar.setSelectedMinValue(0);
+            seekBar.setSelectedMinValue(minPriceItem);
             seekBar.setSelectedMaxValue(maxPriceItem);
             textPrecio.setText("Precio");
         }else{

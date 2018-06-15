@@ -77,6 +77,7 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
     ArrayList<ItemCategoryList> array_cat_list_backup;
     private FilterParam filterParams;
     private Double maxPriceItem;
+    private Double minPriceItem;
     /*********/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +109,8 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
         filterParams.setUbication(null);
         filterParams.setMinPrice(null);
         filterParams.setMaxPrice(null);
-        maxPriceItem= Double.valueOf(0);
+        maxPriceItem = Double.valueOf(0);
+        minPriceItem = Double.valueOf(9999999);
         /*************/
 
         array_cat_list = new ArrayList<>();
@@ -162,6 +164,7 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
                 intent.putExtra("itemList", json.toJson(array_cat_list_backup).toString());
                 intent.putExtra("filterParams", filterParams);
                 intent.putExtra("maxPriceItem",maxPriceItem);
+                intent.putExtra("minPriceItem",minPriceItem);
                 startActivityForResult(intent, ITEM_PICKER_TAG);
 
             }
@@ -209,12 +212,17 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
                                 if(maxPriceItem<Double.parseDouble(itemPublicSellerList.getCategoryListPrice())){
                                     maxPriceItem=Double.parseDouble(itemPublicSellerList.getCategoryListPrice());
                                 }
+                                if(minPriceItem>Double.parseDouble(itemPublicSellerList.getCategoryListPrice())){
+                                    minPriceItem=Double.parseDouble(itemPublicSellerList.getCategoryListPrice());
+                                }
                                 /********************************/
 
                                 array_cat_list.add(itemPublicSellerList);
 
                             }
+                            /**************filtro*************/
                             array_cat_list_backup=array_cat_list;
+                            /***********************************/
                             setAdapterHomeCategoryList();
 
                             /**/
@@ -385,4 +393,5 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
 
         return array_cat_list_new;
     }
+    /*************************/
 }
