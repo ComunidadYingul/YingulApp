@@ -350,6 +350,7 @@ public class PrincipalFragment extends Fragment {
                                 itemHomeCategoryList.setCategoryListDescription(jo_inside.getString("description"));
                                 itemHomeCategoryList.setCategoryListPrice(jo_inside.getString("price"));
                                 itemHomeCategoryList.setCategoryListMoney(jo_inside.getString("money"));
+                                itemHomeCategoryList.setCategoryListEnvio(jo_inside.getString("productPagoEnvio"));
 
 
                                 JSONObject user = jo_inside.getJSONObject("user");
@@ -461,6 +462,7 @@ public class PrincipalFragment extends Fragment {
                                 itemHomeCategoryList.setCategoryListDescription(jo_inside.getString("description"));
                                 itemHomeCategoryList.setCategoryListPrice(jo_inside.getString("price"));
                                 itemHomeCategoryList.setCategoryListMoney(jo_inside.getString("money"));
+                                itemHomeCategoryList.setCategoryListEnvio(jo_inside.getString("productPagoEnvio"));
 
                                 JSONObject user = jo_inside.getJSONObject("user");
                                 Gson gson = new Gson();
