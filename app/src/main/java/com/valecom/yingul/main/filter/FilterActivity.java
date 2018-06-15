@@ -2,84 +2,41 @@ package com.valecom.yingul.main.filter;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Base64;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.gson.Gson;
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.ColumnText;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.draw.LineSeparator;
-import com.rey.material.widget.Spinner;
-import com.rey.material.widget.Switch;
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.Item.ItemCategoryList;
 import com.valecom.yingul.R;
 import com.valecom.yingul.adapter.CityAdapter;
 import com.valecom.yingul.adapter.CountryAdapter;
 import com.valecom.yingul.adapter.ProvinceAdapter;
-import com.valecom.yingul.helper.helper_number;
-import com.valecom.yingul.helper.helper_string;
-import com.valecom.yingul.main.ItemPickerActivity;
-import com.valecom.yingul.main.LoginActivity;
 import com.valecom.yingul.main.MainActivity;
-import com.valecom.yingul.main.SettingActivity;
-import com.valecom.yingul.main.buy.BuyActivity;
-import com.valecom.yingul.main.sell.SellActivity;
-import com.valecom.yingul.model.Client;
 import com.valecom.yingul.model.FilterParam;
-import com.valecom.yingul.model.Invoice;
-import com.valecom.yingul.model.Item;
 import com.valecom.yingul.model.Yng_City;
 import com.valecom.yingul.model.Yng_Country;
 import com.valecom.yingul.model.Yng_Province;
@@ -88,19 +45,10 @@ import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -115,10 +63,12 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
     private ImageView imgFreeShipping;
     private TextView txtNew,txtUsed,textDiscount,textUbicationName,textPathUbication;
     private TextView textPrecio;
+    private RangeSeekBar seekBar;
 
     private FilterParam filterParams;
     ArrayList<ItemCategoryList> array_cat_list;
     ArrayList<ItemCategoryList> array_cat_list_filter;
+    private Double maxPriceItem;
 
     ListView list;
     CountryAdapter adapter;
@@ -195,10 +145,8 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
             e.printStackTrace();
         }
         filterParams = (FilterParam)getIntent().getSerializableExtra("filterParams");
-        Gson json = new Gson();
-        Log.e("itemList response",json.toJson(array_cat_list).toString());
-        Log.e("filer response",json.toJson(filterParams).toString());
-
+        maxPriceItem = (Double)getIntent().getSerializableExtra("maxPriceItem");
+        Log.e("Precio maximo",""+maxPriceItem);
         discount_list = new ArrayList();
         discount_list.add("Todos");
         discount_list.add("10% off");
@@ -234,14 +182,20 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
         textPrecio = (TextView)findViewById(R.id.textPrecio);
 
         //RangeSeekBar<Integer> seekBar = new RangeSeekBar<Integer>(FilterActivity.this);
-        RangeSeekBar seekBar = (RangeSeekBar) findViewById(R.id.rangeSeekbar);
-        seekBar.setRangeValues(0, 1000);
+        seekBar = (RangeSeekBar) findViewById(R.id.rangeSeekbar);
+        seekBar.setRangeValues(0, maxPriceItem);
 
         seekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
             @Override
             public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
-                textPrecio.setText(minValue + "/" + maxValue);
-                //Toast.makeText(getApplicationContext(), minValue + "-" + maxValue, Toast.LENGTH_LONG).show();
+                textPrecio.setText(minValue + "$-" + maxValue+"$");
+                filterParams.setMinPrice(Double.valueOf(minValue));
+                filterParams.setMaxPrice(Double.valueOf(maxValue));
+                Log.e("min,max,maxitem",filterParams.getMinPrice()+","+filterParams.getMaxPrice()+","+maxPriceItem);
+                if(filterParams.getMinPrice().equals(0.0)&&filterParams.getMaxPrice().equals(maxPriceItem)){
+                    Log.e("min,max,maxitem","entro");
+                    textPrecio.setText("Precio");
+                }
             }
         });
 
@@ -325,15 +279,17 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
         {
             Intent returnIntent = new Intent();
             Gson json = new Gson();
-            if(!filterParams.isFreeShipping()&&filterParams.getCondition().equals("none")&&filterParams.getDiscount().equals("none")&&filterParams.getUbication()==null){
+            if(!filterParams.isFreeShipping()&&filterParams.getCondition().equals("none")&&filterParams.getDiscount().equals("none")&&filterParams.getUbication()==null&&filterParams.getMinPrice()==null&&filterParams.getMaxPrice()==null){
                 returnIntent.putExtra("itemList", "clean");
             }else{
                 if(filterParams.isFreeShipping()){
                     filterFreeShipping();
                 }
                 filterCondition(filterParams.getCondition());
-                //filterDiscount(filterParams.getDiscount());
-                returnIntent.putExtra("itemList", json.toJson(array_cat_list_filter).toString());
+                filterDiscount(filterParams.getDiscount());
+                filterUbication();
+                filterPrice();
+                returnIntent.putExtra("itemList", json.toJson(array_cat_list).toString());
             }
             returnIntent.putExtra("filterParams", filterParams);
             setResult(Activity.RESULT_OK, returnIntent);
@@ -685,6 +641,15 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
                 textDiscount.setText("40% off");
                 break;
         }
+        if(filterParams.getMinPrice()==null&&filterParams.getMaxPrice()==null){
+            seekBar.setSelectedMinValue(0);
+            seekBar.setSelectedMaxValue(maxPriceItem);
+            textPrecio.setText("Precio");
+        }else{
+            seekBar.setSelectedMinValue(filterParams.getMinPrice());
+            seekBar.setSelectedMaxValue(filterParams.getMaxPrice());
+            textPrecio.setText(seekBar.getSelectedMinValue() + "$-" + seekBar.getSelectedMaxValue()+"$");
+        }
 
     }
 
@@ -693,6 +658,8 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
         filterParams.setCondition("none");
         filterParams.setDiscount("none");
         filterParams.setUbication(null);
+        filterParams.setMinPrice(null);
+        filterParams.setMaxPrice(null);
         drawActivity();
     }
 
@@ -1002,6 +969,7 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
     }
 
     public void filterFreeShipping(){
+        array_cat_list_filter = new ArrayList<>();
         for (ItemCategoryList itemCategoryList : array_cat_list){
             if(itemCategoryList.getCategoryListEnvio().equals("gratis")){
                 array_cat_list_filter.add(itemCategoryList);
@@ -1010,13 +978,15 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
         array_cat_list=array_cat_list_filter;
     }
     public void filterCondition(String cond){
-        switch (filterParams.getCondition()){
+        array_cat_list_filter = new ArrayList<>();
+        switch (cond){
             case "new":
                 for (ItemCategoryList itemCategoryList : array_cat_list){
                     if(itemCategoryList.getCategoryListCondition().equals("New")){
                         array_cat_list_filter.add(itemCategoryList);
                     }
                 }
+                array_cat_list=array_cat_list_filter;
                 break;
             case "used":
                 for (ItemCategoryList itemCategoryList : array_cat_list){
@@ -1024,11 +994,103 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
                         array_cat_list_filter.add(itemCategoryList);
                     }
                 }
+                array_cat_list=array_cat_list_filter;
                 break;
         }
-        array_cat_list=array_cat_list_filter;
     }
-    /*public void filterDiscount(){
+    public void filterDiscount(String disc){
+        array_cat_list_filter = new ArrayList<>();
+        switch (disc){
+            case "all":
+                for (ItemCategoryList itemCategoryList : array_cat_list){
+                    if(Double.parseDouble(itemCategoryList.getCategoryListPriceDiscount())>0){
+                        array_cat_list_filter.add(itemCategoryList);
+                    }
+                }
+                array_cat_list=array_cat_list_filter;
+                break;
+            case "10":
+                for (ItemCategoryList itemCategoryList : array_cat_list){
+                    if(100-((Double.parseDouble(itemCategoryList.getCategoryListPriceDiscount())*100)/Double.parseDouble(itemCategoryList.getCategoryListPriceNormal()))>=10){
+                        array_cat_list_filter.add(itemCategoryList);
+                    }
+                }
+                array_cat_list=array_cat_list_filter;
+                break;
+            case "20":
+                for (ItemCategoryList itemCategoryList : array_cat_list){
+                    if(100-((Double.parseDouble(itemCategoryList.getCategoryListPriceDiscount())*100)/Double.parseDouble(itemCategoryList.getCategoryListPriceNormal()))>=20){
+                        array_cat_list_filter.add(itemCategoryList);
+                    }
+                }
+                array_cat_list=array_cat_list_filter;
+                break;
+            case "30":
+                for (ItemCategoryList itemCategoryList : array_cat_list){
+                    if(100-((Double.parseDouble(itemCategoryList.getCategoryListPriceDiscount())*100)/Double.parseDouble(itemCategoryList.getCategoryListPriceNormal()))>=30){
+                        array_cat_list_filter.add(itemCategoryList);
+                    }
+                }
+                array_cat_list=array_cat_list_filter;
+                break;
+            case "40":
+                for (ItemCategoryList itemCategoryList : array_cat_list){
+                    if(100-((Double.parseDouble(itemCategoryList.getCategoryListPriceDiscount())*100)/Double.parseDouble(itemCategoryList.getCategoryListPriceNormal()))>=40){
+                        array_cat_list_filter.add(itemCategoryList);
+                    }
+                }
+                array_cat_list=array_cat_list_filter;
+                break;
+        }
+    }
+    public void filterUbication(){
+        array_cat_list_filter = new ArrayList<>();
+        if(filterParams.getUbication()==null){
 
-    }*/
+        }else {
+            if (filterParams.getUbication().getYng_City() == null) {
+                if (filterParams.getUbication().getYng_Province() == null) {
+                    if (filterParams.getUbication().getYng_Country() == null) {
+
+                    } else {
+                        for (ItemCategoryList itemCategoryList : array_cat_list) {
+                            if (filterParams.getUbication().getYng_Country().getCountryId() == itemCategoryList.getCategoryListUbication().getYng_Country().getCountryId()) {
+                                array_cat_list_filter.add(itemCategoryList);
+                            }
+                        }
+                        array_cat_list = array_cat_list_filter;
+                    }
+                } else {
+                    for (ItemCategoryList itemCategoryList : array_cat_list) {
+                        if (filterParams.getUbication().getYng_Province().getProvinceId() == itemCategoryList.getCategoryListUbication().getYng_Province().getProvinceId()) {
+                            array_cat_list_filter.add(itemCategoryList);
+                        }
+                    }
+                    array_cat_list = array_cat_list_filter;
+                }
+            } else {
+                for (ItemCategoryList itemCategoryList : array_cat_list) {
+                    if (filterParams.getUbication().getYng_City().getCityId() == itemCategoryList.getCategoryListUbication().getYng_City().getCityId()) {
+                        array_cat_list_filter.add(itemCategoryList);
+                    }
+                }
+                array_cat_list = array_cat_list_filter;
+            }
+        }
+    }
+    public void filterPrice(){
+        array_cat_list_filter = new ArrayList<>();
+        if(filterParams.getMinPrice()==null&&filterParams.getMaxPrice()==null){
+            Log.e("price,max,min","entro a null");
+        }else{
+            for (ItemCategoryList itemCategoryList : array_cat_list) {
+                Log.e("price,max,min",itemCategoryList.getCategoryListPrice()+","+filterParams.getMinPrice()+","+filterParams.getMaxPrice());
+                if (Double.parseDouble(itemCategoryList.getCategoryListPrice())>=filterParams.getMinPrice()&&Double.parseDouble(itemCategoryList.getCategoryListPrice())<=filterParams.getMaxPrice()) {
+                    array_cat_list_filter.add(itemCategoryList);
+                    Log.e("price,max,min","entro");
+                }
+            }
+            array_cat_list = array_cat_list_filter;
+        }
+    }
 }
