@@ -55,6 +55,12 @@ public class LatestListAdapter extends RecyclerView.Adapter<LatestListAdapter.It
             }else{
                 holder.moneyArs.setVisibility(View.GONE);
             }
+
+            if(itemCategorylist.getCategoryListEnvio().equals("gratis")){
+                holder.imgEnvioGratis.setVisibility(View.VISIBLE);
+            }else{
+                holder.imgEnvioGratis.setVisibility(View.INVISIBLE);
+            }
         }catch (Exception e){}
         holder.text_cat_list_price.setText(itemCategorylist.getCategoryListPrice());
         Picasso.with(mContext).load(Network.BUCKET_URL+itemCategorylist.getCategoryListImage()).into(holder.image_cat_list);
@@ -112,7 +118,7 @@ public class LatestListAdapter extends RecyclerView.Adapter<LatestListAdapter.It
     }
 
     public class ItemRowHolder extends RecyclerView.ViewHolder {
-        public ImageView image_cat_list;
+        public ImageView image_cat_list,imgEnvioGratis;
         public TextView text_cat_list_title,text_cat_list_price,moneyArs,moneyUsd;
         public LinearLayout lyt_parent;
 
@@ -121,6 +127,7 @@ public class LatestListAdapter extends RecyclerView.Adapter<LatestListAdapter.It
             moneyArs = (TextView) itemView.findViewById(R.id.money_ars);
             moneyUsd = (TextView) itemView.findViewById(R.id.money_usd);
             image_cat_list = (ImageView) itemView.findViewById(R.id.image_item_cat_list_image);
+            imgEnvioGratis = (ImageView) itemView.findViewById(R.id.imgEnvioGratis);
             text_cat_list_title = (TextView) itemView.findViewById(R.id.text_item_cat__list_title);
             text_cat_list_price = (TextView) itemView.findViewById(R.id.text_item_cat_list_price);
             lyt_parent = (LinearLayout) itemView.findViewById(R.id.rootLayout);
