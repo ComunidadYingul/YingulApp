@@ -82,7 +82,7 @@ public class ActivityPubliSellerList extends AppCompatActivity {
         Bundle datos = this.getIntent().getExtras();
         //itemId = datos.getString("itemId");
         itemSeller = datos.getString("seller");
-        Log.e("Eddy:-------","recupero:"+itemId);
+        Log.e("Eddy:-------","recupero:"+itemSeller);
 
         progressDialog = new MaterialDialog.Builder(this)
                 .title(R.string.progress_dialog)

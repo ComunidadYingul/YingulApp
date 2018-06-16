@@ -14,12 +14,12 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.valecom.yingul.Item.ItemCategory;
 import com.valecom.yingul.R;
 import com.valecom.yingul.Util.ItemOffsetDecoration;
 import com.valecom.yingul.adapter.AllStoresAdapter;
 import com.valecom.yingul.adapter.ListGridAdapter;
 import com.valecom.yingul.main.MainActivity;
+import com.valecom.yingul.model.Yng_Store;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
 
@@ -34,7 +34,7 @@ import java.util.Map;
 public class AllStoreActivity extends AppCompatActivity {
 
     AllStoresAdapter adapter;
-    ArrayList<ItemCategory> array_cat_list;
+    ArrayList<Yng_Store> array_cat_list;
     RecyclerView recycler_cat_list;
 
     private MaterialDialog progressDialog;
@@ -91,7 +91,7 @@ public class AllStoreActivity extends AppCompatActivity {
     }
 
 
-    public ArrayList<ItemCategory> loadJSONFromAssetCategoryList() {
+    public ArrayList<Yng_Store> loadJSONFromAssetCategoryList() {
 
         JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "store/all",
                 new Response.Listener<JSONArray>() {
@@ -104,14 +104,11 @@ public class AllStoreActivity extends AppCompatActivity {
                             Log.e("Eddy",m_jArry.toString());
                             for (int i = 0; i < m_jArry.length(); i++) {
                                 JSONObject jo_inside = m_jArry.getJSONObject(i);
-                                ItemCategory itemPublicSellerList = new ItemCategory();
-                                //itemPublicSellerList.setCategoryListId(jo_inside.getString("itemId"));
-                                itemPublicSellerList.setCategoryName(jo_inside.getString("name"));
-                                itemPublicSellerList.setCategoryImage(jo_inside.getString("mainImage"));
-                                //itemPublicSellerList.setCategoryListDescription(jo_inside.getString("description"));
-                                //itemPublicSellerList.setCategoryListPrice(jo_inside.getString("price"));
-                                Log.e("imagen",itemPublicSellerList.getCategoryImage().toString());
-                                array_cat_list.add(itemPublicSellerList);
+                                Yng_Store item = new Yng_Store();
+                                item.setName(jo_inside.getString("name"));
+                                item.setMainImage(jo_inside.getString("mainImage"));
+                                Log.e("imagen",item.getMainImage().toString());
+                                array_cat_list.add(item);
 
                             }
                             setAdapterHomeCategoryList();

@@ -1,6 +1,7 @@
 package com.valecom.yingul.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +10,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.valecom.yingul.Item.ItemReviewPublic;
 import com.valecom.yingul.R;
+import com.valecom.yingul.main.ActivityProductDetail;
+import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.network.Network;
 import com.squareup.picasso.Picasso;
 
@@ -22,10 +24,10 @@ import java.util.ArrayList;
 
 public class ReviewPublicListAdapter extends RecyclerView.Adapter<ReviewPublicListAdapter.ItemRowHolder> {
 
-    private ArrayList<ItemReviewPublic> dataList;
+    private ArrayList<Yng_Item> dataList;
     private Context mContext;
 
-    public ReviewPublicListAdapter(Context context, ArrayList<ItemReviewPublic> dataList) {
+    public ReviewPublicListAdapter(Context context, ArrayList<Yng_Item> dataList) {
         this.dataList = dataList;
         this.mContext = context;
     }
@@ -38,17 +40,19 @@ public class ReviewPublicListAdapter extends RecyclerView.Adapter<ReviewPublicLi
 
     @Override
     public void onBindViewHolder(ReviewPublicListAdapter.ItemRowHolder holder, final int position) {
-        final ItemReviewPublic itemReviewPublic = dataList.get(position);
+        final Yng_Item item = dataList.get(position);
 
-        holder.text_title.setText(itemReviewPublic.getReviewTitle());
-        holder.text_price.setText(itemReviewPublic.getReviewPrice());
-        holder.text_description.setText(itemReviewPublic.getReviewDescription());
-        Picasso.with(mContext).load(Network.BUCKET_URL+itemReviewPublic.getReviewImage()).into(holder.image_public);
+        holder.text_title.setText(item.getName());
+        holder.text_price.setText(String.valueOf(item.getPrice()));
+        holder.text_description.setText(item.getDescription());
+        Picasso.with(mContext).load(Network.BUCKET_URL+item.getPrincipalImage()).into(holder.image_public);
 
         holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(mContext, ActivityProductDetail.class);
+                intent.putExtra("itemId",item.getItemId().toString());
+                mContext.startActivity(intent);
             }
         });
 

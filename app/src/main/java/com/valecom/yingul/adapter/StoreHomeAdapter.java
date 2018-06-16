@@ -13,10 +13,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.valecom.yingul.Item.ItemCategory;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.ActivityPubliSellerList;
 import com.valecom.yingul.main.store.ActivityStore;
+import com.valecom.yingul.model.Yng_Store;
 import com.valecom.yingul.network.Network;
 import com.squareup.picasso.Picasso;
 
@@ -28,10 +28,10 @@ import java.util.ArrayList;
 
 public class StoreHomeAdapter extends RecyclerView.Adapter<StoreHomeAdapter.ItemRowHolder> {
 
-    private ArrayList<ItemCategory> dataList;
+    private ArrayList<Yng_Store> dataList;
     private Context mContext;
 
-    public StoreHomeAdapter(Context context, ArrayList<ItemCategory> dataList) {
+    public StoreHomeAdapter(Context context, ArrayList<Yng_Store> dataList) {
         this.dataList = dataList;
         this.mContext = context;
     }
@@ -44,18 +44,18 @@ public class StoreHomeAdapter extends RecyclerView.Adapter<StoreHomeAdapter.Item
 
     @Override
     public void onBindViewHolder(ItemRowHolder holder, final int position) {
-        final ItemCategory itemCategory = dataList.get(position);
+        final Yng_Store item = dataList.get(position);
 
-        holder.text_cat_title.setText(itemCategory.getCategoryName());
-        Picasso.with(mContext).load(Network.BUCKET_URL + itemCategory.getCategoryImageBanner()).into(holder.banner_cat);
-        Picasso.with(mContext).load(Network.BUCKET_URL + itemCategory.getCategoryImage()).into(holder.image_cat);
+        holder.text_cat_title.setText(item.getName());
+        Picasso.with(mContext).load(Network.BUCKET_URL + item.getBannerImage()).into(holder.banner_cat);
+        Picasso.with(mContext).load(Network.BUCKET_URL + item.getMainImage()).into(holder.image_cat);
 
         holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent intent = new Intent(mContext, ActivityStore.class);
-                intent.putExtra("store",itemCategory.getCategoryName());
+                intent.putExtra("store",item.getName());
                 mContext.startActivity(intent);
             }
         });

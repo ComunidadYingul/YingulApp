@@ -40,7 +40,6 @@ import com.valecom.yingul.Item.ItemColorSize;
 import com.valecom.yingul.Item.ItemGallery;
 import com.valecom.yingul.Item.ItemOrderProduct;
 import com.valecom.yingul.Item.ItemReview;
-import com.valecom.yingul.Item.ItemReviewPublic;
 import com.valecom.yingul.R;
 import com.valecom.yingul.Util.ItemOffsetDecoration;
 import com.valecom.yingul.Util.RecyclerItemClickListener;
@@ -93,7 +92,7 @@ public class ActivityProductDetail extends AppCompatActivity {
     //LinearLayout linear_Layout_stars;
 
     ReviewPublicListAdapter adapter_review_public;
-    ArrayList<ItemReviewPublic> array_publicaciones;
+    ArrayList<Yng_Item> array_publicaciones;
 
     private Menu menu;
     ScrollView scrollView;
@@ -116,7 +115,7 @@ public class ActivityProductDetail extends AppCompatActivity {
         Bundle datos = this.getIntent().getExtras();
         itemId = datos.getString("itemId");
         //itemSeller = datos.getString("seller");
-        Log.e("Eddy:-------","recupero:"+itemId);
+        Log.e("Eddy1:-------","recupero:"+itemId);
         progressDialog = new MaterialDialog.Builder(this)
                 .title(R.string.progress_dialog)
                 .content(R.string.please_wait)
@@ -224,7 +223,7 @@ public class ActivityProductDetail extends AppCompatActivity {
         });
 
         loadJSONFromAssetGallery();
-        RunLoginService();
+        //RunLoginService();
 
 //        scrollView.setOnTouchListener(new OnSwipeTouchListener(ActivityProductDetail.this) {
 //
@@ -244,6 +243,8 @@ public class ActivityProductDetail extends AppCompatActivity {
     }
 
     public ArrayList<ItemGallery> loadJSONFromAssetGallery() {
+
+        progressDialog.show();
 
         JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "item/Image/"+itemId,
                 new Response.Listener<JSONArray>() {
@@ -367,7 +368,9 @@ public class ActivityProductDetail extends AppCompatActivity {
                 startActivity(intent_gallery);
             }
         });
-        loadJSONFromAssetReview();
+
+        RunLoginService();
+        //loadJSONFromAssetReview();
     }
 
     public interface ClickListener {
@@ -419,7 +422,7 @@ public class ActivityProductDetail extends AppCompatActivity {
         }
     }
 
-    public ArrayList<ItemReviewPublic> loadJSONFromAssetReview() {
+    public ArrayList<Yng_Item> loadJSONFromAssetReview() {
 
         JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "item/Item/"+itemSeller,
                 new Response.Listener<JSONArray>() {
@@ -438,14 +441,14 @@ public class ActivityProductDetail extends AppCompatActivity {
                             for (int i = 0; i < size_jArray; i++) {
                                 //for (int i = 0; i < 3; i++) {
                                 JSONObject jo_inside = m_jArry.getJSONObject(i);
-                                ItemReviewPublic itemPublicSellerList = new ItemReviewPublic();
-                                itemPublicSellerList.setReviewId(jo_inside.getString("itemId"));
-                                itemPublicSellerList.setReviewTitle(jo_inside.getString("name"));
-                                itemPublicSellerList.setReviewImage(jo_inside.getString("principalImage"));
-                                itemPublicSellerList.setReviewDescription(jo_inside.getString("description"));
-                                itemPublicSellerList.setReviewPrice(jo_inside.getString("price"));
+                                Yng_Item item = new Yng_Item();
+                                item.setItemId(Long.valueOf(jo_inside.getString("itemId")));
+                                item.setName(jo_inside.getString("name"));
+                                item.setPrincipalImage(jo_inside.getString("principalImage"));
+                                item.setDescription(jo_inside.getString("description"));
+                                item.setPrice(Double.valueOf(jo_inside.getString("price")));
 
-                                array_publicaciones.add(itemPublicSellerList);
+                                array_publicaciones.add(item);
 
                             }
 
@@ -938,6 +941,7 @@ public class ActivityProductDetail extends AppCompatActivity {
                                 catch (Exception ex)
                                 {
                                 }
+                                loadJSONFromAssetReview();
                             }
                         }, new Response.ErrorListener()
                 {

@@ -26,8 +26,6 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.valecom.yingul.Item.ItemAllCategory;
-import com.valecom.yingul.Item.ItemCategory;
 import com.valecom.yingul.Item.ItemHomeSlider;
 import com.valecom.yingul.R;
 import com.valecom.yingul.Util.ItemOffsetDecoration;
@@ -38,6 +36,7 @@ import com.valecom.yingul.adapter.StoreHomeAdapter;
 import com.valecom.yingul.main.buy.BuyActivity;
 import com.valecom.yingul.model.Yng_Category;
 import com.valecom.yingul.model.Yng_Item;
+import com.valecom.yingul.model.Yng_Store;
 import com.valecom.yingul.model.Yng_User;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
@@ -85,7 +84,7 @@ public class PrincipalFragment extends Fragment {
 
     RecyclerView recycler_home_category;
     StoreHomeAdapter adapter_category;
-    ArrayList<ItemCategory> array_category;
+    ArrayList<Yng_Store> array_category;
 
     private MaterialDialog progressDialog;
     private FragmentManager fragmentManager;
@@ -557,7 +556,7 @@ public class PrincipalFragment extends Fragment {
 
     /***************************** ALL STORES ********************************/
 
-    public ArrayList<ItemCategory> loadJSONFromAssetHomeCategory() {
+    public ArrayList<Yng_Store> loadJSONFromAssetHomeCategory() {
         JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "store/all",
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -570,14 +569,14 @@ public class PrincipalFragment extends Fragment {
                             for (int i = 0; i < m_jArry.length(); i++) {
                                 JSONObject jo_inside = m_jArry.getJSONObject(i);
 
-                                ItemCategory itemHomeCategory = new ItemCategory();
+                                Yng_Store item = new Yng_Store();
 
-                                itemHomeCategory.setCategoryName(jo_inside.getString("name"));
-                                itemHomeCategory.setCategoryImage("store/"+jo_inside.getString("mainImage"));
-                                itemHomeCategory.setCategoryImageBanner("store/"+jo_inside.getString("bannerImage"));
-                                itemHomeCategory.setCategoryNoItem(jo_inside.getString("storeId"));
+                                item.setStoreId(Long.valueOf(jo_inside.getString("storeId")));
+                                item.setName(jo_inside.getString("name"));
+                                item.setMainImage("store/"+jo_inside.getString("mainImage"));
+                                item.setBannerImage("store/"+jo_inside.getString("bannerImage"));
 
-                                array_category.add(itemHomeCategory);
+                                array_category.add(item);
 
                             }
                             setAdapterHomeCategory();

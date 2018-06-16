@@ -86,7 +86,7 @@ public class ListGridAdapter extends RecyclerView.Adapter<ListGridAdapter.ItemRo
             @Override
             public void onClick(View v) {
                 Intent intent_detail=new Intent(mContext, ActivityProductDetail.class);
-                intent_detail.putExtra("itemId",item.getItemId());
+                intent_detail.putExtra("itemId",item.getItemId().toString());
                 //intent_detail.putExtra("seller",item.getCategorySeller());
                 mContext.startActivity(intent_detail);
                 //Log.e("gonzalo:----","hola");
