@@ -283,40 +283,6 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
 
         MySingleton.getInstance(ItemsByCategoryActivity.this).addToRequestQueue(postRequest);
         return array_cat_list;
-
-        /*ArrayList<Yng_Item> locList = new ArrayList<>();
-        String json = null;
-        try {
-            InputStream is = getAssets().open("category_list.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        try {
-            JSONObject obj = new JSONObject(json);
-            JSONArray m_jArry = obj.getJSONArray("EcommerceApp");
-
-            for (int i = 0; i < m_jArry.length(); i++) {
-                JSONObject jo_inside = m_jArry.getJSONObject(i);
-                Yng_Item itemHomeCategoryList = new Yng_Item();
-
-                itemHomeCategoryList.setCategoryListName(jo_inside.getString("cat_list_title"));
-                itemHomeCategoryList.setCategoryListImage(jo_inside.getString("cat_list_image"));
-                itemHomeCategoryList.setCategoryListDescription(jo_inside.getString("cat_list_description"));
-                itemHomeCategoryList.setCategoryListPrice(jo_inside.getString("cat_list_price"));
-
-                array_cat_list.add(itemHomeCategoryList);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        setAdapterHomeCategoryList();
-        return array_cat_list;*/
     }
 
     public void setAdapterHomeCategoryList() {
@@ -356,28 +322,26 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
         ArrayList<Yng_Item> array_cat_list_new= new ArrayList<>();
 
         JSONArray m_jArry = new JSONArray(itemList);
-        Log.e("gonzalo","llego"+m_jArry.length());
-        for (int i = 0; i < m_jArry.length(); i++) {Log.e("gonzalo","llego");
-            JSONObject jo_inside = m_jArry.getJSONObject(i);Log.e("gonzalo","llego");
-            Yng_Item item = new Yng_Item();Log.e("gonzalo","llego");
-            item.setItemId(jo_inside.getLong("itemId"));Log.e("gonzalo","llego");
-            item.setName(jo_inside.getString("name"));Log.e("gonzalo","llego");
-            item.setPrincipalImage(jo_inside.getString("principalImage"));Log.e("gonzalo","llego");
-            item.setDescription(jo_inside.getString("description"));Log.e("gonzalo","llego");
-            item.setPrice(jo_inside.getDouble("price"));Log.e("gonzalo","llego");
-            item.setType(jo_inside.getString("type"));Log.e("gonzalo","llego");
-            item.setMoney(jo_inside.getString("money"));Log.e("gonzalo","llego");
-            item.setCondition(jo_inside.getString("condition"));Log.e("gonzalo","llego");
-            item.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));Log.e("gonzalo","llego");
-            item.setOver(jo_inside.getBoolean("isOver"));Log.e("gonzalo","llego");
-            item.setPriceNormal(jo_inside.getDouble("priceNormal"));Log.e("gonzalo","llego");
-            item.setPriceDiscount(jo_inside.getDouble("priceDiscount"));Log.e("gonzalo","llego");
+
+        for (int i = 0; i < m_jArry.length(); i++) {
+            JSONObject jo_inside = m_jArry.getJSONObject(i);
+            Yng_Item item = new Yng_Item();
+            item.setItemId(jo_inside.getLong("itemId"));
+            item.setName(jo_inside.getString("name"));
+            item.setPrincipalImage(jo_inside.getString("principalImage"));
+            item.setDescription(jo_inside.getString("description"));
+            item.setPrice(jo_inside.getDouble("price"));
+            item.setType(jo_inside.getString("type"));
+            item.setMoney(jo_inside.getString("money"));
+            item.setCondition(jo_inside.getString("condition"));
+            item.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));
+            item.setOver(jo_inside.getBoolean("over"));
+            item.setPriceNormal(jo_inside.getDouble("priceNormal"));
+            item.setPriceDiscount(jo_inside.getDouble("priceDiscount"));
 
             Gson gson = new Gson();
-            Yng_Ubication yngUbication = gson.fromJson(jo_inside.getString("CategoryListUbication"), Yng_Ubication.class);
+            Yng_Ubication yngUbication = gson.fromJson(jo_inside.getString("yng_Ubication"), Yng_Ubication.class);
             item.setYng_Ubication(yngUbication);
-            //itemPublicSellerList.setCategoryListUbication(jo_inside.getString("CategoryListUbication"));
-            //Log.e("envia",itemPublicSellerList.getCategoryListId()+"");
 
             array_cat_list_new.add(item);
 
