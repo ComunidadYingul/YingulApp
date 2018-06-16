@@ -37,6 +37,7 @@ import com.valecom.yingul.adapter.CategoryListAdapter;
 import com.valecom.yingul.adapter.LatestListAdapter;
 import com.valecom.yingul.adapter.StoreHomeAdapter;
 import com.valecom.yingul.main.buy.BuyActivity;
+import com.valecom.yingul.model.Yng_Category;
 import com.valecom.yingul.model.Yng_User;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
@@ -72,7 +73,7 @@ public class PrincipalFragment extends Fragment {
 
     RecyclerView recycler_home_all_category;
     AllCategoryHomeAdapter adapter_all_category;
-    ArrayList<ItemAllCategory> array_all_category;
+    ArrayList<Yng_Category> array_all_category;
 
     RecyclerView recycler_home_trending;
     CategoryListAdapter adapter_trending;
@@ -283,8 +284,8 @@ public class PrincipalFragment extends Fragment {
 
     /***************************** ALL CATEGORIES ********************************/
 
-    public ArrayList<ItemAllCategory> loadJSONFromAssetHomeCoupon() {
-        ArrayList<ItemAllCategory> locList = new ArrayList<>();
+    public ArrayList<Yng_Category> loadJSONFromAssetHomeCoupon() {
+        ArrayList<Yng_Category> locList = new ArrayList<>();
         String json = null;
         try {
             InputStream is = getActivity().getAssets().open("all_category_list.json");
@@ -303,15 +304,14 @@ public class PrincipalFragment extends Fragment {
 
             for (int i = 0; i < m_jArry.length(); i++) {
                 JSONObject jo_inside = m_jArry.getJSONObject(i);
-                ItemAllCategory itemHomeAllCategory = new ItemAllCategory();
+                Yng_Category item = new Yng_Category();
 
-                itemHomeAllCategory.setAllCategoryId(jo_inside.getString("all_category_id"));
-                itemHomeAllCategory.setAllCategoryTitle(jo_inside.getString("all_category_title"));
-                itemHomeAllCategory.setAllCategoryImage(jo_inside.getString("all_category_image"));
-                itemHomeAllCategory.setAllCategoryLink(jo_inside.getString("all_category_link"));
-                itemHomeAllCategory.setAllCategoryDescription(jo_inside.getString("all_category_desc"));
+                item.setCategoryId(jo_inside.getLong("all_category_id"));
+                item.setName(jo_inside.getString("all_category_title"));
+                item.setItemType(jo_inside.getString("all_category_item_type"));
+                item.setImage(jo_inside.getString("all_category_image"));
 
-                array_all_category.add(itemHomeAllCategory);
+                array_all_category.add(item);
             }
         } catch (JSONException e) {
             e.printStackTrace();

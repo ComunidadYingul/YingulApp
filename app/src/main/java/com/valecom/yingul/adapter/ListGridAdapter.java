@@ -55,11 +55,10 @@ public class ListGridAdapter extends RecyclerView.Adapter<ListGridAdapter.ItemRo
         holder.text_cat_list_price.setText(itemCategorylist.getCategoryListPrice());
 
         try{
-            Log.e("Money:--",itemCategorylist.getCategoryListMoney().toString());
             if(itemCategorylist.getCategoryListMoney().equals("ARS")){
                 holder.moneyUsd.setVisibility(View.GONE);
             }else{
-                holder.moneyArs.setVisibility(View.GONE);
+                holder.moneyArs.setVisibility(View.VISIBLE);
             }
 
 

@@ -18,6 +18,7 @@ import com.valecom.yingul.main.categories.CategoryActivity;
 import com.valecom.yingul.main.motorized.MotorizedActivity;
 import com.valecom.yingul.main.service.ServiceActivity;
 import com.valecom.yingul.main.store.AllStoreActivity;
+import com.valecom.yingul.model.Yng_Category;
 
 import java.util.ArrayList;
 
@@ -29,10 +30,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AllCategoryHomeAdapter extends RecyclerView.Adapter<AllCategoryHomeAdapter.ItemRowHolder>{
 
-    private ArrayList<ItemAllCategory> dataList;
+    private ArrayList<Yng_Category> dataList;
     private Context mContext;
 
-    public AllCategoryHomeAdapter(Context context, ArrayList<ItemAllCategory> dataList) {
+    public AllCategoryHomeAdapter(Context context, ArrayList<Yng_Category> dataList) {
         this.dataList = dataList;
         this.mContext = context;
     }
@@ -45,17 +46,17 @@ public class AllCategoryHomeAdapter extends RecyclerView.Adapter<AllCategoryHome
 
     @Override
     public void onBindViewHolder(ItemRowHolder holder, final int position) {
-        final ItemAllCategory itemAllCategory = dataList.get(position);
+        final Yng_Category item = dataList.get(position);
 
-        holder.textCategory.setText(itemAllCategory.getAllCategoryTitle());
-        Picasso.with(mContext).load("file:///android_asset/image/"+itemAllCategory.getAllCategoryImage()).into(holder.image_all_category);
+        holder.textCategory.setText(item.getName());
+        Picasso.with(mContext).load("file:///android_asset/image/"+item.getImage()).into(holder.image_all_category);
 
         holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent;
-                Log.e("seleccionado:--",itemAllCategory.getAllCategoryId());
-                switch (itemAllCategory.getAllCategoryId()){
+                //Log.e("seleccionado:--",item.getItemType().toString());
+                switch (item.getItemType()){
                     case "motorized":
                         intent = new Intent(mContext, MotorizedActivity.class);
                         mContext.startActivity(intent);
@@ -76,7 +77,7 @@ public class AllCategoryHomeAdapter extends RecyclerView.Adapter<AllCategoryHome
                     break;
                     default:
                         intent = new Intent(mContext, CategoryActivity.class);
-                        intent.putExtra("categoryId", itemAllCategory.getAllCategoryId());
+                        intent.putExtra("categoryId", item.getCategoryId().toString());
                         mContext.startActivity(intent);
                     break;
                 }
