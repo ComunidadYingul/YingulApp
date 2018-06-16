@@ -15,8 +15,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.valecom.yingul.Item.ItemCategory;
-import com.valecom.yingul.Item.ItemCategoryList;
-import com.valecom.yingul.Item.ItemReviewPublic;
 import com.valecom.yingul.R;
 import com.valecom.yingul.Util.ItemOffsetDecoration;
 import com.valecom.yingul.adapter.AllStoresAdapter;

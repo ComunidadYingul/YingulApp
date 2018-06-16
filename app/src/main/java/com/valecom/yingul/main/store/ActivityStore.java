@@ -30,7 +30,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.valecom.yingul.Item.ItemCategoryList;
 import com.valecom.yingul.Item.ItemColorSize;
 import com.valecom.yingul.R;
 import com.valecom.yingul.Util.ItemOffsetDecoration;
@@ -40,6 +39,7 @@ import com.valecom.yingul.adapter.SelectColorAdapter;
 import com.valecom.yingul.adapter.SelectSizeAdapter;
 import com.valecom.yingul.main.MainActivity;
 import com.valecom.yingul.model.Yng_IpApi;
+import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.model.Yng_Store;
 import com.valecom.yingul.model.Yng_Ubication;
 import com.valecom.yingul.model.Yng_User;
@@ -58,7 +58,7 @@ public class ActivityStore extends AppCompatActivity {
 
     RecyclerView recycler_cat_list;
     ListGridAdapter adapter_cat_list;
-    ArrayList<ItemCategoryList> array_cat_list;
+    ArrayList<Yng_Item> array_cat_list;
     ListRowAdapter adapter_cat_list_listview;
     TextView txtNoOfItem;
     ImageView ImgList,ImgGrid,ImgFilter;
@@ -156,7 +156,7 @@ public class ActivityStore extends AppCompatActivity {
 
     }
 
-    public ArrayList<ItemCategoryList> loadJSONFromAssetCategoryList() {
+    public ArrayList<Yng_Item> loadJSONFromAssetCategoryList() {
 
         JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "item/Item/"+objUser.getUsername(),
                 new Response.Listener<JSONArray>() {
@@ -169,17 +169,17 @@ public class ActivityStore extends AppCompatActivity {
                             Log.e("Eddy",m_jArry.toString());
                             for (int i = 0; i < m_jArry.length(); i++) {
                                 JSONObject jo_inside = m_jArry.getJSONObject(i);
-                                ItemCategoryList itemPublicSellerList = new ItemCategoryList();
-                                itemPublicSellerList.setCategoryListId(jo_inside.getString("itemId"));
-                                itemPublicSellerList.setCategoryListName(jo_inside.getString("name"));
-                                itemPublicSellerList.setCategoryListImage(jo_inside.getString("principalImage"));
-                                itemPublicSellerList.setCategoryListDescription(jo_inside.getString("description"));
-                                itemPublicSellerList.setCategoryListPrice(jo_inside.getString("price"));
-                                itemPublicSellerList.setCategoryListType(jo_inside.getString("type"));
-                                itemPublicSellerList.setCategoryListDuildedArea(jo_inside.getString("duildedArea"));
-                                itemPublicSellerList.setCategoryListMoney(jo_inside.getString("money"));
+                                Yng_Item item = new Yng_Item();
+                                item.setItemId(Long.valueOf(jo_inside.getString("itemId")));
+                                item.setName(jo_inside.getString("name"));
+                                item.setPrincipalImage(jo_inside.getString("principalImage"));
+                                item.setDescription(jo_inside.getString("description"));
+                                item.setPrice(Double.valueOf(jo_inside.getString("price")));
+                                item.setType(jo_inside.getString("type"));
+                                item.setDuildedArea(Integer.valueOf(jo_inside.getString("duildedArea")));
+                                item.setMoney(jo_inside.getString("money"));
 
-                                array_cat_list.add(itemPublicSellerList);
+                                array_cat_list.add(item);
 
                             }
                             setAdapterHomeCategoryList();
@@ -251,7 +251,7 @@ public class ActivityStore extends AppCompatActivity {
         MySingleton.getInstance(ActivityStore.this).addToRequestQueue(postRequest);
         return array_cat_list;
 
-        /*ArrayList<ItemCategoryList> locList = new ArrayList<>();
+        /*ArrayList<Yng_Item> locList = new ArrayList<>();
         String json = null;
         try {
             InputStream is = getAssets().open("category_list.json");
@@ -270,7 +270,7 @@ public class ActivityStore extends AppCompatActivity {
 
             for (int i = 0; i < m_jArry.length(); i++) {
                 JSONObject jo_inside = m_jArry.getJSONObject(i);
-                ItemCategoryList itemHomeCategoryList = new ItemCategoryList();
+                Yng_Item itemHomeCategoryList = new Yng_Item();
 
                 itemHomeCategoryList.setCategoryListName(jo_inside.getString("cat_list_title"));
                 itemHomeCategoryList.setCategoryListImage(jo_inside.getString("cat_list_image"));

@@ -13,8 +13,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.Item.ItemCategory;
-import com.valecom.yingul.Item.ItemCategoryList;
-import com.valecom.yingul.Item.ItemReviewPublic;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.store.ActivityStore;
 import com.valecom.yingul.network.Network;

@@ -28,7 +28,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.valecom.yingul.Item.ItemAllCategory;
 import com.valecom.yingul.Item.ItemCategory;
-import com.valecom.yingul.Item.ItemCategoryList;
 import com.valecom.yingul.Item.ItemHomeSlider;
 import com.valecom.yingul.R;
 import com.valecom.yingul.Util.ItemOffsetDecoration;
@@ -38,6 +37,7 @@ import com.valecom.yingul.adapter.LatestListAdapter;
 import com.valecom.yingul.adapter.StoreHomeAdapter;
 import com.valecom.yingul.main.buy.BuyActivity;
 import com.valecom.yingul.model.Yng_Category;
+import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.model.Yng_User;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
@@ -77,11 +77,11 @@ public class PrincipalFragment extends Fragment {
 
     RecyclerView recycler_home_trending;
     CategoryListAdapter adapter_trending;
-    ArrayList<ItemCategoryList> array_trending;
+    ArrayList<Yng_Item> array_trending;
 
     RecyclerView recycler_home_latest;
     LatestListAdapter adapter_latest;
-    ArrayList<ItemCategoryList> array_latest;
+    ArrayList<Yng_Item> array_latest;
 
     RecyclerView recycler_home_category;
     StoreHomeAdapter adapter_category;
@@ -331,7 +331,7 @@ public class PrincipalFragment extends Fragment {
 
     /***************************** ALL OVERS ********************************/
 
-    public ArrayList<ItemCategoryList> loadJSONFromAssetHomeTrending() {
+    public ArrayList<Yng_Item> loadJSONFromAssetHomeTrending() {
         JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "item/over/true",
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -343,22 +343,22 @@ public class PrincipalFragment extends Fragment {
                             Log.e("Eddy",m_jArry.toString());
                             for (int i = 0; i < m_jArry.length(); i++) {
                                 JSONObject jo_inside = m_jArry.getJSONObject(i);
-                                ItemCategoryList itemHomeCategoryList = new ItemCategoryList();
-                                itemHomeCategoryList.setCategoryListId(jo_inside.getString("itemId"));
-                                itemHomeCategoryList.setCategoryListName(jo_inside.getString("name"));
-                                itemHomeCategoryList.setCategoryListImage(jo_inside.getString("principalImage"));
-                                itemHomeCategoryList.setCategoryListDescription(jo_inside.getString("description"));
-                                itemHomeCategoryList.setCategoryListPrice(jo_inside.getString("price"));
-                                itemHomeCategoryList.setCategoryListMoney(jo_inside.getString("money"));
-                                itemHomeCategoryList.setCategoryListEnvio(jo_inside.getString("productPagoEnvio"));
+                                Yng_Item item = new Yng_Item();
+                                item.setItemId(Long.valueOf(jo_inside.getString("itemId")));
+                                item.setName(jo_inside.getString("name"));
+                                item.setPrincipalImage(jo_inside.getString("principalImage"));
+                                item.setDescription(jo_inside.getString("description"));
+                                item.setPrice(Double.valueOf(jo_inside.getString("price")));
+                                item.setMoney(jo_inside.getString("money"));
+                                item.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));
 
 
-                                JSONObject user = jo_inside.getJSONObject("user");
+                                /*JSONObject user = jo_inside.getJSONObject("user");
                                 Gson gson = new Gson();
                                 Yng_User seller = gson.fromJson(String.valueOf(user) , Yng_User.class);
-                                itemHomeCategoryList.setCategorySeller(seller.getUsername());
+                                item.setCategorySeller(seller.getUsername());*/
 
-                                array_trending.add(itemHomeCategoryList);
+                                array_trending.add(item);
 
                             }
                             setAdapterHomeTrending();
@@ -442,7 +442,7 @@ public class PrincipalFragment extends Fragment {
 
     /***************************** ALL ITEMS ********************************/
 
-    public ArrayList<ItemCategoryList> loadJSONFromAssetHomeLatest() {
+    public ArrayList<Yng_Item> loadJSONFromAssetHomeLatest() {
 
         JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "index/item/all",
                 new Response.Listener<JSONArray>() {
@@ -455,22 +455,22 @@ public class PrincipalFragment extends Fragment {
                             Log.e("Eddy",m_jArry.toString());
                             for (int i = 0; i < m_jArry.length(); i++) {
                                 JSONObject jo_inside = m_jArry.getJSONObject(i);
-                                ItemCategoryList itemHomeCategoryList = new ItemCategoryList();
-                                itemHomeCategoryList.setCategoryListId(jo_inside.getString("itemId"));
-                                itemHomeCategoryList.setCategoryListName(jo_inside.getString("name"));
-                                itemHomeCategoryList.setCategoryListImage(jo_inside.getString("principalImage"));
-                                itemHomeCategoryList.setCategoryListDescription(jo_inside.getString("description"));
-                                itemHomeCategoryList.setCategoryListPrice(jo_inside.getString("price"));
-                                itemHomeCategoryList.setCategoryListMoney(jo_inside.getString("money"));
-                                itemHomeCategoryList.setCategoryListEnvio(jo_inside.getString("productPagoEnvio"));
+                                Yng_Item item = new Yng_Item();
+                                item.setItemId(Long.valueOf(jo_inside.getString("itemId")));
+                                item.setName(jo_inside.getString("name"));
+                                item.setPrincipalImage(jo_inside.getString("principalImage"));
+                                item.setDescription(jo_inside.getString("description"));
+                                item.setPrice(Double.valueOf(jo_inside.getString("price")));
+                                item.setMoney(jo_inside.getString("money"));
+                                item.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));
 
-                                JSONObject user = jo_inside.getJSONObject("user");
+                                /*JSONObject user = jo_inside.getJSONObject("user");
                                 Gson gson = new Gson();
                                 Yng_User seller = gson.fromJson(String.valueOf(user) , Yng_User.class);
-                                itemHomeCategoryList.setCategorySeller(seller.getUsername());
+                                item.setCategorySeller(seller.getUsername());*/
 
 
-                                array_latest.add(itemHomeCategoryList);
+                                array_latest.add(item);
 
                             }
                             setAdapterHomeCategoryList();

@@ -15,12 +15,12 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.valecom.yingul.Item.ItemCategoryList;
 import com.valecom.yingul.R;
 import com.valecom.yingul.Util.ItemOffsetDecoration;
 import com.valecom.yingul.adapter.ListGridAdapter;
 import com.valecom.yingul.main.MainActivity;
 import com.valecom.yingul.main.property.PropertyActivity;
+import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
 
@@ -39,7 +39,7 @@ public class MotorizedActivity extends AppCompatActivity {
 
     RecyclerView recycler_list;
     ListGridAdapter adapter_list;
-    ArrayList<ItemCategoryList> array_list;
+    ArrayList<Yng_Item> array_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,7 @@ public class MotorizedActivity extends AppCompatActivity {
         loadJSONFromAssetCategoryList();
     }
 
-    public ArrayList<ItemCategoryList> loadJSONFromAssetCategoryList() {
+    public ArrayList<Yng_Item> loadJSONFromAssetCategoryList() {
 
         JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "item/motorized/all",
                 new Response.Listener<JSONArray>() {
@@ -84,15 +84,15 @@ public class MotorizedActivity extends AppCompatActivity {
                             Log.e("Eddy",m_jArry.toString());
                             for (int i = 0; i < m_jArry.length(); i++) {
                                 JSONObject jo_inside = m_jArry.getJSONObject(i);
-                                ItemCategoryList itemPublicSellerList = new ItemCategoryList();
-                                itemPublicSellerList.setCategoryListId(jo_inside.getString("itemId"));
-                                itemPublicSellerList.setCategoryListName(jo_inside.getString("name"));
-                                itemPublicSellerList.setCategoryListImage(jo_inside.getString("principalImage"));
-                                itemPublicSellerList.setCategoryListDescription(jo_inside.getString("description"));
-                                itemPublicSellerList.setCategoryListPrice(jo_inside.getString("price"));
-                                itemPublicSellerList.setCategoryListType(jo_inside.getString("type"));
-                                itemPublicSellerList.setCategoryListDuildedArea(jo_inside.getString("duildedArea"));
-                                itemPublicSellerList.setCategoryListMoney(jo_inside.getString("money"));
+                                Yng_Item itemPublicSellerList = new Yng_Item();
+                                itemPublicSellerList.setItemId(Long.valueOf(jo_inside.getString("itemId")));
+                                itemPublicSellerList.setName(jo_inside.getString("name"));
+                                itemPublicSellerList.setPrincipalImage(jo_inside.getString("principalImage"));
+                                itemPublicSellerList.setDescription(jo_inside.getString("description"));
+                                itemPublicSellerList.setPrice(Double.valueOf(jo_inside.getString("price")));
+                                itemPublicSellerList.setType(jo_inside.getString("type"));
+                                itemPublicSellerList.setDuildedArea(Integer.valueOf(jo_inside.getString("duildedArea")));
+                                itemPublicSellerList.setMoney(jo_inside.getString("money"));
 
                                 array_list.add(itemPublicSellerList);
 

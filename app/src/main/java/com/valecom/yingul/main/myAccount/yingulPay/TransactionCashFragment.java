@@ -18,8 +18,6 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.google.gson.Gson;
-import com.valecom.yingul.Item.ItemCategoryList;
 import com.valecom.yingul.R;
 import com.valecom.yingul.Util.ItemOffsetDecoration;
 import com.valecom.yingul.adapter.CategoryListAdapter;

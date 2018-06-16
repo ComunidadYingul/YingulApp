@@ -26,7 +26,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
-import com.valecom.yingul.Item.ItemCategoryList;
 import com.valecom.yingul.Item.ItemColorSize;
 import com.valecom.yingul.R;
 import com.valecom.yingul.Util.ItemOffsetDecoration;
@@ -38,6 +37,7 @@ import com.valecom.yingul.main.MainActivity;
 import com.valecom.yingul.main.filter.FilterActivity;
 import com.valecom.yingul.main.store.ActivityStore;
 import com.valecom.yingul.model.FilterParam;
+import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.model.Yng_StateShipping;
 import com.valecom.yingul.model.Yng_Ubication;
 import com.valecom.yingul.network.MySingleton;
@@ -55,7 +55,7 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
 
     RecyclerView recycler_cat_list;
     ListGridAdapter adapter_cat_list;
-    ArrayList<ItemCategoryList> array_cat_list;//ArrayList<Yng_Item> array_cat_list;
+    ArrayList<Yng_Item> array_cat_list;//ArrayList<Yng_Item> array_cat_list;
     ListRowAdapter adapter_cat_list_listview;
     TextView txtNoOfItem;
     ImageView ImgList,ImgGrid,ImgFilter;
@@ -74,7 +74,7 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
     private MaterialDialog setting_address_edit_dialog;
     /******filtros*****/
     static final int ITEM_PICKER_TAG = 1;
-    ArrayList<ItemCategoryList> array_cat_list_backup;
+    ArrayList<Yng_Item> array_cat_list_backup;
     private FilterParam filterParams;
     private Double maxPriceItem;
     /*********/
@@ -171,7 +171,7 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
 
     }
 
-    public ArrayList<ItemCategoryList> loadJSONFromAssetCategoryList() {
+    public ArrayList<Yng_Item> loadJSONFromAssetCategoryList() {
 
         progressDialog.show();
 
@@ -186,32 +186,32 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
                             Log.e("Eddy",m_jArry.toString());
                             for (int i = 0; i < m_jArry.length(); i++) {
                                 JSONObject jo_inside = m_jArry.getJSONObject(i);
-                                ItemCategoryList itemPublicSellerList = new ItemCategoryList();
-                                itemPublicSellerList.setCategoryListId(jo_inside.getString("itemId"));
-                                itemPublicSellerList.setCategoryListName(jo_inside.getString("name"));
-                                itemPublicSellerList.setCategoryListImage(jo_inside.getString("principalImage"));
-                                itemPublicSellerList.setCategoryListDescription(jo_inside.getString("description"));
-                                itemPublicSellerList.setCategoryListPrice(jo_inside.getString("price"));
-                                itemPublicSellerList.setCategoryListType(jo_inside.getString("type"));
-                                itemPublicSellerList.setCategoryListMoney(jo_inside.getString("money"));
-                                itemPublicSellerList.setCategoryListCondition(jo_inside.getString("condition"));
-                                itemPublicSellerList.setCategoryListEnvio(jo_inside.getString("productPagoEnvio"));
-                                itemPublicSellerList.setCategoryListOver(jo_inside.getString("over"));
-                                itemPublicSellerList.setCategoryListPriceNormal(jo_inside.getString("priceNormal"));
-                                itemPublicSellerList.setCategoryListPriceDiscount(jo_inside.getString("priceDiscount"));
+                                Yng_Item item = new Yng_Item();
+                                item.setItemId(Long.valueOf(jo_inside.getString("itemId")));
+                                item.setName(jo_inside.getString("name"));
+                                item.setPrincipalImage(jo_inside.getString("principalImage"));
+                                item.setDescription(jo_inside.getString("description"));
+                                item.setPrice(Double.valueOf(jo_inside.getString("price")));
+                                item.setType(jo_inside.getString("type"));
+                                item.setMoney(jo_inside.getString("money"));
+                                item.setCondition(jo_inside.getString("condition"));
+                                item.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));
+                                item.setOver(jo_inside.getBoolean("over"));
+                                item.setPriceNormal(Double.valueOf(jo_inside.getString("priceNormal")));
+                                item.setPriceDiscount(Double.valueOf(jo_inside.getString("priceDiscount")));
 
                                 Gson gson = new Gson();
                                 Yng_Ubication yngUbication = gson.fromJson(jo_inside.getString("yng_Ubication"), Yng_Ubication.class);
-                                itemPublicSellerList.setCategoryListUbication(yngUbication);
+                                item.setYng_Ubication(yngUbication);
 
                                 //Log.e("envia",jo_inside.getString("yng_Ubication"));
                                 /***********filtro**************/
-                                if(maxPriceItem<Double.parseDouble(itemPublicSellerList.getCategoryListPrice())){
-                                    maxPriceItem=Double.parseDouble(itemPublicSellerList.getCategoryListPrice());
+                                if(maxPriceItem<item.getPrice()){
+                                    maxPriceItem=item.getPrice();
                                 }
                                 /********************************/
 
-                                array_cat_list.add(itemPublicSellerList);
+                                array_cat_list.add(item);
 
                             }
                             array_cat_list_backup=array_cat_list;
@@ -284,7 +284,7 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
         MySingleton.getInstance(ItemsByCategoryActivity.this).addToRequestQueue(postRequest);
         return array_cat_list;
 
-        /*ArrayList<ItemCategoryList> locList = new ArrayList<>();
+        /*ArrayList<Yng_Item> locList = new ArrayList<>();
         String json = null;
         try {
             InputStream is = getAssets().open("category_list.json");
@@ -303,7 +303,7 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
 
             for (int i = 0; i < m_jArry.length(); i++) {
                 JSONObject jo_inside = m_jArry.getJSONObject(i);
-                ItemCategoryList itemHomeCategoryList = new ItemCategoryList();
+                Yng_Item itemHomeCategoryList = new Yng_Item();
 
                 itemHomeCategoryList.setCategoryListName(jo_inside.getString("cat_list_title"));
                 itemHomeCategoryList.setCategoryListImage(jo_inside.getString("cat_list_image"));
@@ -352,34 +352,34 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public ArrayList<ItemCategoryList> stringToArrayItemCategoryList(String itemList) throws JSONException {
-        ArrayList<ItemCategoryList> array_cat_list_new= new ArrayList<>();
+    public ArrayList<Yng_Item> stringToArrayItemCategoryList(String itemList) throws JSONException {
+        ArrayList<Yng_Item> array_cat_list_new= new ArrayList<>();
 
         JSONArray m_jArry = new JSONArray(itemList);
-
-        for (int i = 0; i < m_jArry.length(); i++) {
-            JSONObject jo_inside = m_jArry.getJSONObject(i);
-            ItemCategoryList itemPublicSellerList = new ItemCategoryList();
-            itemPublicSellerList.setCategoryListId(jo_inside.getString("CategoryListId"));
-            itemPublicSellerList.setCategoryListName(jo_inside.getString("CategoryListName"));
-            itemPublicSellerList.setCategoryListImage(jo_inside.getString("CategoryListImage"));
-            itemPublicSellerList.setCategoryListDescription(jo_inside.getString("CategoryListDescription"));
-            itemPublicSellerList.setCategoryListPrice(jo_inside.getString("CategoryListPrice"));
-            itemPublicSellerList.setCategoryListType(jo_inside.getString("CategoryListType"));
-            itemPublicSellerList.setCategoryListMoney(jo_inside.getString("CategoryListMoney"));
-            itemPublicSellerList.setCategoryListCondition(jo_inside.getString("CategoryListCondition"));
-            itemPublicSellerList.setCategoryListEnvio(jo_inside.getString("CategoryListEnvio"));
-            itemPublicSellerList.setCategoryListOver(jo_inside.getString("CategoryListOver"));
-            itemPublicSellerList.setCategoryListPriceNormal(jo_inside.getString("CategoryListPriceNormal"));
-            itemPublicSellerList.setCategoryListPriceDiscount(jo_inside.getString("CategoryListPriceDiscount"));
+        Log.e("gonzalo","llego"+m_jArry.length());
+        for (int i = 0; i < m_jArry.length(); i++) {Log.e("gonzalo","llego");
+            JSONObject jo_inside = m_jArry.getJSONObject(i);Log.e("gonzalo","llego");
+            Yng_Item item = new Yng_Item();Log.e("gonzalo","llego");
+            item.setItemId(jo_inside.getLong("itemId"));Log.e("gonzalo","llego");
+            item.setName(jo_inside.getString("name"));Log.e("gonzalo","llego");
+            item.setPrincipalImage(jo_inside.getString("principalImage"));Log.e("gonzalo","llego");
+            item.setDescription(jo_inside.getString("description"));Log.e("gonzalo","llego");
+            item.setPrice(jo_inside.getDouble("price"));Log.e("gonzalo","llego");
+            item.setType(jo_inside.getString("type"));Log.e("gonzalo","llego");
+            item.setMoney(jo_inside.getString("money"));Log.e("gonzalo","llego");
+            item.setCondition(jo_inside.getString("condition"));Log.e("gonzalo","llego");
+            item.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));Log.e("gonzalo","llego");
+            item.setOver(jo_inside.getBoolean("isOver"));Log.e("gonzalo","llego");
+            item.setPriceNormal(jo_inside.getDouble("priceNormal"));Log.e("gonzalo","llego");
+            item.setPriceDiscount(jo_inside.getDouble("priceDiscount"));Log.e("gonzalo","llego");
 
             Gson gson = new Gson();
             Yng_Ubication yngUbication = gson.fromJson(jo_inside.getString("CategoryListUbication"), Yng_Ubication.class);
-            itemPublicSellerList.setCategoryListUbication(yngUbication);
+            item.setYng_Ubication(yngUbication);
             //itemPublicSellerList.setCategoryListUbication(jo_inside.getString("CategoryListUbication"));
             //Log.e("envia",itemPublicSellerList.getCategoryListId()+"");
 
-            array_cat_list_new.add(itemPublicSellerList);
+            array_cat_list_new.add(item);
 
         }
 

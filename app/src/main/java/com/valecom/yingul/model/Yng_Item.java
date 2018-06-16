@@ -19,7 +19,7 @@ public class Yng_Item implements Serializable
     private String video;
     private int quantity;
     private String type;
-    private boolean isOver;
+    private boolean over;
     private boolean enabled;
     private int dayPublication;
     private int monthPublication;
@@ -136,12 +136,12 @@ public class Yng_Item implements Serializable
         this.type = type;
     }
 
-    public boolean isOver() {
-        return isOver;
+    public boolean getOver() {
+        return over;
     }
 
     public void setOver(boolean over) {
-        isOver = over;
+        this.over = over;
     }
 
     public boolean isEnabled() {

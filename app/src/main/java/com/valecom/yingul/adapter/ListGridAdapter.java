@@ -19,10 +19,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.InterstitialAd;
 import com.squareup.picasso.Picasso;
-import com.valecom.yingul.Item.ItemCategoryList;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.ActivityProductDetail;
 import com.valecom.yingul.main.store.ActivityStore;
+import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.network.Network;
 
 import java.util.ArrayList;
@@ -32,11 +32,11 @@ import java.util.ArrayList;
  */
 
 public class ListGridAdapter extends RecyclerView.Adapter<ListGridAdapter.ItemRowHolder>{
-    private ArrayList<ItemCategoryList> dataList;
+    private ArrayList<Yng_Item> dataList;
     private Context mContext;
     private InterstitialAd mInterstitial;
 
-    public ListGridAdapter(Context context, ArrayList<ItemCategoryList> dataList) {
+    public ListGridAdapter(Context context, ArrayList<Yng_Item> dataList) {
         this.dataList = dataList;
         this.mContext = context;
     }
@@ -49,13 +49,13 @@ public class ListGridAdapter extends RecyclerView.Adapter<ListGridAdapter.ItemRo
 
     @Override
     public void onBindViewHolder(ListGridAdapter.ItemRowHolder holder, final int position) {
-        final ItemCategoryList itemCategorylist = dataList.get(position);
+        final Yng_Item item = dataList.get(position);
 
-        holder.text_cat_list_title.setText(itemCategorylist.getCategoryListName());
-        holder.text_cat_list_price.setText(itemCategorylist.getCategoryListPrice());
+        holder.text_cat_list_title.setText(item.getName());
+        holder.text_cat_list_price.setText(String.valueOf(item.getPrice()));
 
         try{
-            if(itemCategorylist.getCategoryListMoney().equals("ARS")){
+            if(item.getMoney().equals("ARS")){
                 holder.moneyUsd.setVisibility(View.GONE);
             }else{
                 holder.moneyArs.setVisibility(View.VISIBLE);
@@ -67,16 +67,16 @@ public class ListGridAdapter extends RecyclerView.Adapter<ListGridAdapter.ItemRo
         }
 
         try {
-            if (itemCategorylist.getCategoryListType().toString().equals("Property")) {
+            if (item.getType().toString().equals("Property")) {
                 holder.lyt_otro.setVisibility(View.VISIBLE);
-                holder.text_cat_list_otro.setText(itemCategorylist.getCategoryListDuildedArea() + " m2");
+                holder.text_cat_list_otro.setText(item.getDuildedArea() + " m2");
             }
         }catch (Exception e){}
-        Picasso.with(mContext).load(Network.BUCKET_URL+itemCategorylist.getCategoryListImage()).into(holder.image_cat_list);
+        Picasso.with(mContext).load(Network.BUCKET_URL+item.getPrincipalImage()).into(holder.image_cat_list);
 
         try {
-            Log.e("envio:----",itemCategorylist.getCategoryListEnvio().toString());
-            if (itemCategorylist.getCategoryListEnvio().toString().equals("gratis")) {
+            Log.e("envio:----",item.getProductPagoEnvio().toString());
+            if (item.getProductPagoEnvio().toString().equals("gratis")) {
                 holder.imgEnvioGratis.setVisibility(View.VISIBLE);
             }
         }catch (Exception e){}
@@ -86,8 +86,8 @@ public class ListGridAdapter extends RecyclerView.Adapter<ListGridAdapter.ItemRo
             @Override
             public void onClick(View v) {
                 Intent intent_detail=new Intent(mContext, ActivityProductDetail.class);
-                intent_detail.putExtra("itemId",itemCategorylist.getCategoryListId());
-                //intent_detail.putExtra("seller",itemCategorylist.getCategorySeller());
+                intent_detail.putExtra("itemId",item.getItemId());
+                //intent_detail.putExtra("seller",item.getCategorySeller());
                 mContext.startActivity(intent_detail);
                 //Log.e("gonzalo:----","hola");
 
