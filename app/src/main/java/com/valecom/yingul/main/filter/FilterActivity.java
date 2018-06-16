@@ -543,7 +543,11 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
                             }
                         });
 
-                        textPathUbication.setText("Todas > "+country.getName()+" > "+province.getName().substring(0,7)+"...");
+                        if(province.getName().length()>7){
+                            textPathUbication.setText("Todas > "+country.getName()+" > "+province.getName().substring(0,7)+"...");
+                        }else{
+                            textPathUbication.setText("Todas > "+country.getName()+" > "+province.getName()+"...");
+                        }
 
                         list = (ListView) view.findViewById(R.id.list);
                         list.setAdapter(adapter2);
