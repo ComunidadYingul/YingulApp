@@ -222,8 +222,8 @@ public class ActivityProductDetail extends AppCompatActivity {
             }
         });
 
-        loadJSONFromAssetGallery();
-        //RunLoginService();
+
+        RunLoginService();
 
 //        scrollView.setOnTouchListener(new OnSwipeTouchListener(ActivityProductDetail.this) {
 //
@@ -241,10 +241,10 @@ public class ActivityProductDetail extends AppCompatActivity {
 //
 //        });
     }
-
+/*******************************************************************************************************/
     public ArrayList<ItemGallery> loadJSONFromAssetGallery() {
 
-        progressDialog.show();
+        //progressDialog.show();
 
         JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "item/Image/"+itemId,
                 new Response.Listener<JSONArray>() {
@@ -254,12 +254,13 @@ public class ActivityProductDetail extends AppCompatActivity {
                         {
                             ItemGallery itemGalleryList = new ItemGallery();
 
-                            itemGalleryList.setGalleryImage("principal"+itemId+".jpeg");
+                            itemGalleryList.setGalleryImage(itemTemp.getPrincipalImage());
+                            Log.e("principalImage:--",itemTemp.getPrincipalImage());
 
                             array_gallery.add(itemGalleryList);
 
                             JSONArray m_jArry = response;
-                            Log.e("Eddy",m_jArry.toString());
+                            Log.e("Eddy_array---",m_jArry.toString());
                             for (int i = 0; i < m_jArry.length(); i++) {
                                 JSONObject jo_inside = m_jArry.getJSONObject(i);
                                 itemGalleryList = new ItemGallery();
@@ -276,9 +277,9 @@ public class ActivityProductDetail extends AppCompatActivity {
                             Toast.makeText(ActivityProductDetail.this, R.string.error_try_again_support, Toast.LENGTH_LONG).show();
                         }
 
-                        if (progressDialog != null && progressDialog.isShowing()) {
+                        /*if (progressDialog != null && progressDialog.isShowing()) {
                             progressDialog.dismiss();
-                        }
+                        }*/
                     }
                 }, new Response.ErrorListener()
         {
@@ -369,8 +370,8 @@ public class ActivityProductDetail extends AppCompatActivity {
             }
         });
 
-        RunLoginService();
-        //loadJSONFromAssetReview();
+        loadJSONFromAssetReview();
+
     }
 
     public interface ClickListener {
@@ -421,7 +422,7 @@ public class ActivityProductDetail extends AppCompatActivity {
 
         }
     }
-
+    /*******************************************************************************************************/
     public ArrayList<Yng_Item> loadJSONFromAssetReview() {
 
         JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "item/Item/"+itemSeller,
@@ -561,7 +562,7 @@ public class ActivityProductDetail extends AppCompatActivity {
         recycler_detail_review.setAdapter(adapter_review_public);
 
     }
-
+    /*******************************************************************************************************/
     private void showSelectColor() {
         final Dialog mDialog = new Dialog(ActivityProductDetail.this, R.style.Theme_AppCompat_Translucent);
         mDialog.setContentView(R.layout.select_color_dialog);
@@ -596,7 +597,7 @@ public class ActivityProductDetail extends AppCompatActivity {
         recyclerView_color.setAdapter(adapter_color);
 
     }
-
+    /*******************************************************************************************************/
     private void showSelectSize() {
         final Dialog mDialog = new Dialog(ActivityProductDetail.this, R.style.Theme_AppCompat_Translucent);
         mDialog.setContentView(R.layout.select_size_dialog);
@@ -631,7 +632,7 @@ public class ActivityProductDetail extends AppCompatActivity {
 
 
     }
-
+    /*******************************************************************************************************/
     private void showOrderPlace() {
         Intent intent = new Intent(ActivityProductDetail.this, BuyActivity.class);
         intent.putExtra("itemId",itemTemp.getItemId());
@@ -816,7 +817,7 @@ public class ActivityProductDetail extends AppCompatActivity {
             }
         }
     }
-
+    /*******************************************************************************************************/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -824,7 +825,7 @@ public class ActivityProductDetail extends AppCompatActivity {
         this.menu = menu;
         return super.onCreateOptionsMenu(menu);
     }
-
+    /*******************************************************************************************************/
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
@@ -852,6 +853,7 @@ public class ActivityProductDetail extends AppCompatActivity {
         }
 
     }
+    /*******************************************************************************************************/
     public class OnSwipeTouchListener implements View.OnTouchListener {
 
         private final GestureDetector gestureDetector;
@@ -895,11 +897,11 @@ public class ActivityProductDetail extends AppCompatActivity {
             }
         }
     }
-
+    /*******************************************************************************************************/
     public void RunLoginService()
     {
 
-        //progressDialog.show();
+        progressDialog.show();
 
         JsonObjectRequest postRequest = new JsonObjectRequest
                 (
@@ -920,7 +922,7 @@ public class ActivityProductDetail extends AppCompatActivity {
                                     itemTemp=gson.fromJson(response.toString(),Yng_Item.class);
                                     String s=response.getString("description");
                                     try {
-                                        Log.e("daniel description:",itemTemp.getDescription());
+                                        Log.e("daniel description:",itemTemp.getProductPagoEnvio());
                                     }catch (Exception e){
                                         Log.e("daniel description:","sin descripcion");
                                     }
@@ -935,13 +937,13 @@ public class ActivityProductDetail extends AppCompatActivity {
                                         text_product_buy.setText("Consultar");
                                     }
 
-
                                     setData(itemTemp);
+
                                 }
                                 catch (Exception ex)
                                 {
                                 }
-                                loadJSONFromAssetReview();
+
                             }
                         }, new Response.ErrorListener()
                 {
@@ -1004,8 +1006,14 @@ public class ActivityProductDetail extends AppCompatActivity {
         //text_product_price.setTypeface(typeface);
         text_product_title.setText(itemTemp.getName());
         text_product_price.setText("$  "+itemTemp.getPrice());
-        if(itemTemp.getProductPagoEnvio().equals("gratis")) text_no_cost.setText("Envío gratis a todo el país");
-        else {text_no_cost.setText("Envío a todo el país");}
+        try{
+            if(itemTemp.getProductPagoEnvio().equals("gratis")) {
+                text_no_cost.setText("Envío gratis a todo el país");
+            }else {
+                text_no_cost.setText("Envío a todo el país");
+            }
+        }catch (Exception e){}
+
         // text_no_cost.setText(itemTemp.get);
         //text_product_rate.setText("4.8");
         try{
@@ -1013,6 +1021,8 @@ public class ActivityProductDetail extends AppCompatActivity {
         }catch (Exception e){
             web_desc.setText("");
         }
+
+        loadJSONFromAssetGallery();
     }
 
 }
