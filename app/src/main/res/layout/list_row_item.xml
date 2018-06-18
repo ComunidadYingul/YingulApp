@@ -117,6 +117,7 @@
                                 android:layout_marginRight="10dp"
                                 android:ellipsize="end"
                                 android:textSize="25sp"
+                                android:text="$"
                                 android:textColor="@color/colorPrimaryText" />
                             <TextView
                                 android:id="@+id/text_item_cat_list_price"
@@ -126,6 +127,7 @@
                                 android:layout_marginRight="10dp"
                                 android:ellipsize="end"
                                 android:textSize="25sp"
+                                android:text="2000"
                                 android:textColor="@color/colorPrimaryText" />
                         </LinearLayout>
                         <LinearLayout
