@@ -579,6 +579,15 @@ public class PrincipalFragment extends Fragment {
                                 array_category.add(item);
 
                             }
+                            Yng_Store item = new Yng_Store();
+
+                            item.setStoreId((long) 000000);
+                            item.setName("Ver tiendas");
+                            item.setMainImage("store/"+"sin.jpg");
+                            item.setBannerImage("store/"+"sin.jpg");
+
+                            array_category.add(item);
+
                             setAdapterHomeCategory();
 
                             /**/

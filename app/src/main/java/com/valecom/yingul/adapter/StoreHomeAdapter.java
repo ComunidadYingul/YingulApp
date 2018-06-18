@@ -2,7 +2,10 @@ package com.valecom.yingul.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +19,7 @@ import android.widget.TextView;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.ActivityPubliSellerList;
 import com.valecom.yingul.main.store.ActivityStore;
+import com.valecom.yingul.main.store.AllStoreActivity;
 import com.valecom.yingul.model.Yng_Store;
 import com.valecom.yingul.network.Network;
 import com.squareup.picasso.Picasso;
@@ -44,21 +48,53 @@ public class StoreHomeAdapter extends RecyclerView.Adapter<StoreHomeAdapter.Item
 
     @Override
     public void onBindViewHolder(ItemRowHolder holder, final int position) {
-        final Yng_Store item = dataList.get(position);
+        int tam= dataList.size();
+        Log.e("tamano:--",position+"");
+        if(tam==position+1){
+            Log.e("tamano:--","llego al final");
+            final Yng_Store item = dataList.get(position);
 
-        holder.text_cat_title.setText(item.getName());
-        Picasso.with(mContext).load(Network.BUCKET_URL + item.getBannerImage()).into(holder.banner_cat);
-        Picasso.with(mContext).load(Network.BUCKET_URL + item.getMainImage()).into(holder.image_cat);
+            holder.text_cat_title.setText(item.getName());
+            holder.text_cat_title.setTextColor(Color.parseColor("#245fff"));
+            holder.filtro.setVisibility(View.INVISIBLE);
+            holder.lytText.setVisibility(View.VISIBLE);
+            holder.card1.setCardElevation(0);
+            holder.card2.setCardElevation(0);
+            Picasso.with(mContext).load(Network.BUCKET_URL + item.getBannerImage()).into(holder.banner_cat);
+            Picasso.with(mContext).load("file:///android_asset/image/more_stores.png").into(holder.image_cat);
 
-        holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                Intent intent = new Intent(mContext, ActivityStore.class);
-                intent.putExtra("store",item.getName());
-                mContext.startActivity(intent);
-            }
-        });
+                    Intent intent = new Intent(mContext, AllStoreActivity.class);
+                    //intent.putExtra("store",item.getName());
+                    mContext.startActivity(intent);
+                }
+            });
+        }else{
+            final Yng_Store item = dataList.get(position);
+
+            holder.text_cat_title.setText(item.getName());
+            holder.text_cat_title.setTextColor(Color.parseColor("#777777"));
+            holder.filtro.setVisibility(View.VISIBLE);
+            holder.lytText.setVisibility(View.INVISIBLE);
+            holder.card1.setCardElevation(5);
+            holder.card2.setCardElevation(5);
+            Picasso.with(mContext).load(Network.BUCKET_URL + item.getBannerImage()).into(holder.banner_cat);
+            Picasso.with(mContext).load(Network.BUCKET_URL + item.getMainImage()).into(holder.image_cat);
+
+            holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(mContext, ActivityStore.class);
+                    intent.putExtra("store",item.getName());
+                    mContext.startActivity(intent);
+                }
+            });
+        }
+
 
         ScaleAnimation scaleAnim = new ScaleAnimation(
                 0f, 1f,
@@ -80,16 +116,21 @@ public class StoreHomeAdapter extends RecyclerView.Adapter<StoreHomeAdapter.Item
     }
 
     public class ItemRowHolder extends RecyclerView.ViewHolder {
-        public ImageView image_cat,banner_cat;
+        public ImageView image_cat,banner_cat,filtro;
         public TextView text_cat_title;
-        public LinearLayout lyt_parent;
+        public LinearLayout lyt_parent,lytText;
+        public CardView card1,card2;
 
         public ItemRowHolder(View itemView) {
             super(itemView);
+            filtro = (ImageView) itemView.findViewById(R.id.filtro_transparente);
             banner_cat = (ImageView) itemView.findViewById(R.id.banner_item_cat_home);
             image_cat = (ImageView) itemView.findViewById(R.id.image_item_cat_home);
             text_cat_title = (TextView) itemView.findViewById(R.id.text_item_cat_home);
+            lytText = (LinearLayout) itemView.findViewById(R.id.lytText);
             lyt_parent = (LinearLayout) itemView.findViewById(R.id.rootLayout);
+            card1 = (CardView)itemView.findViewById(R.id.card_logo);
+            card2 = (CardView)itemView.findViewById(R.id.card_view_cat);
         }
     }
 }
