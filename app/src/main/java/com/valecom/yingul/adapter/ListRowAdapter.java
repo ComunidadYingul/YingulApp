@@ -51,18 +51,18 @@ public class ListRowAdapter extends RecyclerView.Adapter<ListRowAdapter.ItemRowH
         final Yng_Item item = dataList.get(position);
 
         holder.text_cat_list_title.setText(item.getName());
-        holder.text_cat_list_price.setText(String.valueOf(item.getPrice()));
+        holder.text_cat_list_price.setText(String.format("%.0f", item.getPrice()));
         holder.textPriceNormal.setText(String.valueOf(item.getPriceNormal()));
         holder.textPriceNormal.setPaintFlags(holder.textPriceNormal.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         Picasso.with(mContext).load(Network.BUCKET_URL+item.getPrincipalImage()).into(holder.image_cat_list);
 
         try {
             if (item.getMoney().equals("USD")) {
-                holder.textMoney.setText("U$D ");
-                holder.textMoneyNormal.setText("U$D ");
+                holder.textMoney.setText("U$D");
+                holder.textMoneyNormal.setText("U$D");
             }else{
-                holder.textMoney.setText("$ ");
-                holder.textMoneyNormal.setText("$ ");
+                holder.textMoney.setText("$");
+                holder.textMoneyNormal.setText("$");
             }
         }catch (Exception e){}
 
