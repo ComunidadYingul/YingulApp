@@ -212,8 +212,8 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
                                 if(maxPriceItem<item.getPrice()){
                                     maxPriceItem=item.getPrice();
                                 }
-                                if(minPriceItem>Double.parseDouble(itemPublicSellerList.getCategoryListPrice())){
-                                    minPriceItem=Double.parseDouble(itemPublicSellerList.getCategoryListPrice());
+                                if(minPriceItem>item.getPrice()){
+                                    minPriceItem=item.getPrice();
                                 }
                                 /********************************/
 

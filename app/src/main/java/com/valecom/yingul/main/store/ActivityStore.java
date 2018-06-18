@@ -83,7 +83,7 @@ public class ActivityStore extends AppCompatActivity {
 
     /******filtros*****/
     static final int ITEM_PICKER_TAG = 1;
-    ArrayList<ItemCategoryList> array_cat_list_backup;
+    ArrayList<Yng_Item> array_cat_list_backup;
     private FilterParam filterParams;
     private Double maxPriceItem;
     private Double minPriceItem;
@@ -512,30 +512,30 @@ public class ActivityStore extends AppCompatActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-    public ArrayList<ItemCategoryList> stringToArrayItemCategoryList(String itemList) throws JSONException {
-        ArrayList<ItemCategoryList> array_cat_list_new= new ArrayList<>();
+    public ArrayList<Yng_Item> stringToArrayItemCategoryList(String itemList) throws JSONException {
+        ArrayList<Yng_Item> array_cat_list_new= new ArrayList<>();
 
         JSONArray m_jArry = new JSONArray(itemList);
 
         for (int i = 0; i < m_jArry.length(); i++) {
             JSONObject jo_inside = m_jArry.getJSONObject(i);
-            ItemCategoryList itemPublicSellerList = new ItemCategoryList();
-            itemPublicSellerList.setCategoryListId(jo_inside.getString("CategoryListId"));
-            itemPublicSellerList.setCategoryListName(jo_inside.getString("CategoryListName"));
-            itemPublicSellerList.setCategoryListImage(jo_inside.getString("CategoryListImage"));
-            itemPublicSellerList.setCategoryListDescription(jo_inside.getString("CategoryListDescription"));
-            itemPublicSellerList.setCategoryListPrice(jo_inside.getString("CategoryListPrice"));
-            itemPublicSellerList.setCategoryListType(jo_inside.getString("CategoryListType"));
-            itemPublicSellerList.setCategoryListMoney(jo_inside.getString("CategoryListMoney"));
-            itemPublicSellerList.setCategoryListCondition(jo_inside.getString("CategoryListCondition"));
-            itemPublicSellerList.setCategoryListEnvio(jo_inside.getString("CategoryListEnvio"));
-            itemPublicSellerList.setCategoryListOver(jo_inside.getString("CategoryListOver"));
-            itemPublicSellerList.setCategoryListPriceNormal(jo_inside.getString("CategoryListPriceNormal"));
-            itemPublicSellerList.setCategoryListPriceDiscount(jo_inside.getString("CategoryListPriceDiscount"));
+            Yng_Item itemPublicSellerList = new Yng_Item();
+            itemPublicSellerList.setItemId(Long.valueOf(jo_inside.getString("itemId")));
+            itemPublicSellerList.setName(jo_inside.getString("name"));
+            itemPublicSellerList.setPrincipalImage(jo_inside.getString("principalImage"));
+            itemPublicSellerList.setDescription(jo_inside.getString("description"));
+            itemPublicSellerList.setPrice(Double.valueOf(jo_inside.getString("price")));
+            itemPublicSellerList.setType(jo_inside.getString("type"));
+            itemPublicSellerList.setMoney(jo_inside.getString("money"));
+            itemPublicSellerList.setCondition(jo_inside.getString("condition"));
+            itemPublicSellerList.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));
+            itemPublicSellerList.setOver(Boolean.valueOf(jo_inside.getString("over")));
+            itemPublicSellerList.setPriceNormal(Double.valueOf(jo_inside.getString("priceNormal")));
+            itemPublicSellerList.setPriceDiscount(Double.valueOf(jo_inside.getString("priceDiscount")));
 
             Gson gson = new Gson();
-            Yng_Ubication yngUbication = gson.fromJson(jo_inside.getString("CategoryListUbication"), Yng_Ubication.class);
-            itemPublicSellerList.setCategoryListUbication(yngUbication);
+            Yng_Ubication yngUbication = gson.fromJson(jo_inside.getString("yng_Ubication"), Yng_Ubication.class);
+            itemPublicSellerList.setYng_Ubication(yngUbication);
             //itemPublicSellerList.setCategoryListUbication(jo_inside.getString("CategoryListUbication"));
             //Log.e("envia",itemPublicSellerList.getCategoryListId()+"");
 
