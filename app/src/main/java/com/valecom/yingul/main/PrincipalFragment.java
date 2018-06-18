@@ -462,6 +462,7 @@ public class PrincipalFragment extends Fragment {
                                 item.setPrice(Double.valueOf(jo_inside.getString("price")));
                                 item.setMoney(jo_inside.getString("money"));
                                 item.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));
+                                item.setPriceDiscount(Double.valueOf(jo_inside.getString("priceDiscount")));
 
                                 /*JSONObject user = jo_inside.getJSONObject("user");
                                 Gson gson = new Gson();
@@ -469,7 +470,10 @@ public class PrincipalFragment extends Fragment {
                                 item.setCategorySeller(seller.getUsername());*/
 
 
-                                array_latest.add(item);
+                                if(!item.getProductPagoEnvio().equals("gratis")){
+                                    array_latest.add(item);
+                                }
+
 
                             }
                             setAdapterHomeCategoryList();
