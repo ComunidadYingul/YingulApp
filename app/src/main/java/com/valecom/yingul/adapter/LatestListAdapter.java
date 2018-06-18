@@ -14,9 +14,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.valecom.yingul.Item.ItemCategoryList;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.ActivityProductDetail;
+import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.network.Network;
 import com.google.android.gms.ads.InterstitialAd;
 import com.squareup.picasso.Picasso;
@@ -28,11 +28,11 @@ import java.util.ArrayList;
  */
 
 public class LatestListAdapter extends RecyclerView.Adapter<LatestListAdapter.ItemRowHolder>{
-    private ArrayList<ItemCategoryList> dataList;
+    private ArrayList<Yng_Item> dataList;
     private Context mContext;
     private InterstitialAd mInterstitial;
 
-    public LatestListAdapter(Context context, ArrayList<ItemCategoryList> dataList) {
+    public LatestListAdapter(Context context, ArrayList<Yng_Item> dataList) {
         this.dataList = dataList;
         this.mContext = context;
     }
@@ -45,33 +45,33 @@ public class LatestListAdapter extends RecyclerView.Adapter<LatestListAdapter.It
 
     @Override
     public void onBindViewHolder(ItemRowHolder holder, final int position) {
-        final ItemCategoryList itemCategorylist = dataList.get(position);
+        final Yng_Item item = dataList.get(position);
 
-        holder.text_cat_list_title.setText(itemCategorylist.getCategoryListName());
+        holder.text_cat_list_title.setText(item.getName());
         try{
-            Log.e("Money:--",itemCategorylist.getCategoryListMoney().toString());
-            if(itemCategorylist.getCategoryListMoney().equals("ARS")){
+            Log.e("Money:--",item.getMoney());
+            if(item.getMoney().equals("ARS")){
                 holder.moneyUsd.setVisibility(View.GONE);
             }else{
                 holder.moneyArs.setVisibility(View.GONE);
             }
 
-            if(itemCategorylist.getCategoryListEnvio().equals("gratis")){
+            if(item.getProductPagoEnvio().equals("gratis")){
                 holder.imgEnvioGratis.setVisibility(View.VISIBLE);
             }else{
                 holder.imgEnvioGratis.setVisibility(View.INVISIBLE);
             }
         }catch (Exception e){}
-        holder.text_cat_list_price.setText(itemCategorylist.getCategoryListPrice());
-        Picasso.with(mContext).load(Network.BUCKET_URL+itemCategorylist.getCategoryListImage()).into(holder.image_cat_list);
+        holder.text_cat_list_price.setText(String.valueOf(item.getPrice()));
+        Picasso.with(mContext).load(Network.BUCKET_URL+item.getPrincipalImage()).into(holder.image_cat_list);
 
 
         holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent_detail=new Intent(mContext, ActivityProductDetail.class);
-                intent_detail.putExtra("itemId",itemCategorylist.getCategoryListId());
-                intent_detail.putExtra("seller",itemCategorylist.getCategorySeller());
+                intent_detail.putExtra("itemId",item.getItemId().toString());
+                //intent_detail.putExtra("seller",item.getCategorySeller());
                 mContext.startActivity(intent_detail);
 
                 /*

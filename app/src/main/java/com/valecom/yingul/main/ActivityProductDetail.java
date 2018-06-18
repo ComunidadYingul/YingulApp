@@ -40,7 +40,6 @@ import com.valecom.yingul.Item.ItemColorSize;
 import com.valecom.yingul.Item.ItemGallery;
 import com.valecom.yingul.Item.ItemOrderProduct;
 import com.valecom.yingul.Item.ItemReview;
-import com.valecom.yingul.Item.ItemReviewPublic;
 import com.valecom.yingul.R;
 import com.valecom.yingul.Util.ItemOffsetDecoration;
 import com.valecom.yingul.Util.RecyclerItemClickListener;
@@ -93,7 +92,7 @@ public class ActivityProductDetail extends AppCompatActivity {
     //LinearLayout linear_Layout_stars;
 
     ReviewPublicListAdapter adapter_review_public;
-    ArrayList<ItemReviewPublic> array_publicaciones;
+    ArrayList<Yng_Item> array_publicaciones;
 
     private Menu menu;
     ScrollView scrollView;
@@ -116,7 +115,7 @@ public class ActivityProductDetail extends AppCompatActivity {
         Bundle datos = this.getIntent().getExtras();
         itemId = datos.getString("itemId");
         //itemSeller = datos.getString("seller");
-        Log.e("Eddy:-------","recupero:"+itemId);
+        Log.e("Eddy1:-------","recupero:"+itemId);
         progressDialog = new MaterialDialog.Builder(this)
                 .title(R.string.progress_dialog)
                 .content(R.string.please_wait)
@@ -223,7 +222,7 @@ public class ActivityProductDetail extends AppCompatActivity {
             }
         });
 
-        loadJSONFromAssetGallery();
+
         RunLoginService();
 
 //        scrollView.setOnTouchListener(new OnSwipeTouchListener(ActivityProductDetail.this) {
@@ -242,8 +241,10 @@ public class ActivityProductDetail extends AppCompatActivity {
 //
 //        });
     }
-
+/*******************************************************************************************************/
     public ArrayList<ItemGallery> loadJSONFromAssetGallery() {
+
+        //progressDialog.show();
 
         JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "item/Image/"+itemId,
                 new Response.Listener<JSONArray>() {
@@ -253,12 +254,13 @@ public class ActivityProductDetail extends AppCompatActivity {
                         {
                             ItemGallery itemGalleryList = new ItemGallery();
 
-                            itemGalleryList.setGalleryImage("principal"+itemId+".jpeg");
+                            itemGalleryList.setGalleryImage(itemTemp.getPrincipalImage());
+                            Log.e("principalImage:--",itemTemp.getPrincipalImage());
 
                             array_gallery.add(itemGalleryList);
 
                             JSONArray m_jArry = response;
-                            Log.e("Eddy",m_jArry.toString());
+                            Log.e("Eddy_array---",m_jArry.toString());
                             for (int i = 0; i < m_jArry.length(); i++) {
                                 JSONObject jo_inside = m_jArry.getJSONObject(i);
                                 itemGalleryList = new ItemGallery();
@@ -275,9 +277,9 @@ public class ActivityProductDetail extends AppCompatActivity {
                             Toast.makeText(ActivityProductDetail.this, R.string.error_try_again_support, Toast.LENGTH_LONG).show();
                         }
 
-                        if (progressDialog != null && progressDialog.isShowing()) {
+                        /*if (progressDialog != null && progressDialog.isShowing()) {
                             progressDialog.dismiss();
-                        }
+                        }*/
                     }
                 }, new Response.ErrorListener()
         {
@@ -367,7 +369,9 @@ public class ActivityProductDetail extends AppCompatActivity {
                 startActivity(intent_gallery);
             }
         });
+
         loadJSONFromAssetReview();
+
     }
 
     public interface ClickListener {
@@ -418,8 +422,8 @@ public class ActivityProductDetail extends AppCompatActivity {
 
         }
     }
-
-    public ArrayList<ItemReviewPublic> loadJSONFromAssetReview() {
+    /*******************************************************************************************************/
+    public ArrayList<Yng_Item> loadJSONFromAssetReview() {
 
         JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "item/Item/"+itemSeller,
                 new Response.Listener<JSONArray>() {
@@ -438,14 +442,14 @@ public class ActivityProductDetail extends AppCompatActivity {
                             for (int i = 0; i < size_jArray; i++) {
                                 //for (int i = 0; i < 3; i++) {
                                 JSONObject jo_inside = m_jArry.getJSONObject(i);
-                                ItemReviewPublic itemPublicSellerList = new ItemReviewPublic();
-                                itemPublicSellerList.setReviewId(jo_inside.getString("itemId"));
-                                itemPublicSellerList.setReviewTitle(jo_inside.getString("name"));
-                                itemPublicSellerList.setReviewImage(jo_inside.getString("principalImage"));
-                                itemPublicSellerList.setReviewDescription(jo_inside.getString("description"));
-                                itemPublicSellerList.setReviewPrice(jo_inside.getString("price"));
+                                Yng_Item item = new Yng_Item();
+                                item.setItemId(Long.valueOf(jo_inside.getString("itemId")));
+                                item.setName(jo_inside.getString("name"));
+                                item.setPrincipalImage(jo_inside.getString("principalImage"));
+                                item.setDescription(jo_inside.getString("description"));
+                                item.setPrice(Double.valueOf(jo_inside.getString("price")));
 
-                                array_publicaciones.add(itemPublicSellerList);
+                                array_publicaciones.add(item);
 
                             }
 
@@ -558,7 +562,7 @@ public class ActivityProductDetail extends AppCompatActivity {
         recycler_detail_review.setAdapter(adapter_review_public);
 
     }
-
+    /*******************************************************************************************************/
     private void showSelectColor() {
         final Dialog mDialog = new Dialog(ActivityProductDetail.this, R.style.Theme_AppCompat_Translucent);
         mDialog.setContentView(R.layout.select_color_dialog);
@@ -593,7 +597,7 @@ public class ActivityProductDetail extends AppCompatActivity {
         recyclerView_color.setAdapter(adapter_color);
 
     }
-
+    /*******************************************************************************************************/
     private void showSelectSize() {
         final Dialog mDialog = new Dialog(ActivityProductDetail.this, R.style.Theme_AppCompat_Translucent);
         mDialog.setContentView(R.layout.select_size_dialog);
@@ -628,7 +632,7 @@ public class ActivityProductDetail extends AppCompatActivity {
 
 
     }
-
+    /*******************************************************************************************************/
     private void showOrderPlace() {
         Intent intent = new Intent(ActivityProductDetail.this, BuyActivity.class);
         intent.putExtra("itemId",itemTemp.getItemId());
@@ -813,7 +817,7 @@ public class ActivityProductDetail extends AppCompatActivity {
             }
         }
     }
-
+    /*******************************************************************************************************/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -821,7 +825,7 @@ public class ActivityProductDetail extends AppCompatActivity {
         this.menu = menu;
         return super.onCreateOptionsMenu(menu);
     }
-
+    /*******************************************************************************************************/
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
@@ -851,6 +855,7 @@ public class ActivityProductDetail extends AppCompatActivity {
         }
 
     }
+    /*******************************************************************************************************/
     public class OnSwipeTouchListener implements View.OnTouchListener {
 
         private final GestureDetector gestureDetector;
@@ -894,11 +899,11 @@ public class ActivityProductDetail extends AppCompatActivity {
             }
         }
     }
-
+    /*******************************************************************************************************/
     public void RunLoginService()
     {
 
-        //progressDialog.show();
+        progressDialog.show();
 
         JsonObjectRequest postRequest = new JsonObjectRequest
                 (
@@ -919,7 +924,7 @@ public class ActivityProductDetail extends AppCompatActivity {
                                     itemTemp=gson.fromJson(response.toString(),Yng_Item.class);
                                     String s=response.getString("description");
                                     try {
-                                        Log.e("daniel description:",itemTemp.getDescription());
+                                        Log.e("daniel description:",itemTemp.getProductPagoEnvio());
                                     }catch (Exception e){
                                         Log.e("daniel description:","sin descripcion");
                                     }
@@ -934,12 +939,13 @@ public class ActivityProductDetail extends AppCompatActivity {
                                         text_product_buy.setText("Consultar");
                                     }
 
-
                                     setData(itemTemp);
+
                                 }
                                 catch (Exception ex)
                                 {
                                 }
+
                             }
                         }, new Response.ErrorListener()
                 {
@@ -1002,8 +1008,14 @@ public class ActivityProductDetail extends AppCompatActivity {
         //text_product_price.setTypeface(typeface);
         text_product_title.setText(itemTemp.getName());
         text_product_price.setText("$  "+itemTemp.getPrice());
-        if(itemTemp.getProductPagoEnvio().equals("gratis")) text_no_cost.setText("Envío gratis a todo el país");
-        else {text_no_cost.setText("Envío a todo el país");}
+        try{
+            if(itemTemp.getProductPagoEnvio().equals("gratis")) {
+                text_no_cost.setText("Envío gratis a todo el país");
+            }else {
+                text_no_cost.setText("Envío a todo el país");
+            }
+        }catch (Exception e){}
+
         // text_no_cost.setText(itemTemp.get);
         //text_product_rate.setText("4.8");
         try{
@@ -1011,6 +1023,8 @@ public class ActivityProductDetail extends AppCompatActivity {
         }catch (Exception e){
             web_desc.setText("");
         }
+
+        loadJSONFromAssetGallery();
     }
 
     private void shareTextUrl(String id) {

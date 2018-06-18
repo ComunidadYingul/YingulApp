@@ -12,11 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.valecom.yingul.Item.ItemCategory;
-import com.valecom.yingul.Item.ItemCategoryList;
-import com.valecom.yingul.Item.ItemReviewPublic;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.store.ActivityStore;
+import com.valecom.yingul.model.Yng_Store;
 import com.valecom.yingul.network.Network;
 
 import java.util.ArrayList;
@@ -27,10 +25,10 @@ import java.util.ArrayList;
 
 public class AllStoresAdapter extends RecyclerView.Adapter<AllStoresAdapter.ItemRowHolder> {
 
-    private ArrayList<ItemCategory> dataList;
+    private ArrayList<Yng_Store> dataList;
     private Context mContext;
 
-    public AllStoresAdapter(Context context, ArrayList<ItemCategory> dataList) {
+    public AllStoresAdapter(Context context, ArrayList<Yng_Store> dataList) {
         this.dataList = dataList;
         this.mContext = context;
     }
@@ -43,19 +41,16 @@ public class AllStoresAdapter extends RecyclerView.Adapter<AllStoresAdapter.Item
 
     @Override
     public void onBindViewHolder(AllStoresAdapter.ItemRowHolder holder, final int position) {
-        final ItemCategory itemCategory = dataList.get(position);
+        final Yng_Store item = dataList.get(position);
 
-        holder.text_title.setText(itemCategory.getCategoryName());
-        //holder.text_price.setText(itemReviewPublic.getCategoryListPrice());
-        //holder.text_description.setText(itemReviewPublic.getCategoryListDescription());
-        Picasso.with(mContext).load(Network.BUCKET_URL +"store/"+ itemCategory.getCategoryImage()).into(holder.image_public);
-        //Log.e("imagen",Network.BUCKET_URL +"store/"+ itemCategory.getCategoryImage().toString());
+        holder.text_title.setText(item.getName());
+        Picasso.with(mContext).load(Network.BUCKET_URL +"store/"+ item.getMainImage()).into(holder.image_public);
 
         holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, ActivityStore.class);
-                intent.putExtra("store",itemCategory.getCategoryName());
+                intent.putExtra("store",item.getName());
                 mContext.startActivity(intent);
             }
         });

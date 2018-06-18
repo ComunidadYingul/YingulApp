@@ -17,10 +17,10 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.valecom.yingul.Item.ItemCategoryList;
 import com.valecom.yingul.R;
 import com.valecom.yingul.Util.ItemOffsetDecoration;
 import com.valecom.yingul.adapter.LatestListAdapter;
+import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
 
@@ -41,7 +41,7 @@ public class InicioFragment extends Fragment {
 
     RecyclerView recycler_home_latest;
     LatestListAdapter adapter_latest;
-    ArrayList<ItemCategoryList> array_latest;
+    ArrayList<Yng_Item> array_latest;
 
 
     public InicioFragment() {
@@ -74,7 +74,7 @@ public class InicioFragment extends Fragment {
 
     /***************************** ALL ITEMS ********************************/
 
-    public ArrayList<ItemCategoryList> loadJSONFromAssetHomeLatest() {
+    public ArrayList<Yng_Item> loadJSONFromAssetHomeLatest() {
 
         JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "index/item/all",
                 new Response.Listener<JSONArray>() {
@@ -87,12 +87,12 @@ public class InicioFragment extends Fragment {
                             Log.e("Eddy",m_jArry.toString());
                             for (int i = 0; i < m_jArry.length(); i++) {
                                 JSONObject jo_inside = m_jArry.getJSONObject(i);
-                                ItemCategoryList itemHomeCategoryList = new ItemCategoryList();
-                                itemHomeCategoryList.setCategoryListId(jo_inside.getString("itemId"));
-                                itemHomeCategoryList.setCategoryListName(jo_inside.getString("name"));
-                                itemHomeCategoryList.setCategoryListImage(jo_inside.getString("principalImage"));
-                                itemHomeCategoryList.setCategoryListDescription(jo_inside.getString("description"));
-                                itemHomeCategoryList.setCategoryListPrice(jo_inside.getString("price"));
+                                Yng_Item itemHomeCategoryList = new Yng_Item();
+                                itemHomeCategoryList.setItemId(Long.valueOf(jo_inside.getString("itemId")));
+                                itemHomeCategoryList.setName(jo_inside.getString("name"));
+                                itemHomeCategoryList.setPrincipalImage(jo_inside.getString("principalImage"));
+                                itemHomeCategoryList.setDescription(jo_inside.getString("description"));
+                                itemHomeCategoryList.setPrice(Double.valueOf(jo_inside.getString("price")));
 
                                 array_latest.add(itemHomeCategoryList);
 
@@ -176,8 +176,8 @@ public class InicioFragment extends Fragment {
 
     public void setAdapterHomeCategoryList() {
 
-        adapter_latest = new LatestListAdapter(getActivity(), array_latest);
-        recycler_home_latest.setAdapter(adapter_latest);
+        //adapter_latest = new LatestListAdapter(getActivity(), array_latest);
+        //recycler_home_latest.setAdapter(adapter_latest);
 
         //loadJSONFromAssetHomeCoupon();
     }

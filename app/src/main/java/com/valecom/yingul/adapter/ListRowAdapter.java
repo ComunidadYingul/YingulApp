@@ -15,9 +15,9 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.squareup.picasso.Picasso;
-import com.valecom.yingul.Item.ItemCategoryList;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.ActivityProductDetail;
+import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.network.Network;
 
 import java.util.ArrayList;
@@ -28,10 +28,10 @@ import java.util.ArrayList;
 
 public class ListRowAdapter extends RecyclerView.Adapter<ListRowAdapter.ItemRowHolder> {
 
-    private ArrayList<ItemCategoryList> dataList;
+    private ArrayList<Yng_Item> dataList;
     private Context mContext;
     private InterstitialAd mInterstitial;
-    public ListRowAdapter(Context context, ArrayList<ItemCategoryList> dataList) {
+    public ListRowAdapter(Context context, ArrayList<Yng_Item> dataList) {
         this.dataList = dataList;
         this.mContext = context;
     }
@@ -44,12 +44,12 @@ public class ListRowAdapter extends RecyclerView.Adapter<ListRowAdapter.ItemRowH
 
     @Override
     public void onBindViewHolder(ListRowAdapter.ItemRowHolder holder, final int position) {
-        final ItemCategoryList itemCategorylist = dataList.get(position);
+        final Yng_Item item = dataList.get(position);
 
-        holder.text_cat_list_title.setText(itemCategorylist.getCategoryListName());
-        holder.text_cat_list_price.setText(itemCategorylist.getCategoryListPrice());
-        holder.text_cat_list_desc.setText(itemCategorylist.getCategoryListDescription());
-        Picasso.with(mContext).load(Network.BUCKET_URL+itemCategorylist.getCategoryListImage()).into(holder.image_cat_list);
+        holder.text_cat_list_title.setText(item.getName());
+        holder.text_cat_list_price.setText(String.valueOf(item.getPrice()));
+        holder.text_cat_list_desc.setText(item.getDescription());
+        Picasso.with(mContext).load(Network.BUCKET_URL+item.getPrincipalImage()).into(holder.image_cat_list);
 
         holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,15 +69,15 @@ public class ListRowAdapter extends RecyclerView.Adapter<ListRowAdapter.ItemRowH
 
                     public void onAdClosed() {
                         Intent intent_detail=new Intent(mContext, ActivityProductDetail.class);
-                        intent_detail.putExtra("itemId",itemCategorylist.getCategoryListId());
-                        //intent_detail.putExtra("seller",itemCategorylist.getCategorySeller());
+                        intent_detail.putExtra("itemId",item.getCategoryListId());
+                        //intent_detail.putExtra("seller",item.getCategorySeller());
                         mContext.startActivity(intent_detail);
                     }
 
                 });*/
                 Intent intent_detail=new Intent(mContext, ActivityProductDetail.class);
-                intent_detail.putExtra("itemId",itemCategorylist.getCategoryListId());
-                //intent_detail.putExtra("seller",itemCategorylist.getCategorySeller());
+                intent_detail.putExtra("itemId",item.getItemId());
+                //intent_detail.putExtra("seller",item.getCategorySeller());
                 mContext.startActivity(intent_detail);
 
             }

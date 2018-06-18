@@ -9,6 +9,7 @@ public class Yng_Category implements Serializable {
 	private int level;
 	private String itemType;
 	private Long fatherId;
+	private String image;
     
     public Yng_Category() {
     	super();
@@ -52,5 +53,13 @@ public class Yng_Category implements Serializable {
 
 	public void setFatherId(Long fatherId) {
 		this.fatherId = fatherId;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 }

@@ -30,7 +30,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
-import com.valecom.yingul.Item.ItemCategoryList;
 import com.valecom.yingul.R;
 import com.valecom.yingul.adapter.CityAdapter;
 import com.valecom.yingul.adapter.CountryAdapter;
@@ -39,6 +38,7 @@ import com.valecom.yingul.main.MainActivity;
 import com.valecom.yingul.model.FilterParam;
 import com.valecom.yingul.model.Yng_City;
 import com.valecom.yingul.model.Yng_Country;
+import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.model.Yng_Province;
 import com.valecom.yingul.model.Yng_Ubication;
 import com.valecom.yingul.network.MySingleton;
@@ -66,8 +66,8 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
     private RangeSeekBar seekBar;
 
     private FilterParam filterParams;
-    ArrayList<ItemCategoryList> array_cat_list;
-    ArrayList<ItemCategoryList> array_cat_list_filter;
+    ArrayList<Yng_Item> array_cat_list;
+    ArrayList<Yng_Item> array_cat_list_filter;
     private Double maxPriceItem;
     private Double minPriceItem;
 
@@ -545,7 +545,11 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
                             }
                         });
 
-                        textPathUbication.setText("Todas > "+country.getName()+" > "+province.getName().substring(0,7)+"...");
+                        if(province.getName().length()>7){
+                            textPathUbication.setText("Todas > "+country.getName()+" > "+province.getName().substring(0,7)+"...");
+                        }else{
+                            textPathUbication.setText("Todas > "+country.getName()+" > "+province.getName()+"...");
+                        }
 
                         list = (ListView) view.findViewById(R.id.list);
                         list.setAdapter(adapter2);
@@ -936,34 +940,34 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
 
     }
 
-    public ArrayList<ItemCategoryList> stringToArrayItemCategoryList(String itemList) throws JSONException {
-        ArrayList<ItemCategoryList> array_cat_list_new= new ArrayList<>();
+    public ArrayList<Yng_Item> stringToArrayItemCategoryList(String itemList) throws JSONException {
+        ArrayList<Yng_Item> array_cat_list_new= new ArrayList<>();
 
         JSONArray m_jArry = new JSONArray(itemList);
         Log.e("Eddy",m_jArry.toString());
         for (int i = 0; i < m_jArry.length(); i++) {
             JSONObject jo_inside = m_jArry.getJSONObject(i);
-            ItemCategoryList itemPublicSellerList = new ItemCategoryList();
-            itemPublicSellerList.setCategoryListId(jo_inside.getString("CategoryListId"));
-            itemPublicSellerList.setCategoryListName(jo_inside.getString("CategoryListName"));
-            itemPublicSellerList.setCategoryListImage(jo_inside.getString("CategoryListImage"));
-            itemPublicSellerList.setCategoryListDescription(jo_inside.getString("CategoryListDescription"));
-            itemPublicSellerList.setCategoryListPrice(jo_inside.getString("CategoryListPrice"));
-            itemPublicSellerList.setCategoryListType(jo_inside.getString("CategoryListType"));
-            itemPublicSellerList.setCategoryListMoney(jo_inside.getString("CategoryListMoney"));
-            itemPublicSellerList.setCategoryListCondition(jo_inside.getString("CategoryListCondition"));
-            itemPublicSellerList.setCategoryListEnvio(jo_inside.getString("CategoryListEnvio"));
-            itemPublicSellerList.setCategoryListOver(jo_inside.getString("CategoryListOver"));
-            itemPublicSellerList.setCategoryListPriceNormal(jo_inside.getString("CategoryListPriceNormal"));
-            itemPublicSellerList.setCategoryListPriceDiscount(jo_inside.getString("CategoryListPriceDiscount"));
+            Yng_Item item = new Yng_Item();
+            item.setItemId(Long.valueOf(jo_inside.getString("itemId")));
+            item.setName(jo_inside.getString("name"));
+            item.setPrincipalImage(jo_inside.getString("principalImage"));
+            item.setDescription(jo_inside.getString("description"));
+            item.setPrice(Double.valueOf(jo_inside.getString("price")));
+            item.setType(jo_inside.getString("type"));
+            item.setMoney(jo_inside.getString("money"));
+            item.setCondition(jo_inside.getString("condition"));
+            item.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));
+            item.setOver(Boolean.valueOf(jo_inside.getString("over")));
+            item.setPriceNormal(Double.valueOf(jo_inside.getString("priceNormal")));
+            item.setPriceDiscount(Double.valueOf(jo_inside.getString("priceDiscount")));
 
             Gson gson = new Gson();
-            Yng_Ubication yngUbication = gson.fromJson(jo_inside.getString("CategoryListUbication"), Yng_Ubication.class);
-            itemPublicSellerList.setCategoryListUbication(yngUbication);
+            Yng_Ubication yngUbication = gson.fromJson(jo_inside.getString("yng_Ubication"), Yng_Ubication.class);
+            item.setYng_Ubication(yngUbication);
 
-            //Log.e("recibe",itemPublicSellerList.getCategoryListId()+"");
+            //Log.e("recibe",item.getCategoryListId()+"");
 
-            array_cat_list_new.add(itemPublicSellerList);
+            array_cat_list_new.add(item);
 
         }
 
@@ -972,9 +976,10 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
 
     public void filterFreeShipping(){
         array_cat_list_filter = new ArrayList<>();
-        for (ItemCategoryList itemCategoryList : array_cat_list){
-            if(itemCategoryList.getCategoryListEnvio().equals("gratis")){
+        for (Yng_Item itemCategoryList : array_cat_list){
+            if(itemCategoryList.getProductPagoEnvio().equals("gratis")){
                 array_cat_list_filter.add(itemCategoryList);
+                Log.e("gonzalo","gratis");
             }
         }
         array_cat_list=array_cat_list_filter;
@@ -983,16 +988,16 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
         array_cat_list_filter = new ArrayList<>();
         switch (cond){
             case "new":
-                for (ItemCategoryList itemCategoryList : array_cat_list){
-                    if(itemCategoryList.getCategoryListCondition().equals("New")){
+                for (Yng_Item itemCategoryList : array_cat_list){
+                    if(itemCategoryList.getCondition().equals("New")){
                         array_cat_list_filter.add(itemCategoryList);
                     }
                 }
                 array_cat_list=array_cat_list_filter;
                 break;
             case "used":
-                for (ItemCategoryList itemCategoryList : array_cat_list){
-                    if(itemCategoryList.getCategoryListCondition().equals("Used")){
+                for (Yng_Item itemCategoryList : array_cat_list){
+                    if(itemCategoryList.getCondition().equals("Used")){
                         array_cat_list_filter.add(itemCategoryList);
                     }
                 }
@@ -1004,40 +1009,40 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
         array_cat_list_filter = new ArrayList<>();
         switch (disc){
             case "all":
-                for (ItemCategoryList itemCategoryList : array_cat_list){
-                    if(Double.parseDouble(itemCategoryList.getCategoryListPriceDiscount())>0){
+                for (Yng_Item itemCategoryList : array_cat_list){
+                    if(itemCategoryList.getPriceDiscount()>0){
                         array_cat_list_filter.add(itemCategoryList);
                     }
                 }
                 array_cat_list=array_cat_list_filter;
                 break;
             case "10":
-                for (ItemCategoryList itemCategoryList : array_cat_list){
-                    if(100-((Double.parseDouble(itemCategoryList.getCategoryListPriceDiscount())*100)/Double.parseDouble(itemCategoryList.getCategoryListPriceNormal()))>=10){
+                for (Yng_Item itemCategoryList : array_cat_list){
+                    if(100-((itemCategoryList.getPriceDiscount()*100)/itemCategoryList.getPriceNormal())>=10){
                         array_cat_list_filter.add(itemCategoryList);
                     }
                 }
                 array_cat_list=array_cat_list_filter;
                 break;
             case "20":
-                for (ItemCategoryList itemCategoryList : array_cat_list){
-                    if(100-((Double.parseDouble(itemCategoryList.getCategoryListPriceDiscount())*100)/Double.parseDouble(itemCategoryList.getCategoryListPriceNormal()))>=20){
+                for (Yng_Item itemCategoryList : array_cat_list){
+                    if(100-((itemCategoryList.getPriceDiscount()*100)/itemCategoryList.getPriceNormal())>=20){
                         array_cat_list_filter.add(itemCategoryList);
                     }
                 }
                 array_cat_list=array_cat_list_filter;
                 break;
             case "30":
-                for (ItemCategoryList itemCategoryList : array_cat_list){
-                    if(100-((Double.parseDouble(itemCategoryList.getCategoryListPriceDiscount())*100)/Double.parseDouble(itemCategoryList.getCategoryListPriceNormal()))>=30){
+                for (Yng_Item itemCategoryList : array_cat_list){
+                    if(100-((itemCategoryList.getPriceDiscount()*100)/itemCategoryList.getPriceNormal())>=30){
                         array_cat_list_filter.add(itemCategoryList);
                     }
                 }
                 array_cat_list=array_cat_list_filter;
                 break;
             case "40":
-                for (ItemCategoryList itemCategoryList : array_cat_list){
-                    if(100-((Double.parseDouble(itemCategoryList.getCategoryListPriceDiscount())*100)/Double.parseDouble(itemCategoryList.getCategoryListPriceNormal()))>=40){
+                for (Yng_Item itemCategoryList : array_cat_list){
+                    if(100-((itemCategoryList.getPriceDiscount()*100)/itemCategoryList.getPriceNormal())>=40){
                         array_cat_list_filter.add(itemCategoryList);
                     }
                 }
@@ -1055,24 +1060,24 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
                     if (filterParams.getUbication().getYng_Country() == null) {
 
                     } else {
-                        for (ItemCategoryList itemCategoryList : array_cat_list) {
-                            if (filterParams.getUbication().getYng_Country().getCountryId() == itemCategoryList.getCategoryListUbication().getYng_Country().getCountryId()) {
+                        for (Yng_Item itemCategoryList : array_cat_list) {
+                            if (filterParams.getUbication().getYng_Country().getCountryId() == itemCategoryList.getYng_Ubication().getYng_Country().getCountryId()) {
                                 array_cat_list_filter.add(itemCategoryList);
                             }
                         }
                         array_cat_list = array_cat_list_filter;
                     }
                 } else {
-                    for (ItemCategoryList itemCategoryList : array_cat_list) {
-                        if (filterParams.getUbication().getYng_Province().getProvinceId() == itemCategoryList.getCategoryListUbication().getYng_Province().getProvinceId()) {
+                    for (Yng_Item itemCategoryList : array_cat_list) {
+                        if (filterParams.getUbication().getYng_Province().getProvinceId() == itemCategoryList.getYng_Ubication().getYng_Province().getProvinceId()) {
                             array_cat_list_filter.add(itemCategoryList);
                         }
                     }
                     array_cat_list = array_cat_list_filter;
                 }
             } else {
-                for (ItemCategoryList itemCategoryList : array_cat_list) {
-                    if (filterParams.getUbication().getYng_City().getCityId() == itemCategoryList.getCategoryListUbication().getYng_City().getCityId()) {
+                for (Yng_Item itemCategoryList : array_cat_list) {
+                    if (filterParams.getUbication().getYng_City().getCityId() == itemCategoryList.getYng_Ubication().getYng_City().getCityId()) {
                         array_cat_list_filter.add(itemCategoryList);
                     }
                 }
@@ -1085,9 +1090,9 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
         if(filterParams.getMinPrice()==null&&filterParams.getMaxPrice()==null){
             Log.e("price,max,min","entro a null");
         }else{
-            for (ItemCategoryList itemCategoryList : array_cat_list) {
-                Log.e("price,max,min",itemCategoryList.getCategoryListPrice()+","+filterParams.getMinPrice()+","+filterParams.getMaxPrice());
-                if (Double.parseDouble(itemCategoryList.getCategoryListPrice())>=filterParams.getMinPrice()&&Double.parseDouble(itemCategoryList.getCategoryListPrice())<=filterParams.getMaxPrice()) {
+            for (Yng_Item itemCategoryList : array_cat_list) {
+                Log.e("price,max,min",itemCategoryList.getPrice()+","+filterParams.getMinPrice()+","+filterParams.getMaxPrice());
+                if (itemCategoryList.getPrice()>=filterParams.getMinPrice()&&itemCategoryList.getPrice()<=filterParams.getMaxPrice()) {
                     array_cat_list_filter.add(itemCategoryList);
                     Log.e("price,max,min","entro");
                 }
