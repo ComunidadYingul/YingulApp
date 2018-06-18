@@ -170,6 +170,23 @@ android:background="@color/bg">
                 </TextView>
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cantidad en stock: "/>
+
+                <TextView
+                    android:id="@+id/text_quantity_stock"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"/>
+
+            </LinearLayout>
+            <LinearLayout
                 android:id="@+id/linear_Layout_Quantity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
