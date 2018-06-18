@@ -78,6 +78,8 @@ public class ListGridAdapter extends RecyclerView.Adapter<ListGridAdapter.ItemRo
             Log.e("envio:----",item.getProductPagoEnvio().toString());
             if (item.getProductPagoEnvio().toString().equals("gratis")) {
                 holder.imgEnvioGratis.setVisibility(View.VISIBLE);
+            }else{
+                holder.imgEnvioGratis.setVisibility(View.INVISIBLE);
             }
         }catch (Exception e){}
 
