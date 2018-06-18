@@ -470,7 +470,7 @@ public class PrincipalFragment extends Fragment {
                                 item.setCategorySeller(seller.getUsername());*/
 
 
-                                if(item.getPriceDiscount() == 0){
+                                if(item.getPriceDiscount()==0 && !item.getProductPagoEnvio().equals("gratis")){
                                     array_latest.add(item);
                                 }
 
