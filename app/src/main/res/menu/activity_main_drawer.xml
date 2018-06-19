@@ -1,37 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_home"
-            android:title="Home" />
+            android:icon="@drawable/ic_home_2"
+            android:title="Inicio" />
         <item
             android:id="@+id/nav_invoices"
-            android:icon="@drawable/ic_star_filled"
+            android:icon="@drawable/ic_favorite_2"
             android:title="Favoritos" />
         <item
             android:id="@+id/nav_estimates"
-            android:icon="@drawable/ic_menu_estimates"
-            android:title="Estimates" />
+            android:icon="@drawable/ic_category_2"
+            android:title="Categorías" />
         <item
+            android:visible="false"
             android:id="@+id/nav_items"
             android:icon="@drawable/ic_menu_items"
             android:title="Items" />
         <item
+            android:visible="false"
             android:id="@+id/nav_clients"
             android:icon="@drawable/ic_menu_clients"
             android:title="Clients" />
         <item
             android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_menu_settings"
+            android:icon="@drawable/ic_setting_2"
             android:title="Mi cuenta" />
     </group>
 
     <group android:id="@+id/group_settings"  android:checkableBehavior="single">
         <item
             android:id="@+id/nav_sell"
-            android:icon="@drawable/ic_menu_items"
+            android:icon="@drawable/change_theme"
             android:title="Vender gratis" />
     </group>
 </menu>

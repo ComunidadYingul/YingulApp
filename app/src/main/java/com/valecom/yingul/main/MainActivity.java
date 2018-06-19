@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity
         {
             profile_name.setText("¡Bienvenido!");
             TextView profile_email = (TextView) navigationHeaderView.findViewById(R.id.profile_email);
-            profile_email.setText("Nunca dejes de buscar.");
+            profile_email.setText("Vendés más, comprás mejor!");
             ImageView profilePhoto = (ImageView) navigationHeaderView.findViewById(R.id.profile_photo);
             Picasso.with(MainActivity.this).load(Network.BUCKET_URL+"user/userProfile/profile.jpg").into(profilePhoto);
         }else{
