@@ -47,24 +47,36 @@ public class LatestListAdapter extends RecyclerView.Adapter<LatestListAdapter.It
     public void onBindViewHolder(ItemRowHolder holder, final int position) {
         final Yng_Item item = dataList.get(position);
 
-        holder.text_cat_list_title.setText(item.getName());
-        try{
-            Log.e("Money:--",item.getMoney());
-            if(item.getMoney().equals("ARS")){
-                holder.moneyUsd.setVisibility(View.GONE);
-            }else{
-                holder.moneyArs.setVisibility(View.GONE);
-            }
+        Log.e("position:------",position+"");
 
+        holder.text_cat_list_title.setText(item.getName());
+        holder.text_cat_list_price.setText(String.valueOf(item.getPrice()));
+        try {
+            if (item.getMoney().equals("USD")) {
+                holder.textMoney.setText("U$D");
+            }else{
+                holder.textMoney.setText("$");
+            }
+        }catch (Exception e){}
+
+        if(item.getPriceDiscount()==0){
+            holder.lytDiscount.setVisibility(View.GONE);
+        }else{
+            Double desc = ((item.getPriceNormal()-item.getPriceDiscount()) * 100)/item.getPriceNormal();
+            Log.e("descuento",""+item.getPriceDiscount()+"     "+item.getPriceNormal());
+            holder.textDiscountPorcent.setText(String.format("%.0f", desc));
+            holder.lytDiscount.setVisibility(View.VISIBLE);
+        }
+
+        try{
             if(item.getProductPagoEnvio().equals("gratis")){
                 holder.imgEnvioGratis.setVisibility(View.VISIBLE);
             }else{
                 holder.imgEnvioGratis.setVisibility(View.INVISIBLE);
             }
         }catch (Exception e){}
-        holder.text_cat_list_price.setText(String.valueOf(item.getPrice()));
-        Picasso.with(mContext).load(Network.BUCKET_URL+item.getPrincipalImage()).into(holder.image_cat_list);
 
+        Picasso.with(mContext).load(Network.BUCKET_URL+item.getPrincipalImage()).into(holder.image_cat_list);
 
         holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,18 +131,19 @@ public class LatestListAdapter extends RecyclerView.Adapter<LatestListAdapter.It
 
     public class ItemRowHolder extends RecyclerView.ViewHolder {
         public ImageView image_cat_list,imgEnvioGratis;
-        public TextView text_cat_list_title,text_cat_list_price,moneyArs,moneyUsd;
-        public LinearLayout lyt_parent;
+        public TextView text_cat_list_title,text_cat_list_price,textMoney,textDiscountPorcent;
+        public LinearLayout lyt_parent,lytDiscount;
 
         public ItemRowHolder(View itemView) {
             super(itemView);
-            moneyArs = (TextView) itemView.findViewById(R.id.money_ars);
-            moneyUsd = (TextView) itemView.findViewById(R.id.money_usd);
+            textMoney = (TextView) itemView.findViewById(R.id.textMoney);
             image_cat_list = (ImageView) itemView.findViewById(R.id.image_item_cat_list_image);
             imgEnvioGratis = (ImageView) itemView.findViewById(R.id.imgEnvioGratis);
             text_cat_list_title = (TextView) itemView.findViewById(R.id.text_item_cat__list_title);
             text_cat_list_price = (TextView) itemView.findViewById(R.id.text_item_cat_list_price);
+            textDiscountPorcent = (TextView) itemView.findViewById(R.id.textDiscountPorcent);
             lyt_parent = (LinearLayout) itemView.findViewById(R.id.rootLayout);
+            lytDiscount = (LinearLayout) itemView.findViewById(R.id.lytDiscount);
         }
     }
 }

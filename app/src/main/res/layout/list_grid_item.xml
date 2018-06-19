@@ -179,7 +179,8 @@
                     android:minLines="2"
                     android:ellipsize="end"
                     android:text="titulo"
-                    android:textSize="12sp"
+                    android:textSize="13sp"
+                    android:fontFamily="sans-serif-light"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     android:textColor="@color/black" />
 

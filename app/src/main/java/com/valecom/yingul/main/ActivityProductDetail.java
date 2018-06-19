@@ -44,6 +44,7 @@ import com.valecom.yingul.R;
 import com.valecom.yingul.Util.ItemOffsetDecoration;
 import com.valecom.yingul.Util.RecyclerItemClickListener;
 import com.valecom.yingul.adapter.GalleryAdapter;
+import com.valecom.yingul.adapter.ListRowAdapter;
 import com.valecom.yingul.adapter.ReviewListAdapter;
 import com.valecom.yingul.adapter.ReviewPublicListAdapter;
 import com.valecom.yingul.adapter.SelectColorAdapter;
@@ -91,7 +92,7 @@ public class ActivityProductDetail extends AppCompatActivity {
     OrderPlaceAdapter adapter_orderPlaceAdapter;
     //LinearLayout linear_Layout_stars;
 
-    ReviewPublicListAdapter adapter_review_public;
+    ListRowAdapter adapter_review_public;
     ArrayList<Yng_Item> array_publicaciones;
 
     private Menu menu;
@@ -449,6 +450,9 @@ public class ActivityProductDetail extends AppCompatActivity {
                                 item.setPrincipalImage(jo_inside.getString("principalImage"));
                                 item.setDescription(jo_inside.getString("description"));
                                 item.setPrice(Double.valueOf(jo_inside.getString("price")));
+                                item.setPriceNormal(Double.valueOf(jo_inside.getString("priceNormal")));
+                                item.setPriceDiscount(Double.valueOf(jo_inside.getString("priceDiscount")));
+                                item.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));
 
                                 array_publicaciones.add(item);
 
@@ -559,7 +563,8 @@ public class ActivityProductDetail extends AppCompatActivity {
 
     public void setAdapterReviewList() {
 
-        adapter_review_public = new ReviewPublicListAdapter(ActivityProductDetail.this, array_publicaciones);
+        //adapter_review_public = new ReviewPublicListAdapter(ActivityProductDetail.this, array_publicaciones);
+        adapter_review_public = new ListRowAdapter(ActivityProductDetail.this, array_publicaciones);
         recycler_detail_review.setAdapter(adapter_review_public);
 
     }

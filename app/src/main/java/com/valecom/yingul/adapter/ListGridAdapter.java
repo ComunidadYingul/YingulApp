@@ -51,9 +51,10 @@ public class ListGridAdapter extends RecyclerView.Adapter<ListGridAdapter.ItemRo
     public void onBindViewHolder(ListGridAdapter.ItemRowHolder holder, final int position) {
         final Yng_Item item = dataList.get(position);
 
-        holder.text_cat_list_title.setText(item.getName());
-        holder.text_cat_list_price.setText(String.format("%.0f", item.getPrice()));
+        Log.e("position:------",position+"");
 
+        holder.text_cat_list_title.setText(item.getName());
+        holder.text_cat_list_price.setText(String.valueOf(item.getPrice()));
         try {
             if (item.getMoney().equals("USD")) {
                 holder.textMoney.setText("U$D");
@@ -71,16 +72,15 @@ public class ListGridAdapter extends RecyclerView.Adapter<ListGridAdapter.ItemRo
             holder.lytDiscount.setVisibility(View.VISIBLE);
         }
 
-        Picasso.with(mContext).load(Network.BUCKET_URL+item.getPrincipalImage()).into(holder.image_cat_list);
-
-        try {
-            if (item.getProductPagoEnvio().toString().equals("gratis")) {
+        try{
+            if(item.getProductPagoEnvio().equals("gratis")){
                 holder.imgEnvioGratis.setVisibility(View.VISIBLE);
             }else{
                 holder.imgEnvioGratis.setVisibility(View.INVISIBLE);
             }
         }catch (Exception e){}
 
+        Picasso.with(mContext).load(Network.BUCKET_URL+item.getPrincipalImage()).into(holder.image_cat_list);
 
         holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,7 +136,7 @@ public class ListGridAdapter extends RecyclerView.Adapter<ListGridAdapter.ItemRo
 
     public class ItemRowHolder extends RecyclerView.ViewHolder {
         public ImageView image_cat_list,imgEnvioGratis;
-        public TextView text_cat_list_title,text_cat_list_price,text_cat_list_otro,textMoney,textDiscountPorcent;
+        public TextView text_cat_list_title,text_cat_list_price,textMoney,textDiscountPorcent;
         public LinearLayout lyt_parent,lyt_otro,lytDiscount;
 
         public ItemRowHolder(View itemView) {

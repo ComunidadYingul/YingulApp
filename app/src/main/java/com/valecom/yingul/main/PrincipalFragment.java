@@ -349,6 +349,8 @@ public class PrincipalFragment extends Fragment {
                                 item.setDescription(jo_inside.getString("description"));
                                 item.setPrice(Double.valueOf(jo_inside.getString("price")));
                                 item.setMoney(jo_inside.getString("money"));
+                                item.setPriceNormal(Double.valueOf(jo_inside.getString("priceNormal")));
+                                item.setPriceDiscount(Double.valueOf(jo_inside.getString("priceDiscount")));
                                 item.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));
 
 
