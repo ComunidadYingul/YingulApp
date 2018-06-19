@@ -39,22 +39,38 @@
                 android:orientation="vertical"
                 >
 
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="fill_parent"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:paddingRight="@dimen/activity_horizontal_margin"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp">
+                    android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/editWeight"
-                        android:inputType="number"
-                        android:layout_width="fill_parent"
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:hint="Peso"
-                        android:singleLine="true"/>
-                </android.support.design.widget.TextInputLayout>
+                        android:paddingLeft="@dimen/activity_horizontal_margin"
+                        android:paddingRight="@dimen/activity_horizontal_margin"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_weight="7">
+
+                        <EditText
+                            android:id="@+id/editWeight"
+                            android:inputType="number"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Peso (Ingrese peso en gramos)"
+                            android:singleLine="true"/>
+                    </android.support.design.widget.TextInputLayout>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="15sp"
+                        android:text="grs"/>
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
