@@ -63,7 +63,6 @@ public class LatestListAdapter extends RecyclerView.Adapter<LatestListAdapter.It
             holder.lytDiscount.setVisibility(View.GONE);
         }else{
             Double desc = ((item.getPriceNormal()-item.getPriceDiscount()) * 100)/item.getPriceNormal();
-            Log.e("descuento",""+item.getPriceDiscount()+"     "+item.getPriceNormal());
             holder.textDiscountPorcent.setText(String.format("%.0f", desc));
             holder.lytDiscount.setVisibility(View.VISIBLE);
         }

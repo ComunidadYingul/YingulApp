@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +34,7 @@ import com.valecom.yingul.Util.ItemOffsetDecoration;
 import com.valecom.yingul.adapter.AllCategoryHomeAdapter;
 import com.valecom.yingul.adapter.CategoryListAdapter;
 import com.valecom.yingul.adapter.LatestListAdapter;
+import com.valecom.yingul.adapter.ListGridAdapter;
 import com.valecom.yingul.adapter.StoreHomeAdapter;
 import com.valecom.yingul.main.buy.BuyActivity;
 import com.valecom.yingul.model.Yng_Category;
@@ -61,6 +64,8 @@ import me.relex.circleindicator.CircleIndicator;
  */
 public class PrincipalFragment extends Fragment {
 
+    ScrollView scrollView;
+
     ArrayList<ItemHomeSlider> array_Slider;
     ItemHomeSlider itemSlider;
     ViewPager viewpager_slider;
@@ -86,6 +91,10 @@ public class PrincipalFragment extends Fragment {
     StoreHomeAdapter adapter_category;
     ArrayList<Yng_Store> array_category;
 
+    RecyclerView recycler_home_all_items;
+    ListGridAdapter adapter_all_items;
+    ArrayList<Yng_Item> array_all_items;
+
     private MaterialDialog progressDialog;
     private FragmentManager fragmentManager;
 
@@ -106,6 +115,7 @@ public class PrincipalFragment extends Fragment {
         array_latest = new ArrayList<>();
         array_trending = new ArrayList<>();
         array_category = new ArrayList<>();
+        array_all_items = new ArrayList<>();
         fragmentManager = getActivity().getSupportFragmentManager();
 
         viewpager_slider = (ViewPager) rootView.findViewById(R.id.viewPager);
@@ -141,6 +151,12 @@ public class PrincipalFragment extends Fragment {
         recycler_home_category.setNestedScrollingEnabled(false);
         recycler_home_category.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recycler_home_category.addItemDecoration(itemDecoration);
+
+        recycler_home_all_items = (RecyclerView) rootView.findViewById(R.id.rv_home_all_items);
+        recycler_home_all_items.setHasFixedSize(false);
+        recycler_home_all_items.setNestedScrollingEnabled(true);
+        recycler_home_all_items.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        recycler_home_all_items.addItemDecoration(itemDecoration);
 
         copyrightLayout = (LinearLayout) rootView.findViewById(R.id.copyrightLayout);
         copyrightLayout.setOnClickListener(new View.OnClickListener() {
@@ -464,6 +480,7 @@ public class PrincipalFragment extends Fragment {
                                 item.setPrice(Double.valueOf(jo_inside.getString("price")));
                                 item.setMoney(jo_inside.getString("money"));
                                 item.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));
+                                item.setPriceNormal(Double.valueOf(jo_inside.getString("priceNormal")));
                                 item.setPriceDiscount(Double.valueOf(jo_inside.getString("priceDiscount")));
 
                                 /*JSONObject user = jo_inside.getJSONObject("user");
@@ -475,6 +492,7 @@ public class PrincipalFragment extends Fragment {
                                 if(item.getPriceDiscount()==0 && !item.getProductPagoEnvio().equals("gratis")){
                                     array_latest.add(item);
                                 }
+                                array_all_items.add(item);
 
 
                             }
@@ -670,8 +688,124 @@ public class PrincipalFragment extends Fragment {
         adapter_category = new StoreHomeAdapter(getActivity(), array_category);
         recycler_home_category.setAdapter(adapter_category);
 
-        //loadJSONFromAssetHomeLatest();
+        //loadJSONFromAssetHomeAllItems();
+        setAdapterHomeAllItems();
     }
 
+    /***************************** ALL ITEMS BOTTOM********************************/
+
+    public ArrayList<Yng_Item> loadJSONFromAssetHomeAllItems() {
+
+        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "index/item/all",
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try
+                        {
+
+                            JSONArray m_jArry = response;
+                            Log.e("Eddy",m_jArry.toString());
+                            for (int i = 0; i < m_jArry.length(); i++) {
+                                JSONObject jo_inside = m_jArry.getJSONObject(i);
+                                Yng_Item item = new Yng_Item();
+                                item.setItemId(Long.valueOf(jo_inside.getString("itemId")));
+                                item.setName(jo_inside.getString("name"));
+                                item.setPrincipalImage(jo_inside.getString("principalImage"));
+                                item.setDescription(jo_inside.getString("description"));
+                                item.setPrice(Double.valueOf(jo_inside.getString("price")));
+                                item.setMoney(jo_inside.getString("money"));
+                                item.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));
+                                item.setPriceDiscount(Double.valueOf(jo_inside.getString("priceDiscount")));
+
+                                /*JSONObject user = jo_inside.getJSONObject("user");
+                                Gson gson = new Gson();
+                                Yng_User seller = gson.fromJson(String.valueOf(user) , Yng_User.class);
+                                item.setCategorySeller(seller.getUsername());*/
+
+
+
+                                array_all_items.add(item);
+
+
+                            }
+                            setAdapterHomeAllItems();
+
+                            /**/
+                            //JSONObject result = ((JSONObject)response.get("data"));
+                        }
+                        catch(Exception ex)
+                        {
+                            if (isAdded()) {
+                                Toast.makeText(getContext(), R.string.error_try_again_support, Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            // If the response is JSONObject instead of expected JSONArray
+                            progressDialog.dismiss();
+                        }
+                    }
+                }, new Response.ErrorListener()
+        {
+
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                // TODO Auto-generated method stub
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    // If the response is JSONObject instead of expected JSONArray
+                    progressDialog.dismiss();
+                }
+
+                NetworkResponse response = error.networkResponse;
+                if (response != null && response.data != null)
+                {
+                    try
+                    {
+                        JSONObject json = new JSONObject(new String(response.data));
+                        Toast.makeText(getContext(), json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
+                    }
+                    catch (JSONException e)
+                    {
+                        Toast.makeText(getContext(), R.string.error_try_again_support, Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(getContext(), error != null && error.getMessage() != null ? error.getMessage() : error.toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+        })
+        {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError
+            {
+                //SharedPreferences settings = getActivity().getSharedPreferences(ActivityLogin.SESSION_USER, getActivity().MODE_PRIVATE);
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("X-API-KEY", Network.API_KEY);
+                /*params.put("Authorization",
+                        "Basic " + Base64.encodeToString(
+                                (settings.getString("email","")+":" + settings.getString("api_key","")).getBytes(), Base64.NO_WRAP)
+                );*/
+                return params;
+            }
+        };
+
+        postRequest.setTag(MainActivity.TAG);
+
+        MySingleton.getInstance(getContext()).addToRequestQueue(postRequest);
+
+
+        return array_all_items;
+
+    }
+
+    public void setAdapterHomeAllItems() {
+
+        adapter_all_items = new ListGridAdapter(getActivity(), array_all_items);
+        recycler_home_all_items.setAdapter(adapter_all_items);
+
+    }
 
 }

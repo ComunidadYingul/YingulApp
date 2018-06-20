@@ -48,8 +48,6 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
     public void onBindViewHolder(ItemRowHolder holder, final int position) {
         final Yng_Item item = dataList.get(position);
 
-        Log.e("position:------",position+"");
-
         holder.text_cat_list_title.setText(item.getName());
         holder.text_cat_list_price.setText(String.valueOf(item.getPrice()));
         try {
@@ -64,7 +62,6 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             holder.lytDiscount.setVisibility(View.GONE);
         }else{
             Double desc = ((item.getPriceNormal()-item.getPriceDiscount()) * 100)/item.getPriceNormal();
-            Log.e("descuento",""+item.getPriceDiscount()+"     "+item.getPriceNormal());
             holder.textDiscountPorcent.setText(String.format("%.0f", desc));
             holder.lytDiscount.setVisibility(View.VISIBLE);
         }
