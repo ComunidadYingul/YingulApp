@@ -129,7 +129,7 @@ public class MainFindCategoryFragment extends Fragment {
     {
         //progressDialog.show();
         if(nameCategory.equals("")){
-            nameCategory="a";
+            nameCategory="ab";
         }
 
         JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "category/categories/"+nameCategory.replace(" ",""),

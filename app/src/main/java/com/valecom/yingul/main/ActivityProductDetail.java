@@ -4,7 +4,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,9 +28,10 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.widget.ListView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -45,12 +48,15 @@ import com.valecom.yingul.Util.ItemOffsetDecoration;
 import com.valecom.yingul.Util.RecyclerItemClickListener;
 import com.valecom.yingul.adapter.GalleryAdapter;
 import com.valecom.yingul.adapter.ListRowAdapter;
+import com.valecom.yingul.adapter.QueryListAdapter;
 import com.valecom.yingul.adapter.ReviewListAdapter;
 import com.valecom.yingul.adapter.ReviewPublicListAdapter;
 import com.valecom.yingul.adapter.SelectColorAdapter;
 import com.valecom.yingul.adapter.SelectSizeAdapter;
 import com.valecom.yingul.main.buy.BuyActivity;
 import com.valecom.yingul.model.Yng_Item;
+import com.valecom.yingul.model.Yng_Query;
+import com.valecom.yingul.model.Yng_Ubication;
 import com.valecom.yingul.model.Yng_User;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
@@ -68,6 +74,15 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import com.valecom.yingul.adapter.QueryAdapter;
 
 public class ActivityProductDetail extends AppCompatActivity {
 
@@ -101,6 +116,14 @@ public class ActivityProductDetail extends AppCompatActivity {
     String itemId,itemSeller;
     Yng_Item itemTemp;
     Yng_User userTemp;
+
+    private ListView list;
+    private QueryListAdapter adapter;
+    private ArrayList<Yng_Query> array_list;
+
+    private boolean favorite;
+    String TAG="OkHttpConection";
+    public static final MediaType JSON= MediaType.parse("application/json; charset=utf-8");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -224,8 +247,16 @@ public class ActivityProductDetail extends AppCompatActivity {
             }
         });
 
+        array_list = new ArrayList<Yng_Query>();
+        adapter = new QueryListAdapter(this, array_list);
+        list = (ListView) findViewById(R.id.list);
+        list.setAdapter(adapter);
+
+        RunGetQueriesByItem();
 
         RunLoginService();
+
+        isFavorite();
 
 //        scrollView.setOnTouchListener(new OnSwipeTouchListener(ActivityProductDetail.this) {
 //
@@ -856,11 +887,20 @@ public class ActivityProductDetail extends AppCompatActivity {
                 return true;
 
             case R.id.menu_fav:
-
-                Toast.makeText(ActivityProductDetail.this, getResources().getString(R.string.add_to_fav), Toast.LENGTH_SHORT).show();
-
+                SharedPreferences settings = getSharedPreferences(LoginActivity.SESSION_USER, MODE_PRIVATE);
+                if (settings == null || settings.getInt("logged_in", 0) == 0 || settings.getString("api_key", "").equals("")) {
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                }else{
+                    if(favorite){
+                        deleteFavorite(Network.API_URL+"favorite/delete/"+itemId+"/"+settings.getString("username",""),"");
+                    }else{
+                        addFavorite(Network.API_URL+"favorite/create/"+itemId+"/"+settings.getString("username",""),"");
+                    }
+                }
                 return true;
-
             default:
                 return super.onOptionsItemSelected(menuItem);
         }
@@ -1050,6 +1090,268 @@ public class ActivityProductDetail extends AppCompatActivity {
         share.putExtra(Intent.EXTRA_TEXT, "http://backendyingul-env.cqx28e6j2j.us-west-2.elasticbeanstalk.com/sell/meta/"+id);
 
         startActivity(Intent.createChooser(share, "Share link!"));
+    }
+
+    public void isFavorite(){
+        Log.e("favorite","entro");
+        SharedPreferences settings = getSharedPreferences(LoginActivity.SESSION_USER, MODE_PRIVATE);
+        if (settings == null || settings.getInt("logged_in", 0) == 0 || settings.getString("api_key", "").equals("")) {
+            //menu.getItem(0).setIcon(ContextCompat.getDrawable(ActivityProductDetail.this, R.drawable.fav_contorn));
+        }else{
+            requestArrayPost(Network.API_URL+"favorite/itemIsFavorite/"+itemId+"/"+settings.getString("username",""),"");
+        }
+    }
+    public void  requestArrayPost(String url, String json){
+        start("inicio");
+        OkHttpClient httpClient = new OkHttpClient.Builder()
+                .connectTimeout(9000, TimeUnit.SECONDS)
+                .writeTimeout(9000, TimeUnit.SECONDS)
+                .readTimeout(9000, TimeUnit.SECONDS)
+                .build();
+        RequestBody body = RequestBody.create(JSON, json);
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(url)
+                .addHeader("Content-Type","application/json")
+                .get()
+                .build();
+        httpClient.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "error in getting response using async okhttp call");
+            }
+            @Override public void onResponse(Call call, okhttp3.Response response) throws IOException {
+                ResponseBody responseBody = response.body();
+                if (!response.isSuccessful()) {
+                    throw new IOException("Error response " + response);
+                }
+                //
+
+                final String responce=""+(responseBody.string());
+                try {
+                    end(""+responce);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.i("responce:------------",""+responce);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(responce.equals("isFavorite")) {
+                            favorite=true;
+                            menu.getItem(0).setIcon(ContextCompat.getDrawable(ActivityProductDetail.this, R.drawable.fav_hover));
+                            Log.e("favorito","esfavorito");
+                        }else{
+                            favorite=false;
+                            menu.getItem(0).setIcon(ContextCompat.getDrawable(ActivityProductDetail.this, R.drawable.fav_contorn));
+                            Log.e("favorito","noesfavorito");
+                        }
+                    }
+                });
+
+            }
+        });
+    }
+    public void  addFavorite(String url, String json){
+        //start("inicio");
+        OkHttpClient httpClient = new OkHttpClient.Builder()
+                .connectTimeout(9000, TimeUnit.SECONDS)
+                .writeTimeout(9000, TimeUnit.SECONDS)
+                .readTimeout(9000, TimeUnit.SECONDS)
+                .build();
+        RequestBody body = RequestBody.create(JSON, json);
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(url)
+                .addHeader("Content-Type","application/json")
+                .get()
+                .build();
+        httpClient.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "error in getting response using async okhttp call");
+            }
+            @Override public void onResponse(Call call, okhttp3.Response response) throws IOException {
+                ResponseBody responseBody = response.body();
+                if (!response.isSuccessful()) {
+                    throw new IOException("Error response " + response);
+                }
+                //
+
+                final String responce=""+(responseBody.string());
+                try {
+                    end(""+responce);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.i("responce:------------",""+responce);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(responce.equals("save")) {
+                            favorite=true;
+                            menu.getItem(0).setIcon(ContextCompat.getDrawable(ActivityProductDetail.this, R.drawable.fav_hover));
+                            Toast.makeText(ActivityProductDetail.this, "Adicionado a favoritos", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(ActivityProductDetail.this, responce.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+            }
+        });
+    }
+    public void  deleteFavorite(String url, String json){
+        //start("inicio");
+        OkHttpClient httpClient = new OkHttpClient.Builder()
+                .connectTimeout(9000, TimeUnit.SECONDS)
+                .writeTimeout(9000, TimeUnit.SECONDS)
+                .readTimeout(9000, TimeUnit.SECONDS)
+                .build();
+        RequestBody body = RequestBody.create(JSON, json);
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(url)
+                .addHeader("Content-Type","application/json")
+                .get()
+                .build();
+        httpClient.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "error in getting response using async okhttp call");
+            }
+            @Override public void onResponse(Call call, okhttp3.Response response) throws IOException {
+                ResponseBody responseBody = response.body();
+                if (!response.isSuccessful()) {
+                    throw new IOException("Error response " + response);
+                }
+                //
+
+                final String responce=""+(responseBody.string());
+                try {
+                    end(""+responce);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.i("responce:------------",""+responce);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(responce.equals("save")) {
+                            favorite=false;
+                            menu.getItem(0).setIcon(ContextCompat.getDrawable(ActivityProductDetail.this, R.drawable.fav_contorn));
+                            Toast.makeText(ActivityProductDetail.this, "Ya no es favorito", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(ActivityProductDetail.this, responce.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+            }
+        });
+    }
+    public void end(String end) throws JSONException {
+        Log.i("end",""+end);
+        progressDialog.dismiss();
+    }
+    public void start(String start){
+        Log.i("start",""+start);
+        progressDialog.show();
+    }
+
+    public void RunGetQueriesByItem()
+    {
+        progressDialog.show();
+
+        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "item/Query/"+itemId,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try
+                        {
+                            Log.e("preguntas por usuario",response.toString());
+                            JSONArray queries = response;
+                            array_list.clear();
+                            for (int i = 0; i < queries.length(); i++) {
+                                JSONObject obj = queries.getJSONObject(i);
+                                Yng_Query query = new Yng_Query();
+                                query.setQueryId(obj.optLong("queryId"));
+                                query.setQuery(obj.optString("query"));
+                                query.setAnswer(obj.getString("answer"));
+                                query.setDate(obj.getString("date"));
+                                query.setStatus(obj.optString("status"));
+                                Yng_Item item = new Yng_Item();
+                                Gson gson = new Gson();
+                                item = gson.fromJson(String.valueOf(obj.optJSONObject("yng_Item")), Yng_Item.class);
+                                Yng_User buyer = new Yng_User();
+                                buyer = gson.fromJson(String.valueOf(obj.optJSONObject("user")), Yng_User.class);
+                                query.setYng_Item(item);
+                                query.setUser(buyer);
+                                array_list.add(query);
+                            }
+
+                            adapter.notifyDataSetChanged();
+                        }
+                        catch(Exception ex)
+                        {
+                            //if (isAdded()) {
+                                Toast.makeText(ActivityProductDetail.this, R.string.error_try_again_support, Toast.LENGTH_LONG).show();
+                            //}
+                        }
+
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            // If the response is JSONObject instead of expected JSONArray
+                            progressDialog.dismiss();
+                        }
+                    }
+                }, new Response.ErrorListener()
+        {
+
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                // TODO Auto-generated method stub
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    // If the response is JSONObject instead of expected JSONArray
+                    progressDialog.dismiss();
+                }
+
+                NetworkResponse response = error.networkResponse;
+                if (response != null && response.data != null)
+                {
+                    try
+                    {
+                        JSONObject json = new JSONObject(new String(response.data));
+                        Toast.makeText(ActivityProductDetail.this, json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
+                    }
+                    catch (JSONException e)
+                    {
+                        Toast.makeText(ActivityProductDetail.this, R.string.error_try_again_support, Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(ActivityProductDetail.this, error != null && error.getMessage() != null ? error.getMessage() : error.toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+        })
+        {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError
+            {
+                SharedPreferences settings = ActivityProductDetail.this.getSharedPreferences(LoginActivity.SESSION_USER, ActivityProductDetail.this.MODE_PRIVATE);
+                Map<String, String> params = new HashMap<String, String>();
+                //params.put("X-API-KEY", Network.API_KEY);
+                /*params.put("Authorization",
+                        "Basic " + Base64.encodeToString(
+                                (settings.getString("email","")+":" + settings.getString("api_key","")).getBytes(), Base64.NO_WRAP)
+                );*/
+                return params;
+            }
+        };
+
+        // Get a RequestQueue
+        //RequestQueue queue = MySingleton.getInstance( getContext()).getRequestQueue();
+
+        //Used to mark the request, so we can cancel it on our onStop method
+        postRequest.setTag(MainActivity.TAG);
+        postRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS*5, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        MySingleton.getInstance(ActivityProductDetail.this).addToRequestQueue(postRequest);
     }
 
 }
