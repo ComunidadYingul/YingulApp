@@ -28,4 +28,7 @@
     <color name="colorAccent_green">#6DD042</color>
 
     <color name="divider">#646464</color>
+
+    <color name="navigation_default">#898989</color>
+    <color name="navigation_checked">#ff5e3a</color>
 </resources>

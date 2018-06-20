@@ -208,8 +208,13 @@ public class ActivityStore extends AppCompatActivity {
                                 item.setDescription(jo_inside.getString("description"));
                                 item.setPrice(Double.valueOf(jo_inside.getString("price")));
                                 item.setType(jo_inside.getString("type"));
-                                item.setDuildedArea(Integer.valueOf(jo_inside.getString("duildedArea")));
                                 item.setMoney(jo_inside.getString("money"));
+                                item.setCondition(jo_inside.getString("condition"));
+                                item.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));
+                                item.setOver(Boolean.valueOf(jo_inside.getString("over")));
+                                item.setPriceNormal(Double.valueOf(jo_inside.getString("priceNormal")));
+                                item.setPriceDiscount(Double.valueOf(jo_inside.getString("priceDiscount")));
+                                item.setDuildedArea(Integer.valueOf(jo_inside.getString("duildedArea")));
 
                                 array_cat_list.add(item);
 
@@ -519,27 +524,27 @@ public class ActivityStore extends AppCompatActivity {
 
         for (int i = 0; i < m_jArry.length(); i++) {
             JSONObject jo_inside = m_jArry.getJSONObject(i);
-            Yng_Item itemPublicSellerList = new Yng_Item();
-            itemPublicSellerList.setItemId(Long.valueOf(jo_inside.getString("itemId")));
-            itemPublicSellerList.setName(jo_inside.getString("name"));
-            itemPublicSellerList.setPrincipalImage(jo_inside.getString("principalImage"));
-            itemPublicSellerList.setDescription(jo_inside.getString("description"));
-            itemPublicSellerList.setPrice(Double.valueOf(jo_inside.getString("price")));
-            itemPublicSellerList.setType(jo_inside.getString("type"));
-            itemPublicSellerList.setMoney(jo_inside.getString("money"));
-            itemPublicSellerList.setCondition(jo_inside.getString("condition"));
-            itemPublicSellerList.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));
-            itemPublicSellerList.setOver(Boolean.valueOf(jo_inside.getString("over")));
-            itemPublicSellerList.setPriceNormal(Double.valueOf(jo_inside.getString("priceNormal")));
-            itemPublicSellerList.setPriceDiscount(Double.valueOf(jo_inside.getString("priceDiscount")));
+            Yng_Item item = new Yng_Item();
+            item.setItemId(Long.valueOf(jo_inside.getString("itemId")));
+            item.setName(jo_inside.getString("name"));
+            item.setPrincipalImage(jo_inside.getString("principalImage"));
+            item.setDescription(jo_inside.getString("description"));
+            item.setPrice(Double.valueOf(jo_inside.getString("price")));
+            item.setType(jo_inside.getString("type"));
+            item.setMoney(jo_inside.getString("money"));
+            item.setCondition(jo_inside.getString("condition"));
+            item.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));
+            item.setOver(Boolean.valueOf(jo_inside.getString("over")));
+            item.setPriceNormal(Double.valueOf(jo_inside.getString("priceNormal")));
+            item.setPriceDiscount(Double.valueOf(jo_inside.getString("priceDiscount")));
 
             Gson gson = new Gson();
             Yng_Ubication yngUbication = gson.fromJson(jo_inside.getString("yng_Ubication"), Yng_Ubication.class);
-            itemPublicSellerList.setYng_Ubication(yngUbication);
-            //itemPublicSellerList.setCategoryListUbication(jo_inside.getString("CategoryListUbication"));
-            //Log.e("envia",itemPublicSellerList.getCategoryListId()+"");
+            item.setYng_Ubication(yngUbication);
+            //item.setCategoryListUbication(jo_inside.getString("CategoryListUbication"));
+            //Log.e("envia",item.getCategoryListId()+"");
 
-            array_cat_list_new.add(itemPublicSellerList);
+            array_cat_list_new.add(item);
 
         }
 

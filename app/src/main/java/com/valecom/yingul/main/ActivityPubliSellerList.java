@@ -140,7 +140,7 @@ public class ActivityPubliSellerList extends AppCompatActivity {
         ImgGrid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recycler_cat_list.setLayoutManager(new GridLayoutManager(ActivityPubliSellerList.this, 3));
+                recycler_cat_list.setLayoutManager(new GridLayoutManager(ActivityPubliSellerList.this, 2));
                 adapter_cat_list = new ListGridAdapter(ActivityPubliSellerList.this, array_cat_list);
                 recycler_cat_list.setAdapter(adapter_cat_list);
                 ImgGrid.setImageResource(R.drawable.ic_grid_hover);
@@ -189,7 +189,7 @@ public class ActivityPubliSellerList extends AppCompatActivity {
                         {
 
                             JSONArray m_jArry = response;
-                            Log.e("Eddy",m_jArry.toString());
+                            Log.e("Eddy123",m_jArry.toString());
                             for (int i = 0; i < m_jArry.length(); i++) {
                                 JSONObject jo_inside = m_jArry.getJSONObject(i);
                                 Yng_Item item = new Yng_Item();
@@ -198,6 +198,9 @@ public class ActivityPubliSellerList extends AppCompatActivity {
                                 item.setPrincipalImage(jo_inside.getString("principalImage"));
                                 item.setDescription(jo_inside.getString("description"));
                                 item.setPrice(Double.valueOf(jo_inside.getString("price")));
+                                item.setPriceNormal(Double.valueOf(jo_inside.getString("priceNormal")));
+                                item.setPriceDiscount(Double.valueOf(jo_inside.getString("priceDiscount")));
+                                item.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));
 
                                 array_cat_list.add(item);
 

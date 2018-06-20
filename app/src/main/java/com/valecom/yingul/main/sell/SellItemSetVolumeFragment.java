@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +50,81 @@ public class SellItemSetVolumeFragment extends Fragment {
         editLength = (EditText)v.findViewById(R.id.editLength);
         txtVolume = (TextView)v.findViewById(R.id.txtVolume);
         buttonVolumen = (Button)v.findViewById(R.id.buttonVolume);
+
+        editHeight.addTextChangedListener(new TextWatcher() {
+            long largo,ancho,alto;
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(editLength.getText().toString().trim().equals(""))largo=0;
+                else largo = Long.valueOf(editLength.getText().toString());
+
+                if(editWidth.getText().toString().trim().equals(""))ancho=0;
+                else ancho = Long.valueOf(editWidth.getText().toString());
+
+                if(editHeight.getText().toString().trim().equals(""))alto=0;
+                else alto = Long.valueOf(editHeight.getText().toString());
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                txtVolume.setText((largo * ancho * alto)+"");
+            }
+        });
+
+        editLength.addTextChangedListener(new TextWatcher() {
+            long largo,ancho,alto;
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(editLength.getText().toString().trim().equals(""))largo=0;
+                else largo = Long.valueOf(editLength.getText().toString());
+
+                if(editWidth.getText().toString().trim().equals(""))ancho=0;
+                else ancho = Long.valueOf(editWidth.getText().toString());
+
+                if(editHeight.getText().toString().trim().equals(""))alto=0;
+                else alto = Long.valueOf(editHeight.getText().toString());
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                txtVolume.setText((largo * ancho * alto)+"");
+            }
+        });
+
+        editWidth.addTextChangedListener(new TextWatcher() {
+            long largo,ancho,alto;
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(editLength.getText().toString().trim().equals(""))largo=0;
+                else largo = Long.valueOf(editLength.getText().toString());
+
+                if(editWidth.getText().toString().trim().equals(""))ancho=0;
+                else ancho = Long.valueOf(editWidth.getText().toString());
+
+                if(editHeight.getText().toString().trim().equals(""))alto=0;
+                else alto = Long.valueOf(editHeight.getText().toString());
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                txtVolume.setText((largo * ancho * alto)+"");
+            }
+        });
 
         buttonVolumen.setOnClickListener(new View.OnClickListener() {
             @Override

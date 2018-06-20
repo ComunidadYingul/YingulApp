@@ -47,6 +47,7 @@ import com.valecom.yingul.R;
 import com.valecom.yingul.Util.ItemOffsetDecoration;
 import com.valecom.yingul.Util.RecyclerItemClickListener;
 import com.valecom.yingul.adapter.GalleryAdapter;
+import com.valecom.yingul.adapter.ListRowAdapter;
 import com.valecom.yingul.adapter.QueryListAdapter;
 import com.valecom.yingul.adapter.ReviewListAdapter;
 import com.valecom.yingul.adapter.ReviewPublicListAdapter;
@@ -95,7 +96,7 @@ public class ActivityProductDetail extends AppCompatActivity {
     TextView edit_quantity, text_product_name, text_product_price, text_no_cost, text_product_rate, text_select_size, text_select_color,
             text_product_buy, text_product_cart, txt_order_total_rs, txt_order_item, text_product_con_shop, text_product_place_order,text_description,text_product_title,text_desc;
     //EditText edt_pincode;
-    TextView web_desc;
+    TextView web_desc,text_quantity_stock;
     View button_public_seller;
     RatingView ratingView;
     ArrayList<ItemColorSize> array_color, array_size;
@@ -106,7 +107,7 @@ public class ActivityProductDetail extends AppCompatActivity {
     OrderPlaceAdapter adapter_orderPlaceAdapter;
     //LinearLayout linear_Layout_stars;
 
-    ReviewPublicListAdapter adapter_review_public;
+    ListRowAdapter adapter_review_public;
     ArrayList<Yng_Item> array_publicaciones;
 
     private Menu menu;
@@ -175,6 +176,7 @@ public class ActivityProductDetail extends AppCompatActivity {
         //edt_pincode.setFocusable(false);
         button_public_seller = (View) findViewById(R.id.button_public_seller);
         edit_quantity = (EditText) findViewById(R.id.edit_quantity);
+        text_quantity_stock = (TextView) findViewById(R.id.text_quantity_stock);
 
         recycler_detail_review.setHasFixedSize(false);
         recycler_detail_review.setNestedScrollingEnabled(false);
@@ -479,6 +481,9 @@ public class ActivityProductDetail extends AppCompatActivity {
                                 item.setPrincipalImage(jo_inside.getString("principalImage"));
                                 item.setDescription(jo_inside.getString("description"));
                                 item.setPrice(Double.valueOf(jo_inside.getString("price")));
+                                item.setPriceNormal(Double.valueOf(jo_inside.getString("priceNormal")));
+                                item.setPriceDiscount(Double.valueOf(jo_inside.getString("priceDiscount")));
+                                item.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));
 
                                 array_publicaciones.add(item);
 
@@ -589,7 +594,8 @@ public class ActivityProductDetail extends AppCompatActivity {
 
     public void setAdapterReviewList() {
 
-        adapter_review_public = new ReviewPublicListAdapter(ActivityProductDetail.this, array_publicaciones);
+        //adapter_review_public = new ReviewPublicListAdapter(ActivityProductDetail.this, array_publicaciones);
+        adapter_review_public = new ListRowAdapter(ActivityProductDetail.this, array_publicaciones);
         recycler_detail_review.setAdapter(adapter_review_public);
 
     }
@@ -665,11 +671,16 @@ public class ActivityProductDetail extends AppCompatActivity {
     }
     /*******************************************************************************************************/
     private void showOrderPlace() {
-        Intent intent = new Intent(ActivityProductDetail.this, BuyActivity.class);
-        intent.putExtra("itemId",itemTemp.getItemId());
-        intent.putExtra("itemQuantity",Integer.parseInt(edit_quantity.getText().toString()));
-        Log.e("Quantity:----", ""+edit_quantity.getText());
-        startActivity(intent);
+        if(Integer.valueOf(edit_quantity.getText().toString())>itemTemp.getQuantity()){
+            Toast.makeText(getApplicationContext(),"No existe productos suficientes en stock",Toast.LENGTH_SHORT).show();
+        }else{
+            Intent intent = new Intent(ActivityProductDetail.this, BuyActivity.class);
+            intent.putExtra("itemId",itemTemp.getItemId());
+            intent.putExtra("itemQuantity",Integer.parseInt(edit_quantity.getText().toString()));
+            Log.e("Quantity:----", ""+edit_quantity.getText());
+            startActivity(intent);
+        }
+
 
         /*mDialogPlaceOrder = new Dialog(ActivityProductDetail.this, R.style.Theme_AppCompat_Translucent);
         mDialogPlaceOrder.setContentView(R.layout.my_cart_dialog);
@@ -1048,6 +1059,7 @@ public class ActivityProductDetail extends AppCompatActivity {
         //text_product_price.setTypeface(typeface);
         text_product_title.setText(itemTemp.getName());
         text_product_price.setText("$  "+itemTemp.getPrice());
+        text_quantity_stock.setText(itemTemp.getQuantity()+"");
         try{
             if(itemTemp.getProductPagoEnvio().equals("gratis")) {
                 text_no_cost.setText("Envío gratis a todo el país");

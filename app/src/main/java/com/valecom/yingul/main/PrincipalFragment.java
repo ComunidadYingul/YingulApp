@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +34,7 @@ import com.valecom.yingul.Util.ItemOffsetDecoration;
 import com.valecom.yingul.adapter.AllCategoryHomeAdapter;
 import com.valecom.yingul.adapter.CategoryListAdapter;
 import com.valecom.yingul.adapter.LatestListAdapter;
+import com.valecom.yingul.adapter.ListGridAdapter;
 import com.valecom.yingul.adapter.StoreHomeAdapter;
 import com.valecom.yingul.main.buy.BuyActivity;
 import com.valecom.yingul.model.Yng_Category;
@@ -61,6 +64,8 @@ import me.relex.circleindicator.CircleIndicator;
  */
 public class PrincipalFragment extends Fragment {
 
+    ScrollView scrollView;
+
     ArrayList<ItemHomeSlider> array_Slider;
     ItemHomeSlider itemSlider;
     ViewPager viewpager_slider;
@@ -86,6 +91,10 @@ public class PrincipalFragment extends Fragment {
     StoreHomeAdapter adapter_category;
     ArrayList<Yng_Store> array_category;
 
+    //RecyclerView recycler_home_all_items;
+    //ListGridAdapter adapter_all_items;
+    //ArrayList<Yng_Item> array_all_items;
+
     private MaterialDialog progressDialog;
     private FragmentManager fragmentManager;
 
@@ -106,6 +115,7 @@ public class PrincipalFragment extends Fragment {
         array_latest = new ArrayList<>();
         array_trending = new ArrayList<>();
         array_category = new ArrayList<>();
+        //array_all_items = new ArrayList<>();
         fragmentManager = getActivity().getSupportFragmentManager();
 
         viewpager_slider = (ViewPager) rootView.findViewById(R.id.viewPager);
@@ -141,6 +151,12 @@ public class PrincipalFragment extends Fragment {
         recycler_home_category.setNestedScrollingEnabled(false);
         recycler_home_category.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recycler_home_category.addItemDecoration(itemDecoration);
+
+        /*recycler_home_all_items = (RecyclerView) rootView.findViewById(R.id.rv_home_all_items);
+        recycler_home_all_items.setHasFixedSize(false);
+        recycler_home_all_items.setNestedScrollingEnabled(true);
+        recycler_home_all_items.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        recycler_home_all_items.addItemDecoration(itemDecoration);*/
 
         copyrightLayout = (LinearLayout) rootView.findViewById(R.id.copyrightLayout);
         copyrightLayout.setOnClickListener(new View.OnClickListener() {
@@ -349,6 +365,8 @@ public class PrincipalFragment extends Fragment {
                                 item.setDescription(jo_inside.getString("description"));
                                 item.setPrice(Double.valueOf(jo_inside.getString("price")));
                                 item.setMoney(jo_inside.getString("money"));
+                                item.setPriceNormal(Double.valueOf(jo_inside.getString("priceNormal")));
+                                item.setPriceDiscount(Double.valueOf(jo_inside.getString("priceDiscount")));
                                 item.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));
 
 
@@ -462,6 +480,7 @@ public class PrincipalFragment extends Fragment {
                                 item.setPrice(Double.valueOf(jo_inside.getString("price")));
                                 item.setMoney(jo_inside.getString("money"));
                                 item.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));
+                                item.setPriceNormal(Double.valueOf(jo_inside.getString("priceNormal")));
                                 item.setPriceDiscount(Double.valueOf(jo_inside.getString("priceDiscount")));
 
                                 /*JSONObject user = jo_inside.getJSONObject("user");
@@ -470,9 +489,10 @@ public class PrincipalFragment extends Fragment {
                                 item.setCategorySeller(seller.getUsername());*/
 
 
-                                if(item.getPriceDiscount() == 0){
+                                if(item.getPriceDiscount()==0 && !item.getProductPagoEnvio().equals("gratis")){
                                     array_latest.add(item);
                                 }
+                                //array_all_items.add(item);
 
 
                             }
@@ -668,8 +688,17 @@ public class PrincipalFragment extends Fragment {
         adapter_category = new StoreHomeAdapter(getActivity(), array_category);
         recycler_home_category.setAdapter(adapter_category);
 
-        //loadJSONFromAssetHomeLatest();
+        //loadJSONFromAssetHomeAllItems();
+        //setAdapterHomeAllItems();
     }
 
+    /***************************** ALL ITEMS BOTTOM********************************/
+
+    /*public void setAdapterHomeAllItems() {
+
+        adapter_all_items = new ListGridAdapter(getActivity(), array_all_items);
+        recycler_home_all_items.setAdapter(adapter_all_items);
+
+    }*/
 
 }

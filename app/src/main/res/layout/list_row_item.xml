@@ -50,44 +50,143 @@
             </LinearLayout>
             <!--/android.support.v7.widget.CardView-->
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="4dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/text_item_cat_list_title"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/text_item_cat_list_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center|left"
+                        android:maxLines="2"
+                        android:minLines="1"
+                        android:text="Camara profesional nikon"
+                        android:textSize="15sp"
+                        android:textColor="@color/gray" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center|left"
-                    android:maxLines="1"
-                    android:minLines="1"
-                    android:text=" "
-                    android:textSize="18sp"
-                    android:textColor="@color/black" />
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/lytPriceNormal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/textMoneyNormal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:ellipsize="end"
+                            android:text="$"
+                            android:textSize="13sp"
+                            android:textColor="@color/black" />
+                        <TextView
+                            android:id="@+id/textPriceNormal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:ellipsize="end"
+                            android:text="1200"
+                            android:textSize="13sp"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/text_item_cat_list_desc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="3"
-                    android:layout_marginTop="5dp"
-                    android:layout_below="@+id/text_item_cat_list_title"
-                    android:minLines="3"
-                    android:ellipsize="end"
-                    android:text=" "
-                    android:textSize="13sp"
-                    android:textColor="@color/gray" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp">
+                            <TextView
+                                android:id="@+id/textMoney"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-light"
+                                android:layout_marginRight="2dp"
+                                android:ellipsize="end"
+                                android:textSize="20sp"
+                                android:text="$"
+                                android:textColor="@color/colorPrimaryText" />
+                            <TextView
+                                android:id="@+id/text_item_cat_list_price"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-light"
+                                android:ellipsize="end"
+                                android:textSize="20sp"
+                                android:text="2000"
+                                android:textColor="@color/colorPrimaryText" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/lytDiscount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:id="@+id/textDiscountPorcent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-light"
+                                android:ellipsize="end"
+                                android:text="31"
+                                android:textSize="15sp"
+                                android:textColor="@color/yngOrange" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-light"
+                                android:ellipsize="end"
+                                android:text="% OFF"
+                                android:textSize="15sp"
+                                android:textColor="@color/yngOrange" />
+                        </LinearLayout>
 
+                    </LinearLayout>
 
+                </LinearLayout>
 
                 <RelativeLayout
+                    android:id="@+id/lytEnvioGratis"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:layout_alignParentBottom="true">
 
-                    <com.github.ornolfr.ratingview.RatingView
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/car"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:layout_margin="3dp"
+                            android:textSize="10sp"
+                            android:text="Envio gratis"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                            android:textColor="@color/yngOrange" />
+                    </LinearLayout>
+
+                    <!--com.github.ornolfr.ratingview.RatingView
                         android:id="@+id/rating_cat_list"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -117,10 +216,10 @@
                         android:minLines="1"
                         android:text="ffffff"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                        android:textColor="@color/red" />
+                        android:textColor="@color/red" /-->
 
                 </RelativeLayout>
-            </RelativeLayout>
+            </LinearLayout>
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

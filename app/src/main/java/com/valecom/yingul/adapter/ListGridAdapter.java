@@ -51,36 +51,35 @@ public class ListGridAdapter extends RecyclerView.Adapter<ListGridAdapter.ItemRo
     public void onBindViewHolder(ListGridAdapter.ItemRowHolder holder, final int position) {
         final Yng_Item item = dataList.get(position);
 
+        Log.e("position:------",position+"");
+
         holder.text_cat_list_title.setText(item.getName());
         holder.text_cat_list_price.setText(String.valueOf(item.getPrice()));
-
-        try{
-            if(item.getMoney().equals("ARS")){
-                holder.moneyUsd.setVisibility(View.GONE);
+        try {
+            if (item.getMoney().equals("USD")) {
+                holder.textMoney.setText("U$D");
             }else{
-                holder.moneyArs.setVisibility(View.VISIBLE);
+                holder.textMoney.setText("$");
             }
+        }catch (Exception e){}
 
-
-        }catch (Exception e){
-
+        if(item.getPriceDiscount()==0){
+            holder.lytDiscount.setVisibility(View.GONE);
+        }else{
+            Double desc = ((item.getPriceNormal()-item.getPriceDiscount()) * 100)/item.getPriceNormal();
+            holder.textDiscountPorcent.setText(String.format("%.0f", desc));
+            holder.lytDiscount.setVisibility(View.VISIBLE);
         }
 
-        try {
-            if (item.getType().toString().equals("Property")) {
-                holder.lyt_otro.setVisibility(View.VISIBLE);
-                holder.text_cat_list_otro.setText(item.getDuildedArea() + " m2");
-            }
-        }catch (Exception e){}
-        Picasso.with(mContext).load(Network.BUCKET_URL+item.getPrincipalImage()).into(holder.image_cat_list);
-
-        try {
-            Log.e("envio:----",item.getProductPagoEnvio().toString());
-            if (item.getProductPagoEnvio().toString().equals("gratis")) {
+        try{
+            if(item.getProductPagoEnvio().equals("gratis")){
                 holder.imgEnvioGratis.setVisibility(View.VISIBLE);
+            }else{
+                holder.imgEnvioGratis.setVisibility(View.INVISIBLE);
             }
         }catch (Exception e){}
 
+        Picasso.with(mContext).load(Network.BUCKET_URL+item.getPrincipalImage()).into(holder.image_cat_list);
 
         holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,21 +135,19 @@ public class ListGridAdapter extends RecyclerView.Adapter<ListGridAdapter.ItemRo
 
     public class ItemRowHolder extends RecyclerView.ViewHolder {
         public ImageView image_cat_list,imgEnvioGratis;
-        public TextView text_cat_list_title,text_cat_list_price,text_cat_list_otro,moneyArs,moneyUsd;
-        public LinearLayout lyt_parent,lyt_otro;
+        public TextView text_cat_list_title,text_cat_list_price,textMoney,textDiscountPorcent;
+        public LinearLayout lyt_parent,lyt_otro,lytDiscount;
 
         public ItemRowHolder(View itemView) {
             super(itemView);
-            moneyArs = (TextView) itemView.findViewById(R.id.money_ars);
-            moneyUsd = (TextView) itemView.findViewById(R.id.money_usd);
+            textMoney = (TextView) itemView.findViewById(R.id.textMoney);
             image_cat_list = (ImageView) itemView.findViewById(R.id.image_item_cat_list_image);
             imgEnvioGratis = (ImageView) itemView.findViewById(R.id.imgEnvioGratis);
             text_cat_list_title = (TextView) itemView.findViewById(R.id.text_item_cat__list_title);
-            text_cat_list_otro = (TextView) itemView.findViewById(R.id.text_item_cat__list_otro);
             text_cat_list_price = (TextView) itemView.findViewById(R.id.text_item_cat_list_price);
+            textDiscountPorcent = (TextView) itemView.findViewById(R.id.textDiscountPorcent);
             lyt_parent = (LinearLayout) itemView.findViewById(R.id.rootLayout);
-            lyt_otro = (LinearLayout) itemView.findViewById(R.id.layout_otro);
-            lyt_otro.setVisibility(View.GONE);
+            lytDiscount = (LinearLayout) itemView.findViewById(R.id.lytDiscount);
 
         }
     }
