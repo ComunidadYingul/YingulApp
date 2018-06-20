@@ -42,21 +42,17 @@ public class QueryListAdapter extends ArrayAdapter<Yng_Query>
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View rowView = inflater.inflate(R.layout.layout_query_row, parent, false);
+        View rowView = inflater.inflate(R.layout.layout_query_list, parent, false);
 
         Yng_Query query = values.get(position);
 
-        ImageView itemImage = (ImageView) rowView.findViewById(R.id.itemImage);
-        TextView itemName = (TextView) rowView.findViewById(R.id.itemName);
+        TextView answer = (TextView) rowView.findViewById(R.id.answer);
         TextView itemQuery = (TextView) rowView.findViewById(R.id.itemQuery);
         TextView queryDate = (TextView) rowView.findViewById(R.id.queryDate);
 
-        Picasso.with(context).load(Network.BUCKET_URL+query.getYng_Item().getPrincipalImage()).into(itemImage);
-
-        itemName.setText(query.getYng_Item().getName());
+        answer.setText(query.getAnswer());
         itemQuery.setText(query.getQuery());
         queryDate.setText(query.getDate());
-
 
         return rowView;
     }

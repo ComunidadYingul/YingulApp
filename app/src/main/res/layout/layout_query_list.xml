@@ -26,13 +26,15 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:gravity="center_horizontal"
-                android:src="@drawable/box" />
+                android:src="@drawable/query1" />
             <TextView
+                android:id="@+id/itemQuery"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="18sp"
-                android:text="titulo del item"/>
+                android:text="titulo del item"
+                android:paddingLeft="8dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -43,13 +45,15 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:gravity="center_horizontal"
-                android:src="@drawable/box" />
+                android:src="@drawable/query" />
             <TextView
+                android:id="@+id/answer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:text="titulo del item"/>
+                android:text="titulo del item"
+                android:paddingLeft="8dp"/>
         </LinearLayout>
     </LinearLayout>
 
