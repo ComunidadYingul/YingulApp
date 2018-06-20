@@ -2,6 +2,7 @@ package com.valecom.yingul.main.sell;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.support.v4.app.Fragment;
@@ -10,8 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.valecom.yingul.R;
+import com.valecom.yingul.main.LoginActivity;
+import com.valecom.yingul.main.NewItemActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,7 +69,37 @@ public class SellItemAddPicturesFragment extends Fragment {
         buttonAddPictures.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((SellActivity)getActivity()).openGalery();
+                new MaterialDialog.Builder(getContext())
+                        .title("Importante")
+                        .content("Presione prolongadamente para agregar mas de una foto")
+                        .positiveText(R.string.ok)
+                        .negativeText("CANCELAR")
+                        .cancelable(false)
+                        .negativeColorRes(R.color.colorAccent)
+                        .positiveColorRes(R.color.colorAccent)
+                        .callback(new MaterialDialog.ButtonCallback()
+                        {
+                            @Override
+                            public void onPositive(MaterialDialog dialog)
+                            {
+                                ((SellActivity)getActivity()).openGalery();
+                            }
+
+                            @Override
+                            public void onNegative(MaterialDialog dialog)
+                            {
+                                //Cancel
+                                dialog.dismiss();
+
+                                if (dialog != null && dialog.isShowing())
+                                {
+                                    // If the response is JSONObject instead of expected JSONArray
+                                    dialog.dismiss();
+                                }
+                            }
+                        })
+                        .show();
+
             }
         });
         return v;

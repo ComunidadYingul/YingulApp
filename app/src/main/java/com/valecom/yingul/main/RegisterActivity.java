@@ -2,17 +2,21 @@ package com.valecom.yingul.main;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.valecom.yingul.R;
+import com.valecom.yingul.main.sell.SellActivity;
 import com.valecom.yingul.model.Yng_Person;
 import com.valecom.yingul.model.Yng_User;
 import com.valecom.yingul.network.MySingleton;
@@ -37,7 +41,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private EditText editLastname;
     private EditText editEmail;
     private EditText editPassword;
-    private TextView textLogo, textTitle;
+    private TextView textLogo, textTitle,txtPolicies;
+    private CheckBox checkBussines;
 
     Yng_Person persona;
     Yng_User user;
@@ -68,7 +73,20 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         editLastname = (EditText) findViewById(R.id.editLastname);
         editEmail = (EditText) findViewById(R.id.editEmail);
         editPassword = (EditText) findViewById(R.id.editPassword);
+        txtPolicies = (TextView) findViewById(R.id.txtPolicies);
+        checkBussines = (CheckBox) findViewById(R.id.checkBussines);
 
+        String styledText = "<font color='#ffffff'>Al registrarme, declaro que soy mayor de edad y acepto los </font><font color='#1E88E5'>Términos y Condiciones</font><font color='#ffffff'> y las Políticas de Privacidad de Yingul Company.</font>";
+        txtPolicies.setText(Html.fromHtml(styledText), TextView.BufferType.SPANNABLE);
+        txtPolicies.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent viewIntent =
+                    new Intent("android.intent.action.VIEW",
+                            Uri.parse("https://s3-us-west-2.amazonaws.com/jsa-s3-bucketimage/politicas/terminos-y-condiciones-de-uso.pdf"));
+            startActivity(viewIntent);
+            }
+        });
         Button buttonSignUp = (Button) findViewById(R.id.buttonSignUp);
         buttonSignUp.setOnClickListener(this);
     }
@@ -116,101 +134,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         persona.setYng_User(user);
 
+        if(checkBussines.isChecked()){
+            persona.setBusiness(true);
+        }else{
+            persona.setBusiness(false);
+        }
+
         Gson gson = new Gson();
         String json = gson.toJson(persona);
 
         getAsyncCall(Network.API_URL + "signup",json);
-
-        /*JsonObjectRequest postRequest = new JsonObjectRequest
-                (Request.Method.POST, Network.API_URL + "signup", api_parameter, new Response.Listener<JSONObject>()
-                {
-                    @Override
-                    public void onResponse(JSONObject response)
-                    {
-                        if (progressDialog != null && progressDialog.isShowing()) {
-                            // If the response is JSONObject instead of expected JSONArray
-                            progressDialog.dismiss();
-                        }
-
-                        try
-                        {
-                            JSONObject data = ((JSONObject) response.get("data"));
-
-                            SharedPreferences.Editor user = getSharedPreferences(LoginActivity.SESSION_USER, MODE_PRIVATE).edit();
-
-                            user.putInt("id", data.getInt("id"));
-                            user.putInt("logged_in", 1);
-                            user.putString("firstname", data.getString("first_name"));
-                            user.putString("lastname", data.getString("last_name"));
-                            user.putString("email", data.getString("email"));
-                            user.putString("api_key", data.getString("api_key"));
-
-                            JsonElement jsonElement = new Gson().fromJson(data.getString("content"), JsonElement.class);
-                            JsonObject jsonObject = jsonElement.getAsJsonObject();
-
-                            user.putString(SettingActivity.CURRENCY_SYMBOL_KEY, jsonObject.get(SettingActivity.CURRENCY_SYMBOL_KEY).getAsString());
-                            user.putString(SettingActivity.ADDRESS_SYMBOL_KEY, jsonObject.get(SettingActivity.ADDRESS_SYMBOL_KEY).getAsString());
-
-                            user.commit();
-
-                            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                            finish();
-                            startActivity(intent);
-                        }
-                        catch (Exception ex)
-                        {
-                            Toast.makeText(RegisterActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }, new Response.ErrorListener()
-                {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-                        // TODO Auto-generated method stub
-                        if (progressDialog != null && progressDialog.isShowing()) {
-                            // If the response is JSONObject instead of expected JSONArray
-                            progressDialog.dismiss();
-                        }
-
-                        NetworkResponse response = error.networkResponse;
-                        if (response != null && response.data != null)
-                        {
-                            try
-                            {
-                                JSONObject json = new JSONObject(new String(response.data));
-                                Toast.makeText(RegisterActivity.this, json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
-                            }
-                            catch (JSONException e)
-                            {
-                                Toast.makeText(RegisterActivity.this, R.string.error_try_again_support, Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        else
-                        {
-                            Toast.makeText(RegisterActivity.this, error != null && error.getMessage() != null ? error.getMessage() : error.toString(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                })
-        {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError
-            {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("X-API-KEY", Network.API_KEY);
-                return params;
-            }
-        };
-
-        // Get a RequestQueue
-        RequestQueue queue = MySingleton.getInstance(this.getApplicationContext()).getRequestQueue();
-
-        //Used to mark the request, so we can cancel it on our onStop method
-        postRequest.setTag(TAG);
-
-        MySingleton.getInstance(this).addToRequestQueue(postRequest);*/
+        Log.e("persona",json);
     }
 
     public void  getAsyncCall(String url, String json){
@@ -242,8 +176,55 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             Toast.makeText(RegisterActivity.this, responce, Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                             startActivity(intent);
-                        }else
-                            Toast.makeText(RegisterActivity.this,"email existente",Toast.LENGTH_LONG).show();
+                        }else{
+                            if(responce.equals("email exist")){
+                                new MaterialDialog.Builder(RegisterActivity.this)
+                                        .title("El correo ya esta registrado")
+                                        .content("El correo que ingreso ya se encuentra registrado en Yingul Company intente con un correo diferente")
+                                        .positiveText(R.string.ok)
+                                        .cancelable(false)
+                                        .positiveColorRes(R.color.colorAccent)
+                                        .callback(new MaterialDialog.ButtonCallback()
+                                        {
+                                            @Override
+                                            public void onPositive(MaterialDialog dialog)
+                                            {
+                                                progressDialog.dismiss();
+                                                dialog.dismiss();
+
+                                                if (dialog != null && dialog.isShowing())
+                                                {
+                                                    // If the response is JSONObject instead of expected JSONArray
+                                                    dialog.dismiss();
+                                                }
+                                            }
+                                        })
+                                        .show();
+                            }else{
+                                new MaterialDialog.Builder(RegisterActivity.this)
+                                        .title("Oops!!!")
+                                        .content("Algo salio mal por favor vuelva a intentar en unos minutos")
+                                        .positiveText(R.string.ok)
+                                        .cancelable(false)
+                                        .positiveColorRes(R.color.colorAccent)
+                                        .callback(new MaterialDialog.ButtonCallback()
+                                        {
+                                            @Override
+                                            public void onPositive(MaterialDialog dialog)
+                                            {
+                                                progressDialog.dismiss();
+                                                dialog.dismiss();
+
+                                                if (dialog != null && dialog.isShowing())
+                                                {
+                                                    // If the response is JSONObject instead of expected JSONArray
+                                                    dialog.dismiss();
+                                                }
+                                            }
+                                        })
+                                        .show();
+                            }
+                        }
                     }
                 });
 

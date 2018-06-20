@@ -304,6 +304,112 @@ android:background="@color/bg">
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardQueries"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="6dp"
+            card_view:cardBackgroundColor="@color/white"
+            card_view:cardCornerRadius="2dp"
+            card_view:cardUseCompatPadding="false"
+            card_view:elevation="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textQueriesTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="5dp"
+                        android:text="Preguntas"
+                        android:textColor="@color/black"
+                        android:layout_weight="1"
+                        android:textSize="18sp" />
+
+                    <View
+                        android:id="@+id/buttonMoreQueries"
+                        android:layout_width="30dp"
+                        android:background="@drawable/ic_arrow_right"
+                        android:layout_height="30dp"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.6dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_below="@+id/text_message"
+                    android:background="#e7e7e7"/>
+
+                <android.support.design.widget.CoordinatorLayout
+                    android:id="@+id/main_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="0dp">
+
+                    <ListView
+                        android:id="@+id/list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+
+                </android.support.design.widget.CoordinatorLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:orientation="horizontal"
+                    android:weightSum="16"
+                    android:background="@color/white">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="15">
+
+                        <EditText
+                            android:id="@+id/editNewQuestion"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Escribe una nueva pregunta"
+                            android:text=""
+                            android:singleLine="true"/>
+                    </android.support.design.widget.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+                        <Button
+                            android:id="@+id/buttonNewQuestion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0dp"
+                            android:background="@color/white"
+                            android:drawableLeft="@drawable/ic_menu_send" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+
         <android.support.v7.widget.CardView
             android:id="@+id/card_view_review"
             android:layout_width="match_parent"

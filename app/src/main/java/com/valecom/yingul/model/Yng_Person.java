@@ -9,7 +9,7 @@ public class Yng_Person {
     private Long personId;
     private String name;
     private String lastname;
-    private boolean isBusiness;
+    private boolean business;
     private Yng_User yng_User;
 
     public Yng_Person (){
@@ -34,12 +34,15 @@ public class Yng_Person {
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
+
     public boolean isBusiness() {
-        return isBusiness;
+        return business;
     }
-    public void setBusiness(boolean isBusiness) {
-        this.isBusiness = isBusiness;
+
+    public void setBusiness(boolean business) {
+        this.business = business;
     }
+
     public Yng_User getYng_User() {
         return yng_User;
     }

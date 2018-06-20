@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +57,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         TextView txtSignUp = (TextView) findViewById(R.id.txtSignUp);
         txtSignUp.setOnClickListener(this);
+        LinearLayout layoutSignUp =(LinearLayout) findViewById(R.id.layoutSignUp);
+        layoutSignUp.setOnClickListener(this);
 
         Typeface typeface1 = Typeface.createFromAsset(LoginActivity.this.getAssets(), "fonts/font-yingul.ttf");
 
@@ -75,6 +78,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Intent intent = null;
         switch (v.getId()) {
             case R.id.txtSignUp:
+                intent = new Intent(this, RegisterActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.layoutSignUp:
                 intent = new Intent(this, RegisterActivity.class);
                 startActivity(intent);
                 break;

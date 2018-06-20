@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#ccc"
-    tools:context="com.valecom.yingul.main.Buy_envio_Fragment">
+    tools:context="com.valecom.yingul.main.sell.SellItemSetPriceFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -85,6 +85,25 @@
                     android:singleLine="true"
                     android:inputType="numberDecimal"/>
             </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutOfferDiscount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnOfferDiscount"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/yngBlue"
+                android:background="@drawable/button_marginblue"
+                android:text="Ofrecer descuento"/>
+
         </LinearLayout>
 
         <LinearLayout
