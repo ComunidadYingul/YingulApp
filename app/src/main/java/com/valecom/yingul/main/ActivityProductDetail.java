@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -96,7 +97,8 @@ public class ActivityProductDetail extends AppCompatActivity {
     TextView edit_quantity, text_product_name, text_product_price, text_no_cost, text_product_rate, text_select_size, text_select_color,
             text_product_buy, text_product_cart, txt_order_total_rs, txt_order_item, text_product_con_shop, text_product_place_order,text_description,text_product_title,text_desc;
     //EditText edt_pincode;
-    TextView web_desc,text_quantity_stock;
+    TextView web_desc,text_quantity_stock,textPriceNormal,textDiscountPorcent,textMoney,textMoneyNormal;
+    LinearLayout lytEnvioGratis,lytDiscount;
     View button_public_seller;
     RatingView ratingView;
     ArrayList<ItemColorSize> array_color, array_size;
@@ -163,9 +165,11 @@ public class ActivityProductDetail extends AppCompatActivity {
 
         text_product_name = (TextView) findViewById(R.id.text_product_title);
         text_product_price = (TextView) findViewById(R.id.text_product_price);
-        text_no_cost = (TextView) findViewById(R.id.text_product_no_emi);
-        //text_product_rate = (TextView) findViewById(R.id.text_product_rate);
-        //text_select_size = (TextView) findViewById(R.id.text_select_size);
+        textDiscountPorcent = (TextView) findViewById(R.id.textDiscountPorcent);
+        lytEnvioGratis = (LinearLayout) findViewById(R.id.lytEnvioGratis);
+        lytDiscount = (LinearLayout) findViewById(R.id.lytDiscount);
+        textMoney = (TextView) findViewById(R.id.textMoney);
+        textMoneyNormal = (TextView) findViewById(R.id.textMoneyNormal);
         //text_select_color = (TextView) findViewById(R.id.text_select_color);
         text_product_buy = (TextView) findViewById(R.id.text_product_buy);
         text_product_cart = (TextView) findViewById(R.id.text_product_cart);
@@ -177,6 +181,8 @@ public class ActivityProductDetail extends AppCompatActivity {
         button_public_seller = (View) findViewById(R.id.button_public_seller);
         edit_quantity = (EditText) findViewById(R.id.edit_quantity);
         text_quantity_stock = (TextView) findViewById(R.id.text_quantity_stock);
+        textPriceNormal = (TextView) findViewById(R.id.text_price_normal);
+        textPriceNormal.setPaintFlags(textPriceNormal.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
         recycler_detail_review.setHasFixedSize(false);
         recycler_detail_review.setNestedScrollingEnabled(false);
@@ -192,7 +198,7 @@ public class ActivityProductDetail extends AppCompatActivity {
         //text_description.setText("Descripción del Producto");
         text_product_name.setText("");
         text_product_price.setText("");
-        text_no_cost.setText("");
+        //text_no_cost.setText("");
         //text_product_rate.setText("texto1");
         web_desc.setText("");
         text_desc.setText("Descripción:");
@@ -1058,15 +1064,34 @@ public class ActivityProductDetail extends AppCompatActivity {
         //Typeface typeface = Typeface.createFromAsset(ActivityProductDetail.this.getAssets(), "fonts/"+"Roboto-Light.ttf");
         //text_product_price.setTypeface(typeface);
         text_product_title.setText(itemTemp.getName());
-        text_product_price.setText("$  "+itemTemp.getPrice());
+        text_product_price.setText(itemTemp.getPrice()+"");
         text_quantity_stock.setText(itemTemp.getQuantity()+"");
-        try{
-            if(itemTemp.getProductPagoEnvio().equals("gratis")) {
-                text_no_cost.setText("Envío gratis a todo el país");
-            }else {
-                text_no_cost.setText("Envío a todo el país");
+
+        try {
+            if (itemTemp.getMoney().equals("USD")) {
+                textMoney.setText("U$D");
+                textMoneyNormal.setText("U$D");
+            }else{
+                textMoney.setText("$");
+                textMoneyNormal.setText("$");
             }
         }catch (Exception e){}
+
+        try{
+            if(itemTemp.getProductPagoEnvio().equals("gratis")) {
+                lytEnvioGratis.setVisibility(View.VISIBLE);
+            }else {
+                lytEnvioGratis.setVisibility(View.GONE);
+            }
+        }catch (Exception e){lytEnvioGratis.setVisibility(View.GONE);}
+
+        if(itemTemp.getPriceDiscount()==0){
+            lytDiscount.setVisibility(View.GONE);
+        }else{
+            Double desc = ((itemTemp.getPriceNormal()-itemTemp.getPriceDiscount()) * 100)/itemTemp.getPriceNormal();
+            textDiscountPorcent.setText(String.format("%.0f", desc));
+            lytDiscount.setVisibility(View.VISIBLE);
+        }
 
         // text_no_cost.setText(itemTemp.get);
         //text_product_rate.setText("4.8");
