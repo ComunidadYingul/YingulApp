@@ -287,6 +287,7 @@ public class ActivityProductDetail extends AppCompatActivity {
                 Intent intent=new Intent(ActivityProductDetail.this, QueriesItemActivity.class);
                 //intent.putExtra("itemId",itemId);
                 intent.putExtra("queries1",queries1);
+                intent.putExtra("item",itemTemp);
                 startActivity(intent);
             }
         });
@@ -1332,7 +1333,11 @@ public class ActivityProductDetail extends AppCompatActivity {
                             queries1=response.toString();
                             JSONArray queries = response;
                             array_list.clear();
-                            for (int i = 0; i < queries.length(); i++) {
+                            int j = 0;
+                            if(queries.length()>3){
+                                j=queries.length()-3;
+                            }
+                            for (int i = j; i < queries.length(); i++) {
                                 JSONObject obj = queries.getJSONObject(i);
                                 Yng_Query query = new Yng_Query();
                                 query.setQueryId(obj.optLong("queryId"));

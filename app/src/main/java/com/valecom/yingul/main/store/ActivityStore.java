@@ -128,6 +128,7 @@ public class ActivityStore extends AppCompatActivity {
                 .progress(true, 0).build();
 
         array_cat_list = new ArrayList<>();
+        array_cat_list_backup = new ArrayList<>();
         //AdView mAdView = (AdView) findViewById(R.id.adView);
         //mAdView.loadAd(new AdRequest.Builder().build());
 
@@ -176,6 +177,7 @@ public class ActivityStore extends AppCompatActivity {
                 Intent intent = new Intent(ActivityStore.this, FilterActivity.class);
                 Gson json = new Gson();
                 intent.putExtra("itemList", json.toJson(array_cat_list_backup).toString());
+                Log.e("lo que se envia",json.toJson(array_cat_list_backup).toString());
                 intent.putExtra("filterParams", filterParams);
                 intent.putExtra("maxPriceItem",maxPriceItem);
                 intent.putExtra("minPriceItem",minPriceItem);
@@ -215,6 +217,19 @@ public class ActivityStore extends AppCompatActivity {
                                 item.setPriceNormal(Double.valueOf(jo_inside.getString("priceNormal")));
                                 item.setPriceDiscount(Double.valueOf(jo_inside.getString("priceDiscount")));
                                 item.setDuildedArea(Integer.valueOf(jo_inside.getString("duildedArea")));
+
+                                Gson gson = new Gson();
+                                Yng_Ubication yngUbication = gson.fromJson(jo_inside.getString("yng_Ubication"), Yng_Ubication.class);
+                                item.setYng_Ubication(yngUbication);
+
+                                /***********filtro**************/
+                                if(maxPriceItem<item.getPrice()){
+                                    maxPriceItem=item.getPrice();
+                                }
+                                if(minPriceItem>item.getPrice()){
+                                    minPriceItem=item.getPrice();
+                                }
+                                /********************************/
 
                                 array_cat_list.add(item);
 

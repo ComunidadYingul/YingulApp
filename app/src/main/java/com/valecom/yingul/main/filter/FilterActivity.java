@@ -142,6 +142,8 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
 
         try {
             array_cat_list=stringToArrayItemCategoryList((String)getIntent().getSerializableExtra("itemList"));
+            Gson json = new Gson();
+            Log.e("llego esto",json.toJson(array_cat_list).toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -291,6 +293,7 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
                 filterDiscount(filterParams.getDiscount());
                 filterUbication();
                 filterPrice();
+                Log.e("sen envia esto",json.toJson(array_cat_list).toString());
                 returnIntent.putExtra("itemList", json.toJson(array_cat_list).toString());
             }
             returnIntent.putExtra("filterParams", filterParams);
@@ -944,7 +947,7 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
         ArrayList<Yng_Item> array_cat_list_new= new ArrayList<>();
 
         JSONArray m_jArry = new JSONArray(itemList);
-        Log.e("Eddy",m_jArry.toString());
+        Log.e("Eddy123",m_jArry.toString());
         for (int i = 0; i < m_jArry.length(); i++) {
             JSONObject jo_inside = m_jArry.getJSONObject(i);
             Yng_Item item = new Yng_Item();
