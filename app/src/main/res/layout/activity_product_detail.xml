@@ -535,18 +535,27 @@ android:background="@color/bg">
                     android:layout_below="@+id/text_message"
                     android:background="#e7e7e7"/>
 
-                <android.support.design.widget.CoordinatorLayout
+                <!--LinearLayout
                     android:id="@+id/main_content"
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
-                    android:paddingBottom="0dp">
+                    android:paddingBottom="0dp"
+                    android:orientation="vertical">
 
                     <ListView
                         android:id="@+id/list"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent"
+                        android:clickable="false"/>
 
-                </android.support.design.widget.CoordinatorLayout>
+                </LinearLayout-->
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_query"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#eaeaea"
+                    android:clipToPadding="false" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

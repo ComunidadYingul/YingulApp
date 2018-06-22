@@ -51,6 +51,7 @@ import com.valecom.yingul.Util.RecyclerItemClickListener;
 import com.valecom.yingul.adapter.GalleryAdapter;
 import com.valecom.yingul.adapter.ListRowAdapter;
 import com.valecom.yingul.adapter.QueryListAdapter;
+import com.valecom.yingul.adapter.QueryRowAdapter;
 import com.valecom.yingul.adapter.ReviewListAdapter;
 import com.valecom.yingul.adapter.ReviewPublicListAdapter;
 import com.valecom.yingul.adapter.SelectColorAdapter;
@@ -113,6 +114,8 @@ public class ActivityProductDetail extends AppCompatActivity {
     ListRowAdapter adapter_review_public;
     ArrayList<Yng_Item> array_publicaciones;
 
+    RecyclerView recycler_query;
+
     private Menu menu;
     ScrollView scrollView;
     private MaterialDialog progressDialog;
@@ -123,7 +126,8 @@ public class ActivityProductDetail extends AppCompatActivity {
     private Yng_Ubication userUbication;
 
     private ListView list;
-    private QueryListAdapter adapter;
+//    private QueryListAdapter adapter;
+    private QueryRowAdapter adapter;
     private ArrayList<Yng_Query> array_list;
     private Button buttonNewQuestion;
     private EditText editNewQuestion;
@@ -162,6 +166,7 @@ public class ActivityProductDetail extends AppCompatActivity {
         array_review = new ArrayList<>();
         array_order_place = new ArrayList<>();
         recyclerViewDetail = (RecyclerView) findViewById(R.id.vertical_detail);
+        recycler_query = (RecyclerView)findViewById(R.id.recycler_query);
         ImgDetail = (ImageView) findViewById(R.id.image_product_image);
         scrollView=(ScrollView)findViewById(R.id.scrollView);
 
@@ -205,6 +210,11 @@ public class ActivityProductDetail extends AppCompatActivity {
         recycler_detail_review.setNestedScrollingEnabled(false);
         recycler_detail_review.setLayoutManager(new GridLayoutManager(ActivityProductDetail.this, 1));
         recycler_detail_review.addItemDecoration(itemDecoration);
+
+        recycler_query.setHasFixedSize(false);
+        recycler_query.setNestedScrollingEnabled(false);
+        recycler_query.setLayoutManager(new GridLayoutManager(ActivityProductDetail.this, 1));
+        recycler_query.addItemDecoration(itemDecoration);
         //*******************danielAgregado***
         text_desc=(TextView) findViewById(R.id.text_desc);
         text_product_title=(TextView) findViewById(R.id.text_product_title);
@@ -271,9 +281,11 @@ public class ActivityProductDetail extends AppCompatActivity {
         });
 
         array_list = new ArrayList<Yng_Query>();
-        adapter = new QueryListAdapter(this, array_list);
-        list = (ListView) findViewById(R.id.list);
-        list.setAdapter(adapter);
+        //adapter = new QueryListAdapter(this, array_list);
+        //list = (ListView) findViewById(R.id.list);
+        adapter = new QueryRowAdapter(this, array_list);
+        //list.setAdapter(adapter);
+        recycler_query.setAdapter(adapter);
 
         RunGetQueriesByItem();
 
