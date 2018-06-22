@@ -50,7 +50,12 @@ public class QueryListAdapter extends ArrayAdapter<Yng_Query>
         TextView itemQuery = (TextView) rowView.findViewById(R.id.itemQuery);
         TextView queryDate = (TextView) rowView.findViewById(R.id.queryDate);
 
-        answer.setText(query.getAnswer());
+        if(query.getAnswer().equals("null")){
+            answer.setText("");
+        }else{
+            answer.setText(query.getAnswer());
+        }
+
         itemQuery.setText(query.getQuery());
         queryDate.setText(query.getDate());
 

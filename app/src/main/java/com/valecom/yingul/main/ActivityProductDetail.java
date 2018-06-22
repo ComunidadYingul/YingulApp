@@ -13,6 +13,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.test.ActivityUnitTestCase;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -118,10 +119,14 @@ public class ActivityProductDetail extends AppCompatActivity {
     String itemId,itemSeller;
     Yng_Item itemTemp;
     Yng_User userTemp;
+    private Yng_User user;
+    private Yng_Ubication userUbication;
 
     private ListView list;
     private QueryListAdapter adapter;
     private ArrayList<Yng_Query> array_list;
+    private Button buttonNewQuestion;
+    private EditText editNewQuestion;
 
     private boolean favorite;
     String TAG="OkHttpConection";
@@ -147,6 +152,9 @@ public class ActivityProductDetail extends AppCompatActivity {
                 .content(R.string.please_wait)
                 .cancelable(false)
                 .progress(true, 0).build();
+
+        user = new Yng_User();
+        userUbication = new Yng_Ubication();
 
         array_publicaciones = new ArrayList<>();
 
@@ -183,6 +191,15 @@ public class ActivityProductDetail extends AppCompatActivity {
         text_quantity_stock = (TextView) findViewById(R.id.text_quantity_stock);
         textPriceNormal = (TextView) findViewById(R.id.text_price_normal);
         textPriceNormal.setPaintFlags(textPriceNormal.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        buttonNewQuestion = (Button) findViewById(R.id.buttonNewQuestion);
+        editNewQuestion = (EditText) findViewById(R.id.editNewQuestion);
+
+        buttonNewQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RunCreateNewQuery();
+            }
+        });
 
         recycler_detail_review.setHasFixedSize(false);
         recycler_detail_review.setNestedScrollingEnabled(false);
@@ -1379,4 +1396,84 @@ public class ActivityProductDetail extends AppCompatActivity {
         MySingleton.getInstance(ActivityProductDetail.this).addToRequestQueue(postRequest);
     }
 
+    public void RunCreateNewQuery(){
+        SharedPreferences settings = this.getSharedPreferences(LoginActivity.SESSION_USER, this.MODE_PRIVATE);
+        if (settings == null || settings.getInt("logged_in", 0) == 0 || settings.getString("api_key", "").equals(""))
+        {
+            Intent settingsIntent = new Intent(this, LoginActivity.class);
+            settingsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            settingsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(settingsIntent);
+        }else{
+            user.setUsername(settings.getString("username",""));
+            /*para obtener la ubicacion del usuario*/
+            if(settings.getString("yng_Ubication","").equals("null")){
+                userUbication=null;
+            }else{
+                Gson gson = new Gson();
+                userUbication = gson.fromJson(settings.getString("yng_Ubication","") , Yng_Ubication.class);
+            }
+            /*fin de la ubicacion del usuario*/
+            user.setPhone(settings.getString("phone",""));
+            user.setDocumentType(settings.getString("documentType",""));
+            user.setDocumentNumber(settings.getString("documentNumber",""));
+            user.setPassword(settings.getString("password",""));
+            user.setYng_Ubication(userUbication);
+
+            Yng_Query newQuery = new Yng_Query();
+            newQuery.setQuery(editNewQuestion.getText().toString().trim());
+            newQuery.setYng_Item(itemTemp);
+            newQuery.setUser(user);
+            Gson gson = new Gson();
+            String jsonBody = gson.toJson(newQuery);
+            Log.e("query final", jsonBody);
+            requestArrayPost1(Network.API_URL + "query/create",jsonBody);
+        }
+    }
+    public void requestArrayPost1(String url, String json){
+        start("inicio");
+        OkHttpClient httpClient = new OkHttpClient.Builder()
+                .connectTimeout(9000, TimeUnit.SECONDS)
+                .writeTimeout(9000, TimeUnit.SECONDS)
+                .readTimeout(9000, TimeUnit.SECONDS)
+                .build();
+        RequestBody body = RequestBody.create(JSON, json);
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(url)
+                .addHeader("Content-Type","application/json")
+                .post(body)
+                .build();
+        httpClient.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "error in getting response using async okhttp call");
+            }
+            @Override public void onResponse(Call call, okhttp3.Response response) throws IOException {
+                ResponseBody responseBody = response.body();
+                if (!response.isSuccessful()) {
+                    throw new IOException("Error response " + response);
+                }
+                //
+
+                final String responce=""+(responseBody.string());
+                try {
+                    end(""+responce);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.i("responce:------------",""+responce);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(responce.equals("save")) {
+                            Toast.makeText(ActivityProductDetail.this, "consulta realizada exitosamente", Toast.LENGTH_SHORT).show();
+                            RunGetQueriesByItem();
+                        }else{
+                            Toast.makeText(ActivityProductDetail.this,responce.toString(),Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+            }
+        });
+    }
 }

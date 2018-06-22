@@ -48,13 +48,13 @@
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:orientation="horizontal"
-            android:weightSum="16"
+            android:weightSum="11"
             android:background="@color/white">
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="15">
+                android:layout_weight="10">
 
                 <EditText
                     android:id="@+id/editNewQuestion"
