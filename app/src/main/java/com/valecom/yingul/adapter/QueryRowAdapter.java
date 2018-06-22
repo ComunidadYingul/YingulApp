@@ -52,7 +52,6 @@ public class QueryRowAdapter extends RecyclerView.Adapter<QueryRowAdapter.ItemRo
         }
 
         holder.itemQuery.setText(query.getQuery());
-        holder.queryDate.setText(query.getDate());
 
         /*holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
             @Override
