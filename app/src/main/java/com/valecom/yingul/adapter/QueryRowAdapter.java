@@ -53,6 +53,12 @@ public class QueryRowAdapter extends RecyclerView.Adapter<QueryRowAdapter.ItemRo
 
         holder.itemQuery.setText(query.getQuery());
 
+        if(query.getAnswer().equals("null")){
+            holder.layoutAnswer.setVisibility(View.GONE);
+        }else{
+            holder.layoutAnswer.setVisibility(View.VISIBLE);
+        }
+
         /*holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,12 +78,14 @@ public class QueryRowAdapter extends RecyclerView.Adapter<QueryRowAdapter.ItemRo
 
     public class ItemRowHolder extends RecyclerView.ViewHolder {
         public TextView answer,itemQuery,queryDate;
+        LinearLayout layoutAnswer;
 
         public ItemRowHolder(View itemView) {
             super(itemView);
             answer = (TextView) itemView.findViewById(R.id.answer);
             itemQuery = (TextView) itemView.findViewById(R.id.itemQuery);
             queryDate = (TextView) itemView.findViewById(R.id.queryDate);
+            layoutAnswer = (LinearLayout) itemView.findViewById(R.id.layoutAnswer);
         }
     }
 }

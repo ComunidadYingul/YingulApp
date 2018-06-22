@@ -137,13 +137,16 @@ public class ActivityProductDetail extends AppCompatActivity {
     String TAG="OkHttpConection";
     public static final MediaType JSON= MediaType.parse("application/json; charset=utf-8");
 
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
 
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(getString(R.string.product_detail));
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        //toolbar.setTitle(getString(R.string.product_detail));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -1037,6 +1040,12 @@ public class ActivityProductDetail extends AppCompatActivity {
                                     }
 
                                     setData(itemTemp);
+
+                                    if(itemTemp.getType().equals("Product")){
+                                        toolbar.setTitle("Producto");
+                                    }else{
+                                        toolbar.setTitle("Anuncio");
+                                    }
 
                                 }
                                 catch (Exception ex)

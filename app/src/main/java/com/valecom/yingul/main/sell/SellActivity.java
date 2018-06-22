@@ -401,13 +401,29 @@ public class SellActivity extends AppCompatActivity {
         }
 
     }
+    String desc;
     public void confirm(){
+
+        desc = "";
         item.setYng_Ubication(ubication);
         Gson gson = new Gson();
         String jsonBody = gson.toJson(item);
         Log.e("Ubication property",jsonBody);
         item.setUser(user);
-        item.setDescription("Incluye: "+includes+", no incluye: "+notInclude+", además: "+aditionalDescription);
+        if(item.getType().equals("Service")){
+            if(includes.trim().length()!=0){
+                desc += "Incluye: "+includes+" - ";
+            }
+            if(notInclude.trim().length()!=0){
+                desc += "No incluye: "+notInclude+" - ";
+            }
+            if(aditionalDescription.trim().length()!=0){
+                desc += "Además: "+aditionalDescription+".";
+            }
+            item.setDescription(desc);
+        }else{
+            item.setDescription(aditionalDescription);
+        }
         switch (item.getType()){
             case "Service":
                 service.setYng_Item(item);

@@ -278,7 +278,8 @@
                             android:paddingLeft="8dp"
                             android:paddingRight="8dp"
                             android:text="@string/home_view"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:visibility="invisible"/>
                     </RelativeLayout>
 
                     <android.support.v7.widget.RecyclerView
