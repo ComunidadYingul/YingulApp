@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -21,7 +22,7 @@ public class QueryListAdapter extends ArrayAdapter<Yng_Query>
     private final ArrayList<Yng_Query> values;
 
     public QueryListAdapter(Context context, ArrayList<Yng_Query> values) {
-        super(context, R.layout.layout_query_row, values);
+        super(context, R.layout.layout_query_list, values);
 
         this.context = context;
         this.values = values;
@@ -48,16 +49,17 @@ public class QueryListAdapter extends ArrayAdapter<Yng_Query>
 
         TextView answer = (TextView) rowView.findViewById(R.id.answer);
         TextView itemQuery = (TextView) rowView.findViewById(R.id.itemQuery);
-        TextView queryDate = (TextView) rowView.findViewById(R.id.queryDate);
+        LinearLayout layoutAnswer = (LinearLayout) rowView.findViewById(R.id.layoutAnswer);
 
         if(query.getAnswer().equals("null")){
             answer.setText("");
+            layoutAnswer.setVisibility(View.GONE);
         }else{
             answer.setText(query.getAnswer());
+            layoutAnswer.setVisibility(View.VISIBLE);
         }
 
         itemQuery.setText(query.getQuery());
-        queryDate.setText(query.getDate());
 
         return rowView;
     }

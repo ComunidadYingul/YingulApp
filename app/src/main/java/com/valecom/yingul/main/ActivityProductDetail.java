@@ -99,9 +99,10 @@ public class ActivityProductDetail extends AppCompatActivity {
     TextView edit_quantity, text_product_name, text_product_price, text_no_cost, text_product_rate, text_select_size, text_select_color,
             text_product_buy, text_product_cart, txt_order_total_rs, txt_order_item, text_product_con_shop, text_product_place_order,text_description,text_product_title,text_desc;
     //EditText edt_pincode;
-    TextView web_desc,text_quantity_stock,textPriceNormal,textDiscountPorcent,textMoney,textMoneyNormal;
+    TextView web_desc,text_quantity_stock;
+    View button_public_seller,allQueriesLayout;
+    TextView textPriceNormal,textDiscountPorcent,textMoney,textMoneyNormal;
     LinearLayout lytEnvioGratis,lytDiscount;
-    View button_public_seller;
     RatingView ratingView;
     ArrayList<ItemColorSize> array_color, array_size;
     SelectColorAdapter adapter_color;
@@ -119,7 +120,7 @@ public class ActivityProductDetail extends AppCompatActivity {
     private Menu menu;
     ScrollView scrollView;
     private MaterialDialog progressDialog;
-    String itemId,itemSeller;
+    String itemId,itemSeller,queries1;
     Yng_Item itemTemp;
     Yng_User userTemp;
     private Yng_User user;
@@ -192,6 +193,7 @@ public class ActivityProductDetail extends AppCompatActivity {
         recycler_detail_review = (RecyclerView) findViewById(R.id.vertical_detail_review);
         //edt_pincode.setFocusable(false);
         button_public_seller = (View) findViewById(R.id.button_public_seller);
+        allQueriesLayout = (View) findViewById(R.id.allQueriesLayout);
         edit_quantity = (EditText) findViewById(R.id.edit_quantity);
         text_quantity_stock = (TextView) findViewById(R.id.text_quantity_stock);
         textPriceNormal = (TextView) findViewById(R.id.text_price_normal);
@@ -276,6 +278,15 @@ public class ActivityProductDetail extends AppCompatActivity {
                 Intent intent=new Intent(ActivityProductDetail.this, ActivityPubliSellerList.class);
                 //intent.putExtra("itemId",itemId);
                 intent.putExtra("seller",itemSeller);
+                startActivity(intent);
+            }
+        });
+        allQueriesLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(ActivityProductDetail.this, QueriesItemActivity.class);
+                //intent.putExtra("itemId",itemId);
+                intent.putExtra("queries1",queries1);
                 startActivity(intent);
             }
         });
@@ -1318,6 +1329,7 @@ public class ActivityProductDetail extends AppCompatActivity {
                         try
                         {
                             Log.e("preguntas por usuario",response.toString());
+                            queries1=response.toString();
                             JSONArray queries = response;
                             array_list.clear();
                             for (int i = 0; i < queries.length(); i++) {

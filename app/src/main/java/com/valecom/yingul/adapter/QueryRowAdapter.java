@@ -54,8 +54,6 @@ public class QueryRowAdapter extends RecyclerView.Adapter<QueryRowAdapter.ItemRo
         holder.itemQuery.setText(query.getQuery());
         holder.queryDate.setText(query.getDate());
 
-        holder.lytQueryDate.setVisibility(View.GONE);
-
         /*holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,14 +73,12 @@ public class QueryRowAdapter extends RecyclerView.Adapter<QueryRowAdapter.ItemRo
 
     public class ItemRowHolder extends RecyclerView.ViewHolder {
         public TextView answer,itemQuery,queryDate;
-        public LinearLayout lytQueryDate;
 
         public ItemRowHolder(View itemView) {
             super(itemView);
             answer = (TextView) itemView.findViewById(R.id.answer);
             itemQuery = (TextView) itemView.findViewById(R.id.itemQuery);
             queryDate = (TextView) itemView.findViewById(R.id.queryDate);
-            lytQueryDate = (LinearLayout) itemView.findViewById(R.id.lytQueryDate);
         }
     }
 }
