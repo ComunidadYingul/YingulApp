@@ -167,6 +167,17 @@
                 android:value="com.valecom.yingul.main.MainActivity" />
         </activity>
         <activity
+            android:name=".main.QueriesItemActivity"
+            android:label="Preguntas al vendedor"
+            android:parentActivityName=".main.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.valecom.yingul.main.MainActivity" />
+        </activity>
+        <activity
             android:name=".main.SettingLogoActivity"
             android:label="@string/title_activity_setting_logo"
             android:parentActivityName=".main.SettingActivity"
