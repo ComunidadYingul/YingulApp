@@ -433,7 +433,7 @@ android:background="@color/bg">
                 <android.support.design.widget.CoordinatorLayout
                     android:id="@+id/main_content"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="180dp"
                     android:paddingBottom="0dp">
 
                     <ListView
@@ -451,13 +451,13 @@ android:background="@color/bg">
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
                     android:orientation="horizontal"
-                    android:weightSum="16"
+                    android:weightSum="10"
                     android:background="@color/white">
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="15">
+                        android:layout_weight="9">
 
                         <EditText
                             android:id="@+id/editNewQuestion"

@@ -367,7 +367,7 @@ public class MyAccountShoppingQuestionsByItemIdFragment extends Fragment
                             Toast.makeText(getContext(), "consulta realizada exitosamente", Toast.LENGTH_SHORT).show();
                             RunGetQueriesByUser();
                         }else{
-                            Toast.makeText(getContext(),"No se guardo",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(),responce.toString(),Toast.LENGTH_LONG).show();
                         }
                     }
                 });
