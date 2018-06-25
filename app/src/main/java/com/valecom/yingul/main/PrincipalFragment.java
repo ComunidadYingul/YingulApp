@@ -37,6 +37,7 @@ import com.valecom.yingul.adapter.LatestListAdapter;
 import com.valecom.yingul.adapter.ListGridAdapter;
 import com.valecom.yingul.adapter.StoreHomeAdapter;
 import com.valecom.yingul.main.buy.BuyActivity;
+import com.valecom.yingul.main.over.OverActivity;
 import com.valecom.yingul.model.Yng_Category;
 import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.model.Yng_Store;
@@ -166,6 +167,14 @@ public class PrincipalFragment extends Fragment {
                         new Intent("android.intent.action.VIEW",
                                 Uri.parse("https://s3-us-west-2.amazonaws.com/jsa-s3-bucketimage/politicas/terminos-y-condiciones-de-uso.pdf"));
                 startActivity(viewIntent);
+            }
+        });
+
+        view_all_trending.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), OverActivity.class);
+                startActivity(intent);
             }
         });
 
