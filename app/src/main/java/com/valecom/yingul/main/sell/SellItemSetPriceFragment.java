@@ -71,43 +71,34 @@ public class SellItemSetPriceFragment extends Fragment {
                 if(val.validarNumero(editPrice,editPrice.getText().toString())){
                     editPrice.setError("Ingrese precio");
                 }else{
+
                     if(spinner_currency.getSelectedItemPosition()==0){
                         ((SellActivity)getActivity()).item.setMoney("USD");
                     }else{
                         ((SellActivity)getActivity()).item.setMoney("ARS");
                     }
-                    Log.e("Moneda", String.valueOf(spinner_currency.getSelectedItemPosition()));
+                    ((SellActivity)getActivity()).setItemPrice(Double.parseDouble(editPrice.getText().toString()));
+
+                    /*Log.e("Moneda", String.valueOf(spinner_currency.getSelectedItemPosition()));
                     ((SellActivity)getActivity()).item.setPrice(Double.parseDouble(editPrice.getText().toString()));
                     ((SellActivity)getActivity()).item.setPriceDiscount(0);
-                    ((SellActivity)getActivity()).item.setPriceNormal(0);
+                    ((SellActivity)getActivity()).item.setPriceNormal(0);*/
 
                     /*************   colocar switch ************ */
-                    if(((SellActivity)getActivity()).item.getType()=="Service"){
-                        SellItemAddUbicationFragment itemAddUbication = new SellItemAddUbicationFragment();
-                        FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
-                        itemAddUbication.type=((SellActivity)getActivity()).item.getType();
-                        fragmentTransaction.replace(R.id.content_frame, itemAddUbication);
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
-                    /*SellItemSetDescriptionFragment fragment = new SellItemSetDescriptionFragment();
-                    FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.content_frame, fragment);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();*/
-                    }else if(((SellActivity)getActivity()).item.getType()=="Product"){
+                    /*if(((SellActivity)getActivity()).item.getType()=="Product"){
                         SellItemSetDeliveryFragment fragment = new SellItemSetDeliveryFragment();
                         FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.content_frame, fragment);
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
-                    }else if(((SellActivity)getActivity()).item.getType()=="Motorized" || ((SellActivity)getActivity()).item.getType()=="Property"){
+                    }else if(((SellActivity)getActivity()).item.getType()=="Motorized" || ((SellActivity)getActivity()).item.getType()=="Property" || ((SellActivity)getActivity()).item.getType()=="Service"){
                         SellItemAddUbicationFragment itemAddUbication = new SellItemAddUbicationFragment();
                         FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
                         itemAddUbication.type=((SellActivity)getActivity()).item.getType();
                         fragmentTransaction.replace(R.id.content_frame, itemAddUbication);
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
-                    }
+                    }*/
                 }
             }
         });
