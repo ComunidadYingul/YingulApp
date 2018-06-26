@@ -202,7 +202,8 @@
         <activity android:name=".main.motorized.MotorizedActivity" />
         <activity android:name=".main.property.PropertyActivity" />
         <activity android:name=".main.myAccount.yingulPay.YingulPayActivity" />
-        <activity android:name=".main.over.OverActivity"></activity>
+        <activity android:name=".main.over.OverActivity" />
+        <activity android:name=".main.allItems.AllItemsActivity"></activity>
     </application>
 
 </manifest>

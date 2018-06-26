@@ -36,6 +36,7 @@ import com.valecom.yingul.adapter.CategoryListAdapter;
 import com.valecom.yingul.adapter.LatestListAdapter;
 import com.valecom.yingul.adapter.ListGridAdapter;
 import com.valecom.yingul.adapter.StoreHomeAdapter;
+import com.valecom.yingul.main.allItems.AllItemsActivity;
 import com.valecom.yingul.main.buy.BuyActivity;
 import com.valecom.yingul.main.over.OverActivity;
 import com.valecom.yingul.model.Yng_Category;
@@ -178,7 +179,13 @@ public class PrincipalFragment extends Fragment {
             }
         });
 
-
+        view_all_latest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AllItemsActivity.class);
+                startActivity(intent);
+            }
+        });
 
         loadJSONFromAssetHomeSlider();
 
@@ -356,7 +363,7 @@ public class PrincipalFragment extends Fragment {
     /***************************** ALL OVERS ********************************/
 
     public ArrayList<Yng_Item> loadJSONFromAssetHomeTrending() {
-        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "item/over/true",
+        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "item/listItemParams/All/true/Desc/0/20",
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -470,7 +477,7 @@ public class PrincipalFragment extends Fragment {
 
     public ArrayList<Yng_Item> loadJSONFromAssetHomeLatest() {
 
-        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "index/item/all",
+        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "item/listItemParams/All/false/Desc/0/20",
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -498,9 +505,9 @@ public class PrincipalFragment extends Fragment {
                                 item.setCategorySeller(seller.getUsername());*/
 
 
-                                if(item.getPriceDiscount()==0 && !item.getProductPagoEnvio().equals("gratis")){
+                                //if(item.getPriceDiscount()==0 && !item.getProductPagoEnvio().equals("gratis")){
                                     array_latest.add(item);
-                                }
+                                //}
                                 //array_all_items.add(item);
 
 
