@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.valecom.yingul.R;
 import com.valecom.yingul.model.Yng_Category;
@@ -26,10 +28,11 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private Context context;
     private ArrayList<Object> items;
     private final int HERO = 0;
-    private final int VERTICAL = 1;
-    private final int HORIZONTAL = 2;
-    private final int HORIZONTAL_ALL_CAT = 3;
+    private final int HORIZONTAL = 1;
+    private final int HORIZONTAL_ALL_CAT = 2;
+    private final int HORIZONTAL_ALL_ITEM = 3;
     private final int HORIZONTAL_ALL_STORE = 4;
+    private final int VERTICAL = 5;
 
     public ArrayList<Yng_Item> array_all_items;
     public ArrayList<Yng_Item> array_all_over;
@@ -59,20 +62,31 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             case HORIZONTAL_ALL_CAT:
                 view = inflater.inflate(R.layout.horizontal, parent, false);
                 holder = new HorizontalViewHolder(view);
+                RelativeLayout cat = (RelativeLayout) view.findViewById(R.id.lay_latest_section);
+                cat.setVisibility(View.GONE);
+                break;
+            case HORIZONTAL:
+                view = inflater.inflate(R.layout.horizontal, parent, false);
+                holder = new HorizontalViewHolder(view);
+                TextView over = (TextView) view.findViewById(R.id.txt_home_latest);
+                over.setText("Destacados");
+                break;
+            case HORIZONTAL_ALL_ITEM:
+                view = inflater.inflate(R.layout.horizontal, parent, false);
+                holder = new HorizontalViewHolder(view);
+                TextView all = (TextView) view.findViewById(R.id.txt_home_latest);
+                all.setText("Encuentra lo que buscas");
+                break;
+            case HORIZONTAL_ALL_STORE:
+                view = inflater.inflate(R.layout.horizontal, parent, false);
+                holder = new HorizontalViewHolder(view);
+                TextView store = (TextView) view.findViewById(R.id.txt_home_latest);
+                store.setText("Todas las tiendas");
                 break;
             case VERTICAL:
                 view = inflater.inflate(R.layout.vertical, parent, false);
                 holder = new VerticalViewHolder(view);
                 break;
-            case HORIZONTAL:
-                view = inflater.inflate(R.layout.horizontal, parent, false);
-                holder = new HorizontalViewHolder(view);
-                break;
-            case HORIZONTAL_ALL_STORE:
-                view = inflater.inflate(R.layout.horizontal, parent, false);
-                holder = new HorizontalViewHolder(view);
-                break;
-
             default:
                 view = inflater.inflate(R.layout.horizontal, parent, false);
                 holder = new HorizontalViewHolder(view);
@@ -99,21 +113,28 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         else if (holder.getItemViewType() == HORIZONTAL_ALL_CAT) {
             horizontalViewCat((HorizontalViewHolder) holder);
         }
-        else if (holder.getItemViewType() == VERTICAL) {
-            verticalView((VerticalViewHolder) holder);
-        }
         else if (holder.getItemViewType() == HORIZONTAL) {
             horizontalView((HorizontalViewHolder) holder);
+        }
+        else if (holder.getItemViewType() == HORIZONTAL_ALL_ITEM) {
+            horizontalViewAllItem((HorizontalViewHolder) holder);
         }
         else if (holder.getItemViewType() == HORIZONTAL_ALL_STORE) {
             horizontalViewStore((HorizontalViewHolder) holder);
         }
-
-
+        else if (holder.getItemViewType() == VERTICAL) {
+            verticalView((VerticalViewHolder) holder);
+        }
     }
 
     private void horizontalViewStore(HorizontalViewHolder holder) {
         HorizontalStoreAdapter adapter = new HorizontalStoreAdapter(context,array_all_stores);
+        holder.recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        holder.recyclerView.setAdapter(adapter);
+    }
+
+    private void horizontalViewAllItem(HorizontalViewHolder holder) {
+        HorizontalAdapter adapter = new HorizontalAdapter(context,array_all_items);
         holder.recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         holder.recyclerView.setAdapter(adapter);
     }
@@ -155,7 +176,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             case 2:
                 return HORIZONTAL;
             case 3:
-                return HORIZONTAL;
+                return HORIZONTAL_ALL_ITEM;
             case 4:
                 return HORIZONTAL_ALL_STORE;
             default:
