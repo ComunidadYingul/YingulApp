@@ -5,6 +5,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -125,7 +126,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     VerticalAdapter adapter1;
     private void verticalView(VerticalViewHolder holder) {
         adapter1 = new VerticalAdapter(context,array_all_items);
-        holder.recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
+        holder.recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, 1));
         holder.recyclerView.setAdapter(adapter1);
     }
 
