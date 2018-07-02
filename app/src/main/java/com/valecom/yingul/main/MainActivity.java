@@ -29,11 +29,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.R;
+import com.valecom.yingul.main.index.InicioFragment;
 import com.valecom.yingul.main.myAccount.MyAccountFragment;
-import com.valecom.yingul.main.myAccount.MyAccountPurchaseDetailFragment;
 import com.valecom.yingul.main.sell.SellActivity;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
@@ -140,16 +139,16 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.content_frame, fragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();*/
-            /*InicioFragment fragment = new InicioFragment();
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.content_frame, fragment);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();*/
-            PrincipalFragment fragment = new PrincipalFragment();
+            InicioFragment fragment = new InicioFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.content_frame, fragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
+            /*PrincipalFragment fragment = new PrincipalFragment();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.content_frame, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();*/
         }
     }
 
@@ -249,7 +248,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home)
         {
-            PrincipalFragment fragment = new PrincipalFragment();
+            InicioFragment fragment = new InicioFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.content_frame, fragment);
             fragmentTransaction.addToBackStack(null);
@@ -265,7 +264,7 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_estimates)
         {
-            EstimateFragment fragment = new EstimateFragment();
+            PrincipalFragment fragment = new PrincipalFragment();
             FragmentTransaction fragmentTransaction  = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.content_frame, fragment);
             fragmentTransaction.addToBackStack(null);
