@@ -20,6 +20,8 @@ import com.valecom.yingul.model.Yng_Store;
 
 import java.util.ArrayList;
 
+import me.relex.circleindicator.CircleIndicator;
+
 /**
  * Created by gonzalo on 02-07-18.
  */
@@ -33,6 +35,8 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private final int HORIZONTAL_ALL_ITEM = 3;
     private final int HORIZONTAL_ALL_STORE = 4;
     private final int VERTICAL = 5;
+
+    int currentCount = 0;
 
     public ArrayList<Yng_Item> array_all_items;
     public ArrayList<Yng_Item> array_all_over;
@@ -105,6 +109,8 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
             ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(context);
             heroVh.viewPager.setAdapter(viewPagerAdapter);
+            heroVh.circleIndicator.setViewPager(((HeroVH) holder).viewPager);
+            autoPlay(((HeroVH) holder).viewPager, viewPagerAdapter);
 
 
 
@@ -125,6 +131,25 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         else if (holder.getItemViewType() == VERTICAL) {
             verticalView((VerticalViewHolder) holder);
         }
+    }
+
+    private void autoPlay(final ViewPager viewPager, final ViewPagerAdapter adapter) {
+
+        viewPager.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (adapter != null && viewPager.getAdapter().getCount() > 0) {
+                        int position = currentCount % adapter.getCount();
+                        currentCount++;
+                        viewPager.setCurrentItem(position);
+                        autoPlay(viewPager,adapter);
+                    }
+                } catch (Exception e) {
+                    Log.e("TAG", "auto scroll pager error.", e);
+                }
+            }
+        }, 4000);
     }
 
     private void horizontalViewStore(HorizontalViewHolder holder) {
@@ -205,11 +230,13 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     protected class HeroVH extends RecyclerView.ViewHolder {
         ViewPager viewPager;
+        CircleIndicator circleIndicator;
 
         public HeroVH(View itemView) {
             super(itemView);
 
             viewPager = (ViewPager)itemView.findViewById(R.id.viewPager);
+            circleIndicator = (CircleIndicator)itemView.findViewById(R.id.indicator_unselected_background);
         }
     }
 
