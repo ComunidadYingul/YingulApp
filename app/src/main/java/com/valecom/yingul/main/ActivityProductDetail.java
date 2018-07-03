@@ -306,7 +306,7 @@ public class ActivityProductDetail extends AppCompatActivity {
 
         RunLoginService();
 
-        isFavorite();
+
 
 //        scrollView.setOnTouchListener(new OnSwipeTouchListener(ActivityProductDetail.this) {
 //
@@ -1047,6 +1047,8 @@ public class ActivityProductDetail extends AppCompatActivity {
                                     }else{
                                         toolbar.setTitle("Anuncio");
                                     }
+
+                                    isFavorite();
 
                                 }
                                 catch (Exception ex)

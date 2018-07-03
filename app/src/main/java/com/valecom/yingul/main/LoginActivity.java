@@ -23,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.valecom.yingul.R;
+import com.valecom.yingul.main.rememberPassword.RememberPasswordActivity;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
 
@@ -59,6 +60,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         txtSignUp.setOnClickListener(this);
         LinearLayout layoutSignUp =(LinearLayout) findViewById(R.id.layoutSignUp);
         layoutSignUp.setOnClickListener(this);
+        TextView txtRememberPassword = (TextView) findViewById(R.id.txtRememberPassword);
+        txtRememberPassword.setOnClickListener(this);
+        LinearLayout layoutRememberPassword =(LinearLayout) findViewById(R.id.layoutRememberPassword);
+        layoutRememberPassword.setOnClickListener(this);
 
         Typeface typeface1 = Typeface.createFromAsset(LoginActivity.this.getAssets(), "fonts/font-yingul.ttf");
 
@@ -83,6 +88,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.layoutSignUp:
                 intent = new Intent(this, RegisterActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.txtRememberPassword:
+                intent = new Intent(this, RememberPasswordActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.layoutRememberPassword:
+                intent = new Intent(this, RememberPasswordActivity.class);
                 startActivity(intent);
                 break;
             case R.id.buttonLogin:

@@ -156,6 +156,36 @@
                 android:value="com.valecom.yingul.main.MainActivity" />
         </activity>
         <activity
+            android:name=".main.rememberPassword.RememberPasswordActivity"
+            android:label="¿Olvidó su contraseña?"
+            android:parentActivityName=".main.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.valecom.yingul.main.MainActivity" />
+        </activity>
+        <activity
+            android:name=".main.motorized.MotorizedFilteredActivity"
+            android:label=""
+            android:parentActivityName=".main.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.valecom.yingul.main.MainActivity" />
+        </activity>
+        <activity
+            android:name=".main.property.PropertyFilteredActivity"
+            android:label=""
+            android:parentActivityName=".main.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.valecom.yingul.main.MainActivity" />
+        </activity>
+        <activity
             android:name=".main.filter.FilterActivity"
             android:label="X"
             android:parentActivityName=".main.MainActivity"
