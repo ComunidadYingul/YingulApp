@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity
                 if (!hasFocus) {
                     MenuItemCompat.collapseActionView(searchMenuItem);
                     searchView.setQuery("", false);
-                    PrincipalFragment fragment = new PrincipalFragment();
+                    InicioFragment fragment = new InicioFragment();
                     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.content_frame, fragment);
                     fragmentTransaction.addToBackStack(null);
@@ -264,11 +264,11 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_estimates)
         {
-            PrincipalFragment fragment = new PrincipalFragment();
+            /*PrincipalFragment fragment = new PrincipalFragment();
             FragmentTransaction fragmentTransaction  = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.content_frame, fragment);
             fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+            fragmentTransaction.commit();*/
         }
         else if (id == R.id.nav_items)
         {

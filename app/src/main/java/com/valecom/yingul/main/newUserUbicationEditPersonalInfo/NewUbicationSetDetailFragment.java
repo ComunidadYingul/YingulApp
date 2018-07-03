@@ -15,6 +15,7 @@ import android.widget.EditText;
 import com.rey.material.widget.Spinner;
 import com.valecom.yingul.R;
 import com.google.gson.Gson;
+import com.valecom.yingul.Util.Validacion;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,37 +59,57 @@ public class NewUbicationSetDetailFragment extends Fragment {
         buttonSetUbicationDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                ((NewUserUbicationEditPersonalInfoActivity)getActivity()).ubication.setStreet(editStreet.getText().toString().trim());
-                ((NewUserUbicationEditPersonalInfoActivity)getActivity()).ubication.setNumber(editNumber.getText().toString().trim());
-
-                ((NewUserUbicationEditPersonalInfoActivity)getActivity()).ubication.setWithinStreets(editWithinStreets.getText().toString().trim());
-                ((NewUserUbicationEditPersonalInfoActivity)getActivity()).ubication.setDepartment(editFlor.getText().toString().trim());
-                ((NewUserUbicationEditPersonalInfoActivity)getActivity()).ubication.setAditional(editRefence.getText().toString().trim());
-
-                switch (spinner_type_document.getSelectedItemPosition()) {
-                    case 0:  ((NewUserUbicationEditPersonalInfoActivity)getActivity()).user.setDocumentType("DNI");
-                        break;
-                    case 1:  ((NewUserUbicationEditPersonalInfoActivity)getActivity()).user.setDocumentType("LC");
-                        break;
-                    case 2:  ((NewUserUbicationEditPersonalInfoActivity)getActivity()).user.setDocumentType("CI");
-                        break;
-                    case 3:  ((NewUserUbicationEditPersonalInfoActivity)getActivity()).user.setDocumentType("LE");
-                        break;
+                Validacion val=new Validacion();
+                if(val.validarNumero(editPhone,editPhone.getText().toString())){
+                    editPhone.setError("Campo requerido");
+                }else if(val.validarNumero(editDocument,editDocument.getText().toString())){
+                    editDocument.setError("Campo requerido");
+                }else if(val.validarNumero(editStreet,editStreet.getText().toString())){
+                    editStreet.setError("Campo requerido");
+                }else if(val.validarCadena(editFlor,editFlor.getText().toString())){
+                    editFlor.setError("Campo requerido");
+                }else if(val.validarCadena(editWithinStreets,editWithinStreets.getText().toString())){
+                    editWithinStreets.setError("Campo requerido");
+                }else if(val.validarCadena(editRefence,editRefence.getText().toString())){
+                    editRefence.setError("Campo requerido");
                 }
-                ((NewUserUbicationEditPersonalInfoActivity)getActivity()).user.setPhone(editPhone.getText().toString().trim());
-                ((NewUserUbicationEditPersonalInfoActivity)getActivity()).user.setDocumentNumber(editDocument.getText().toString().trim());
-                ((NewUserUbicationEditPersonalInfoActivity)getActivity()).returnNewUbication();
+                else {
 
-                Gson gson = new Gson();
-                String jsonBody = gson.toJson(((NewUserUbicationEditPersonalInfoActivity)getActivity()).ubication);
-                Log.e("ubica:---",jsonBody);
+                    ((NewUserUbicationEditPersonalInfoActivity) getActivity()).ubication.setStreet(editStreet.getText().toString().trim());
+                    ((NewUserUbicationEditPersonalInfoActivity) getActivity()).ubication.setNumber(editNumber.getText().toString().trim());
 
-                /*NewUbicationSetDetail1Fragment fragment = new NewUbicationSetDetail1Fragment();
-                FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();*/
+                    ((NewUserUbicationEditPersonalInfoActivity) getActivity()).ubication.setWithinStreets(editWithinStreets.getText().toString().trim());
+                    ((NewUserUbicationEditPersonalInfoActivity) getActivity()).ubication.setDepartment(editFlor.getText().toString().trim());
+                    ((NewUserUbicationEditPersonalInfoActivity) getActivity()).ubication.setAditional(editRefence.getText().toString().trim());
+
+                    switch (spinner_type_document.getSelectedItemPosition()) {
+                        case 0:
+                            ((NewUserUbicationEditPersonalInfoActivity) getActivity()).user.setDocumentType("DNI");
+                            break;
+                        case 1:
+                            ((NewUserUbicationEditPersonalInfoActivity) getActivity()).user.setDocumentType("LC");
+                            break;
+                        case 2:
+                            ((NewUserUbicationEditPersonalInfoActivity) getActivity()).user.setDocumentType("CI");
+                            break;
+                        case 3:
+                            ((NewUserUbicationEditPersonalInfoActivity) getActivity()).user.setDocumentType("LE");
+                            break;
+                    }
+                    ((NewUserUbicationEditPersonalInfoActivity) getActivity()).user.setPhone(editPhone.getText().toString().trim());
+                    ((NewUserUbicationEditPersonalInfoActivity) getActivity()).user.setDocumentNumber(editDocument.getText().toString().trim());
+                    ((NewUserUbicationEditPersonalInfoActivity) getActivity()).returnNewUbication();
+
+                    Gson gson = new Gson();
+                    String jsonBody = gson.toJson(((NewUserUbicationEditPersonalInfoActivity) getActivity()).ubication);
+                    Log.e("ubica:---", jsonBody);
+
+                    /*NewUbicationSetDetail1Fragment fragment = new NewUbicationSetDetail1Fragment();
+                    FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.content_frame, fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();*/
+                }
             }
         });
         return v;
