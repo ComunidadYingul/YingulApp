@@ -589,7 +589,8 @@ public class InicioFragment extends Fragment {
                         }
                         catch(Exception ex)
                         {
-                            Toast.makeText(getContext(), "Error 1", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), "Mas publicaciones se muestran abajo", Toast.LENGTH_SHORT).show();
+                            Log.e("ERROR","Error excepiion revisar!!!!!!");
                         }
 
                         /*if (progressDialog != null && progressDialog.isShowing()) {
