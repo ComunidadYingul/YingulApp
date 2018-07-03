@@ -101,14 +101,16 @@
                             android:fontFamily="sans-serif-light"
                             android:ellipsize="end"
                             android:text="31"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp"
+                            android:textColor="@color/yngOrange"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-light"
                             android:ellipsize="end"
                             android:text="% OFF"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp"
+                            android:textColor="@color/yngOrange"/>
                     </LinearLayout>
 
                 </LinearLayout>

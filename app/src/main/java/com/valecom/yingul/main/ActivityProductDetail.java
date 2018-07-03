@@ -102,7 +102,7 @@ public class ActivityProductDetail extends AppCompatActivity {
     TextView web_desc,text_quantity_stock;
     View button_public_seller,allQueriesLayout;
     TextView textPriceNormal,textDiscountPorcent,textMoney,textMoneyNormal;
-    LinearLayout lytEnvioGratis,lytDiscount;
+    LinearLayout lytEnvioGratis,lytDiscount,lytPriceNormal;
     RatingView ratingView;
     ArrayList<ItemColorSize> array_color, array_size;
     SelectColorAdapter adapter_color;
@@ -185,6 +185,7 @@ public class ActivityProductDetail extends AppCompatActivity {
         textDiscountPorcent = (TextView) findViewById(R.id.textDiscountPorcent);
         lytEnvioGratis = (LinearLayout) findViewById(R.id.lytEnvioGratis);
         lytDiscount = (LinearLayout) findViewById(R.id.lytDiscount);
+        lytPriceNormal = (LinearLayout) findViewById(R.id.lytPriceNormal);
         textMoney = (TextView) findViewById(R.id.textMoney);
         textMoneyNormal = (TextView) findViewById(R.id.textMoneyNormal);
         //text_select_color = (TextView) findViewById(R.id.text_select_color);
@@ -1137,10 +1138,13 @@ public class ActivityProductDetail extends AppCompatActivity {
 
         if(itemTemp.getPriceDiscount()==0){
             lytDiscount.setVisibility(View.GONE);
+            lytPriceNormal.setVisibility(View.GONE);
         }else{
             Double desc = ((itemTemp.getPriceNormal()-itemTemp.getPriceDiscount()) * 100)/itemTemp.getPriceNormal();
             textDiscountPorcent.setText(String.format("%.0f", desc));
+            textPriceNormal.setText(String.format("%.0f", itemTemp.getPriceNormal()));
             lytDiscount.setVisibility(View.VISIBLE);
+            lytPriceNormal.setVisibility(View.VISIBLE);
         }
 
         // text_no_cost.setText(itemTemp.get);

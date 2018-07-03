@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -122,7 +123,7 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
         recycler_cat_list = (RecyclerView) findViewById(R.id.vertical_cat_list);
         recycler_cat_list.setHasFixedSize(false);
         recycler_cat_list.setNestedScrollingEnabled(false);
-        recycler_cat_list.setLayoutManager(new GridLayoutManager(ItemsByCategoryActivity.this, 2));
+        recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(2,1));
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(ItemsByCategoryActivity.this, R.dimen.item_offset);
         recycler_cat_list.addItemDecoration(itemDecoration);
 
