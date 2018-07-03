@@ -220,7 +220,14 @@
                 android:value="com.valecom.yingul.main.SettingActivity" />
         </activity>
         <!-- activity android:name=".main.BuyActivity" / -->
-        <activity android:name=".main.ActivityProductDetail" />
+        <activity android:name=".main.ActivityProductDetail">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="http" android:host="www.yingul.com"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".main.ActivityPlaceOrder" />
         <activity android:name=".main.ActivityGalleryDetail" />
         <activity android:name=".main.ActivityPubliSellerList" />

@@ -152,7 +152,31 @@ public class ActivityProductDetail extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Bundle datos = this.getIntent().getExtras();
-        itemId = datos.getString("itemId");
+        Intent intent=getIntent();
+        String dataString = getIntent().getDataString();
+        if(intent!=null&&intent.getData()!=null)
+        {
+            itemId="2412";
+            Log.e("daniel:-------","recupero:"+dataString);
+
+            String string = dataString;
+            String[] parts = string.split("/");
+            if (parts.length==5)
+            {
+                // ((TextView)findViewById(R.id.editText2)).setText(parts[4]);
+                Log.e("da"+"  length: "+parts.length,parts[4]);
+                itemId=parts[4];
+            }
+            else
+            {
+                Log.e("else"+"  ","fallo");
+                Intent atras=new Intent( this,MainActivity.class);
+                startActivity(atras);
+            }
+            //((TextView)findViewById(R.id.editText2)).setText(intent.getData().toString());
+        }else {
+            itemId = datos.getString("itemId");
+        }
         //itemSeller = datos.getString("seller");
         Log.e("Eddy1:-------","recupero:"+itemId);
         progressDialog = new MaterialDialog.Builder(this)
