@@ -149,7 +149,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     Log.e("TAG", "auto scroll pager error.", e);
                 }
             }
-        }, 4000);
+        }, 2000);
     }
 
     private void horizontalViewStore(HorizontalViewHolder holder) {
