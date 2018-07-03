@@ -216,6 +216,7 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
+                android:background="@color/yngOrange"
                 >
 
                 <LinearLayout
@@ -232,7 +233,7 @@
                         android:gravity="center"
                         android:paddingTop="3dp"
                         android:text="¿Qué marca y modelo?"
-                        android:textColor="@android:color/black"
+                        android:textColor="@android:color/white"
                         android:textSize="15sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -248,8 +249,38 @@
                     android:paddingRight="@dimen/activity_horizontal_margin"
                     android:weightSum="2">
 
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/activity_horizontal_margin"
+                        android:paddingRight="@dimen/activity_horizontal_margin">
+
+                        <LinearLayout
+                            android:id="@+id/layoutSetCategory"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@drawable/oval_margin_white"
+                            android:gravity="center">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:paddingTop="3dp"
+                                android:text="Elegir"
+                                android:textColor="@android:color/white"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                android:paddingLeft="8dp"/>
+                        </LinearLayout>
+
+                    </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/layoutCategory"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -261,18 +292,20 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
-                            android:background="@drawable/oval_margin_gray"
+                            android:background="@drawable/oval_background_white"
                             android:gravity="center">
 
                             <TextView
-                                android:layout_width="match_parent"
+                                android:id="@+id/textCategoryName"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:paddingTop="3dp"
                                 android:text="Elegir"
-                                android:textColor="@android:color/darker_gray"
+                                android:textColor="@color/yngOrange"
                                 android:textSize="15sp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                android:paddingLeft="8dp"/>
                         </LinearLayout>
 
                     </LinearLayout>
@@ -287,13 +320,14 @@
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp">
                     <TextView
+                        android:id="@+id/textPrecio"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:paddingTop="3dp"
                         android:text="¿Qué rango de precio?"
-                        android:textColor="@android:color/black"
+                        android:textColor="@android:color/white"
                         android:textSize="15sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -358,7 +392,7 @@
                         android:gravity="center"
                         android:paddingTop="3dp"
                         android:text="¿Año?"
-                        android:textColor="@android:color/black"
+                        android:textColor="@android:color/white"
                         android:textSize="15sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -384,19 +418,21 @@
                         android:paddingRight="@dimen/activity_horizontal_margin">
 
                         <LinearLayout
+                            android:id="@+id/layoutSetMinYear"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
-                            android:background="@drawable/oval_margin_gray"
+                            android:background="@drawable/oval_margin_white"
                             android:gravity="center">
 
                             <TextView
+                                android:id="@+id/textYearInit"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:paddingTop="3dp"
                                 android:text="Desde"
-                                android:textColor="@android:color/darker_gray"
+                                android:textColor="@android:color/white"
                                 android:textSize="15sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -413,19 +449,21 @@
                         android:paddingRight="@dimen/activity_horizontal_margin">
 
                         <LinearLayout
+                            android:id="@+id/layoutSetMaxYear"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
-                            android:background="@drawable/oval_margin_gray"
+                            android:background="@drawable/oval_margin_white"
                             android:gravity="center">
 
                             <TextView
+                                android:id="@+id/textYearEnd"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:paddingTop="3dp"
                                 android:text="Hasta"
-                                android:textColor="@android:color/darker_gray"
+                                android:textColor="@android:color/white"
                                 android:textSize="15sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -444,7 +482,7 @@
                     android:paddingRight="@dimen/activity_horizontal_margin">
 
                     <Button
-                        android:id="@+id/buttonSetBuy"
+                        android:id="@+id/buttonSendParams"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="0dp"

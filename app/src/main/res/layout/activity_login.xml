@@ -50,7 +50,7 @@
                     android:hint="Correo electrónico o nombre de usuario"
                     android:inputType="textEmailAddress"
                     android:singleLine="true"
-                    android:text="EDDYQUENALLATA"
+                    android:text=""
                     android:textColor="@color/white"/>
             </android.support.design.widget.TextInputLayout>
 
@@ -65,7 +65,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:hint="Contraseña"
-                    android:text="eddy"
+                    android:text=""
                     android:inputType="textPassword"
                     android:singleLine="true"
                     android:textColor="@color/white"/>
@@ -81,6 +81,26 @@
                 android:textColor="@android:color/white"
                 android:text="Ingresar"
                 android:textStyle="bold"/>
+
+            <LinearLayout
+                android:id="@+id/layoutRememberPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtRememberPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@android:color/white"
+                    android:text="No sé mi clave"
+                    android:clickable="true"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layoutSignUp"

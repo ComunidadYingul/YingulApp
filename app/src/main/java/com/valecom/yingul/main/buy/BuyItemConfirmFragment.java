@@ -3,6 +3,7 @@ package com.valecom.yingul.main.buy;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,12 +54,13 @@ public class BuyItemConfirmFragment extends Fragment {
         txtBranchName = (TextView) v.findViewById(R.id.txtBranchName);
         txtBranchStreet = (TextView) v.findViewById(R.id.txtBranchStreet);
         buttonSetBuy1 = (Button) v.findViewById(R.id.buttonSetBuy1);
-
+        Log.e("fsd============",((BuyActivity)getActivity()).shipping.getTypeShipping());
         if(((BuyActivity)getActivity()).shipping.getTypeShipping().equals("home")){
             imgShipping.setImageResource(R.drawable.home);
             layoutShipping.setVisibility(View.GONE);
             layBranch.setVisibility(LinearLayout.GONE);
             txtTypeOSchedules.setText("Retiro en el domicilio del vendedor");
+            txtTotal.setText("$ "+(((BuyActivity)getActivity()).item.getPrice()));
         }else{
             imgShipping.setImageResource(R.drawable.branch);
             layoutShipping.setVisibility(View.VISIBLE);
