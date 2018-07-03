@@ -57,8 +57,10 @@ public class InicioFragment extends Fragment {
 
     public static ArrayList<Yng_Item> array_all_items;
     public static ArrayList<Yng_Item> array_all_over;
+    public static ArrayList<Yng_Item> array_all_not_over;
     public static ArrayList<Yng_Category> array_all_category;
     public static ArrayList<Yng_Store> array_all_stores;
+
 
     private ArrayList<Object> objects = new ArrayList<>();
 
@@ -73,6 +75,7 @@ public class InicioFragment extends Fragment {
         array_all_category = new ArrayList<>();
         array_all_items = new ArrayList<>();
         array_all_over = new ArrayList<>();
+        array_all_not_over = new ArrayList<>();
         array_all_stores = new ArrayList<>();
         array_Slider = new ArrayList<>();
 
@@ -97,7 +100,7 @@ public class InicioFragment extends Fragment {
         objects.add(array_Slider.get(0));
         objects.add(array_all_category.get(0));
         objects.add(array_all_over.get(0));
-        objects.add(array_all_items.get(0));
+        objects.add(array_all_not_over.get(0));
         objects.add(array_all_stores.get(0));
         objects.add(array_all_items.get(0));
         return objects;
@@ -210,14 +213,14 @@ public class InicioFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        getAllItems();
+        getNotOverItems();
         return array_all_category;
 
     }
 
-    public ArrayList<Yng_Item> getAllItems() {
+    public ArrayList<Yng_Item> getNotOverItems() {
 
-        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "/item/listItemParams/All/false/Desc/0/30",
+        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "/item/listItemParams/All/false/Desc/0/20",
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -246,7 +249,7 @@ public class InicioFragment extends Fragment {
 
 
                                 //if(item.getPriceDiscount()==0 && !item.getProductPagoEnvio().equals("gratis")){
-                                array_all_items.add(item);
+                                array_all_not_over.add(item);
                                 //}
                                 //array_all_items.add(item);
 
@@ -321,7 +324,7 @@ public class InicioFragment extends Fragment {
         MySingleton.getInstance(getContext()).addToRequestQueue(postRequest);
 
 
-        return array_all_items;
+        return array_all_not_over;
 
     }
 
@@ -466,7 +469,7 @@ public class InicioFragment extends Fragment {
 
                             array_all_stores.add(item);
 
-                            setAdapterHomeCategoryList();
+                            loadFirstData();
 
                             /**/
                             //JSONObject result = ((JSONObject)response.get("data"));
@@ -540,12 +543,12 @@ public class InicioFragment extends Fragment {
         adapter = new MainAdapter(getContext(), getObject());
         recyclerView.setAdapter(adapter);
 
-        adapter.setArrays(array_all_items,array_all_over,array_all_category,array_all_stores);
+        adapter.setArrays(array_all_not_over,array_all_over,array_all_category,array_all_stores,array_all_items);
     }
 
     public ArrayList<Yng_Item> updateAllItems() {
 
-        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "/item/listItemParams/All/false/Desc/"+start+"/"+end,
+        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "/item/listItemParams/All/All/Desc/"+start+"/"+end,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -586,6 +589,104 @@ public class InicioFragment extends Fragment {
 
                             /**/
                             //JSONObject result = ((JSONObject)response.get("data"));
+                        }
+                        catch(Exception ex)
+                        {
+                            Toast.makeText(getContext(), "Mas publicaciones se muestran abajo", Toast.LENGTH_SHORT).show();
+                            Log.e("ERROR","Error excepiion revisar!!!!!!");
+                        }
+
+                        /*if (progressDialog != null && progressDialog.isShowing()) {
+                            // If the response is JSONObject instead of expected JSONArray
+                            progressDialog.dismiss();
+                        }*/
+                    }
+                }, new Response.ErrorListener()
+        {
+
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                // TODO Auto-generated method stub
+                /*if (progressDialog != null && progressDialog.isShowing()) {
+                    // If the response is JSONObject instead of expected JSONArray
+                    progressDialog.dismiss();
+                }*/
+
+                NetworkResponse response = error.networkResponse;
+                if (response != null && response.data != null)
+                {
+                    try
+                    {
+                        JSONObject json = new JSONObject(new String(response.data));
+                        Toast.makeText(getContext(), json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
+                    }
+                    catch (JSONException e)
+                    {
+                        Toast.makeText(getContext(), "Error 2", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(getContext(), error != null && error.getMessage() != null ? error.getMessage() : error.toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+        })
+        {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError
+            {
+                //SharedPreferences settings = getActivity().getSharedPreferences(ActivityLogin.SESSION_USER, getActivity().MODE_PRIVATE);
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("X-API-KEY", Network.API_KEY);
+                /*params.put("Authorization",
+                        "Basic " + Base64.encodeToString(
+                                (settings.getString("email","")+":" + settings.getString("api_key","")).getBytes(), Base64.NO_WRAP)
+                );*/
+                return params;
+            }
+        };
+
+        //postRequest.setTag(MainActivity.TAG);
+
+        MySingleton.getInstance(getContext()).addToRequestQueue(postRequest);
+
+
+        return array_all_items;
+
+    }
+
+    public ArrayList<Yng_Item> loadFirstData() {
+
+        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "/item/listItemParams/All/All/Desc/"+start+"/"+end,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try
+                        {
+
+                            JSONArray m_jArry = response;
+                            Log.e("All Items:---",m_jArry.toString());
+                            for (int i = 0; i < m_jArry.length(); i++) {
+                                JSONObject jo_inside = m_jArry.getJSONObject(i);
+                                Yng_Item item = new Yng_Item();
+                                item.setItemId(Long.valueOf(jo_inside.getString("itemId")));
+                                item.setName(jo_inside.getString("name"));
+                                item.setPrincipalImage(jo_inside.getString("principalImage"));
+                                item.setDescription(jo_inside.getString("description"));
+                                item.setPrice(Double.valueOf(jo_inside.getString("price")));
+                                item.setMoney(jo_inside.getString("money"));
+                                item.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));
+                                item.setPriceNormal(Double.valueOf(jo_inside.getString("priceNormal")));
+                                item.setPriceDiscount(Double.valueOf(jo_inside.getString("priceDiscount")));
+
+                                array_all_items.add(item);
+
+                            }
+
+                            setAdapterHomeCategoryList();
+
                         }
                         catch(Exception ex)
                         {

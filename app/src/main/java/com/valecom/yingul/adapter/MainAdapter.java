@@ -40,6 +40,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     public ArrayList<Yng_Item> array_all_items;
     public ArrayList<Yng_Item> array_all_over;
+    public ArrayList<Yng_Item> array_all_not_over;
     public ArrayList<Yng_Category> array_all_category;
     public ArrayList<Yng_Store> array_all_stores;
 
@@ -49,6 +50,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         array_all_category = new ArrayList<>();
         array_all_items = new ArrayList<>();
         array_all_over = new ArrayList<>();
+        array_all_not_over = new ArrayList<>();
         array_all_stores = new ArrayList<>();
     }
 
@@ -159,7 +161,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     }
 
     private void horizontalViewAllItem(HorizontalViewHolder holder) {
-        HorizontalAdapter adapter = new HorizontalAdapter(context,array_all_items);
+        HorizontalAdapter adapter = new HorizontalAdapter(context,array_all_not_over);
         holder.recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         holder.recyclerView.setAdapter(adapter);
     }
@@ -244,10 +246,11 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         adapter1.notifyDataSetChanged();
     }
 
-    public void setArrays(ArrayList<Yng_Item> array_all_items,ArrayList<Yng_Item> array_all_over,ArrayList<Yng_Category> array_all_category,ArrayList<Yng_Store> array_all_stores){
+    public void setArrays(ArrayList<Yng_Item> array_all_not_over,ArrayList<Yng_Item> array_all_over,ArrayList<Yng_Category> array_all_category,ArrayList<Yng_Store> array_all_stores,ArrayList<Yng_Item> array_all_items){
         this.array_all_category =array_all_category;
         this.array_all_items =array_all_items;
         this.array_all_over =array_all_over;
+        this.array_all_not_over =array_all_not_over;
         this.array_all_stores =array_all_stores;
     }
 }
