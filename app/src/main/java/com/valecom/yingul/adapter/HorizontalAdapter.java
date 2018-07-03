@@ -7,6 +7,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -82,6 +85,19 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.My
                 mContext.startActivity(intent_detail);
             }
         });
+
+        ScaleAnimation scaleAnim = new ScaleAnimation(
+                0f, 1f,
+                0f, 1f,
+                Animation.ABSOLUTE, 0,
+                Animation.RELATIVE_TO_SELF , 1);
+        scaleAnim.setDuration(750);
+        scaleAnim.setRepeatCount(0);
+        scaleAnim.setInterpolator(new AccelerateDecelerateInterpolator());
+        scaleAnim.setFillAfter(true);
+        scaleAnim.setFillBefore(true);
+        scaleAnim.setFillEnabled(true);
+        holder.lyt_parent.startAnimation(scaleAnim);
 
     }
 

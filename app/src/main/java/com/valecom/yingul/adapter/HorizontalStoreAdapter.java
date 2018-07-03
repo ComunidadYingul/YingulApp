@@ -9,6 +9,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -93,7 +96,7 @@ public class HorizontalStoreAdapter extends RecyclerView.Adapter<HorizontalStore
         }
 
 
-        /*ScaleAnimation scaleAnim = new ScaleAnimation(
+        ScaleAnimation scaleAnim = new ScaleAnimation(
                 0f, 1f,
                 0f, 1f,
                 Animation.ABSOLUTE, 0,
@@ -104,7 +107,7 @@ public class HorizontalStoreAdapter extends RecyclerView.Adapter<HorizontalStore
         scaleAnim.setFillAfter(true);
         scaleAnim.setFillBefore(true);
         scaleAnim.setFillEnabled(true);
-        holder.lyt_parent.startAnimation(scaleAnim);*/
+        holder.lyt_parent.startAnimation(scaleAnim);
     }
 
     @Override
