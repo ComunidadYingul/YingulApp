@@ -5,51 +5,47 @@ import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.ads.InterstitialAd;
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.ActivityProductDetail;
-import com.valecom.yingul.main.store.ActivityStore;
 import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.network.Network;
 
 import java.util.ArrayList;
 
 /**
- * Created by gonzalo on 29-05-18.
+ * Created by gonzalo on 02-07-18.
  */
 
-public class ListGridAdapter extends RecyclerView.Adapter<ListGridAdapter.ItemRowHolder>{
-    private ArrayList<Yng_Item> dataList;
-    private Context mContext;
-    private InterstitialAd mInterstitial;
+public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.MyViewHolder> {
 
-    public ListGridAdapter(Context context, ArrayList<Yng_Item> dataList) {
-        this.dataList = dataList;
+    ArrayList<Yng_Item> data = new ArrayList<>();
+    Context mContext;
+
+    public HorizontalAdapter(Context context,ArrayList<Yng_Item> data) {
+        this.data = data;
         this.mContext = context;
     }
 
     @Override
-    public ListGridAdapter.ItemRowHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.vertical_single_row, parent, false);
-        return new ListGridAdapter.ItemRowHolder(v);
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.horizontal_single_row, parent, false);
+        return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ListGridAdapter.ItemRowHolder holder, final int position) {
-        final Yng_Item item = dataList.get(position);
+    public void onBindViewHolder(MyViewHolder holder, int position) {
+
+        final Yng_Item item = data.get(position);
 
         Log.e("position:------",position+"");
 
@@ -86,35 +82,11 @@ public class ListGridAdapter extends RecyclerView.Adapter<ListGridAdapter.ItemRo
             public void onClick(View v) {
                 Intent intent_detail=new Intent(mContext, ActivityProductDetail.class);
                 intent_detail.putExtra("itemId",item.getItemId().toString());
-                //intent_detail.putExtra("seller",item.getCategorySeller());
                 mContext.startActivity(intent_detail);
-                //Log.e("gonzalo:----","hola");
-
-                /*
-                Log.e("Eddy","click");
-                mInterstitial = new InterstitialAd(mContext);
-                mInterstitial.setAdUnitId(mContext.getString(R.string.admob_interstitial_id));
-                mInterstitial.loadAd(new AdRequest.Builder().build());
-                mInterstitial.setAdListener(new AdListener() {
-                    @Override
-                    public void onAdLoaded() {
-                        // TODO Auto-generated method stub
-                        super.onAdLoaded();
-                        if (mInterstitial.isLoaded()) {
-                            mInterstitial.show();
-                            mInterstitial.|
-                        }
-                    }
-
-                    public void onAdClosed() {
-
-                    }
-
-                });*/
-
             }
         });
-        /*ScaleAnimation scaleAnim = new ScaleAnimation(
+
+        ScaleAnimation scaleAnim = new ScaleAnimation(
                 0f, 1f,
                 0f, 1f,
                 Animation.ABSOLUTE, 0,
@@ -125,20 +97,21 @@ public class ListGridAdapter extends RecyclerView.Adapter<ListGridAdapter.ItemRo
         scaleAnim.setFillAfter(true);
         scaleAnim.setFillBefore(true);
         scaleAnim.setFillEnabled(true);
-        holder.lyt_parent.startAnimation(scaleAnim);*/
+        holder.lyt_parent.startAnimation(scaleAnim);
+
     }
 
     @Override
     public int getItemCount() {
-        return (null != dataList ? dataList.size() : 0);
+        return data.size();
     }
 
-    public class ItemRowHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         public ImageView image_cat_list,imgEnvioGratis;
         public TextView text_cat_list_title,text_cat_list_price,textMoney,textDiscountPorcent;
-        public LinearLayout lyt_parent,lyt_otro,lytDiscount;
+        public LinearLayout lyt_parent,lytDiscount;
 
-        public ItemRowHolder(View itemView) {
+        public MyViewHolder(View itemView) {
             super(itemView);
             textMoney = (TextView) itemView.findViewById(R.id.textMoney);
             image_cat_list = (ImageView) itemView.findViewById(R.id.image_item_cat_list_image);
@@ -148,8 +121,6 @@ public class ListGridAdapter extends RecyclerView.Adapter<ListGridAdapter.ItemRo
             textDiscountPorcent = (TextView) itemView.findViewById(R.id.textDiscountPorcent);
             lyt_parent = (LinearLayout) itemView.findViewById(R.id.rootLayout);
             lytDiscount = (LinearLayout) itemView.findViewById(R.id.lytDiscount);
-
         }
     }
-
 }

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -124,7 +125,7 @@ public class PropertyActivity extends AppCompatActivity {
         recycler_list = (RecyclerView) findViewById(R.id.vertical_cat_list);
         recycler_list.setHasFixedSize(false);
         recycler_list.setNestedScrollingEnabled(false);
-        recycler_list.setLayoutManager(new GridLayoutManager(mContext, 2));
+        recycler_list.setLayoutManager(new StaggeredGridLayoutManager(2,1));
         recycler_list.addItemDecoration(itemDecoration);
 
         array_all_category = new ArrayList<>();

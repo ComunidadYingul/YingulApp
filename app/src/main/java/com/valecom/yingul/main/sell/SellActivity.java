@@ -224,19 +224,21 @@ public class SellActivity extends AppCompatActivity {
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         }else{
-            typePriceService="Con precio a convenir";
-            item.setMoney("ARS");
-            SellItemAddUbicationFragment itemAddUbication = new SellItemAddUbicationFragment();
-            FragmentTransaction fragmentTransaction  = getSupportFragmentManager().beginTransaction();
-            itemAddUbication.type=item.getType();
-            fragmentTransaction.replace(R.id.content_frame, itemAddUbication);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
-            /*SellItemSetDescriptionFragment itemSetDescription = new SellItemSetDescriptionFragment();
-            FragmentTransaction fragmentTransaction  = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.content_frame, itemSetDescription);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();*/
+            if(userUbication==null||user.getPhone().equals("null")||user.getDocumentNumber().equals("null")||user.getDocumentType().equals("null")||user.getPhone().equals("")||user.getDocumentNumber().equals("")||user.getDocumentType().equals("")){
+                Intent intent = new Intent(SellActivity.this, NewUserUbicationEditPersonalInfoActivity.class);
+                intent.putExtra("data", user);
+                startActivityForResult(intent, ITEM_PICKER_TAG);
+            }else {
+
+                typePriceService = "Con precio a convenir";
+                item.setMoney("ARS");
+                SellItemAddUbicationFragment itemAddUbication = new SellItemAddUbicationFragment();
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                itemAddUbication.type = item.getType();
+                fragmentTransaction.replace(R.id.content_frame, itemAddUbication);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
         }
     }
     public void setTypeCondition(String typePrice){
@@ -253,14 +255,44 @@ public class SellActivity extends AppCompatActivity {
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
-    
-    public void setItemAditionalDescription() {
-        //aditionalDescription=description;
+
+    public void setItemPrice(double itemPrice){
+
+        Log.e("Precio", itemPrice+"");
+        item.setPrice(itemPrice);
+        item.setPriceDiscount(0);
+        item.setPriceNormal(0);
+
         if(userUbication==null||user.getPhone().equals("null")||user.getDocumentNumber().equals("null")||user.getDocumentType().equals("null")||user.getPhone().equals("")||user.getDocumentNumber().equals("")||user.getDocumentType().equals("")){
             Intent intent = new Intent(SellActivity.this, NewUserUbicationEditPersonalInfoActivity.class);
             intent.putExtra("data", user);
             startActivityForResult(intent, ITEM_PICKER_TAG);
-        }else{
+        }else {
+
+            if (item.getType() == "Product") {
+                SellItemSetDeliveryFragment fragment = new SellItemSetDeliveryFragment();
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            } else if (item.getType() == "Motorized" || item.getType() == "Property" || item.getType() == "Service") {
+                SellItemAddUbicationFragment itemAddUbication = new SellItemAddUbicationFragment();
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                itemAddUbication.type = item.getType();
+                fragmentTransaction.replace(R.id.content_frame, itemAddUbication);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        }
+    }
+
+    public void setItemAditionalDescription() {
+        //aditionalDescription=description;
+        /*if(userUbication==null||user.getPhone().equals("null")||user.getDocumentNumber().equals("null")||user.getDocumentType().equals("null")||user.getPhone().equals("")||user.getDocumentNumber().equals("")||user.getDocumentType().equals("")){
+            Intent intent = new Intent(SellActivity.this, NewUserUbicationEditPersonalInfoActivity.class);
+            intent.putExtra("data", user);
+            startActivityForResult(intent, ITEM_PICKER_TAG);
+        }else{*/
             if(item.getType()=="Service"){
                 SellItemSetCategoryFragment itemSetCategory = new SellItemSetCategoryFragment();
                 itemSetCategory.type=item.getType();
@@ -282,7 +314,7 @@ public class SellActivity extends AppCompatActivity {
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
-        }
+        //}
     }
 
     public void setUbication(String setUbication){

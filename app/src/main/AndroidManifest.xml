@@ -14,11 +14,14 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:largeHeap="true">
-        <!--android:largeHeap="true"
-        android:hardwareAccelerated="false"-->
+        android:theme="@style/AppTheme">
+
+        <!--
+        android:largeHeap="true"
+        android:hardwareAccelerated="false"
+        -->
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -228,7 +231,9 @@
         <activity android:name=".main.service.ServiceActivity" />
         <activity android:name=".main.motorized.MotorizedActivity" />
         <activity android:name=".main.property.PropertyActivity" />
-        <activity android:name=".main.myAccount.yingulPay.YingulPayActivity"></activity>
+        <activity android:name=".main.myAccount.yingulPay.YingulPayActivity" />
+        <activity android:name=".main.over.OverActivity" />
+        <activity android:name=".main.allItems.AllItemsActivity"></activity>
     </application>
 
 </manifest>

@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -124,7 +125,7 @@ public class ActivityPubliSellerList extends AppCompatActivity {
         recycler_cat_list = (RecyclerView) findViewById(R.id.vertical_cat_list);
         recycler_cat_list.setHasFixedSize(false);
         recycler_cat_list.setNestedScrollingEnabled(false);
-        recycler_cat_list.setLayoutManager(new GridLayoutManager(ActivityPubliSellerList.this, 2));
+        recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(2,1));
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(ActivityPubliSellerList.this, R.dimen.item_offset);
         recycler_cat_list.addItemDecoration(itemDecoration);
 
