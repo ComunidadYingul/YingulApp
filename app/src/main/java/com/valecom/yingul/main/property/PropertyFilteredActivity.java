@@ -198,7 +198,7 @@ public class PropertyFilteredActivity extends AppCompatActivity {
 
         progressDialog.show();
         String url = "";
-        if(category==null){
+        if(category!=null){
             url= Network.API_URL + "item/searchPropertyCategoryConditonUbication/"+category.getCategoryId()+"/"+condition+"/"+typeUbication+"/"+idTypeUbication;
             Log.e("url",Network.API_URL + "item/searchProperty/"+category.getCategoryId()+"/"+condition+"/"+typeUbication+"/"+idTypeUbication);
         }else{

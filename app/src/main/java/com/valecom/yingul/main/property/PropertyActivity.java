@@ -412,7 +412,7 @@ public class PropertyActivity extends AppCompatActivity {
                         catch(Exception ex)
                         {
                             //if (isAdded()) {
-                                Toast.makeText(PropertyActivity.this, R.string.error_try_again_support, Toast.LENGTH_LONG).show();
+                                //Toast.makeText(PropertyActivity.this, R.string.error_try_again_support, Toast.LENGTH_LONG).show();
                             //}
                         }
 
