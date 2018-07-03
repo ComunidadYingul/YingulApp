@@ -1,6 +1,7 @@
 package com.valecom.yingul.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.R;
+import com.valecom.yingul.main.store.ActivityStore;
+import com.valecom.yingul.main.store.AllStoreActivity;
 import com.valecom.yingul.model.Yng_Store;
 import com.valecom.yingul.network.Network;
 
@@ -55,6 +58,15 @@ public class HorizontalStoreAdapter extends RecyclerView.Adapter<HorizontalStore
             Picasso.with(mContext).load(Network.BUCKET_URL + item.getBannerImage()).into(holder.banner_cat);
             Picasso.with(mContext).load("file:///android_asset/image/more_stores.png").into(holder.image_cat);
 
+            holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(mContext, AllStoreActivity.class);
+                    //intent.putExtra("store",item.getName());
+                    mContext.startActivity(intent);
+                }
+            });
 
         }else{
             final Yng_Store item = dataList.get(position);
@@ -68,6 +80,15 @@ public class HorizontalStoreAdapter extends RecyclerView.Adapter<HorizontalStore
             Picasso.with(mContext).load(Network.BUCKET_URL + item.getBannerImage()).into(holder.banner_cat);
             Picasso.with(mContext).load(Network.BUCKET_URL + item.getMainImage()).into(holder.image_cat);
 
+            holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(mContext, ActivityStore.class);
+                    intent.putExtra("store",item.getName());
+                    mContext.startActivity(intent);
+                }
+            });
 
         }
 

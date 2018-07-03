@@ -1,6 +1,7 @@
 package com.valecom.yingul.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,11 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.R;
+import com.valecom.yingul.main.categories.CategoryActivity;
+import com.valecom.yingul.main.motorized.MotorizedActivity;
+import com.valecom.yingul.main.property.PropertyActivity;
+import com.valecom.yingul.main.service.ServiceActivity;
+import com.valecom.yingul.main.store.AllStoreActivity;
 import com.valecom.yingul.model.Yng_Category;
 
 import java.util.ArrayList;
@@ -40,6 +46,39 @@ public class HorizontalCircleAdapter extends RecyclerView.Adapter<HorizontalCirc
 
         holder.textCategory.setText(item.getName());
         Picasso.with(mContext).load("file:///android_asset/image/"+item.getImage()).into(holder.image_all_category);
+
+        holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent;
+                //Log.e("seleccionado:--",item.getItemType().toString());
+                switch (item.getItemType()){
+                    case "motorized":
+                        intent = new Intent(mContext, MotorizedActivity.class);
+                        mContext.startActivity(intent);
+                        //Toast.makeText(mContext,"Mostrar motorizados",Toast.LENGTH_SHORT).show();
+                        break;
+                    case "property":
+                        intent = new Intent(mContext, PropertyActivity.class);
+                        mContext.startActivity(intent);
+                        //Toast.makeText(mContext,"Mostrar inmuebles",Toast.LENGTH_SHORT).show();
+                        break;
+                    case "service":
+                        intent = new Intent(mContext, ServiceActivity.class);
+                        mContext.startActivity(intent);
+                        break;
+                    case "stores":
+                        intent = new Intent(mContext, AllStoreActivity.class);
+                        mContext.startActivity(intent);
+                        break;
+                    default:
+                        intent = new Intent(mContext, CategoryActivity.class);
+                        intent.putExtra("categoryId", item.getCategoryId().toString());
+                        mContext.startActivity(intent);
+                        break;
+                }
+            }
+        });
 
     }
 

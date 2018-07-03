@@ -1,6 +1,7 @@
 package com.valecom.yingul.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.R;
+import com.valecom.yingul.main.ActivityProductDetail;
+import com.valecom.yingul.main.store.ActivityStore;
 import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.network.Network;
 
@@ -69,6 +72,15 @@ public class VerticalAdapter extends RecyclerView.Adapter<VerticalAdapter.MyView
         }catch (Exception e){}
 
         Picasso.with(mContext).load(Network.BUCKET_URL+item.getPrincipalImage()).into(holder.image_cat_list);
+
+        holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_detail=new Intent(mContext, ActivityProductDetail.class);
+                intent_detail.putExtra("itemId",item.getItemId().toString());
+                mContext.startActivity(intent_detail);
+            }
+        });
     }
 
     @Override
