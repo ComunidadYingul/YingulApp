@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import com.valecom.yingul.R;
+import com.valecom.yingul.Util.Validacion;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,21 +40,24 @@ public class BuySetCardFragment extends Fragment {
         buttonSetCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((BuyActivity)getActivity()).card.setNumber(Long.valueOf(editCardNumber.getText().toString().trim()));
-                dueDate=editDueDate.getText().toString().trim();
-                String[] parts = dueDate.split("/");
-                ((BuyActivity)getActivity()).card.setDueMonth(Integer.parseInt(parts[0]));
-                ((BuyActivity)getActivity()).card.setDueYear(2000+Integer.parseInt(parts[1]));
-                ((BuyActivity)getActivity()).card.setFullName(editFullName.getText().toString().trim());
-                ((BuyActivity)getActivity()).card.setDni(Long.valueOf(editTitularDNI.getText().toString().trim()));
-                ((BuyActivity)getActivity()).card.setSecurityCode(Integer.parseInt(editSecurityCode.getText().toString().trim()));
-                ((BuyActivity)getActivity()).card.setUser(((BuyActivity)getActivity()).user);
-                ((BuyActivity)getActivity()).payment.setYng_Card(((BuyActivity)getActivity()).card);
-                BuyItemConfirmFragment fragment = new BuyItemConfirmFragment();
-                FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                Validacion val = new Validacion();
+                if(val.valNumDig(editCardNumber,16) && val.valCantString(editFullName,5) && val.valExpireDate(editDueDate) && val.valCantString(editSecurityCode,3) && val.valNumDig(editTitularDNI,8)) {
+                    ((BuyActivity) getActivity()).card.setNumber(Long.valueOf(editCardNumber.getText().toString().trim()));
+                    dueDate = editDueDate.getText().toString().trim();
+                    String[] parts = dueDate.split("/");
+                    ((BuyActivity) getActivity()).card.setDueMonth(Integer.parseInt(parts[0]));
+                    ((BuyActivity) getActivity()).card.setDueYear(2000 + Integer.parseInt(parts[1]));
+                    ((BuyActivity) getActivity()).card.setFullName(editFullName.getText().toString().trim());
+                    ((BuyActivity) getActivity()).card.setDni(Long.valueOf(editTitularDNI.getText().toString().trim()));
+                    ((BuyActivity) getActivity()).card.setSecurityCode(Integer.parseInt(editSecurityCode.getText().toString().trim()));
+                    ((BuyActivity) getActivity()).card.setUser(((BuyActivity) getActivity()).user);
+                    ((BuyActivity) getActivity()).payment.setYng_Card(((BuyActivity) getActivity()).card);
+                    BuyItemConfirmFragment fragment = new BuyItemConfirmFragment();
+                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.content_frame, fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
             }
         });
 

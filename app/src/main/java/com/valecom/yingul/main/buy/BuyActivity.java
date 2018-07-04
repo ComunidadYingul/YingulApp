@@ -429,7 +429,7 @@ public class BuyActivity extends AppCompatActivity {
                                 Log.e("paymentId",""+paymentId);
                                 RunGetPaymentToTicketService();
                             }else{
-                                Toast.makeText(BuyActivity.this,"No se guardo",Toast.LENGTH_LONG).show();
+                                Toast.makeText(BuyActivity.this,"No se guardo 1",Toast.LENGTH_LONG).show();
                             }
                         }
                     }

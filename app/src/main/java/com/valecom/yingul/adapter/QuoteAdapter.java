@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.valecom.yingul.R;
 import com.valecom.yingul.model.Yng_Category;
+import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.model.Yng_Quote;
 
 import java.util.ArrayList;
@@ -51,8 +53,13 @@ public class QuoteAdapter extends ArrayAdapter<Yng_Quote>
         text_quote_branch_location.setText(invoice.getYng_Branch().getNameMail()+" ("+invoice.getYng_Branch().getLocation()+")");
         text_quote_street.setText(invoice.getYng_Branch().getStreet());
         text_quote_schedules.setText(invoice.getYng_Branch().getSchedules());
-        if(invoice.getYng_Item().getProductPagoEnvio().equals("gratis")){
-            text_quote_rate.setText("GRATIS");
+        if(invoice.getYng_Item().getProductPagoEnvio()!=null){
+            if(invoice.getYng_Item().getProductPagoEnvio().equals("gratis")){
+                text_quote_rate.setText("GRATIS");
+            }else {
+                text_quote_rate.setText("$ "+invoice.getRate());
+            }
+
         }else{
             text_quote_rate.setText("$ "+invoice.getRate());
         }
