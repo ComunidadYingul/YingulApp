@@ -1,6 +1,7 @@
 package com.valecom.yingul.Util;
 
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 
@@ -106,6 +107,28 @@ public class Validacion {
             view.requestFocus();
             return false;
         }else{
+            return true;
+        }
+    }
+    public boolean valEmail(EditText email) {
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        if(!pattern.matcher(email.getText().toString()).matches()){
+            email.requestFocus();
+            email.setError("Correo electronico invalido");
+            Log.e("message:---","error");
+            return false;
+        }else {
+            Log.e("message:---","correcto");
+            return true;
+        }
+    }
+
+    public boolean valConfirmPassword(EditText pass1, EditText pass2) {
+        if(!pass1.getText().toString().equals(pass2.getText().toString())){
+            pass2.requestFocus();
+            pass2.setError("Las contraseñas no coinciden");
+            return false;
+        }else {
             return true;
         }
     }

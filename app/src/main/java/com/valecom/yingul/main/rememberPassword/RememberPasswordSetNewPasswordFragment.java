@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 import com.valecom.yingul.R;
+import com.valecom.yingul.Util.Validacion;
 import com.valecom.yingul.main.LoginActivity;
 import com.valecom.yingul.network.Network;
 import org.json.JSONException;
@@ -56,7 +57,10 @@ public class RememberPasswordSetNewPasswordFragment extends Fragment {
         buttonSetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Validacion val = new Validacion();
+                if(val.valCantString(editPassword,6) && val.valCantString(editPasswordConfirm,6) && val.valConfirmPassword(editPassword,editPasswordConfirm)) {
                     setNewPassword();
+                }
             }
         });
         progressDialog = new MaterialDialog.Builder(getActivity())

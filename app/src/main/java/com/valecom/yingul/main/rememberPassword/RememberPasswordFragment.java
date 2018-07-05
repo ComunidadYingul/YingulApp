@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 import com.valecom.yingul.R;
+import com.valecom.yingul.Util.Validacion;
 import com.valecom.yingul.main.MainActivity;
 import com.valecom.yingul.main.RegisterActivity;
 import com.valecom.yingul.main.buy.BuyActivity;
@@ -68,7 +69,10 @@ public class RememberPasswordFragment extends Fragment {
         buttonSendEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendRecoveryEmail();
+                Validacion val = new Validacion();
+                if (val.valEmail(editEmail)){
+                    sendRecoveryEmail();
+                }
             }
         });
         progressDialog = new MaterialDialog.Builder(getActivity())

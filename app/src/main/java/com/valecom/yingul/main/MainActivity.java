@@ -297,6 +297,10 @@ public class MainActivity extends AppCompatActivity
             Intent settingsIntent = new Intent(this, SellActivity.class);
             startActivity(settingsIntent);
         }
+        else if (id == R.id.nav_login) {
+            Intent settingsIntent = new Intent(this, LoginActivity.class);
+            startActivity(settingsIntent);
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
