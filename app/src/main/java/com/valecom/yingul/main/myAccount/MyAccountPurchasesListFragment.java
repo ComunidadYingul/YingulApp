@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -26,24 +25,22 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.google.gson.Gson;
 import com.valecom.yingul.R;
-import com.valecom.yingul.adapter.BuyAdapter;
-import com.valecom.yingul.adapter.QueryAdapter;
+import com.valecom.yingul.adapter.ConfirmAdapter;
 import com.valecom.yingul.main.LoginActivity;
 import com.valecom.yingul.main.MainActivity;
 import com.valecom.yingul.model.Yng_Buy;
 import com.valecom.yingul.model.Yng_Card;
 import com.valecom.yingul.model.Yng_CashPayment;
+import com.valecom.yingul.model.Yng_Confirm;
 import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.model.Yng_Payment;
-import com.valecom.yingul.model.Yng_Query;
 import com.valecom.yingul.model.Yng_Shipping;
+import com.valecom.yingul.model.Yng_User;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,8 +54,8 @@ public class MyAccountPurchasesListFragment extends Fragment
     private String username;
 
     private ListView list;
-    private BuyAdapter adapter;
-    private ArrayList<Yng_Buy> array_list;
+    private ConfirmAdapter adapter;
+    private ArrayList<Yng_Confirm> array_list;
 
     public MyAccountPurchasesListFragment()
     {
@@ -102,8 +99,8 @@ public class MyAccountPurchasesListFragment extends Fragment
             username = settings.getString("username","");
         }
 
-        array_list = new ArrayList<Yng_Buy>();
-        adapter = new BuyAdapter(getContext(), array_list);
+        array_list = new ArrayList<Yng_Confirm>();
+        adapter = new ConfirmAdapter(getContext(), array_list);
         list = (ListView) view.findViewById(R.id.list);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener()
@@ -111,13 +108,13 @@ public class MyAccountPurchasesListFragment extends Fragment
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                Yng_Buy buy = adapter.getItem(position);
+                Yng_Confirm confirm = adapter.getItem(position);
 
                 Bundle bundle = new Bundle();
                 Gson gson = new Gson();
-                String jsonBody = gson.toJson(buy);
+                String jsonBody = gson.toJson(confirm);
                 Log.e("ITEM:---",jsonBody);
-                bundle.putString("buy",jsonBody);
+                bundle.putString("confirm",jsonBody);
 
                 MyAccountPurchaseDetailFragment fragment = new MyAccountPurchaseDetailFragment();
                 fragment.setArguments(bundle);
@@ -185,7 +182,7 @@ public class MyAccountPurchasesListFragment extends Fragment
     {
         progressDialog.show();
 
-        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "buy/getPurchaseByUser/"+username,
+        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "confirm/findConfirmForBuyer/"+username,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -196,20 +193,50 @@ public class MyAccountPurchasesListFragment extends Fragment
                             array_list.clear();
                             for (int i = 0; i < buys.length(); i++) {
                                 JSONObject obj = buys.getJSONObject(i);
-                                Yng_Buy buy = new Yng_Buy();
-                                buy.setBuyId(obj.optLong("buyId"));
-                                buy.setCost(obj.optDouble("cost"));
-                                buy.setItemCost(obj.optDouble("itemCost"));
-                                buy.setShippingCost(obj.optDouble("shippingCost"));
-                                buy.setTime(obj.optString("time"));
-                                buy.setQuantity(obj.optInt("quantity"));
-                                Yng_Item item = new Yng_Item();
+                                Yng_Confirm confirm = new Yng_Confirm();
+                                confirm.setConfirmId(obj.optLong("confirmId"));
+                                confirm.setSellerConfirm(obj.optBoolean("sellerConfirm"));
+                                confirm.setDaySellerConfirm(obj.optInt("daySellerConfirm"));
+                                confirm.setMonthSellerConfirm(obj.optInt("monthSellerConfirm"));
+                                confirm.setYearSellerConfirm(obj.optInt("yearSellerConfirm"));
+                                confirm.setBuyerConfirm(obj.optBoolean("buyerConfirm"));
+                                confirm.setDayBuyerConfirm(obj.optInt("dayBuyerConfirm"));
+                                confirm.setMonthBuyerConfirm(obj.optInt("monthBuyerConfirm"));
+                                confirm.setYearBuyerConfirm(obj.optInt("yearBuyerConfirm"));
+                                confirm.setDayInitClaim(obj.optInt("dayInitClaim"));
+                                confirm.setMonthInitClaim(obj.optInt("monthInitClaim"));
+                                confirm.setYearInitiClaim(obj.optInt("yearInitiClaim"));
+                                confirm.setDayEndClaim(obj.optInt("dayEndClaim"));
+                                confirm.setMonthEndClaim(obj.optInt("monthEndClaim"));
+                                confirm.setYearEndClaim(obj.optInt("yearEndClaim"));
+                                confirm.setCodeConfirm(obj.optInt("codeConfirm"));
+                                confirm.setStatus(obj.optString("status"));
+
+                                Yng_User seller = new Yng_User();
                                 Gson gson = new Gson();
-                                item = gson.fromJson(String.valueOf(obj.optJSONObject("yng_item")), Yng_Item.class);
+                                seller = gson.fromJson(String.valueOf(obj.optJSONObject("seller")), Yng_User.class);
+                                confirm.setSeller(seller);
+
+                                Yng_User buyer = new Yng_User();
+                                buyer = gson.fromJson(String.valueOf(obj.optJSONObject("buyer")), Yng_User.class);
+                                confirm.setBuyer(buyer);
+
+
+                                JSONObject obj1 = obj.optJSONObject("buy");
+                                Yng_Buy buy = new Yng_Buy();
+                                buy.setBuyId(obj1.optLong("buyId"));
+                                buy.setCost(obj1.optDouble("cost"));
+                                buy.setItemCost(obj1.optDouble("itemCost"));
+                                buy.setShippingCost(obj1.optDouble("shippingCost"));
+                                buy.setTime(obj1.optString("time"));
+                                buy.setQuantity(obj1.optInt("quantity"));
+
+                                Yng_Item item = new Yng_Item();
+                                item = gson.fromJson(String.valueOf(obj1.optJSONObject("yng_item")), Yng_Item.class);
                                 Yng_Shipping shipping = new Yng_Shipping();
-                                shipping = gson.fromJson(String.valueOf(obj.optJSONObject("shipping")), Yng_Shipping.class);
+                                shipping = gson.fromJson(String.valueOf(obj1.optJSONObject("shipping")), Yng_Shipping.class);
                                 Yng_Payment payment = new Yng_Payment();
-                                JSONObject paymentObj = obj.optJSONObject("yng_Payment");
+                                JSONObject paymentObj = obj1.optJSONObject("yng_Payment");
                                 payment.setType(paymentObj.optString("type"));
                                 if(payment.getType().equals("CARD")){
                                     Yng_Card card = new Yng_Card();
@@ -228,7 +255,8 @@ public class MyAccountPurchasesListFragment extends Fragment
                                 buy.setShipping(shipping);
                                 buy.setYng_Payment(payment);
                                 buy.setYng_item(item);
-                                array_list.add(buy);
+                                confirm.setBuy(buy);
+                                array_list.add(confirm);
                             }
 
                             adapter.notifyDataSetChanged();

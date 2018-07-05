@@ -31,7 +31,11 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.LoginActivity;
+import com.valecom.yingul.main.myAccount.confirmDelivery.ConfirmDeliveryActivity;
+import com.valecom.yingul.main.property.PropertyActivity;
+import com.valecom.yingul.main.property.PropertyFilteredActivity;
 import com.valecom.yingul.model.Yng_Buy;
+import com.valecom.yingul.model.Yng_Confirm;
 import com.valecom.yingul.model.Yng_StateShipping;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
@@ -49,11 +53,11 @@ public class MyAccountSaleDetailFragment extends Fragment
     private MaterialDialog progressDialog;
     private JSONObject api_parameter;
 
-    private Yng_Buy buy;
+    private Yng_Confirm confirm;
     private TextView buyTime,txtItemType,txtCurrencyPrice,txtShippingCost,txtTypeOSchedules,txtTotal,txtItemName,txtQuantity,txtBranchName,txtBranchStreet,txtDischargeDate,txtDate,txtStatus,txtReason,txtBranch;
     private ImageView principalImage,imgShipping;
-    private LinearLayout layoutShipping,layBranch,layoutStatusShipment;
-    private Button btnFindShipping;
+    private LinearLayout layoutShipping,layBranch,layoutStatusShipment,layoutConfirmDelivery;
+    private Button btnFindShipping,btnConfirmDelivery;
 
     private MaterialDialog setting_address_edit_dialog;
 
@@ -100,7 +104,7 @@ public class MyAccountSaleDetailFragment extends Fragment
 
         Bundle bundle = getArguments();
         Gson gson = new Gson();
-        buy = gson.fromJson(bundle.getString("buy"), Yng_Buy.class);
+        confirm = gson.fromJson(bundle.getString("confirm"), Yng_Confirm.class);
 
         buyTime = (TextView) view.findViewById(R.id.buyTime);
         txtItemType = (TextView) view.findViewById(R.id.txtItemType);
@@ -118,35 +122,43 @@ public class MyAccountSaleDetailFragment extends Fragment
         txtBranchStreet = (TextView) view.findViewById(R.id.txtBranchStreet);
         btnFindShipping = (Button) view.findViewById(R.id.btnFindShipping);
         layoutStatusShipment = (LinearLayout) view.findViewById(R.id.layoutStatusShipment);
+        layoutConfirmDelivery = (LinearLayout) view.findViewById(R.id.layoutConfirmDelivery);
+        btnConfirmDelivery = (Button) view.findViewById(R.id.btnConfirmDelivery);
 
-        txtQuantity.setText(String.valueOf(buy.getQuantity()));
-        txtItemName.setText(buy.getYng_item().getName());
-        buyTime.setText(buy.getTime());
-        txtCurrencyPrice.setText("$ "+buy.getItemCost());
-        txtTotal.setText("$ "+buy.getCost());
-        Picasso.with(getActivity()).load(Network.BUCKET_URL+buy.getYng_item().getPrincipalImage()).into(principalImage);
+        txtQuantity.setText(String.valueOf(confirm.getBuy().getQuantity()));
+        txtItemName.setText(confirm.getBuy().getYng_item().getName());
+        buyTime.setText(confirm.getBuy().getTime());
+        txtCurrencyPrice.setText("$ "+confirm.getBuy().getItemCost());
+        txtTotal.setText("$ "+confirm.getBuy().getCost());
+        layoutConfirmDelivery.setVisibility(View.GONE);
+        Picasso.with(getActivity()).load(Network.BUCKET_URL+confirm.getBuy().getYng_item().getPrincipalImage()).into(principalImage);
 
-        if(buy.getShipping()==null){
+        if(confirm.getBuy().getShipping()==null){
             imgShipping.setImageResource(R.drawable.home);
             layoutShipping.setVisibility(View.GONE);
             layBranch.setVisibility(LinearLayout.GONE);
             layoutStatusShipment.setVisibility(LinearLayout.GONE);
             txtTypeOSchedules.setText("Retiro en el domicilio del vendedor");
+            if(confirm.getStatus().equals("pending")){
+                layoutConfirmDelivery.setVisibility(View.VISIBLE);
+            }else{
+                layoutConfirmDelivery.setVisibility(View.GONE);
+            }
         }else{
             imgShipping.setImageResource(R.drawable.branch);
             layoutShipping.setVisibility(View.VISIBLE);
             layBranch.setVisibility(View.VISIBLE);
             layoutStatusShipment.setVisibility(View.VISIBLE);
-            if(buy.getYng_item().getProductPagoEnvio().equals("gratis")){
+            if(confirm.getBuy().getYng_item().getProductPagoEnvio().equals("gratis")){
                 txtShippingCost.setText("GRATIS");
             }else{
-                txtShippingCost.setText("$ "+buy.getShippingCost());
+                txtShippingCost.setText("$ "+confirm.getBuy().getShippingCost());
             }
-            txtTypeOSchedules.setText(buy.getShipping().getYng_Quote().getYng_Branch().getSchedules());
-            txtBranchName.setText("Sucursal "+buy.getShipping().getYng_Quote().getYng_Branch().getNameMail()+" "+buy.getShipping().getYng_Quote().getYng_Branch().getLocation());
-            txtBranchStreet.setText(buy.getShipping().getYng_Quote().getYng_Branch().getStreet());
+            txtTypeOSchedules.setText(confirm.getBuy().getShipping().getYng_Quote().getYng_Branch().getSchedules());
+            txtBranchName.setText("Sucursal "+confirm.getBuy().getShipping().getYng_Quote().getYng_Branch().getNameMail()+" "+confirm.getBuy().getShipping().getYng_Quote().getYng_Branch().getLocation());
+            txtBranchStreet.setText(confirm.getBuy().getShipping().getYng_Quote().getYng_Branch().getStreet());
         }
-        switch(buy.getYng_item().getType()){
+        switch(confirm.getBuy().getYng_item().getType()){
             case "Product":
                 txtItemType.setText("Producto");
                 break;
@@ -165,6 +177,14 @@ public class MyAccountSaleDetailFragment extends Fragment
             @Override
             public void onClick(View v) {
                 findShipping();
+            }
+        });
+        btnConfirmDelivery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ConfirmDeliveryActivity.class);
+                intent.putExtra("confirmId", confirm.getConfirmId());
+                startActivity(intent);
             }
         });
 
@@ -199,7 +219,7 @@ public class MyAccountSaleDetailFragment extends Fragment
         super.onResume();
         if (isAdded())
         {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(buy.getYng_item().getName());
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(confirm.getBuy().getYng_item().getName());
             NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
             navigationView.setCheckedItem(R.id.nav_settings);
         }
@@ -220,9 +240,9 @@ public class MyAccountSaleDetailFragment extends Fragment
 
     public void findShipping(){
         progressDialog.show();
-        Log.e("codigo que llega",buy.getShipping().getYng_Shipment().getShipmentCod());
+        Log.e("codigo que llega",confirm.getBuy().getShipping().getYng_Shipment().getShipmentCod());
         JsonObjectRequest postRequest = new JsonObjectRequest
-                (Request.Method.GET, Network.API_URL+"buy/getStateBuy/"+buy.getShipping().getYng_Shipment().getShipmentCod(), api_parameter, new Response.Listener<JSONObject>()
+                (Request.Method.GET, Network.API_URL+"buy/getStateBuy/"+confirm.getBuy().getShipping().getYng_Shipment().getShipmentCod(), api_parameter, new Response.Listener<JSONObject>()
                 {
 
                     @Override
