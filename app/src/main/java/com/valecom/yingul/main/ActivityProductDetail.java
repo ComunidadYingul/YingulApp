@@ -48,6 +48,7 @@ import com.valecom.yingul.Item.ItemReview;
 import com.valecom.yingul.R;
 import com.valecom.yingul.Util.ItemOffsetDecoration;
 import com.valecom.yingul.Util.RecyclerItemClickListener;
+import com.valecom.yingul.Util.Validacion;
 import com.valecom.yingul.adapter.GalleryAdapter;
 import com.valecom.yingul.adapter.ListRowAdapter;
 import com.valecom.yingul.adapter.QueryListAdapter;
@@ -232,7 +233,10 @@ public class ActivityProductDetail extends AppCompatActivity {
         buttonNewQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RunCreateNewQuery();
+                Validacion val = new Validacion();
+                if(val.valCantString(editNewQuestion,1)){
+                    RunCreateNewQuery();
+                }
             }
         });
 
@@ -285,8 +289,12 @@ public class ActivityProductDetail extends AppCompatActivity {
                 if(itemTemp.getType().equals("Product") || itemTemp.getType().equals("Motorized")){
 
                     showOrderPlace();
-                }else{
-                }
+                }else if(itemTemp.getType().equals("Property")){
+                    Validacion val = new Validacion();
+                    if(val.valCantString(editNewQuestion,1)){
+                        RunCreateNewQuery();
+                    }
+                }else{}
 
 
 
