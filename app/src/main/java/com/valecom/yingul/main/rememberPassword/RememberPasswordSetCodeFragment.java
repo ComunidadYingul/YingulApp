@@ -72,6 +72,7 @@ public class RememberPasswordSetCodeFragment extends Fragment {
                 }else{
                     Intent intent = new Intent(getActivity(), MainActivity.class);
                     startActivity(intent);
+                    getActivity().finish();
                 }
             }
         });

@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,14 +31,24 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.LoginActivity;
-import com.valecom.yingul.model.Yng_Buy;
+import com.valecom.yingul.main.MainActivity;
+import com.valecom.yingul.model.Yng_Claim;
+import com.valecom.yingul.model.Yng_Confirm;
 import com.valecom.yingul.model.Yng_StateShipping;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 
 public class MyAccountPurchaseDetailFragment extends Fragment
 {
@@ -46,15 +57,16 @@ public class MyAccountPurchaseDetailFragment extends Fragment
     private MaterialDialog progressDialog;
     private JSONObject api_parameter;
 
-    private Yng_Buy buy;
+    private Yng_Confirm confirm;
     private TextView buyTime,txtItemType,txtCurrencyPrice,txtShippingCost,txtTypeOSchedules,txtTotal,txtItemName,txtQuantity,txtBranchName,txtBranchStreet,txtPayment,txtDischargeDate,txtDate,txtStatus,txtReason,txtBranch;
     private ImageView principalImage,imgShipping,imgPayment;
-    private LinearLayout layoutShipping,layBranch,downloadTicket,layoutStatusShipment;
+    private LinearLayout layoutShipping,layBranch,downloadTicket,layoutStatusShipment,purchaseProblemLayout;
     private Button btnFindShipping;
 
     private MaterialDialog setting_address_edit_dialog;
 
     public static final String TAG = "PurchaseDetailFragment";
+    public static final MediaType JSON= MediaType.parse("application/json; charset=utf-8");
     public MyAccountPurchaseDetailFragment()
     {
         // Required empty public constructor
@@ -97,7 +109,7 @@ public class MyAccountPurchaseDetailFragment extends Fragment
 
         Bundle bundle = getArguments();
         Gson gson = new Gson();
-        buy = gson.fromJson(bundle.getString("buy"), Yng_Buy.class);
+        confirm = gson.fromJson(bundle.getString("confirm"), Yng_Confirm.class);
 
         buyTime = (TextView) view.findViewById(R.id.buyTime);
         txtItemType = (TextView) view.findViewById(R.id.txtItemType);
@@ -118,15 +130,22 @@ public class MyAccountPurchaseDetailFragment extends Fragment
         downloadTicket = (LinearLayout) view.findViewById(R.id.downloadTicket);
         btnFindShipping = (Button) view.findViewById(R.id.btnFindShipping);
         layoutStatusShipment = (LinearLayout) view.findViewById(R.id.layoutStatusShipment);
+        purchaseProblemLayout = (LinearLayout) view.findViewById(R.id.purchaseProblemLayout);
 
-        txtQuantity.setText(String.valueOf(buy.getQuantity()));
-        txtItemName.setText(buy.getYng_item().getName());
-        buyTime.setText(buy.getTime());
-        txtCurrencyPrice.setText("$ "+buy.getItemCost());
-        txtTotal.setText("$ "+buy.getCost());
-        Picasso.with(getActivity()).load(Network.BUCKET_URL+buy.getYng_item().getPrincipalImage()).into(principalImage);
+        txtQuantity.setText(String.valueOf(confirm.getBuy().getQuantity()));
+        txtItemName.setText(confirm.getBuy().getYng_item().getName());
+        buyTime.setText(confirm.getBuy().getTime());
+        txtCurrencyPrice.setText("$ "+confirm.getBuy().getItemCost());
+        txtTotal.setText("$ "+confirm.getBuy().getCost());
+        Picasso.with(getActivity()).load(Network.BUCKET_URL+confirm.getBuy().getYng_item().getPrincipalImage()).into(principalImage);
 
-        if(buy.getShipping()==null){
+        if(confirm.getStatus().equals("confirm")){
+            purchaseProblemLayout.setVisibility(View.VISIBLE);
+        }else{
+            purchaseProblemLayout.setVisibility(View.GONE);
+        }
+
+        if(confirm.getBuy().getShipping()==null){
             imgShipping.setImageResource(R.drawable.home);
             layoutShipping.setVisibility(View.GONE);
             layBranch.setVisibility(LinearLayout.GONE);
@@ -137,16 +156,16 @@ public class MyAccountPurchaseDetailFragment extends Fragment
             layoutShipping.setVisibility(View.VISIBLE);
             layBranch.setVisibility(View.VISIBLE);
             layoutStatusShipment.setVisibility(View.VISIBLE);
-            if(buy.getYng_item().getProductPagoEnvio().equals("gratis")){
+            if(confirm.getBuy().getYng_item().getProductPagoEnvio().equals("gratis")){
                 txtShippingCost.setText("GRATIS");
             }else{
-                txtShippingCost.setText("$ "+buy.getShippingCost());
+                txtShippingCost.setText("$ "+confirm.getBuy().getShippingCost());
             }
-            txtTypeOSchedules.setText(buy.getShipping().getYng_Quote().getYng_Branch().getSchedules());
-            txtBranchName.setText("Sucursal "+buy.getShipping().getYng_Quote().getYng_Branch().getNameMail()+" "+buy.getShipping().getYng_Quote().getYng_Branch().getLocation());
-            txtBranchStreet.setText(buy.getShipping().getYng_Quote().getYng_Branch().getStreet());
+            txtTypeOSchedules.setText(confirm.getBuy().getShipping().getYng_Quote().getYng_Branch().getSchedules());
+            txtBranchName.setText("Sucursal "+confirm.getBuy().getShipping().getYng_Quote().getYng_Branch().getNameMail()+" "+confirm.getBuy().getShipping().getYng_Quote().getYng_Branch().getLocation());
+            txtBranchStreet.setText(confirm.getBuy().getShipping().getYng_Quote().getYng_Branch().getStreet());
         }
-        switch(buy.getYng_item().getType()){
+        switch(confirm.getBuy().getYng_item().getType()){
             case "Product":
                 txtItemType.setText("Producto");
                 break;
@@ -160,23 +179,23 @@ public class MyAccountPurchaseDetailFragment extends Fragment
                 txtItemType.setText("Inmueble");
                 break;
         }
-        if(buy.getYng_Payment().getType().equals("CASH")){
+        if(confirm.getBuy().getYng_Payment().getType().equals("CASH")){
             downloadTicket.setVisibility(View.VISIBLE);
             imgPayment.setImageResource(R.drawable.cash1);
-            txtPayment.setText("Paga " + txtTotal.getText().toString() + " en " +buy.getYng_Payment().getCashPayment().getPaymentMethod());
+            txtPayment.setText("Paga " + txtTotal.getText().toString() + " en " +confirm.getBuy().getYng_Payment().getCashPayment().getPaymentMethod());
             downloadTicket.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent viewIntent =
                             new Intent("android.intent.action.VIEW",
-                                    Uri.parse(buy.getYng_Payment().getCashPayment().getURL_PAYMENT_RECEIPT_PDF()));
+                                    Uri.parse(confirm.getBuy().getYng_Payment().getCashPayment().getURL_PAYMENT_RECEIPT_PDF()));
                     startActivity(viewIntent);
                 }
             });
         }else {
             downloadTicket.setVisibility(View.GONE);
             imgPayment.setImageResource(R.drawable.card1);
-            txtPayment.setText("Paga " + txtTotal.getText().toString() + " con " +buy.getYng_Payment().getYng_Card().getProvider()+" "+buy.getYng_Payment().getYng_Card().getType()+"O terminada en "+buy.getYng_Payment().getYng_Card().getNumber());
+            txtPayment.setText("Paga " + txtTotal.getText().toString() + " con " +confirm.getBuy().getYng_Payment().getYng_Card().getProvider()+" "+confirm.getBuy().getYng_Payment().getYng_Card().getType()+"O terminada en "+confirm.getBuy().getYng_Payment().getYng_Card().getNumber());
         }
 
         btnFindShipping.setOnClickListener(new View.OnClickListener() {
@@ -185,6 +204,14 @@ public class MyAccountPurchaseDetailFragment extends Fragment
                 findShipping();
             }
         });
+        purchaseProblemLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initClaim();
+            }
+        });
+
+
 
         return view;
     }
@@ -217,7 +244,7 @@ public class MyAccountPurchaseDetailFragment extends Fragment
         super.onResume();
         if (isAdded())
         {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(buy.getYng_item().getName());
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(confirm.getBuy().getYng_item().getName());
             NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
             navigationView.setCheckedItem(R.id.nav_settings);
         }
@@ -238,9 +265,9 @@ public class MyAccountPurchaseDetailFragment extends Fragment
 
     public void findShipping(){
         progressDialog.show();
-        Log.e("codigo que llega",buy.getShipping().getYng_Shipment().getShipmentCod());
+        Log.e("codigo que llega",confirm.getBuy().getShipping().getYng_Shipment().getShipmentCod());
         JsonObjectRequest postRequest = new JsonObjectRequest
-                (Request.Method.GET, Network.API_URL+"buy/getStateBuy/"+buy.getShipping().getYng_Shipment().getShipmentCod(), api_parameter, new Response.Listener<JSONObject>()
+                (Request.Method.GET, Network.API_URL+"buy/getStateBuy/"+confirm.getBuy().getShipping().getYng_Shipment().getShipmentCod(), api_parameter, new Response.Listener<JSONObject>()
                 {
 
                     @Override
@@ -368,6 +395,108 @@ public class MyAccountPurchaseDetailFragment extends Fragment
         postRequest.setTag(TAG);
 
         MySingleton.getInstance(getContext()).addToRequestQueue(postRequest);
+    }
+
+    public void initClaim(){
+        setting_address_edit_dialog = new MaterialDialog.Builder(getContext())
+                .customView(R.layout.init_claim_layout, false)
+                .cancelable(true)
+                .showListener(new DialogInterface.OnShowListener()
+                {
+                    @Override
+                    public void onShow(DialogInterface dialog)
+                    {
+                        View view = setting_address_edit_dialog.getCustomView();
+                        TextView textCancel = (TextView) view.findViewById(R.id.textCancel);
+                        TextView textCreateClaim = (TextView) view.findViewById(R.id.textCreateClaim);
+                        final EditText editClaimText = (EditText) view.findViewById(R.id.editClaimText);
+
+                        textCancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (setting_address_edit_dialog != null && setting_address_edit_dialog.isShowing()) {
+                                    setting_address_edit_dialog.dismiss();
+                                }
+                            }
+                        });
+
+                        textCreateClaim.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Yng_Claim claim = new Yng_Claim();
+                                claim.setClaimText(editClaimText.getText().toString().trim());
+                                claim.setConfirm(confirm);
+                                Gson gson = new Gson();
+                                String jsonBody = gson.toJson(claim);
+                                Log.e("buy final", jsonBody);
+                                requestArrayPost(Network.API_URL + "claim/createClaim",jsonBody);
+                            }
+                        });
+                    }
+                })
+                .callback(new MaterialDialog.ButtonCallback()
+                {
+
+                })
+                .show();
+    }
+
+    public void  requestArrayPost(String url, String json){
+        start("inicio");
+        OkHttpClient httpClient = new OkHttpClient.Builder()
+                .connectTimeout(9000, TimeUnit.SECONDS)
+                .writeTimeout(9000, TimeUnit.SECONDS)
+                .readTimeout(9000, TimeUnit.SECONDS)
+                .build();
+        RequestBody body = RequestBody.create(JSON, json);
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(url)
+                .addHeader("Content-Type","application/json")
+                .post(body)
+                .build();
+        httpClient.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "error in getting response using async okhttp call");
+            }
+            @Override public void onResponse(Call call, okhttp3.Response response) throws IOException {
+                ResponseBody responseBody = response.body();
+                if (!response.isSuccessful()) {
+                    throw new IOException("Error response " + response);
+                }
+                //
+
+                final String responce=""+(responseBody.string());
+                try {
+                    end(""+responce);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.i("responce:------------",""+responce);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(responce.equals("save")) {
+                            Toast.makeText(getContext(), "Venta paralizada, reclamo exitoso revise su email, nos pondremos en contacto con usted", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getContext(), MainActivity.class);
+                            startActivity(intent);
+                            getActivity().finish();
+                        }else{
+                            Toast.makeText(getContext(),"Algo salió mal intente nuevamente mas tarde",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+            }
+        });
+    }
+
+    public void end(String end) throws JSONException {
+        Log.i("end",""+end);
+        progressDialog.dismiss();
+    }
+    public void start(String start){
+        Log.i("start",""+start);
+        progressDialog.show();
     }
 
 }
