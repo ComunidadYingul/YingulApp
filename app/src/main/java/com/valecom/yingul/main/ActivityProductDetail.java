@@ -289,7 +289,7 @@ public class ActivityProductDetail extends AppCompatActivity {
                 if(itemTemp.getType().equals("Product") || itemTemp.getType().equals("Motorized")){
 
                     showOrderPlace();
-                }else if(itemTemp.getType().equals("Property")){
+                }else if(itemTemp.getType().equals("Property") || itemTemp.getType().equals("Service")){
                     Validacion val = new Validacion();
                     if(val.valCantString(editNewQuestion,1)){
                         RunCreateNewQuery();
