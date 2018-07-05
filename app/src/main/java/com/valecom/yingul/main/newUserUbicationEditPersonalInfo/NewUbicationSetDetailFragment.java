@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import com.rey.material.widget.Spinner;
@@ -56,6 +57,21 @@ public class NewUbicationSetDetailFragment extends Fragment {
 
         checkWithoutNumber = (CheckBox) v.findViewById(R.id.checkWithoutNumber);
         buttonSetUbicationDetail = (Button) v.findViewById(R.id.buttonSetUbicationDetail);
+
+        checkWithoutNumber.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    editNumber.setText("");
+                    editNumber.setEnabled(false);
+                    editNumber.setError(null);
+                    editNumber.clearFocus();
+                }else{
+                    editNumber.setEnabled(true);
+                }
+            }
+        });
+
         buttonSetUbicationDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,10 +82,8 @@ public class NewUbicationSetDetailFragment extends Fragment {
                     editDocument.setError("Campo requerido");
                 }else if(val.validarNumero(editStreet,editStreet.getText().toString())){
                     editStreet.setError("Campo requerido");
-                }else if(val.validarCadena(editFlor,editFlor.getText().toString())){
-                    editFlor.setError("Campo requerido");
-                }else if(val.validarCadena(editWithinStreets,editWithinStreets.getText().toString())){
-                    editWithinStreets.setError("Campo requerido");
+                }else if(val.validarNumero(editNumber,editNumber.getText().toString()) && !checkWithoutNumber.isChecked()){
+                    editNumber.setError("Campo requerido");
                 }else if(val.validarCadena(editRefence,editRefence.getText().toString())){
                     editRefence.setError("Campo requerido");
                 }
