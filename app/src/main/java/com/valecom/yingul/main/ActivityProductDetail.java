@@ -1059,10 +1059,22 @@ public class ActivityProductDetail extends AppCompatActivity {
                                     itemSeller = userTemp.getUsername();
                                     Log.e("seller",""+itemSeller);
 
-                                    if(itemTemp.getType().equals("Product") || itemTemp.getType().equals("Motorized")){
+                                    if(itemTemp.getType().equals("Product")) {
+
                                         text_product_buy.setText("Comprar");
-                                    }else{
+
+                                    }else  if(itemTemp.getType().equals("Motorized")){
+
+                                        text_product_buy.setText("Reservar");
+
+                                    }else if(itemTemp.getType().equals("Property")){
+
                                         text_product_buy.setText("Consultar");
+
+                                    }else  if(itemTemp.getType().equals("Service")){
+
+                                        text_product_buy.setText("Contactar");
+
                                     }
 
                                     setData(itemTemp);

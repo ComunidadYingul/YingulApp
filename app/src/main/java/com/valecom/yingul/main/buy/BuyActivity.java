@@ -284,10 +284,14 @@ public class BuyActivity extends AppCompatActivity {
         buy.setItemCost(item.getPrice());
 
         buy.setShippingCost(quote.getRate());
-        if(!item.getProductPagoEnvio().equals("gratis")){
-            buy.setCost(quote.getRate()+item.getPrice());
-        }else{
-            buy.setCost(buy.getItemCost());
+        if(item.getType().equals("Motorized")){
+            buy.setCost(1500);
+        }else {
+            if (!item.getProductPagoEnvio().equals("gratis")) {
+                buy.setCost(quote.getRate() + item.getPrice());
+            } else {
+                buy.setCost(buy.getItemCost());
+            }
         }
 
         buy.getYng_Payment().setValue(buy.getCost());
