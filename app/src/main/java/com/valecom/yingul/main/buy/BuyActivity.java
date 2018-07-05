@@ -423,7 +423,7 @@ public class BuyActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if(responce.equals("save")) {
-                            Toast.makeText(BuyActivity.this, "compra exitosa revise su email", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BuyActivity.this, item.getType().equals("Motorized") ? "Reserva exitosa revise su email" : "Compra exitosa revise su email", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(BuyActivity.this, MainActivity.class);
                             startActivity(intent);
                         }else{
