@@ -25,7 +25,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorPrimaryText"/>
+        android:background="@color/gray"/>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="fill_parent"
@@ -37,7 +37,8 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:ems="10"
-            android:hint="Precio estandar($) ej:200"
+            android:hint="Precio normal"
+            android:enabled="false"
             android:inputType="numberDecimal"/>
     </android.support.design.widget.TextInputLayout>
 
@@ -54,5 +55,14 @@
             android:hint="Precio con descuento($) ej:100"
             android:inputType="numberDecimal"/>
     </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/editPorcentDiscount"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:ems="10"
+        android:textColor="@color/yngOrange"
+        android:text="Estas ofreciendo un descuento de --%"/>
 
 </LinearLayout>

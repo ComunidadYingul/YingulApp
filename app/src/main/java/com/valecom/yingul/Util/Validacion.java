@@ -46,16 +46,7 @@ public class Validacion {
         }
     }
 
-    public boolean valNumDig(EditText view,int cantDid){
-        if (view.getText().toString().trim().length() < cantDid)
-        {
-            view.setError("Campo requerido y mínimo "+cantDid+" dígitos");
-            view.requestFocus();
-            return false;
-        }else{
-            return true;
-        }
-    }
+
 
     public boolean validarCadena(String cadena){
         if (cadena.trim().length() < 5)
@@ -86,6 +77,37 @@ public class Validacion {
             return true;
         }
     }
+
+
+
+
+    /********************************** INTRODUCCION DE EDIT TEXT *********************************/
+
+    /************ NUMEROS *************/
+
+    public boolean valNumDig(EditText view,int cantDid){
+        if (view.getText().toString().trim().length() < cantDid)
+        {
+            view.setError("Campo requerido y mínimo "+cantDid+" dígitos");
+            view.requestFocus();
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public boolean valNumber(EditText view){
+        if (view.getText().toString().trim().length() <= 0)
+        {
+            view.setError("Campo requerido");
+            view.requestFocus();
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    /************ CADENAS DE TEXTO ***********/
 
     public boolean valCantString(EditText view,int cantDig){
         if (view.getText().toString().trim().length() < cantDig)
