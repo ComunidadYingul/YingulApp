@@ -277,7 +277,7 @@ public class ConfirmDeliveryActivity extends AppCompatActivity {
                             finish();
                         }else{
                             cont--;
-                            Toast.makeText(ConfirmDeliveryActivity.this,"Algo salió mal intente nuevamente mas tarde",Toast.LENGTH_LONG).show();
+                            Toast.makeText(ConfirmDeliveryActivity.this,"Verifica el código nuevamente te quedan "+cont+" opotunidades.",Toast.LENGTH_LONG).show();
                         }
                     }
                 });

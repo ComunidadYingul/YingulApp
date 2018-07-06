@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:ems="10"
-            android:hint="Precio estandar($) ej:200"
+            android:hint="Precio estandar($) ej:100"
             android:inputType="numberDecimal"/>
     </android.support.design.widget.TextInputLayout>
 
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:ems="10"
-            android:hint="Precio con descuento($) ej:100"
+            android:hint="Precio con descuento($) ej:90"
             android:inputType="numberDecimal"/>
     </android.support.design.widget.TextInputLayout>
 
