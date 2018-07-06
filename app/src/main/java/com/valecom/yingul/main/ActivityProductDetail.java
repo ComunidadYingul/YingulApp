@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -91,7 +92,7 @@ import com.valecom.yingul.adapter.QueryAdapter;
 public class ActivityProductDetail extends AppCompatActivity {
 
     RecyclerView recyclerViewDetail, recycler_detail_review, recyclerView_color, recyclerView_size, recyclerView_order_place;
-    ImageView ImgDetail;
+    ImageView ImgDetail,imgEnvioGratis;
     ArrayList<ItemGallery> array_gallery;
     GalleryAdapter adapter_gallery;
     ArrayList<ItemReview> array_review;
@@ -102,7 +103,7 @@ public class ActivityProductDetail extends AppCompatActivity {
     //EditText edt_pincode;
     TextView web_desc,text_quantity_stock;
     View button_public_seller,allQueriesLayout;
-    TextView textPriceNormal,textDiscountPorcent,textMoney,textMoneyNormal;
+    TextView textPriceNormal,textDiscountPorcent,textMoney,textMoneyNormal,txtEnvio;
     LinearLayout lytEnvioGratis,lytDiscount,lytPriceNormal;
     RatingView ratingView;
     ArrayList<ItemColorSize> array_color, array_size;
@@ -208,7 +209,9 @@ public class ActivityProductDetail extends AppCompatActivity {
         text_product_name = (TextView) findViewById(R.id.text_product_title);
         text_product_price = (TextView) findViewById(R.id.text_product_price);
         textDiscountPorcent = (TextView) findViewById(R.id.textDiscountPorcent);
+        txtEnvio = (TextView) findViewById(R.id.txtEnvio);
         lytEnvioGratis = (LinearLayout) findViewById(R.id.lytEnvioGratis);
+        imgEnvioGratis = (ImageView) findViewById(R.id.imgEnvioGratis);
         lytDiscount = (LinearLayout) findViewById(R.id.lytDiscount);
         lytPriceNormal = (LinearLayout) findViewById(R.id.lytPriceNormal);
         textMoney = (TextView) findViewById(R.id.textMoney);
@@ -1176,11 +1179,18 @@ public class ActivityProductDetail extends AppCompatActivity {
 
         try{
             if(itemTemp.getProductPagoEnvio().equals("gratis")) {
-                lytEnvioGratis.setVisibility(View.VISIBLE);
+                imgEnvioGratis.setVisibility(View.VISIBLE);
+                txtEnvio.setText("Envio gratis");
             }else {
-                lytEnvioGratis.setVisibility(View.GONE);
+                imgEnvioGratis.setVisibility(View.GONE);
+                txtEnvio.setText("Envios a todo el país");
+                txtEnvio.setTextColor(Color.parseColor("#6d7cff"));
             }
-        }catch (Exception e){lytEnvioGratis.setVisibility(View.GONE);}
+        }catch (Exception e){
+            imgEnvioGratis.setVisibility(View.GONE);
+            txtEnvio.setText("Envios a todo el país");
+            txtEnvio.setTextColor(Color.parseColor("#6d7cff"));
+        }
 
         if(itemTemp.getPriceDiscount()==0){
             lytDiscount.setVisibility(View.GONE);

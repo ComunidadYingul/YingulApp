@@ -239,11 +239,13 @@ android:background="@color/bg">
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/imgEnvioGratis"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center_vertical"
                         android:src="@drawable/ic_envio_orange"/>
                     <TextView
+                        android:id="@+id/txtEnvio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"
