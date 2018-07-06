@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity
     private String username;
     private TextView profile_name;
     private MaterialDialog progressDialog;
+    public Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +72,8 @@ public class MainActivity extends AppCompatActivity
 
         api_key = settings.getString("api_key", "");
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Yingul");
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

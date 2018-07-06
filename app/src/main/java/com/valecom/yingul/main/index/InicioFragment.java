@@ -23,6 +23,7 @@ import com.valecom.yingul.R;
 import com.valecom.yingul.Util.ItemOffsetDecoration;
 import com.valecom.yingul.adapter.LatestListAdapter;
 import com.valecom.yingul.adapter.MainAdapter;
+import com.valecom.yingul.main.MainActivity;
 import com.valecom.yingul.model.Yng_Category;
 import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.model.Yng_Store;
@@ -69,6 +70,8 @@ public class InicioFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_inicio, container, false);
+
+        ((MainActivity)getActivity()).toolbar.setTitle("Yingul");
 
         loadMore = (FloatingActionButton)rootView.findViewById(R.id.loadMore);
 

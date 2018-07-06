@@ -195,12 +195,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     (response.getString("username") + ":" + editPassword.getText().toString().trim()).getBytes(), Base64.NO_WRAP));
                             user.commit();
 
-                            onBackPressed();
-                            finish();
+                            //onBackPressed();
+                            //finish();
 
-                            /*Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
                             finish();
-                            startActivity(intent);*/
                         }
                         catch (Exception ex)
                         {
