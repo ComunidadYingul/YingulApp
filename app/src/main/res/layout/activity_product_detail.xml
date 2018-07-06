@@ -242,7 +242,7 @@ android:background="@color/bg">
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/car_fondo_orange"/>
+                        android:src="@drawable/ic_envio_orange"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
