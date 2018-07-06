@@ -96,9 +96,9 @@ public class DetailCashFragment extends Fragment {
                             double availableMoney = response.getDouble("availableMoney");
                             double releasedMoney = response.getDouble("releasedMoney");
 
-                            textTotalMoney.setText(String.valueOf(totalMoney));
-                            textAvailableMoney.setText(String.valueOf(availableMoney));
-                            textReleasedMoney.setText(String.valueOf(releasedMoney));
+                            textTotalMoney.setText(String.format("%.2f", totalMoney));
+                            textAvailableMoney.setText(String.format("%.2f", availableMoney));
+                            textReleasedMoney.setText(String.format("%.2f", releasedMoney));
 
                             Log.e("Response:-- " , response.toString());
 

@@ -14,7 +14,7 @@
         android:background="#e5e5e5">
 
         <LinearLayout
-            android:id="@+id/card_view"
+            android:id="@+id/lytBanner"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_below="@+id/toolbar_main"
@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/automovil"/>
+                android:src="@drawable/pay2"/>
 
             <!--FrameLayout
                 android:layout_width="match_parent"
@@ -168,16 +168,26 @@
 
         </LinearLayout>
 
+        <FrameLayout
+            android:id="@+id/Container_Order"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/card_view2"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="50dp"/>
+
         <android.support.v7.widget.CardView
             android:id="@+id/card_view2"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignRight="@id/lytBanner"
+            android:layout_alignBottom="@id/lytBanner"
             android:layout_below="@+id/toolbar_main"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginBottom="-40dp"
             card_view:cardBackgroundColor="@color/colorPrimary"
             card_view:cardUseCompatPadding="false"
             card_view:elevation="5dp">
@@ -270,16 +280,6 @@
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
-
-        <FrameLayout
-            android:id="@+id/Container_Order"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/card_view2"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"/>
 
     </RelativeLayout>
 
