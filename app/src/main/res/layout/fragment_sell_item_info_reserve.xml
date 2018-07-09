@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ccc"
-    tools:context="com.valecom.yingul.main.newUserUbicationEditPersonalInfo.NewUserUbicationEditPersonalInfoFragment">
+    tools:context="com.valecom.yingul.main.Buy_envio_Fragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,6 +26,7 @@
 
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -38,7 +39,7 @@
                 android:gravity="center_horizontal"
                 android:text=""
                 android:layout_weight="1"
-                android:src="@drawable/user_data"
+                android:src="@drawable/motorized_add"
                 android:textColor="@android:color/white"
                 android:textSize="30sp"/>
         </LinearLayout>
@@ -50,27 +51,34 @@
             android:orientation="horizontal"
             android:gravity="center">
             <TextView
+                android:id="@+id/txtAddPictures"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Completa tus datos por única vez"
+                android:text="Te lo pueden reservar por $1500"
                 android:textSize="20sp"
                 android:gravity="center_horizontal"
                 android:textColor="@color/mdtp_white"
                 android:textStyle="bold"/>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal"
-            android:gravity="center">
+            android:weightSum="2"
+            android:layout_marginTop="10dp">
+
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Los necesitamos para que puedas enviar y cobrar tus productos"
-                android:textSize="15sp"
+                android:id="@+id/txtShowInfo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:gravity="center_horizontal"
-                android:textColor="@color/mdtp_white" />
+                android:layout_marginTop="5dp"
+                android:textColor="@color/yngBlue"
+                android:text="¿Cómo funciona la reserva?"
+                android:textSize="18sp"
+                android:clickable="true"/>
         </LinearLayout>
 
         <LinearLayout
@@ -82,25 +90,14 @@
             android:layout_marginTop="20dp">
 
             <Button
-                android:id="@+id/buttonSetPersonalInfo"
+                android:id="@+id/buttonSetinfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
                 android:background="@color/yngBlue"
                 android:textColor="@android:color/white"
-                android:text="Completar mis datos"
+                android:text="Entendí"
                 />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:weightSum="2"
-            android:layout_marginTop="10dp">
-
 
         </LinearLayout>
 

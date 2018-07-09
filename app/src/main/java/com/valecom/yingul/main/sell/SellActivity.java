@@ -275,11 +275,17 @@ public class SellActivity extends AppCompatActivity {
                 fragmentTransaction.replace(R.id.content_frame, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-            } else if (item.getType() == "Motorized" || item.getType() == "Property" || item.getType() == "Service") {
+            } else if (item.getType() == "Property" || item.getType() == "Service") {
                 SellItemAddUbicationFragment itemAddUbication = new SellItemAddUbicationFragment();
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 itemAddUbication.type = item.getType();
                 fragmentTransaction.replace(R.id.content_frame, itemAddUbication);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }else if (item.getType() == "Motorized") {
+                SellItemInfoReserveFragment fragment = new SellItemInfoReserveFragment();
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }

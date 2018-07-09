@@ -107,6 +107,17 @@ public class Validacion {
         }
     }
 
+    public boolean valKilometer(EditText view){
+        if (view.getText().toString().trim().length() <= 0)
+        {
+            view.setError("Kilómetros requerido");
+            view.requestFocus();
+            return false;
+        }else{
+            return true;
+        }
+    }
+
     /************ CADENAS DE TEXTO ***********/
 
     public boolean valCantString(EditText view,int cantDig){

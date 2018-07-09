@@ -41,9 +41,7 @@ public class SellItemSetKilometerFragment extends Fragment {
             public void onClick(View v) {
                 Validacion val = new Validacion();
                 String kilometer = editKilometer.getText().toString();
-                if(val.validarNumero(editKilometer,kilometer)){
-                    editKilometer.setError("Ingrese kilómetros");
-                }else{
+                if(val.valKilometer(editKilometer)){
                     ((SellActivity)getActivity()).item.setKilometer(Integer.parseInt(kilometer));
 
                     SellItemSetBrandFragment fragment = new SellItemSetBrandFragment();
