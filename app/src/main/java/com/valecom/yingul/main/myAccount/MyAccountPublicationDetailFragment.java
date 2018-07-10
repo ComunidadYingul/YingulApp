@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -33,8 +35,8 @@ public class MyAccountPublicationDetailFragment extends Fragment
 
     private Yng_Item item;
 
-    private ImageView principalImage;
-    private TextView txtItemName,txtCurrencyPrice,txtDescription;
+    private ImageView principalImage, imgEditImage,imgEditTitle,imgEditDescription,imgEditPrice,imgEditQuantity;
+    private TextView txtItemName,txtCurrencyPrice,txtDescription,txtQuantity;
     private Button btnItemDetail;
 
     private MaterialDialog setting_address_edit_dialog;
@@ -88,11 +90,19 @@ public class MyAccountPublicationDetailFragment extends Fragment
         txtItemName = (TextView) view.findViewById(R.id.txtItemName);
         txtCurrencyPrice = (TextView) view.findViewById(R.id.txtCurrencyPrice);
         txtDescription = (TextView) view.findViewById(R.id.txtDescription);
+        txtQuantity = (TextView) view.findViewById(R.id.txtQuantity);
         btnItemDetail = (Button) view.findViewById(R.id.btnItemDetail);
+        imgEditTitle = (ImageView) view.findViewById(R.id.imgEditTitle);
+        imgEditDescription = (ImageView) view.findViewById(R.id.imgEditDescription);
+        imgEditPrice = (ImageView) view.findViewById(R.id.imgEditPrice);
+        imgEditImage = (ImageView) view.findViewById(R.id.imgEditImage);
+        imgEditQuantity = (ImageView) view.findViewById(R.id.imgEditQuantity);
+
 
         txtItemName.setText(item.getName());
         txtCurrencyPrice.setText("$ "+item.getPrice());
         txtDescription.setText(item.getDescription());
+        txtQuantity.setText(String.valueOf(item.getQuantity()));
         Picasso.with(getActivity()).load(Network.BUCKET_URL+item.getPrincipalImage()).into(principalImage);
 
         btnItemDetail.setOnClickListener(new View.OnClickListener() {
@@ -103,6 +113,42 @@ public class MyAccountPublicationDetailFragment extends Fragment
                 startActivity(intent_detail);
             }
         });
+
+        imgEditTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"Title",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        imgEditDescription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"Description",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        imgEditPrice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"Price",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        imgEditQuantity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"Quantity",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        imgEditImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"Image",Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return view;
     }
 
