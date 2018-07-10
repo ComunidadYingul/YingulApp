@@ -59,7 +59,7 @@
                 android:id="@+id/editDueDate"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="Fecha de vencimiento"
+                android:hint="Fecha de vencimiento (mes/año)"
                 android:text="01/20"
                 android:singleLine="true"/>
         </android.support.design.widget.TextInputLayout>
@@ -77,6 +77,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Codigo de seguridad"
+                android:inputType="number"
                 android:text="123"
                 android:singleLine="true"/>
         </android.support.design.widget.TextInputLayout>
@@ -95,6 +96,7 @@
                 android:layout_height="wrap_content"
                 android:hint="DNI del titular de la tarjeta"
                 android:text="7054200010"
+                android:inputType="number"
                 android:singleLine="true"/>
         </android.support.design.widget.TextInputLayout>
 

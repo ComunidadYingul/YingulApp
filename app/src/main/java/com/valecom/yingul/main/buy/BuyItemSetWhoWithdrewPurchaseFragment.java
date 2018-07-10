@@ -12,6 +12,7 @@ import android.widget.EditText;
 
 import com.valecom.yingul.R;
 import com.rey.material.widget.Spinner;
+import com.valecom.yingul.Util.Validacion;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,14 +38,17 @@ public class BuyItemSetWhoWithdrewPurchaseFragment extends Fragment {
         buttonSetWhoWithdrew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((BuyActivity)getActivity()).shipping.setNameContact(editName.getText().toString().trim());
-                ((BuyActivity)getActivity()).shipping.setLastName(editLastName.getText().toString().trim());
-                ((BuyActivity)getActivity()).shipping.setPhoneContact(editPhone.getText().toString().trim());
-                BuySetPaymentTypeFragment fragment = new BuySetPaymentTypeFragment();
-                FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                Validacion val = new Validacion();
+                if(val.valStringFiveChar(editName) && val.valStringFiveChar(editLastName) && val.valNumDig(editPhone,8)){
+                    ((BuyActivity) getActivity()).shipping.setNameContact(editName.getText().toString().trim());
+                    ((BuyActivity) getActivity()).shipping.setLastName(editLastName.getText().toString().trim());
+                    ((BuyActivity) getActivity()).shipping.setPhoneContact(editPhone.getText().toString().trim());
+                    BuySetPaymentTypeFragment fragment = new BuySetPaymentTypeFragment();
+                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.content_frame, fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
             }
         });
         return v;

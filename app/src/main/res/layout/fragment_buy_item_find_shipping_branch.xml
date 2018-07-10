@@ -58,6 +58,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:hint="Código postal"
+                    android:inputType="number"
                     android:singleLine="true"/>
             </android.support.design.widget.TextInputLayout>
 

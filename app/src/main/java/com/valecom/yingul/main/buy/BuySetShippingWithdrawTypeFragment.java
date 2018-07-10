@@ -40,12 +40,19 @@ public class BuySetShippingWithdrawTypeFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_buy_set_shipping_withdraw_type, container, false);
 
         array_list = new ArrayList();
-        array_list.add("Retiro en sucursal");
-        if(!(((BuyActivity)getActivity()).item.getProductPagoEnvio()==null)){
-            if(!((BuyActivity)getActivity()).item.getProductPagoEnvio().equals("gratis")){
-                array_list.add("Retiro en domicilio del vendedor (Al finalizar la compra te daremos los datos del vendedor)");
+
+        if(((BuyActivity)getActivity()).item.getType().equals("Motorized")){
+            array_list.add("Retiro en domicilio del vendedor (Al finalizar la compra te daremos los datos del vendedor)");
+        }else if(((BuyActivity)getActivity()).item.getType().equals("Product")){
+            array_list.add("Retiro en sucursal");
+            if(!(((BuyActivity)getActivity()).item.getProductPagoEnvio()==null)){
+                if(!((BuyActivity)getActivity()).item.getProductPagoEnvio().equals("gratis")){
+                    array_list.add("Retiro en domicilio del vendedor (Al finalizar la compra te daremos los datos del vendedor)");
+                }
             }
         }
+
+
         adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, array_list);
 
         list = (ListView) v.findViewById(R.id.list);
@@ -74,20 +81,31 @@ public class BuySetShippingWithdrawTypeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                if(position==0){
-                    ((BuyActivity)getActivity()).shipping.setTypeShipping("branch");
-                    BuyItemFindShippingBranchFragment fragment = new BuyItemFindShippingBranchFragment();
-                    FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.content_frame, fragment);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
-                }else{
-                    ((BuyActivity)getActivity()).shipping.setTypeShipping("home");
-                    BuySetPaymentTypeFragment fragment = new BuySetPaymentTypeFragment();
-                    FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.content_frame, fragment);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
+                if(((BuyActivity)getActivity()).item.getType().equals("Product")) {
+                    if (position == 0) {
+                        ((BuyActivity) getActivity()).shipping.setTypeShipping("branch");
+                        BuyItemFindShippingBranchFragment fragment = new BuyItemFindShippingBranchFragment();
+                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.content_frame, fragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                    } else {
+                        ((BuyActivity) getActivity()).shipping.setTypeShipping("home");
+                        BuySetPaymentTypeFragment fragment = new BuySetPaymentTypeFragment();
+                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.content_frame, fragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                    }
+                }else if(((BuyActivity)getActivity()).item.getType().equals("Motorized")){
+                    if (position == 0){
+                        ((BuyActivity) getActivity()).shipping.setTypeShipping("home");
+                        BuySetPaymentTypeFragment fragment = new BuySetPaymentTypeFragment();
+                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.content_frame, fragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                    }
                 }
             }
         });

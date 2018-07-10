@@ -20,7 +20,7 @@ import com.squareup.picasso.Picasso;
  */
 public class BuyItemConfirmFragment extends Fragment {
     Button buttonSetBuy,buttonSetBuy1;
-    TextView txtItemType,txtCurrencyPrice,txtTotal,txtItemName,txtQuantity,txtPayment,txtViewShipping,txtViewPayment,txtShippingCost,txtViewBranch,txtTypeOSchedules,txtBranchName,txtBranchStreet;
+    TextView txtItemType,txtCurrencyPrice,txtTotal,txtItemName,txtQuantity,txtPayment,txtViewShipping,txtViewPayment,txtShippingCost,txtViewBranch,txtTypeOSchedules,txtBranchName,txtBranchStreet,txtPrice,txtTitle;
     ImageView principalImage,imgPayment,imgShipping;
     LinearLayout layoutShipping,layBranch;
 
@@ -37,6 +37,8 @@ public class BuyItemConfirmFragment extends Fragment {
 
         txtItemType = (TextView) v.findViewById(R.id.txtItemType);
         txtCurrencyPrice = (TextView) v.findViewById(R.id.txtCurrencyPrice);
+        txtPrice = (TextView) v.findViewById(R.id.txtPrice);
+        txtTitle = (TextView) v.findViewById(R.id.txtTitle);
         txtTotal = (TextView) v.findViewById(R.id.txtTotal);
         txtItemName = (TextView) v.findViewById(R.id.txtItemName);
         txtQuantity = (TextView) v.findViewById(R.id.txtQuantity);
@@ -53,29 +55,39 @@ public class BuyItemConfirmFragment extends Fragment {
         layBranch = (LinearLayout) v.findViewById(R.id.layBranch);
         txtBranchName = (TextView) v.findViewById(R.id.txtBranchName);
         txtBranchStreet = (TextView) v.findViewById(R.id.txtBranchStreet);
+        buttonSetBuy = (Button) v.findViewById(R.id.buttonSetBuy);
         buttonSetBuy1 = (Button) v.findViewById(R.id.buttonSetBuy1);
         Log.e("fsd============",((BuyActivity)getActivity()).shipping.getTypeShipping());
-        if(((BuyActivity)getActivity()).shipping.getTypeShipping().equals("home")){
-            imgShipping.setImageResource(R.drawable.home);
-            layoutShipping.setVisibility(View.GONE);
-            layBranch.setVisibility(LinearLayout.GONE);
-            txtTypeOSchedules.setText("Retiro en el domicilio del vendedor");
-            txtTotal.setText("$ "+(((BuyActivity)getActivity()).item.getPrice()));
+
+        if(((BuyActivity)getActivity()).item.getType().equals("Motorized")){
+            txtTitle.setText("Confirma tu reserva");
+            buttonSetBuy.setText("Confirma tu reserva");
+            buttonSetBuy1.setText("Confirma tu reserva");
+            txtTotal.setText("$ 1500");
         }else{
-            imgShipping.setImageResource(R.drawable.branch);
-            layoutShipping.setVisibility(View.VISIBLE);
-            layBranch.setVisibility(View.VISIBLE);
-            if(((BuyActivity)getActivity()).item.getProductPagoEnvio().equals("gratis")){
-                txtShippingCost.setText("GRATIS");
+            if(((BuyActivity)getActivity()).shipping.getTypeShipping().equals("home")){
+                imgShipping.setImageResource(R.drawable.home);
+                layoutShipping.setVisibility(View.GONE);
+                layBranch.setVisibility(LinearLayout.GONE);
+                txtTypeOSchedules.setText("Retiro en el domicilio del vendedor");
                 txtTotal.setText("$ "+(((BuyActivity)getActivity()).item.getPrice()));
             }else{
-                txtShippingCost.setText("$ "+((BuyActivity)getActivity()).quote.getRate());
-                txtTotal.setText("$ "+(((BuyActivity)getActivity()).item.getPrice()+((BuyActivity)getActivity()).quote.getRate()));
+                imgShipping.setImageResource(R.drawable.branch);
+                layoutShipping.setVisibility(View.VISIBLE);
+                layBranch.setVisibility(View.VISIBLE);
+                if(((BuyActivity)getActivity()).item.getProductPagoEnvio().equals("gratis")){
+                    txtShippingCost.setText("GRATIS");
+                    txtTotal.setText("$ "+(((BuyActivity)getActivity()).item.getPrice()));
+                }else{
+                    txtShippingCost.setText("$ "+((BuyActivity)getActivity()).quote.getRate());
+                    txtTotal.setText("$ "+(((BuyActivity)getActivity()).item.getPrice()+((BuyActivity)getActivity()).quote.getRate()));
+                }
+                txtTypeOSchedules.setText(((BuyActivity)getActivity()).quote.getYng_Branch().getSchedules());
+                txtBranchName.setText("Sucursal "+((BuyActivity)getActivity()).quote.getYng_Branch().getNameMail()+" "+((BuyActivity)getActivity()).quote.getYng_Branch().getLocation());
+                txtBranchStreet.setText(((BuyActivity)getActivity()).quote.getYng_Branch().getStreet());
             }
-            txtTypeOSchedules.setText(((BuyActivity)getActivity()).quote.getYng_Branch().getSchedules());
-            txtBranchName.setText("Sucursal "+((BuyActivity)getActivity()).quote.getYng_Branch().getNameMail()+" "+((BuyActivity)getActivity()).quote.getYng_Branch().getLocation());
-            txtBranchStreet.setText(((BuyActivity)getActivity()).quote.getYng_Branch().getStreet());
         }
+
 
         switch(((BuyActivity)getActivity()).item.getType()){
             case "Product":
@@ -91,7 +103,12 @@ public class BuyItemConfirmFragment extends Fragment {
                 txtItemType.setText("Inmueble");
                 break;
         }
-        txtCurrencyPrice.setText("$ "+((BuyActivity)getActivity()).item.getPrice());
+        if(((BuyActivity)getActivity()).item.getType().equals("Motorized")){
+            txtCurrencyPrice.setText("$ 1500");
+        }else {
+            txtCurrencyPrice.setText("$ "+((BuyActivity)getActivity()).item.getPrice());
+        }
+        txtPrice.setText("$ "+((BuyActivity)getActivity()).item.getPrice());
         txtItemName.setText(((BuyActivity)getActivity()).item.getName());
         txtQuantity.setText(String.valueOf(((BuyActivity)getActivity()).quantity));
         Picasso.with(getActivity()).load(Network.BUCKET_URL+((BuyActivity)getActivity()).item.getPrincipalImage()).into(principalImage);
@@ -103,7 +120,7 @@ public class BuyItemConfirmFragment extends Fragment {
             txtPayment.setText("Paga " + txtTotal.getText().toString() + " con " +((BuyActivity)getActivity()).card.getProvider()+" "+((BuyActivity)getActivity()).card.getType()+"O terminada en "+(((BuyActivity)getActivity()).card.getNumber()%10000));
         }
 
-        buttonSetBuy = (Button) v.findViewById(R.id.buttonSetBuy);
+
         buttonSetBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

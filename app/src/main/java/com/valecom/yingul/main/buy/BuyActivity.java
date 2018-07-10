@@ -284,10 +284,14 @@ public class BuyActivity extends AppCompatActivity {
         buy.setItemCost(item.getPrice());
 
         buy.setShippingCost(quote.getRate());
-        if(!item.getProductPagoEnvio().equals("gratis")){
-            buy.setCost(quote.getRate()+item.getPrice());
-        }else{
-            buy.setCost(buy.getItemCost());
+        if(item.getType().equals("Motorized")){
+            buy.setCost(1500);
+        }else {
+            if (!item.getProductPagoEnvio().equals("gratis")) {
+                buy.setCost(quote.getRate() + item.getPrice());
+            } else {
+                buy.setCost(buy.getItemCost());
+            }
         }
 
         buy.getYng_Payment().setValue(buy.getCost());
@@ -419,7 +423,7 @@ public class BuyActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if(responce.equals("save")) {
-                            Toast.makeText(BuyActivity.this, "compra exitosa revise su email", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BuyActivity.this, item.getType().equals("Motorized") ? "Reserva exitosa revise su email" : "Compra exitosa revise su email", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(BuyActivity.this, MainActivity.class);
                             startActivity(intent);
                         }else{
@@ -429,7 +433,7 @@ public class BuyActivity extends AppCompatActivity {
                                 Log.e("paymentId",""+paymentId);
                                 RunGetPaymentToTicketService();
                             }else{
-                                Toast.makeText(BuyActivity.this,"No se guardo",Toast.LENGTH_LONG).show();
+                                Toast.makeText(BuyActivity.this,"No se guardo 1",Toast.LENGTH_LONG).show();
                             }
                         }
                     }

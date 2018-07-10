@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.valecom.yingul.R;
+import com.valecom.yingul.Util.Validacion;
 import com.valecom.yingul.model.Yng_Quote;
 import com.valecom.yingul.model.Yng_Ubication;
 import com.valecom.yingul.model.Yng_User;
@@ -75,17 +76,20 @@ public class BuyItemFindShippingBranchFragment extends Fragment {
         buttonFindBranch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ubication.setPostalCode(editPostalCode.getText().toString().trim());
-                user=((BuyActivity)getActivity()).user;
-                user.setYng_Ubication(ubication);
-                quote.setYng_Item(((BuyActivity)getActivity()).item);
-                quote.setQuantity(((BuyActivity)getActivity()).quantity);
-                quote.setYng_User(user);
-                Gson gson = new Gson();
-                String jsonBody = gson.toJson(quote);
-                Log.e("quote final", jsonBody);
-                //
-                getAsyncCall(Network.API_URL + "logistics/quote",jsonBody);
+                Validacion val = new Validacion();
+                if(val.valCantString(editPostalCode,4)){
+                    ubication.setPostalCode(editPostalCode.getText().toString().trim());
+                    user = ((BuyActivity) getActivity()).user;
+                    user.setYng_Ubication(ubication);
+                    quote.setYng_Item(((BuyActivity) getActivity()).item);
+                    quote.setQuantity(((BuyActivity) getActivity()).quantity);
+                    quote.setYng_User(user);
+                    Gson gson = new Gson();
+                    String jsonBody = gson.toJson(quote);
+                    Log.e("quote final", jsonBody);
+                    //
+                    getAsyncCall(Network.API_URL + "logistics/quote", jsonBody);
+                }
             }
         });
 

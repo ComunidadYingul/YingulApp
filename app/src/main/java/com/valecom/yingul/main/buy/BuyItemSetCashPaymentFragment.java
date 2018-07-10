@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.valecom.yingul.R;
+import com.valecom.yingul.Util.Validacion;
 import com.valecom.yingul.main.newUserUbicationEditPersonalInfo.NewUserUbicationEditPersonalInfoActivity;
 import com.rey.material.widget.Spinner;
 
@@ -45,21 +46,24 @@ public class BuyItemSetCashPaymentFragment extends Fragment {
         buttonSetCashPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (spinner_type_document.getSelectedItemPosition()) {
-                    case 0:
-                        ((BuyActivity)getActivity()).cashPayment.setDocumentType("DNI");
-                        break;
-                    case 1:
-                        ((BuyActivity)getActivity()).cashPayment.setDocumentType("CUIT");
-                        break;
+                Validacion val = new Validacion();
+                if(val.valNumDig(editDocument,8)) {
+                    switch (spinner_type_document.getSelectedItemPosition()) {
+                        case 0:
+                            ((BuyActivity) getActivity()).cashPayment.setDocumentType("DNI");
+                            break;
+                        case 1:
+                            ((BuyActivity) getActivity()).cashPayment.setDocumentType("CUIT");
+                            break;
+                    }
+                    ((BuyActivity) getActivity()).cashPayment.setDocumentNumber(editDocument.getText().toString().trim());
+                    ((BuyActivity) getActivity()).payment.setCashPayment(((BuyActivity) getActivity()).cashPayment);
+                    BuyItemConfirmFragment fragment = new BuyItemConfirmFragment();
+                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.content_frame, fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
                 }
-                ((BuyActivity)getActivity()).cashPayment.setDocumentNumber(editDocument.getText().toString().trim());
-                ((BuyActivity)getActivity()).payment.setCashPayment(((BuyActivity)getActivity()).cashPayment);
-                BuyItemConfirmFragment fragment = new BuyItemConfirmFragment();
-                FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
 
             }
         });
