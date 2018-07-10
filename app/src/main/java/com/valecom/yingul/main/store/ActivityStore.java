@@ -39,6 +39,7 @@ import com.valecom.yingul.adapter.ListGridAdapter;
 import com.valecom.yingul.adapter.ListRowAdapter;
 import com.valecom.yingul.adapter.SelectColorAdapter;
 import com.valecom.yingul.adapter.SelectSizeAdapter;
+import com.valecom.yingul.main.ActivityPubliSellerList;
 import com.valecom.yingul.main.MainActivity;
 import com.valecom.yingul.main.categories.ItemsByCategoryActivity;
 import com.valecom.yingul.main.filter.FilterActivity;
@@ -175,15 +176,18 @@ public class ActivityStore extends AppCompatActivity {
         lay_filter_click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ActivityStore.this, FilterActivity.class);
-                Gson json = new Gson();
-                intent.putExtra("itemList", json.toJson(array_cat_list_backup).toString());
-                Log.e("lo que se envia",json.toJson(array_cat_list_backup).toString());
-                intent.putExtra("filterParams", filterParams);
-                intent.putExtra("maxPriceItem",maxPriceItem);
-                intent.putExtra("minPriceItem",minPriceItem);
-                startActivityForResult(intent, ITEM_PICKER_TAG);
-
+                if(array_cat_list.isEmpty()){
+                    Toast.makeText(ActivityStore.this, "No hay productos para filtrar", Toast.LENGTH_LONG).show();
+                }else {
+                    Intent intent = new Intent(ActivityStore.this, FilterActivity.class);
+                    Gson json = new Gson();
+                    intent.putExtra("itemList", json.toJson(array_cat_list_backup).toString());
+                    Log.e("lo que se envia", json.toJson(array_cat_list_backup).toString());
+                    intent.putExtra("filterParams", filterParams);
+                    intent.putExtra("maxPriceItem", maxPriceItem);
+                    intent.putExtra("minPriceItem", minPriceItem);
+                    startActivityForResult(intent, ITEM_PICKER_TAG);
+                }
             }
         });
         /*****************/
@@ -343,6 +347,7 @@ public class ActivityStore extends AppCompatActivity {
     }
 
     public void setAdapterHomeCategoryList() {
+        recycler_cat_list.setLayoutManager(new GridLayoutManager(ActivityStore.this, 2));
         adapter_cat_list = new ListGridAdapter(ActivityStore.this, array_cat_list);
         txtNoOfItem.setText(adapter_cat_list.getItemCount()+"");
         recycler_cat_list.setAdapter(adapter_cat_list);

@@ -31,15 +31,28 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.R;
+import com.valecom.yingul.main.buy.BuyActivity;
+import com.valecom.yingul.main.categories.ItemsByCategoryActivity;
 import com.valecom.yingul.main.index.InicioFragment;
 import com.valecom.yingul.main.myAccount.MyAccountFragment;
 import com.valecom.yingul.main.sell.SellActivity;
+import com.valecom.yingul.model.Yng_Category;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, HomeFragment.OnFragmentInteractionListener,
@@ -52,6 +65,8 @@ public class MainActivity extends AppCompatActivity
     private String username;
     private TextView profile_name;
     private MaterialDialog progressDialog;
+
+    public static final MediaType JSON= MediaType.parse("application/json; charset=utf-8");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,7 +219,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public boolean onQueryTextSubmit(String arg0) {
                 // TODO Auto-generated method stub
-
+                    Log.e("onclick buscador",searchView.getQuery().toString());
+                    String name = searchView.getQuery().toString().replace(" ","");
+                    requestArrayPost(Network.API_URL+"category/bestMatch/"+name,"");
                 return false;
             }
 
@@ -402,5 +419,63 @@ public class MainActivity extends AppCompatActivity
         } else {
             return str.substring(0, 1).toUpperCase() + str.substring(1);
         }
+    }
+
+    public void  requestArrayPost(String url, String json){
+        start("inicio");
+        OkHttpClient httpClient = new OkHttpClient.Builder()
+                .connectTimeout(9000, TimeUnit.SECONDS)
+                .writeTimeout(9000, TimeUnit.SECONDS)
+                .readTimeout(9000, TimeUnit.SECONDS)
+                .build();
+        RequestBody body = RequestBody.create(JSON, json);
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(url)
+                .addHeader("Content-Type","application/json")
+                .build();
+        httpClient.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "error in getting response using async okhttp call");
+            }
+            @Override public void onResponse(Call call, okhttp3.Response response) throws IOException {
+                ResponseBody responseBody = response.body();
+                if (!response.isSuccessful()) {
+                    throw new IOException("Error response " + response);
+                }
+                //
+
+                final String responce=""+(responseBody.string());
+                try {
+                    end(""+responce);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.i("responce:------------",""+responce);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(responce.contains("/")){
+                            String categoryId = responce.replace("/","");
+                            Log.e("categoryId",""+categoryId);
+                            Intent intent = new Intent(MainActivity.this,ItemsByCategoryActivity.class);
+                            intent.putExtra("categoryId",categoryId);
+                            startActivity(intent);
+                        }else{
+                            Toast.makeText(MainActivity.this,"No se encontro resultados para la busqueda",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+            }
+        });
+    }
+
+    public void end(String end) throws JSONException {
+        Log.i("end",""+end);
+        progressDialog.dismiss();
+    }
+    public void start(String start){
+        Log.i("start",""+start);
+        progressDialog.show();
     }
 }

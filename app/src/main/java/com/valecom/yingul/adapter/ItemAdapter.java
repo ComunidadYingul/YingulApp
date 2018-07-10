@@ -1,6 +1,7 @@
 package com.valecom.yingul.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,10 +51,38 @@ public class ItemAdapter extends ArrayAdapter<Yng_Item>
         ImageView itemImage = (ImageView) rowView.findViewById(R.id.itemImage);
         TextView itemPrice = (TextView) rowView.findViewById(R.id.itemPrice);
         TextView itemName = (TextView) rowView.findViewById(R.id.itemName);
+        TextView itemPriceNormal = (TextView) rowView.findViewById(R.id.itemPriceNormal);
+        TextView discountRate = (TextView) rowView.findViewById(R.id.discountRate);
         LinearLayout freeShipping = (LinearLayout) rowView.findViewById(R.id.freeShipping);
 
         Picasso.with(context).load(Network.BUCKET_URL+item.getPrincipalImage()).into(itemImage);
-        itemPrice.setText("$ "+item.getPrice());
+
+        if(item.getPriceDiscount()==0){
+            itemPriceNormal.setVisibility(View.GONE);
+            discountRate.setVisibility(View.GONE);
+        }else{
+            itemPriceNormal.setVisibility(View.VISIBLE);
+            discountRate.setVisibility(View.VISIBLE);
+            discountRate.setText((int)(100-(item.getPriceDiscount()*100/item.getPriceNormal()))+"% OFF");
+            switch (item.getMoney()){
+                case "ARS":
+                    itemPriceNormal.setText("$ "+item.getPriceNormal());
+                    break;
+                case "USD":
+                    itemPriceNormal.setText("U$D "+item.getPriceNormal());
+                    break;
+            }
+            itemPriceNormal.setPaintFlags(itemPriceNormal.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        }
+        switch (item.getMoney()){
+            case "ARS":
+                itemPrice.setText("$ "+item.getPrice());
+                break;
+            case "USD":
+                itemPrice.setText("U$D "+item.getPrice());
+                break;
+        }
+
         itemName.setText(item.getName());
 
         if(item.getProductPagoEnvio()==null||!item.getProductPagoEnvio().equals("gratis")){
@@ -61,6 +90,7 @@ public class ItemAdapter extends ArrayAdapter<Yng_Item>
         }else{
             freeShipping.setVisibility(View.VISIBLE);
         }
+
 
         return rowView;
     }

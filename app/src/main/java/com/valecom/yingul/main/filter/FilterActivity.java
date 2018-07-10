@@ -281,8 +281,9 @@ public class FilterActivity extends AppCompatActivity implements DatePickerDialo
         int id = item.getItemId();
         if (id == R.id.action_save)
         {
-            Intent returnIntent = new Intent();
             Gson json = new Gson();
+            Log.e("sen envia esto",json.toJson(array_cat_list).toString());
+            Intent returnIntent = new Intent();
             if(!filterParams.isFreeShipping()&&filterParams.getCondition().equals("none")&&filterParams.getDiscount().equals("none")&&filterParams.getUbication()==null&&filterParams.getMinPrice()==null&&filterParams.getMaxPrice()==null){
                 returnIntent.putExtra("itemList", "clean");
             }else{
