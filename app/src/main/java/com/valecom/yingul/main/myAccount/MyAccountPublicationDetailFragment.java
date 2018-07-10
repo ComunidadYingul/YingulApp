@@ -1,5 +1,6 @@
 package com.valecom.yingul.main.myAccount;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,7 +8,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +20,36 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.ActivityProductDetail;
 import com.valecom.yingul.main.LoginActivity;
+import com.valecom.yingul.main.categories.SubCategoryFragment;
+import com.valecom.yingul.main.edit.EditItemDescriptionFragment;
+import com.valecom.yingul.main.edit.EditItemImageFragment;
+import com.valecom.yingul.main.edit.EditItemPriceFragment;
+import com.valecom.yingul.main.edit.EditItemQuantityFragment;
+import com.valecom.yingul.main.edit.EditItemTitleFragment;
+import com.valecom.yingul.main.sell.SellItemAddSummaryFragment;
 import com.valecom.yingul.model.Yng_Item;
+import com.valecom.yingul.model.Yng_User;
+import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
+
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MyAccountPublicationDetailFragment extends Fragment
 {
@@ -82,7 +107,7 @@ public class MyAccountPublicationDetailFragment extends Fragment
             startActivity(settingsIntent);
         }
 
-        Bundle bundle = getArguments();
+        final Bundle bundle = getArguments();
         Gson gson = new Gson();
         item = gson.fromJson(bundle.getString("item"), Yng_Item.class);
 
@@ -98,12 +123,10 @@ public class MyAccountPublicationDetailFragment extends Fragment
         imgEditImage = (ImageView) view.findViewById(R.id.imgEditImage);
         imgEditQuantity = (ImageView) view.findViewById(R.id.imgEditQuantity);
 
+        final Bundle bundleEdit = new Bundle();
+        bundleEdit.putLong("itemId",item.getItemId());
 
-        txtItemName.setText(item.getName());
-        txtCurrencyPrice.setText("$ "+item.getPrice());
-        txtDescription.setText(item.getDescription());
-        txtQuantity.setText(String.valueOf(item.getQuantity()));
-        Picasso.with(getActivity()).load(Network.BUCKET_URL+item.getPrincipalImage()).into(principalImage);
+        RunLoginService();
 
         btnItemDetail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,35 +140,63 @@ public class MyAccountPublicationDetailFragment extends Fragment
         imgEditTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"Title",Toast.LENGTH_SHORT).show();
+                EditItemTitleFragment fragment = new EditItemTitleFragment();
+                bundleEdit.putString("data",txtItemName.getText().toString());
+                fragment.setArguments(bundleEdit);
+                FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
         imgEditDescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"Description",Toast.LENGTH_SHORT).show();
+                EditItemDescriptionFragment fragment = new EditItemDescriptionFragment();
+                bundleEdit.putString("data",txtDescription.getText().toString());
+                fragment.setArguments(bundleEdit);
+                FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
         imgEditPrice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"Price",Toast.LENGTH_SHORT).show();
+                EditItemPriceFragment fragment = new EditItemPriceFragment();
+                bundleEdit.putString("data",txtCurrencyPrice.getText().toString());
+                fragment.setArguments(bundleEdit);
+                FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
         imgEditQuantity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"Quantity",Toast.LENGTH_SHORT).show();
+                EditItemQuantityFragment fragment = new EditItemQuantityFragment();
+                bundleEdit.putString("data",txtQuantity.getText().toString());
+                fragment.setArguments(bundleEdit);
+                FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
         imgEditImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"Image",Toast.LENGTH_SHORT).show();
+                EditItemImageFragment fragment = new EditItemImageFragment();
+                FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
@@ -184,6 +235,8 @@ public class MyAccountPublicationDetailFragment extends Fragment
             NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
             navigationView.setCheckedItem(R.id.nav_settings);
         }
+
+        Log.e("gonzalo:---","onResume");
     }
 
     @Override
@@ -193,10 +246,114 @@ public class MyAccountPublicationDetailFragment extends Fragment
         mListener = null;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.e("gonzalo:---","onStart");
+        RunLoginService();
+    }
+
     public interface OnFragmentInteractionListener
     {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void RunLoginService()
+    {
+
+        progressDialog.show();
+
+        JsonObjectRequest postRequest = new JsonObjectRequest
+                (
+                        Request.Method.POST,
+                        Network.API_URL+"/item/ItemById/"+item.getItemId(),
+                        null,
+                        new Response.Listener<JSONObject>()
+                        {
+                            @Override
+                            public void onResponse(JSONObject response)
+                            {
+                                Yng_Item itemTemp;
+
+                                try
+                                {
+                                    Log.e("daniel:------",response.toString());
+                                    Gson gson=new GsonBuilder().create();
+
+                                    itemTemp=gson.fromJson(response.toString(),Yng_Item.class);
+
+                                    txtItemName.setText(itemTemp.getName());
+                                    txtCurrencyPrice.setText(String.valueOf(itemTemp.getPrice()));
+                                    txtDescription.setText(itemTemp.getDescription());
+                                    txtQuantity.setText(String.valueOf(itemTemp.getQuantity()));
+                                    Picasso.with(getActivity()).load(Network.BUCKET_URL+itemTemp.getPrincipalImage()).into(principalImage);
+
+                                    ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(itemTemp.getName());
+
+                                    progressDialog.dismiss();
+
+
+                                }
+                                catch (Exception ex)
+                                {
+                                }
+
+                            }
+                        }, new Response.ErrorListener()
+                {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        // TODO Auto-generated method stub
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            // If the response is JSONObject instead of expected JSONArray
+                            progressDialog.dismiss();
+                        }
+
+                        NetworkResponse response = error.networkResponse;
+                        if (response != null && response.data != null)
+                        {
+                            try
+                            {
+                                JSONObject json = new JSONObject(new String(response.data));
+                                //Toast.makeText(actib.this, json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
+                            }
+                            catch (JSONException e)
+                            {
+                                Toast.makeText(getContext(), R.string.error_try_again_support, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else
+                        {
+                            new AlertDialog.Builder(getContext())
+                                    .setTitle("Algo Salio mal")
+                                    .setMessage("Usuario o contraseña incorrecto")
+                                    .setCancelable(true)
+                                    .show();
+                            //Toast.makeText(ActivityLogin.this, error != null && error.getMessage() != null ? error.getMessage() : "Usuario o contraseña incorrecta", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                })
+        {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("X-API-KEY", Network.API_KEY);
+                return params;
+            }
+        };
+
+        // Get a RequestQueue
+        RequestQueue queue = MySingleton.getInstance(getContext()).getRequestQueue();
+
+        //Used to mark the request, so we can cancel it on our onStop method
+        postRequest.setTag("");
+
+        MySingleton.getInstance(getContext()).addToRequestQueue(postRequest);
     }
 
 }
