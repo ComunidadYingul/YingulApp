@@ -164,14 +164,17 @@ public class ActivityPubliSellerList extends AppCompatActivity {
         lay_filter_click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ActivityPubliSellerList.this, FilterActivity.class);
-                Gson json = new Gson();
-                intent.putExtra("itemList", json.toJson(array_cat_list_backup).toString());
-                intent.putExtra("filterParams", filterParams);
-                intent.putExtra("maxPriceItem",maxPriceItem);
-                intent.putExtra("minPriceItem",minPriceItem);
-                startActivityForResult(intent, ITEM_PICKER_TAG);
-
+                if(array_cat_list.isEmpty()){
+                    Toast.makeText(ActivityPubliSellerList.this, "No hay productos para filtrar", Toast.LENGTH_LONG).show();
+                }else {
+                    Intent intent = new Intent(ActivityPubliSellerList.this, FilterActivity.class);
+                    Gson json = new Gson();
+                    intent.putExtra("itemList", json.toJson(array_cat_list_backup).toString());
+                    intent.putExtra("filterParams", filterParams);
+                    intent.putExtra("maxPriceItem", maxPriceItem);
+                    intent.putExtra("minPriceItem", minPriceItem);
+                    startActivityForResult(intent, ITEM_PICKER_TAG);
+                }
             }
         });
         /*****************/
@@ -199,9 +202,27 @@ public class ActivityPubliSellerList extends AppCompatActivity {
                                 item.setPrincipalImage(jo_inside.getString("principalImage"));
                                 item.setDescription(jo_inside.getString("description"));
                                 item.setPrice(Double.valueOf(jo_inside.getString("price")));
+                                item.setType(jo_inside.getString("type"));
+                                item.setMoney(jo_inside.getString("money"));
+                                item.setCondition(jo_inside.getString("condition"));
+                                item.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));
+                                item.setOver(jo_inside.getBoolean("over"));
                                 item.setPriceNormal(Double.valueOf(jo_inside.getString("priceNormal")));
                                 item.setPriceDiscount(Double.valueOf(jo_inside.getString("priceDiscount")));
-                                item.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));
+
+                                Gson gson = new Gson();
+                                Yng_Ubication yngUbication = gson.fromJson(jo_inside.getString("yng_Ubication"), Yng_Ubication.class);
+                                item.setYng_Ubication(yngUbication);
+
+                                //Log.e("envia",jo_inside.getString("yng_Ubication"));
+                                /***********filtro**************/
+                                if(maxPriceItem<item.getPrice()){
+                                    maxPriceItem=item.getPrice();
+                                }
+                                if(minPriceItem>item.getPrice()){
+                                    minPriceItem=item.getPrice();
+                                }
+                                /********************************/
 
                                 array_cat_list.add(item);
 
@@ -314,6 +335,7 @@ public class ActivityPubliSellerList extends AppCompatActivity {
     }
 
     public void setAdapterHomeCategoryList() {
+        recycler_cat_list.setLayoutManager(new GridLayoutManager(ActivityPubliSellerList.this, 2));
         adapter_cat_list = new ListGridAdapter(ActivityPubliSellerList.this, array_cat_list);
         txtNoOfItem.setText(adapter_cat_list.getItemCount()+"");
         recycler_cat_list.setAdapter(adapter_cat_list);

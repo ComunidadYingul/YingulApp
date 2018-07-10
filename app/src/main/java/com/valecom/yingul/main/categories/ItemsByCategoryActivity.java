@@ -161,14 +161,17 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
         lay_filter_click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ItemsByCategoryActivity.this, FilterActivity.class);
-                Gson json = new Gson();
-                intent.putExtra("itemList", json.toJson(array_cat_list_backup).toString());
-                intent.putExtra("filterParams", filterParams);
-                intent.putExtra("maxPriceItem",maxPriceItem);
-                intent.putExtra("minPriceItem",minPriceItem);
-                startActivityForResult(intent, ITEM_PICKER_TAG);
-
+                if(array_cat_list.isEmpty()){
+                    Toast.makeText(ItemsByCategoryActivity.this, "No hay productos para filtrar", Toast.LENGTH_LONG).show();
+                }else {
+                    Intent intent = new Intent(ItemsByCategoryActivity.this, FilterActivity.class);
+                    Gson json = new Gson();
+                    intent.putExtra("itemList", json.toJson(array_cat_list_backup).toString());
+                    intent.putExtra("filterParams", filterParams);
+                    intent.putExtra("maxPriceItem", maxPriceItem);
+                    intent.putExtra("minPriceItem", minPriceItem);
+                    startActivityForResult(intent, ITEM_PICKER_TAG);
+                }
             }
         });
         /*****************/
@@ -308,6 +311,7 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
     }
 
     public void setAdapterHomeCategoryList() {
+        recycler_cat_list.setLayoutManager(new GridLayoutManager(ItemsByCategoryActivity.this, 2));
         adapter_cat_list = new ListGridAdapter(ItemsByCategoryActivity.this, array_cat_list);
         txtNoOfItem.setText(adapter_cat_list.getItemCount()+"");
         recycler_cat_list.setAdapter(adapter_cat_list);
