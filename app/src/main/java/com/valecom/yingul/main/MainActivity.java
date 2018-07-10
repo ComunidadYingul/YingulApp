@@ -107,6 +107,15 @@ public class MainActivity extends AppCompatActivity
             profile_email.setText("Vendés más, comprás mejor!");
             ImageView profilePhoto = (ImageView) navigationHeaderView.findViewById(R.id.profile_photo);
             Picasso.with(MainActivity.this).load(Network.BUCKET_URL+"user/userProfile/profile.jpg").into(profilePhoto);
+            profilePhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent settingsIntent = new Intent(MainActivity.this, LoginActivity.class);
+                    settingsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    settingsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(settingsIntent);
+                }
+            });
         }else{
             String email = settings.getString("email", "");
             username = settings.getString("username","");
@@ -117,7 +126,41 @@ public class MainActivity extends AppCompatActivity
 
             ImageView profilePhoto = (ImageView) navigationHeaderView.findViewById(R.id.profile_photo);
             Picasso.with(MainActivity.this).load(Network.BUCKET_URL+"user/userProfile/"+settings.getString("profilePhoto","")).into(profilePhoto);
-
+            profilePhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new MaterialDialog.Builder(MainActivity.this)
+                            .title("Editar foto")
+                            .content("Cambia tu foto de perfil.")
+                            .positiveText("Elegir existente")
+                            .negativeText("Tomar foto")
+                            .cancelable(true)
+                            .negativeColorRes(R.color.colorAccent)
+                            .positiveColorRes(R.color.colorAccent)
+                            .callback(new MaterialDialog.ButtonCallback()
+                            {
+                                @Override
+                                public void onPositive(MaterialDialog dialog)
+                                {
+                                    dialog.dismiss();
+                                    if (dialog != null && dialog.isShowing())
+                                    {
+                                        dialog.dismiss();
+                                    }
+                                }
+                                @Override
+                                public void onNegative(MaterialDialog dialog)
+                                {
+                                    dialog.dismiss();
+                                    if (dialog != null && dialog.isShowing())
+                                    {
+                                        dialog.dismiss();
+                                    }
+                                }
+                            })
+                            .show();
+                }
+            });
         }
 
         //Setting up default tab if redirecting back from other screens
