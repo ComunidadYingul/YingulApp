@@ -72,6 +72,7 @@ public class SellActivity extends AppCompatActivity {
     Yng_Barrio barrio;
     //private Set<Yng_ItemCategory> itemCategoryList = new HashSet<>();
     Set<Yng_ItemCategory> itemCategoryList = new HashSet<>();
+
     static final int ITEM_PICKER_TAG = 1;
     static final int ADD_PICTURES_TAG = 3;
 

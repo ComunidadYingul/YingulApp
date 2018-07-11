@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.LoginActivity;
+import com.valecom.yingul.main.MainActivity;
 import com.valecom.yingul.main.myAccount.yingulPay.ActividadYingulPayFragment;
 import com.valecom.yingul.main.myAccount.yingulPay.YingulPayActivity;
 import com.valecom.yingul.main.sell.SellActivity;
@@ -104,7 +105,7 @@ public class MyAccountFragment extends Fragment
                 SharedPreferences.Editor settings = getActivity().getSharedPreferences(LoginActivity.SESSION_USER, getActivity().MODE_PRIVATE).edit();
                 settings.clear();
                 settings.commit();
-                Intent settingsIntent = new Intent(getActivity(), LoginActivity.class);
+                Intent settingsIntent = new Intent(getActivity(), MainActivity.class);
                 settingsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 settingsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(settingsIntent);

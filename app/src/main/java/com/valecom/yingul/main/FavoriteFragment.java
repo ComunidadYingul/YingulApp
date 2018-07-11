@@ -53,6 +53,7 @@ public class FavoriteFragment extends Fragment
     private ListView list;
     private FavoriteAdapter adapter;
     private ArrayList<Yng_Item> array_list;
+    private String username;
 
     public FavoriteFragment()
     {
@@ -91,6 +92,15 @@ public class FavoriteFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_favorite, container, false);
 
         SharedPreferences settings = getActivity().getSharedPreferences(LoginActivity.SESSION_USER, getActivity().MODE_PRIVATE);
+        if (settings == null || settings.getInt("logged_in", 0) == 0 || settings.getString("api_key", "").equals(""))
+        {
+            Intent settingsIntent = new Intent(getActivity(), LoginActivity.class);
+            settingsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            settingsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(settingsIntent);
+        }else{
+            username = settings.getString("username","");
+        }
 
         array_list = new ArrayList<Yng_Item>();
         adapter = new FavoriteAdapter(getContext(), array_list);
@@ -169,7 +179,7 @@ public class FavoriteFragment extends Fragment
     {
         progressDialog.show();
 
-        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL+"favorite/getItemFavorite/EDDYQUENALLATA",
+        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL+"favorite/getItemFavorite/"+username,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
