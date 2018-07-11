@@ -49,7 +49,10 @@ public class NewUbicationSetDetailFragment extends Fragment {
         editWithinStreets = (EditText) v.findViewById(R.id.editWithinStreets);
         editRefence = (EditText) v.findViewById(R.id.editRefence);
 
-        editPhone.setText(((NewUserUbicationEditPersonalInfoActivity)getActivity()).user.getPhone());
+        if(((NewUserUbicationEditPersonalInfoActivity) getActivity()).user.getPhone().equals(null)) {
+            editPhone.setText(((NewUserUbicationEditPersonalInfoActivity) getActivity()).user.getPhone());
+        }
+
         String typeDocument[] = {"DNI","LC","CI","LE"};
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(v.getContext(),   android.R.layout.simple_spinner_item, typeDocument);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
