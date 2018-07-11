@@ -1,8 +1,12 @@
 package com.valecom.yingul.main;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -13,6 +17,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,6 +34,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.buy.BuyActivity;
@@ -36,15 +42,23 @@ import com.valecom.yingul.main.categories.ItemsByCategoryActivity;
 import com.valecom.yingul.main.index.InicioFragment;
 import com.valecom.yingul.main.myAccount.MyAccountFragment;
 import com.valecom.yingul.main.sell.SellActivity;
+import com.valecom.yingul.main.sell.SellItemSetTitleFragment;
 import com.valecom.yingul.model.Yng_Category;
+import com.valecom.yingul.model.Yng_ItemImage;
+import com.valecom.yingul.model.Yng_User;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
@@ -66,6 +80,8 @@ public class MainActivity extends AppCompatActivity
     private TextView profile_name;
     private MaterialDialog progressDialog;
     public Toolbar toolbar;
+    private Yng_User user;
+    static final int ADD_PICTURES_TAG = 1;
 
     public static final MediaType JSON= MediaType.parse("application/json; charset=utf-8");
 
@@ -101,6 +117,8 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         LinearLayout navigationHeaderView = (LinearLayout)navigationView.getHeaderView(0);
 
+        user = new Yng_User();
+
         profile_name = (TextView) navigationHeaderView.findViewById(R.id.profile_name);
         if (settings == null || settings.getInt("logged_in", 0) == 0 || settings.getString("api_key", "").equals(""))
         {
@@ -121,6 +139,9 @@ public class MainActivity extends AppCompatActivity
         }else{
             String email = settings.getString("email", "");
             username = settings.getString("username","");
+            user.setEmail(email);
+            user.setUsername(username);
+            user.setPassword(settings.getString("password",""));
             RunPersonService();
 
             TextView profile_email = (TextView) navigationHeaderView.findViewById(R.id.profile_email);
@@ -144,6 +165,11 @@ public class MainActivity extends AppCompatActivity
                                 @Override
                                 public void onPositive(MaterialDialog dialog)
                                 {
+                                    Intent intent = new Intent();
+                                    intent.setType("image/*");
+                                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), ADD_PICTURES_TAG);
                                     dialog.dismiss();
                                     if (dialog != null && dialog.isShowing())
                                     {
@@ -526,5 +552,224 @@ public class MainActivity extends AppCompatActivity
     public void start(String start){
         Log.i("start",""+start);
         progressDialog.show();
+    }
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        switch (requestCode) {
+            case ADD_PICTURES_TAG:
+                super.onActivityResult(requestCode, resultCode, data);
+                if (resultCode == RESULT_OK) {
+                    Log.e("entro", "donde devia");
+                    if (null != data) { // checking empty selection
+                        if (null != data.getClipData()) { // checking multiple selection or not
+                            Set<Yng_ItemImage> itemImageList = new HashSet<>();
+                            for (int i = 0; i < data.getClipData().getItemCount(); i++) {
+                                Uri uri = data.getClipData().getItemAt(i).getUri();
+                                final InputStream imageStream;
+                                try {
+                                    imageStream = getContentResolver().openInputStream(uri);
+                                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                                    String encodedImage = encodeImage(selectedImage);
+                                    if (i == 0) {
+                                        user.setProfilePhoto("data:image/jpeg;base64," + encodedImage);
+                                    } else {
+
+                                    }
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        } else {
+                            Uri uri = data.getData();
+                            final InputStream imageStream;
+                            try {
+                                imageStream = getContentResolver().openInputStream(uri);
+                                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                                String encodedImage = encodeImage(selectedImage);
+                                user.setProfilePhoto("data:image/jpeg;base64," + encodedImage);
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        /*que hacer despues de mandar la nueva foto*/
+                        Gson gson = new Gson();
+                        String jsonBody = gson.toJson(user);
+                        Log.e("usuario final", jsonBody);
+                        requestUpdatePhotoProfile(Network.API_URL + "user/updateProfilePhoto",jsonBody);
+                    }
+                }
+                break;
+        }
+    }
+    private String encodeImage(Bitmap bm)
+    {
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        int bitmapByteCount=android.support.v4.graphics.BitmapCompat.getAllocationByteCount(bm);
+        int byteCount=bitmapByteCount/1024;
+        Log.e("tamaño byte",""+bitmapByteCount/1024);
+        if(byteCount>0 && byteCount<600) {
+            bm.compress(Bitmap.CompressFormat.JPEG,100,baos);
+        }
+        if(byteCount>=600 && byteCount<1800) {
+            bm.compress(Bitmap.CompressFormat.JPEG,90,baos);
+        }
+        if(byteCount>=1800 && byteCount<3600) {
+            bm.compress(Bitmap.CompressFormat.JPEG,80,baos);
+        }
+        if(byteCount>=3600 && byteCount<10800) {
+            bm.compress(Bitmap.CompressFormat.JPEG,60,baos);
+        }
+        if(byteCount>=10800 && byteCount<32400) {
+            bm.compress(Bitmap.CompressFormat.JPEG,40,baos);
+        }
+        if(byteCount>=32400 && byteCount<40000) {
+            bm.compress(Bitmap.CompressFormat.JPEG,20,baos);
+        }
+        if(byteCount>=40000 && byteCount<50000) {
+            bm.compress(Bitmap.CompressFormat.JPEG,10,baos);
+        }
+        if(byteCount>=50000) {
+            bm.compress(Bitmap.CompressFormat.JPEG,1,baos);
+        }
+
+        byte[] b = baos.toByteArray();
+        String encImage;
+        encImage = Base64.encodeToString(b, Base64.DEFAULT);
+        return encImage;
+    }
+    public void requestUpdatePhotoProfile(String url, String json){
+        start("inicio");
+        OkHttpClient httpClient = new OkHttpClient.Builder()
+                .connectTimeout(9000, TimeUnit.SECONDS)
+                .writeTimeout(9000, TimeUnit.SECONDS)
+                .readTimeout(9000, TimeUnit.SECONDS)
+                .build();
+        RequestBody body = RequestBody.create(JSON, json);
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(url)
+                .addHeader("Content-Type","application/json")
+                .addHeader("Authorization",user.getPassword())
+                .post(body)
+                .build();
+        httpClient.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "error in getting response using async okhttp call");
+            }
+            @Override public void onResponse(Call call, okhttp3.Response response) throws IOException {
+                ResponseBody responseBody = response.body();
+                if (!response.isSuccessful()) {
+                    throw new IOException("Error response " + response);
+                }
+                //
+
+                final String responce=""+(responseBody.string());
+                try {
+                    end(""+responce);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.i("responce:------------",""+responce);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(responce.equals("save")) {
+                            RunLoginService();
+                        }else{
+                            Toast.makeText(MainActivity.this,"Algo salio mal vuelva a intentarlo mas tarde",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+            }
+        });
+    }
+
+    public void RunLoginService(){
+
+        progressDialog.show();
+
+        JsonObjectRequest postRequest = new JsonObjectRequest
+                (Request.Method.POST, Network.API_URL + "user/"+user.getUsername(), api_parameter, new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+
+                        try
+                        {
+                            Log.e("Response: " , response.toString());
+                            SharedPreferences.Editor user = getSharedPreferences(LoginActivity.SESSION_USER, MODE_PRIVATE).edit();
+                            user.putString("profilePhoto",response.getString("profilePhoto"));
+                            user.commit();
+
+                            Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                        catch (Exception ex)
+                        {
+                            Toast.makeText(MainActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }, new Response.ErrorListener()
+                {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        // TODO Auto-generated method stub
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            // If the response is JSONObject instead of expected JSONArray
+                            progressDialog.dismiss();
+                        }
+
+                        NetworkResponse response = error.networkResponse;
+                        if (response != null && response.data != null)
+                        {
+                            try
+                            {
+                                JSONObject json = new JSONObject(new String(response.data));
+                                Toast.makeText(MainActivity.this, json.has("message") ? json.getString("message")+"1" : json.getString("error")+"2", Toast.LENGTH_LONG).show();
+                            }
+                            catch (JSONException e)
+                            {
+                                Toast.makeText(MainActivity.this, R.string.error_try_again_support+"3", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else
+                        {
+                            //Toast.makeText(LoginActivity.this, error != null && error.getMessage() != null ? error.getMessage()+"4" : error.toString()+"5", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this,"Usuario o contraseña incorrectos",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+        {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("X-API-KEY", Network.API_KEY);
+                /*params.put("Authorization",
+                        "Basic " + Base64.encodeToString(
+                                (editEmail.getText().toString().trim() + ":" + editPassword.getText().toString().trim()).getBytes(), Base64.NO_WRAP)
+                );*/
+                return params;
+            }
+        };
+
+        // Get a RequestQueue
+        RequestQueue queue = MySingleton.getInstance(this.getApplicationContext()).getRequestQueue();
+
+        //Used to mark the request, so we can cancel it on our onStop method
+        postRequest.setTag(TAG);
+
+        MySingleton.getInstance(this).addToRequestQueue(postRequest);
     }
 }
