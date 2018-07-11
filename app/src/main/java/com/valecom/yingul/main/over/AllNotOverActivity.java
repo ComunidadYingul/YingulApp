@@ -1,4 +1,4 @@
-package com.valecom.yingul.main.allItems;
+package com.valecom.yingul.main.over;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -32,7 +32,6 @@ import com.valecom.yingul.adapter.SelectColorAdapter;
 import com.valecom.yingul.adapter.SelectSizeAdapter;
 import com.valecom.yingul.main.MainActivity;
 import com.valecom.yingul.main.filter.FilterActivity;
-import com.valecom.yingul.main.store.ActivityStore;
 import com.valecom.yingul.model.FilterParam;
 import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.model.Yng_Ubication;
@@ -47,7 +46,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AllItemsActivity extends AppCompatActivity {
+public class AllNotOverActivity extends AppCompatActivity {
 
     RecyclerView recycler_cat_list;
     ListGridAdapter adapter_cat_list;
@@ -75,10 +74,11 @@ public class AllItemsActivity extends AppCompatActivity {
     private Double maxPriceItem;
     private Double minPriceItem;
     /*********/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_all_items);
+        setContentView(R.layout.activity_all_not_over);
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Destacados");
@@ -112,8 +112,8 @@ public class AllItemsActivity extends AppCompatActivity {
         recycler_cat_list = (RecyclerView) findViewById(R.id.vertical_cat_list);
         recycler_cat_list.setHasFixedSize(false);
         recycler_cat_list.setNestedScrollingEnabled(false);
-        recycler_cat_list.setLayoutManager(new GridLayoutManager(AllItemsActivity.this, 2));
-        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(AllItemsActivity.this, R.dimen.item_offset);
+        recycler_cat_list.setLayoutManager(new GridLayoutManager(AllNotOverActivity.this, 2));
+        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(AllNotOverActivity.this, R.dimen.item_offset);
         recycler_cat_list.addItemDecoration(itemDecoration);
 
         txtNoOfItem=(TextView)findViewById(R.id.text_cat_list_item);
@@ -128,8 +128,8 @@ public class AllItemsActivity extends AppCompatActivity {
         ImgGrid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recycler_cat_list.setLayoutManager(new GridLayoutManager(AllItemsActivity.this, 2));
-                adapter_cat_list = new ListGridAdapter(AllItemsActivity.this, array_cat_list);
+                recycler_cat_list.setLayoutManager(new GridLayoutManager(AllNotOverActivity.this, 2));
+                adapter_cat_list = new ListGridAdapter(AllNotOverActivity.this, array_cat_list);
                 recycler_cat_list.setAdapter(adapter_cat_list);
                 ImgGrid.setImageResource(R.drawable.ic_grid_hover);
                 ImgList.setImageResource(R.drawable.ic_list);
@@ -139,8 +139,8 @@ public class AllItemsActivity extends AppCompatActivity {
         ImgList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recycler_cat_list.setLayoutManager(new GridLayoutManager(AllItemsActivity.this, 1));
-                adapter_cat_list_listview = new ListRowAdapter(AllItemsActivity.this, array_cat_list);
+                recycler_cat_list.setLayoutManager(new GridLayoutManager(AllNotOverActivity.this, 1));
+                adapter_cat_list_listview = new ListRowAdapter(AllNotOverActivity.this, array_cat_list);
                 recycler_cat_list.setAdapter(adapter_cat_list_listview);
                 ImgList.setImageResource(R.drawable.ic_listview_hover);
                 ImgGrid.setImageResource(R.drawable.ic_grid);
@@ -151,9 +151,9 @@ public class AllItemsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(array_cat_list.isEmpty()){
-                    Toast.makeText(AllItemsActivity.this, "No hay productos para filtrar", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AllNotOverActivity.this, "No hay productos para filtrar", Toast.LENGTH_LONG).show();
                 }else {
-                    Intent intent = new Intent(AllItemsActivity.this, FilterActivity.class);
+                    Intent intent = new Intent(AllNotOverActivity.this, FilterActivity.class);
                     Gson json = new Gson();
                     intent.putExtra("itemList", json.toJson(array_cat_list_backup).toString());
                     intent.putExtra("filterParams", filterParams);
@@ -165,6 +165,7 @@ public class AllItemsActivity extends AppCompatActivity {
         });
         /*****************/
         loadJSONFromAssetCategoryList();
+
     }
 
     @Override
@@ -183,7 +184,7 @@ public class AllItemsActivity extends AppCompatActivity {
 
         progressDialog.show();
 
-        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "index/item/all",
+        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "item/over/false",
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -222,9 +223,7 @@ public class AllItemsActivity extends AppCompatActivity {
                                 }
                                 /********************************/
 
-                                //if(!item.getOver()){
-                                    array_cat_list.add(item);
-                                //}
+                                array_cat_list.add(item);
 
                             }
                             /**************filtro*************/
@@ -238,7 +237,7 @@ public class AllItemsActivity extends AppCompatActivity {
                         catch(Exception ex)
                         {
                             //if (isAdded()) {
-                            Toast.makeText(AllItemsActivity.this, R.string.error_try_again_support, Toast.LENGTH_LONG).show();
+                            Toast.makeText(AllNotOverActivity.this, R.string.error_try_again_support, Toast.LENGTH_LONG).show();
                             //}
                         }
 
@@ -265,16 +264,16 @@ public class AllItemsActivity extends AppCompatActivity {
                     try
                     {
                         JSONObject json = new JSONObject(new String(response.data));
-                        Toast.makeText(AllItemsActivity.this, json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
+                        Toast.makeText(AllNotOverActivity.this, json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
                     }
                     catch (JSONException e)
                     {
-                        Toast.makeText(AllItemsActivity.this, R.string.error_try_again_support, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AllNotOverActivity.this, R.string.error_try_again_support, Toast.LENGTH_SHORT).show();
                     }
                 }
                 else
                 {
-                    Toast.makeText(AllItemsActivity.this, error != null && error.getMessage() != null ? error.getMessage() : error.toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(AllNotOverActivity.this, error != null && error.getMessage() != null ? error.getMessage() : error.toString(), Toast.LENGTH_LONG).show();
                 }
             }
         })
@@ -296,13 +295,13 @@ public class AllItemsActivity extends AppCompatActivity {
 
         postRequest.setTag(MainActivity.TAG);
 
-        MySingleton.getInstance(AllItemsActivity.this).addToRequestQueue(postRequest);
+        MySingleton.getInstance(AllNotOverActivity.this).addToRequestQueue(postRequest);
         return array_cat_list;
     }
 
     public void setAdapterHomeCategoryList() {
-        recycler_cat_list.setLayoutManager(new GridLayoutManager(AllItemsActivity.this, 2));
-        adapter_cat_list = new ListGridAdapter(AllItemsActivity.this, array_cat_list);
+        recycler_cat_list.setLayoutManager(new GridLayoutManager(AllNotOverActivity.this, 2));
+        adapter_cat_list = new ListGridAdapter(AllNotOverActivity.this, array_cat_list);
         txtNoOfItem.setText(adapter_cat_list.getItemCount()+"");
         recycler_cat_list.setAdapter(adapter_cat_list);
     }
@@ -366,4 +365,5 @@ public class AllItemsActivity extends AppCompatActivity {
         return array_cat_list_new;
     }
     /*************************/
+
 }

@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.allItems.AllItemsActivity;
+import com.valecom.yingul.main.over.AllNotOverActivity;
 import com.valecom.yingul.main.over.OverActivity;
 import com.valecom.yingul.model.Yng_Category;
 import com.valecom.yingul.model.Yng_Item;
@@ -98,7 +99,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 btnNotOver.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(context, AllItemsActivity.class);
+                        Intent intent = new Intent(context, AllNotOverActivity.class);
                         context.startActivity(intent);
                     }
                 });

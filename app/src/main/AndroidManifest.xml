@@ -232,10 +232,14 @@
         <!-- activity android:name=".main.BuyActivity" / -->
         <activity android:name=".main.ActivityProductDetail">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="http" android:host="www.yingul.com"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="www.yingul.com"
+                    android:scheme="http" />
             </intent-filter>
         </activity>
         <activity android:name=".main.ActivityPlaceOrder" />
@@ -250,7 +254,8 @@
         <activity android:name=".main.property.PropertyActivity" />
         <activity android:name=".main.myAccount.yingulPay.YingulPayActivity" />
         <activity android:name=".main.over.OverActivity" />
-        <activity android:name=".main.allItems.AllItemsActivity"></activity>
+        <activity android:name=".main.allItems.AllItemsActivity" />
+        <activity android:name=".main.over.AllNotOverActivity"></activity>
     </application>
 
 </manifest>
