@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,8 +63,9 @@ public class MyAccountPublicationDetailFragment extends Fragment
     private Yng_Item item;
 
     private ImageView principalImage, imgEditImage,imgEditTitle,imgEditDescription,imgEditPrice,imgEditQuantity;
-    private TextView txtItemName,txtCurrencyPrice,txtDescription,txtQuantity;
+    private TextView txtItemName,txtCurrencyPrice,txtDescription,txtQuantity,textPriceNormal,textMoneyNormal,textMoney,textDiscountPorcent;
     private Button btnItemDetail;
+    private LinearLayout lytDiscount,lytPriceNormal;
 
     private MaterialDialog setting_address_edit_dialog;
 
@@ -114,6 +117,10 @@ public class MyAccountPublicationDetailFragment extends Fragment
         principalImage = (ImageView) view.findViewById(R.id.principalImage);
         txtItemName = (TextView) view.findViewById(R.id.txtItemName);
         txtCurrencyPrice = (TextView) view.findViewById(R.id.txtCurrencyPrice);
+        textPriceNormal = (TextView) view.findViewById(R.id.textPriceNormal);
+        textMoneyNormal = (TextView) view.findViewById(R.id.textMoneyNormal);
+        textMoney = (TextView) view.findViewById(R.id.textMoney);
+        textDiscountPorcent = (TextView) view.findViewById(R.id.textDiscountPorcent);
         txtDescription = (TextView) view.findViewById(R.id.txtDescription);
         txtQuantity = (TextView) view.findViewById(R.id.txtQuantity);
         btnItemDetail = (Button) view.findViewById(R.id.btnItemDetail);
@@ -122,6 +129,8 @@ public class MyAccountPublicationDetailFragment extends Fragment
         imgEditPrice = (ImageView) view.findViewById(R.id.imgEditPrice);
         imgEditImage = (ImageView) view.findViewById(R.id.imgEditImage);
         imgEditQuantity = (ImageView) view.findViewById(R.id.imgEditQuantity);
+        lytPriceNormal = (LinearLayout) view.findViewById(R.id.lytPriceNormal);
+        lytDiscount = (LinearLayout) view.findViewById(R.id.lytDiscount);
 
         final Bundle bundleEdit = new Bundle();
         bundleEdit.putLong("itemId",item.getItemId());
@@ -168,6 +177,7 @@ public class MyAccountPublicationDetailFragment extends Fragment
             public void onClick(View v) {
                 EditItemPriceFragment fragment = new EditItemPriceFragment();
                 bundleEdit.putString("data",txtCurrencyPrice.getText().toString());
+                bundleEdit.putString("itemType",item.getType());
                 fragment.setArguments(bundleEdit);
                 FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.content_frame, fragment);
@@ -235,7 +245,7 @@ public class MyAccountPublicationDetailFragment extends Fragment
             NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
             navigationView.setCheckedItem(R.id.nav_settings);
         }
-
+        RunLoginService();
         Log.e("gonzalo:---","onResume");
     }
 
@@ -250,7 +260,7 @@ public class MyAccountPublicationDetailFragment extends Fragment
     public void onStart() {
         super.onStart();
         Log.e("gonzalo:---","onStart");
-        RunLoginService();
+        //RunLoginService();
     }
 
     public interface OnFragmentInteractionListener
@@ -285,6 +295,24 @@ public class MyAccountPublicationDetailFragment extends Fragment
 
                                     txtItemName.setText(itemTemp.getName());
                                     txtCurrencyPrice.setText(String.valueOf(itemTemp.getPrice()));
+                                    textPriceNormal.setText(String.valueOf(itemTemp.getPriceNormal()));
+                                    textPriceNormal.setPaintFlags(textPriceNormal.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                                    if (itemTemp.getMoney().equals("USD")) {
+                                        textMoney.setText("U$D");
+                                        textMoneyNormal.setText("U$D");
+                                    }else{
+                                        textMoney.setText("$");
+                                        textMoneyNormal.setText("$");
+                                    }
+                                    if(item.getPriceDiscount()==0){
+                                        lytDiscount.setVisibility(View.GONE);
+                                        lytPriceNormal.setVisibility(View.GONE);
+                                    }else{
+                                        Double desc = ((item.getPriceNormal()-item.getPriceDiscount()) * 100)/item.getPriceNormal();
+                                        textDiscountPorcent.setText(String.format("%.0f", desc));
+                                        lytDiscount.setVisibility(View.VISIBLE);
+                                        lytPriceNormal.setVisibility(View.VISIBLE);
+                                    }
                                     txtDescription.setText(itemTemp.getDescription());
                                     txtQuantity.setText(String.valueOf(itemTemp.getQuantity()));
                                     Picasso.with(getActivity()).load(Network.BUCKET_URL+itemTemp.getPrincipalImage()).into(principalImage);

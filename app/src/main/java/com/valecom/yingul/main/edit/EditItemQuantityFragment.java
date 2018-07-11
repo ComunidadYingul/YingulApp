@@ -72,8 +72,8 @@ public class EditItemQuantityFragment extends Fragment {
             public void onClick(View v) {
 
                 String quantity = editQuantity.getText().toString().trim();
-
-                String edit = "{\"itemId\":"+itemId+",\"price\":\""+quantity+"\"}";
+                Log.e("cantidad",quantity+"");
+                String edit = "{\"itemId\":"+itemId+",\"quantity\":\""+quantity+"\"}";
                 String url = Network.API_URL+"item/updateQuantity";
                 Log.e("parametro",edit);
                 Log.e("url",url);
