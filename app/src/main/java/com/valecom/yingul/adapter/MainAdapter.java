@@ -1,6 +1,7 @@
 package com.valecom.yingul.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,10 +11,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.valecom.yingul.R;
+import com.valecom.yingul.main.allItems.AllItemsActivity;
+import com.valecom.yingul.main.over.OverActivity;
 import com.valecom.yingul.model.Yng_Category;
 import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.model.Yng_Store;
@@ -75,18 +79,36 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 view = inflater.inflate(R.layout.horizontal, parent, false);
                 holder = new HorizontalViewHolder(view);
                 TextView over = (TextView) view.findViewById(R.id.txt_home_latest);
+                Button btnOver = (Button) view.findViewById(R.id.btn__view_all_latest);
                 over.setText("Destacados");
+                btnOver.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, OverActivity.class);
+                        context.startActivity(intent);
+                    }
+                });
                 break;
             case HORIZONTAL_ALL_ITEM:
                 view = inflater.inflate(R.layout.horizontal, parent, false);
                 holder = new HorizontalViewHolder(view);
                 TextView all = (TextView) view.findViewById(R.id.txt_home_latest);
+                Button btnNotOver = (Button) view.findViewById(R.id.btn__view_all_latest);
                 all.setText("Encuentra lo que buscas");
+                btnNotOver.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, AllItemsActivity.class);
+                        context.startActivity(intent);
+                    }
+                });
                 break;
             case HORIZONTAL_ALL_STORE:
                 view = inflater.inflate(R.layout.horizontal, parent, false);
                 holder = new HorizontalViewHolder(view);
                 TextView store = (TextView) view.findViewById(R.id.txt_home_latest);
+                Button btnStores = (Button) view.findViewById(R.id.btn__view_all_latest);
+                btnStores.setVisibility(View.GONE);
                 store.setText("Todas las tiendas");
                 break;
             case VERTICAL:

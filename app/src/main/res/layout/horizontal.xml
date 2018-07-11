@@ -50,7 +50,6 @@
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
                     android:text="@string/home_view"
-                    android:visibility="invisible"
                     android:textColor="@color/white" />
             </RelativeLayout>
 
