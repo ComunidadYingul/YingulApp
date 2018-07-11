@@ -84,10 +84,14 @@ public class ActivityPubliSellerList extends AppCompatActivity {
     private Double minPriceItem;
     /*********/
 
+    int spans;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publi_seller_list);
+
+        spans = getResources().getInteger(R.integer.number_of_columns);
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.home_latest));
@@ -125,7 +129,7 @@ public class ActivityPubliSellerList extends AppCompatActivity {
         recycler_cat_list = (RecyclerView) findViewById(R.id.vertical_cat_list);
         recycler_cat_list.setHasFixedSize(false);
         recycler_cat_list.setNestedScrollingEnabled(false);
-        recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(2,1));
+        recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(spans,1));
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(ActivityPubliSellerList.this, R.dimen.item_offset);
         recycler_cat_list.addItemDecoration(itemDecoration);
 
@@ -141,7 +145,7 @@ public class ActivityPubliSellerList extends AppCompatActivity {
         ImgGrid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recycler_cat_list.setLayoutManager(new GridLayoutManager(ActivityPubliSellerList.this, 2));
+                recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(spans,1));
                 adapter_cat_list = new ListGridAdapter(ActivityPubliSellerList.this, array_cat_list);
                 recycler_cat_list.setAdapter(adapter_cat_list);
                 ImgGrid.setImageResource(R.drawable.ic_grid_hover);
@@ -335,7 +339,7 @@ public class ActivityPubliSellerList extends AppCompatActivity {
     }
 
     public void setAdapterHomeCategoryList() {
-        recycler_cat_list.setLayoutManager(new GridLayoutManager(ActivityPubliSellerList.this, 2));
+        recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(spans,1));
         adapter_cat_list = new ListGridAdapter(ActivityPubliSellerList.this, array_cat_list);
         txtNoOfItem.setText(adapter_cat_list.getItemCount()+"");
         recycler_cat_list.setAdapter(adapter_cat_list);

@@ -94,10 +94,14 @@ public class MotorizedActivity extends AppCompatActivity {
     private Yng_Category category;
     private String pathCategory="";
 
+    int spans;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_motorized);
+
+        spans = getResources().getInteger(R.integer.number_of_columns);
 
         mContext = MotorizedActivity.this;
 
@@ -292,7 +296,7 @@ public class MotorizedActivity extends AppCompatActivity {
         recycler_list = (RecyclerView) findViewById(R.id.vertical_cat_list);
         recycler_list.setHasFixedSize(false);
         recycler_list.setNestedScrollingEnabled(false);
-        recycler_list.setLayoutManager(new StaggeredGridLayoutManager(2,1));
+        recycler_list.setLayoutManager(new StaggeredGridLayoutManager(spans,1));
         recycler_list.addItemDecoration(itemDecoration);
 
         loadJSONFromAssetCategoryList();
