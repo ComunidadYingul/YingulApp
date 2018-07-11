@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -75,6 +76,8 @@ public class OverActivity extends AppCompatActivity {
     private Double maxPriceItem;
     private Double minPriceItem;
     /*********/
+    int spans;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +88,8 @@ public class OverActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        spans = getResources().getInteger(R.integer.number_of_columns);
 
         progressDialog = new MaterialDialog.Builder(this)
                 .title(R.string.progress_dialog)
@@ -112,7 +117,8 @@ public class OverActivity extends AppCompatActivity {
         recycler_cat_list = (RecyclerView) findViewById(R.id.vertical_cat_list);
         recycler_cat_list.setHasFixedSize(false);
         recycler_cat_list.setNestedScrollingEnabled(false);
-        recycler_cat_list.setLayoutManager(new GridLayoutManager(OverActivity.this, 2));
+        //recycler_cat_list.setLayoutManager(new GridLayoutManager(OverActivity.this, spans));
+        recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(spans,1));
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(OverActivity.this, R.dimen.item_offset);
         recycler_cat_list.addItemDecoration(itemDecoration);
 
@@ -128,7 +134,8 @@ public class OverActivity extends AppCompatActivity {
         ImgGrid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recycler_cat_list.setLayoutManager(new GridLayoutManager(OverActivity.this, 2));
+                //recycler_cat_list.setLayoutManager(new GridLayoutManager(OverActivity.this, spans));
+                recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(spans,1));
                 adapter_cat_list = new ListGridAdapter(OverActivity.this, array_cat_list);
                 recycler_cat_list.setAdapter(adapter_cat_list);
                 ImgGrid.setImageResource(R.drawable.ic_grid_hover);
@@ -300,7 +307,8 @@ public class OverActivity extends AppCompatActivity {
     }
 
     public void setAdapterHomeCategoryList() {
-        recycler_cat_list.setLayoutManager(new GridLayoutManager(OverActivity.this, 2));
+        //recycler_cat_list.setLayoutManager(new GridLayoutManager(OverActivity.this, spans));
+        recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(spans,1));
         adapter_cat_list = new ListGridAdapter(OverActivity.this, array_cat_list);
         txtNoOfItem.setText(adapter_cat_list.getItemCount()+"");
         recycler_cat_list.setAdapter(adapter_cat_list);

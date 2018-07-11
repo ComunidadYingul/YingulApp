@@ -9,4 +9,5 @@
     <dimen name="text_margin">16dp</dimen>
     <dimen name="item_offset">2dp</dimen>
     <dimen name="borderRadius">5dp</dimen>
+    <integer name="number_of_columns">2</integer>
 </resources>
