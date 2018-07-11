@@ -66,20 +66,20 @@ public class ItemAdapter extends ArrayAdapter<Yng_Item>
             discountRate.setText((int)(100-(item.getPriceDiscount()*100/item.getPriceNormal()))+"% OFF");
             switch (item.getMoney()){
                 case "ARS":
-                    itemPriceNormal.setText("$ "+item.getPriceNormal());
+                    itemPriceNormal.setText("$ "+String.format("%.0f",item.getPriceNormal()));
                     break;
                 case "USD":
-                    itemPriceNormal.setText("U$D "+item.getPriceNormal());
+                    itemPriceNormal.setText("U$D "+String.format("%.0f",item.getPriceNormal()));
                     break;
             }
             itemPriceNormal.setPaintFlags(itemPriceNormal.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
         switch (item.getMoney()){
             case "ARS":
-                itemPrice.setText("$ "+item.getPrice());
+                itemPrice.setText("$ "+String.format("%.0f",item.getPrice()));
                 break;
             case "USD":
-                itemPrice.setText("U$D "+item.getPrice());
+                itemPrice.setText("U$D "+String.format("%.0f",item.getPrice()));
                 break;
         }
 

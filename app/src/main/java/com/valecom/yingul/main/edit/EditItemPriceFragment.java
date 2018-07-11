@@ -94,7 +94,7 @@ public class EditItemPriceFragment extends Fragment {
             layoutOfferDiscount.setVisibility(View.GONE);
         }
 
-        editPrice.setText(bundle.getString("data"));
+        editPrice.setText(String.format("%.0f",Double.valueOf(bundle.getString("data"))));
 
         String currency[] = {"U$S","$"};
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(v.getContext(),   android.R.layout.simple_spinner_item, currency);

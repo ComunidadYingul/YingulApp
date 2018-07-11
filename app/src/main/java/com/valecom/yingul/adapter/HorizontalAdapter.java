@@ -50,7 +50,7 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.My
         Log.e("position:------",position+"");
 
         holder.text_cat_list_title.setText(item.getName());
-        holder.text_cat_list_price.setText(String.valueOf(item.getPrice()));
+        holder.text_cat_list_price.setText(String.format("%.0f", item.getPrice()));
         try {
             if (item.getMoney().equals("USD")) {
                 holder.textMoney.setText("U$D");

@@ -294,8 +294,8 @@ public class MyAccountPublicationDetailFragment extends Fragment
                                     itemTemp=gson.fromJson(response.toString(),Yng_Item.class);
 
                                     txtItemName.setText(itemTemp.getName());
-                                    txtCurrencyPrice.setText(String.valueOf(itemTemp.getPrice()));
-                                    textPriceNormal.setText(String.valueOf(itemTemp.getPriceNormal()));
+                                    txtCurrencyPrice.setText(String.format("%.0f",itemTemp.getPrice()));
+                                    textPriceNormal.setText(String.format("%.0f",itemTemp.getPriceNormal()));
                                     textPriceNormal.setPaintFlags(textPriceNormal.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                                     if (itemTemp.getMoney().equals("USD")) {
                                         textMoney.setText("U$D");
