@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +52,7 @@ public class EditItemPriceFragment extends Fragment {
     Button buttonSetPrice,btnOfferDiscount;
     Spinner spinner_currency;
     MaterialDialog progressDialog;
+    private LinearLayout layoutOfferDiscount;
     private MaterialDialog setting_address_edit_dialog;
     public static final MediaType JSON= MediaType.parse("application/json; charset=utf-8");
     public static final String TAG = "EditFragment";
@@ -84,6 +86,13 @@ public class EditItemPriceFragment extends Fragment {
         spinner_currency = (Spinner) v.findViewById(R.id.spinner_currency);
         buttonSetPrice = (Button) v.findViewById(R.id.buttonSetPrice);
         btnOfferDiscount = (Button) v.findViewById(R.id.btnOfferDiscount);
+        layoutOfferDiscount = (LinearLayout) v.findViewById(R.id.layoutOfferDiscount);
+
+        if(bundle.get("itemType").equals("Product")){
+            layoutOfferDiscount.setVisibility(View.VISIBLE);
+        }else{
+            layoutOfferDiscount.setVisibility(View.GONE);
+        }
 
         editPrice.setText(bundle.getString("data"));
 
