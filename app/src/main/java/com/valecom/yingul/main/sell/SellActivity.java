@@ -72,7 +72,13 @@ public class SellActivity extends AppCompatActivity {
     Yng_Barrio barrio;
     //private Set<Yng_ItemCategory> itemCategoryList = new HashSet<>();
     Set<Yng_ItemCategory> itemCategoryList = new HashSet<>();
-
+    /***************/
+    Yng_Category category;
+    Yng_Category subCategory;
+    Yng_Category subSubCategory;
+    Yng_Category subSubSubCategory;
+    Yng_Category subSubSubSubCategory;
+    /***************/
     static final int ITEM_PICKER_TAG = 1;
     static final int ADD_PICTURES_TAG = 3;
 
@@ -97,6 +103,11 @@ public class SellActivity extends AppCompatActivity {
         city = new Yng_City();
         user = new Yng_User();
         barrio = new Yng_Barrio();
+        category = null;
+        subCategory = null;
+        subSubCategory = null;
+        subSubSubCategory = null;
+        subSubSubSubCategory = null;
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -197,24 +208,6 @@ public class SellActivity extends AppCompatActivity {
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         }
-    }
-    public void setCategory(String father){
-        //setear una categoria del item
-        Yng_Category category = new Yng_Category();
-        category.setCategoryId(Long.parseLong(father));
-        Yng_ItemCategory itemCategory = new Yng_ItemCategory();
-        itemCategory.setCategory(category);
-        itemCategoryList.add(itemCategory);
-        item.setItemCategory(itemCategoryList);
-        Log.e("Eddy",item.toString());
-        //setear una categoria del item
-        SellItemSetSubCategoryFragment itemSetSubCategory = new SellItemSetSubCategoryFragment();
-        itemSetSubCategory.father=father;
-        itemSetSubCategory.type=item.getType();
-        FragmentTransaction fragmentTransaction  = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.content_frame, itemSetSubCategory);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
     }
     public void setTypePrice(String typePrice){
         if(typePrice.equals("0")){
@@ -442,11 +435,50 @@ public class SellActivity extends AppCompatActivity {
     }
     String desc;
     public void confirm(){
-
         desc = "";
-        item.setYng_Ubication(ubication);
+        /***********setear las categorias**********/
         Gson gson = new Gson();
-        String jsonBody = gson.toJson(item);
+        if(category!=null){
+            Yng_ItemCategory itemCategory = new Yng_ItemCategory();
+            String jsonBody = gson.toJson(category);
+            Log.e("category",jsonBody);
+            itemCategory.setCategory(category);
+            itemCategoryList.add(itemCategory);
+        }
+        if(subCategory!=null){
+            Yng_ItemCategory itemCategory = new Yng_ItemCategory();
+            String jsonBody = gson.toJson(subCategory);
+            Log.e("subcategory",jsonBody);
+            itemCategory.setCategory(subCategory);
+            itemCategoryList.add(itemCategory);
+        }
+        if(subSubCategory!=null){
+            Yng_ItemCategory itemCategory = new Yng_ItemCategory();
+            String jsonBody = gson.toJson(subSubCategory);
+            Log.e("subsubcategory",jsonBody);
+            itemCategory.setCategory(subSubCategory);
+            itemCategoryList.add(itemCategory);
+        }
+        if(subSubSubCategory!=null){
+            Yng_ItemCategory itemCategory = new Yng_ItemCategory();
+            String jsonBody = gson.toJson(subSubSubCategory);
+            Log.e("subsubsubcategory",jsonBody);
+            itemCategory.setCategory(subSubSubCategory);
+            itemCategoryList.add(itemCategory);
+        }
+        if(subSubSubSubCategory!=null){
+            Yng_ItemCategory itemCategory = new Yng_ItemCategory();
+            String jsonBody = gson.toJson(subSubSubSubCategory);
+            Log.e("subsubsubsubcategory",jsonBody);
+            itemCategory.setCategory(subSubSubSubCategory);
+            itemCategoryList.add(itemCategory);
+        }
+        String jsonBody = gson.toJson(itemCategoryList);
+        Log.e("listacategory",jsonBody);
+        item.setItemCategory(itemCategoryList);
+        /******************************************/
+        item.setYng_Ubication(ubication);
+        jsonBody = gson.toJson(item);
         Log.e("Ubication property",jsonBody);
         item.setUser(user);
         if(item.getType().equals("Service")){

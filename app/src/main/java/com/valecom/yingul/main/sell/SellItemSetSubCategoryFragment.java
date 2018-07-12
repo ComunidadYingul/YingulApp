@@ -100,6 +100,7 @@ public class SellItemSetSubCategoryFragment extends Fragment {
             {
                 Yng_Category item = adapter.getItem(position);
                 father1=item.getCategoryId().toString();
+                ((SellActivity)getActivity()).subCategory=item;
                 RunGetCategoryService1();
             }
         });
@@ -267,7 +268,13 @@ public class SellItemSetSubCategoryFragment extends Fragment {
 
                             }
                             else{
-                                ((SellActivity)getActivity()).setCategory(father1);
+                                SellItemSetSubSubCategoryFragment itemSetSubCategory = new SellItemSetSubSubCategoryFragment();
+                                itemSetSubCategory.father= String.valueOf(father1);
+                                itemSetSubCategory.type=((SellActivity)getActivity()).item.getType();
+                                FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
+                                fragmentTransaction.replace(R.id.content_frame, itemSetSubCategory);
+                                fragmentTransaction.addToBackStack(null);
+                                fragmentTransaction.commit();
                             }
 
                         }

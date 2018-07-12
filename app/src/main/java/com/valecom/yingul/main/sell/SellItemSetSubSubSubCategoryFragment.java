@@ -1,12 +1,9 @@
 package com.valecom.yingul.main.sell;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +23,6 @@ import com.valecom.yingul.R;
 import com.valecom.yingul.adapter.CategoryAdapter;
 import com.valecom.yingul.main.LoginActivity;
 import com.valecom.yingul.main.MainActivity;
-import com.valecom.yingul.main.NewItemActivity;
 import com.valecom.yingul.model.Yng_Category;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
@@ -42,7 +38,7 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SellItemSetCategoryFragment extends Fragment {
+public class SellItemSetSubSubSubCategoryFragment extends Fragment {
 
     ListView list;
     String type;
@@ -50,9 +46,10 @@ public class SellItemSetCategoryFragment extends Fragment {
     ArrayList<Yng_Category> array_list;
     MaterialDialog progressDialog;
     TextView txtTitleCategory;
+    String father,father1;
     private JSONObject api_parameter;
 
-    public SellItemSetCategoryFragment() {
+    public SellItemSetSubSubSubCategoryFragment() {
         // Required empty public constructor
     }
 
@@ -72,7 +69,7 @@ public class SellItemSetCategoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_sell_item_set_category, container, false);
+        View v = inflater.inflate(R.layout.fragment_sell_item_set_sub_category, container, false);
 
         SharedPreferences settings = getActivity().getSharedPreferences(LoginActivity.SESSION_USER, getActivity().MODE_PRIVATE);
 
@@ -105,14 +102,9 @@ public class SellItemSetCategoryFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 Yng_Category item = adapter.getItem(position);
-                ((SellActivity)getActivity()).category=item;
-                SellItemSetSubCategoryFragment itemSetSubCategory = new SellItemSetSubCategoryFragment();
-                itemSetSubCategory.father= String.valueOf(item.getCategoryId());
-                itemSetSubCategory.type=((SellActivity)getActivity()).item.getType();
-                FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, itemSetSubCategory);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                father1=item.getCategoryId().toString();
+                ((SellActivity)getActivity()).subSubSubCategory=item;
+                RunGetCategoryService1();
             }
         });
 
@@ -139,7 +131,7 @@ public class SellItemSetCategoryFragment extends Fragment {
         progressDialog.show();
 
 
-        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "category/"+type+"/0",
+        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "category/father/"+father,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -148,7 +140,10 @@ public class SellItemSetCategoryFragment extends Fragment {
 
 
                             JSONArray items = response;
-                            Log.e("Eddy",items.toString());
+                            if(items.length()==0){
+
+                            }
+
                             array_list.clear();
                             for (int i = 0; i < items.length(); i++) {
                                 JSONObject obj = items.getJSONObject(i);
@@ -217,7 +212,126 @@ public class SellItemSetCategoryFragment extends Fragment {
             {
                 //SharedPreferences settings = getActivity().getSharedPreferences(ActivityLogin.SESSION_USER, getActivity().MODE_PRIVATE);
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("X-API-KEY", Network.API_KEY);
+                //params.put("X-API-KEY", Network.API_KEY);
+                /*params.put("Authorization",
+                        "Basic " + Base64.encodeToString(
+                                (settings.getString("email","")+":" + settings.getString("api_key","")).getBytes(), Base64.NO_WRAP)
+                );*/
+                return params;
+            }
+        };
+
+        // Get a RequestQueue
+        RequestQueue queue = MySingleton.getInstance( getContext()).getRequestQueue();
+
+        //Used to mark the request, so we can cancel it on our onStop method
+        postRequest.setTag(MainActivity.TAG);
+
+        MySingleton.getInstance(getContext()).addToRequestQueue(postRequest);
+
+    }
+    public void RunGetCategoryService1()
+    {
+        progressDialog.show();
+
+        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "category/father/"+father1,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try
+                        {
+                            JSONArray items = response;
+                            if(items.length()==0){
+                                if(((SellActivity)getActivity()).item.getType()=="Service"){
+                                    SellItemSetTypePriceFragment fragment = new SellItemSetTypePriceFragment();
+                                    FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
+                                    fragmentTransaction.replace(R.id.content_frame, fragment);
+                                    fragmentTransaction.addToBackStack(null);
+                                    fragmentTransaction.commit();
+                                }else if(((SellActivity)getActivity()).item.getType()=="Product"){
+                                    /***************colocar largo alto ancho peso******************/
+                                    SellItemSetVolumeFragment fragment = new SellItemSetVolumeFragment();
+                                    FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
+                                    fragmentTransaction.replace(R.id.content_frame, fragment);
+                                    fragmentTransaction.addToBackStack(null);
+                                    fragmentTransaction.commit();
+                                }else if(((SellActivity)getActivity()).item.getType()=="Motorized"){
+                                    SellItemSetKilometerFragment fragment = new SellItemSetKilometerFragment();
+                                    FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
+                                    fragmentTransaction.replace(R.id.content_frame, fragment);
+                                    fragmentTransaction.addToBackStack(null);
+                                    fragmentTransaction.commit();
+                                }else if(((SellActivity)getActivity()).item.getType()=="Property"){
+                                    SellItemSetAreaFragment fragment = new SellItemSetAreaFragment();
+                                    FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
+                                    fragmentTransaction.replace(R.id.content_frame, fragment);
+                                    fragmentTransaction.addToBackStack(null);
+                                    fragmentTransaction.commit();
+                                }
+
+                            }
+                            else{
+                                SellItemSetSubSubSubSubCategoryFragment itemSetSubCategory = new SellItemSetSubSubSubSubCategoryFragment();
+                                itemSetSubCategory.father= String.valueOf(father1);
+                                itemSetSubCategory.type=((SellActivity)getActivity()).item.getType();
+                                FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
+                                fragmentTransaction.replace(R.id.content_frame, itemSetSubCategory);
+                                fragmentTransaction.addToBackStack(null);
+                                fragmentTransaction.commit();
+                            }
+
+                        }
+                        catch(Exception ex)
+                        {
+                            if (isAdded()) {
+                                Toast.makeText(getContext(), R.string.error_try_again_support, Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            // If the response is JSONObject instead of expected JSONArray
+                            progressDialog.dismiss();
+                        }
+                    }
+                }, new Response.ErrorListener()
+        {
+
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                // TODO Auto-generated method stub
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    // If the response is JSONObject instead of expected JSONArray
+                    progressDialog.dismiss();
+                }
+
+                NetworkResponse response = error.networkResponse;
+                if (response != null && response.data != null)
+                {
+                    try
+                    {
+                        JSONObject json = new JSONObject(new String(response.data));
+                        Toast.makeText(getContext(), json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
+                    }
+                    catch (JSONException e)
+                    {
+                        Toast.makeText(getContext(), R.string.error_try_again_support, Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(getContext(), error != null && error.getMessage() != null ? error.getMessage() : error.toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+        })
+        {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError
+            {
+                //SharedPreferences settings = getActivity().getSharedPreferences(ActivityLogin.SESSION_USER, getActivity().MODE_PRIVATE);
+                Map<String, String> params = new HashMap<String, String>();
+                //params.put("X-API-KEY", Network.API_KEY);
                 /*params.put("Authorization",
                         "Basic " + Base64.encodeToString(
                                 (settings.getString("email","")+":" + settings.getString("api_key","")).getBytes(), Base64.NO_WRAP)
