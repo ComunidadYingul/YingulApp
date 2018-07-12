@@ -1164,7 +1164,7 @@ public class ActivityProductDetail extends AppCompatActivity {
         //Typeface typeface = Typeface.createFromAsset(ActivityProductDetail.this.getAssets(), "fonts/"+"Roboto-Light.ttf");
         //text_product_price.setTypeface(typeface);
         text_product_title.setText(itemTemp.getName());
-        text_product_price.setText(itemTemp.getPrice()+"");
+        text_product_price.setText(String.format("%.0f", itemTemp.getPrice()));
         text_quantity_stock.setText(itemTemp.getQuantity()+"");
 
         try {

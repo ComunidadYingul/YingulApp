@@ -1,5 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
@@ -15,7 +16,83 @@
             android:orientation="vertical"
             android:background="@color/white">
 
-            <LinearLayout
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="4dp"
+                card_view:cardBackgroundColor="@color/white"
+                card_view:cardCornerRadius="2dp"
+                card_view:cardUseCompatPadding="false"
+                card_view:elevation="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="2dp">
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/card_view_cat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        card_view:cardBackgroundColor="@color/white"
+                        card_view:cardCornerRadius="2dp"
+                        card_view:cardUseCompatPadding="false"
+                        card_view:elevation="5dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <RelativeLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="230dp"
+                                android:orientation="horizontal"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:id="@+id/image_product_image"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="200dp"
+                                    android:layout_gravity="center"
+                                    android:contentDescription="@string/app_name"
+                                    android:src="@drawable/placeholder220" />
+
+                                <ImageView
+                                    android:id="@+id/imgEditImage"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:src="@drawable/ic_edit_blue"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="10dp"
+                                    android:layout_marginBottom="10dp"/>
+
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/vertical_detail"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clipToPadding="false" />
+
+
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+            <!--LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -44,7 +121,7 @@
 
                 </RelativeLayout>
 
-            </LinearLayout>
+            </LinearLayout-->
 
             <View
                 android:layout_width="match_parent"

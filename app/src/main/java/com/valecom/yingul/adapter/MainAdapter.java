@@ -49,6 +49,8 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public ArrayList<Yng_Category> array_all_category;
     public ArrayList<Yng_Store> array_all_stores;
 
+    int spans;
+
     public MainAdapter(Context context, ArrayList<Object> items) {
         this.context = context;
         this.items = items;
@@ -57,6 +59,8 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         array_all_over = new ArrayList<>();
         array_all_not_over = new ArrayList<>();
         array_all_stores = new ArrayList<>();
+
+        spans = context.getResources().getInteger(R.integer.number_of_columns);
     }
 
     @Override
@@ -197,7 +201,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     VerticalAdapter adapter1;
     private void verticalView(VerticalViewHolder holder) {
         adapter1 = new VerticalAdapter(context,array_all_items);
-        holder.recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, 1));
+        holder.recyclerView.setLayoutManager(new StaggeredGridLayoutManager(spans, 1));
         holder.recyclerView.setAdapter(adapter1);
     }
 

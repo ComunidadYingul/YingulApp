@@ -63,6 +63,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -128,7 +129,7 @@ public class MainActivity extends AppCompatActivity
             profile_name.setText("¡Bienvenido!");
             TextView profile_email = (TextView) navigationHeaderView.findViewById(R.id.profile_email);
             profile_email.setText("Vendés más, comprás mejor!");
-            ImageView profilePhoto = (ImageView) navigationHeaderView.findViewById(R.id.profile_photo);
+            CircleImageView profilePhoto = (CircleImageView) navigationHeaderView.findViewById(R.id.profile_photo);
             Picasso.with(MainActivity.this).load(Network.BUCKET_URL+"user/userProfile/profile.jpg").into(profilePhoto);
             profilePhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -150,7 +151,7 @@ public class MainActivity extends AppCompatActivity
             TextView profile_email = (TextView) navigationHeaderView.findViewById(R.id.profile_email);
             profile_email.setText(email);
 
-            ImageView profilePhoto = (ImageView) navigationHeaderView.findViewById(R.id.profile_photo);
+            CircleImageView profilePhoto = (CircleImageView) navigationHeaderView.findViewById(R.id.profile_photo);
             Picasso.with(MainActivity.this).load(Network.BUCKET_URL+"user/userProfile/"+settings.getString("profilePhoto","")).into(profilePhoto);
             profilePhoto.setOnClickListener(new View.OnClickListener() {
                 @Override

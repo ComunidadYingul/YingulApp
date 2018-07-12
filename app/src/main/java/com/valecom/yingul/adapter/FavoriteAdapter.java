@@ -53,7 +53,7 @@ public class FavoriteAdapter extends ArrayAdapter<Yng_Item>
         LinearLayout freeShipping = (LinearLayout) rowView.findViewById(R.id.freeShipping);
 
         Picasso.with(context).load(Network.BUCKET_URL+item.getPrincipalImage()).into(itemImage);
-        itemPrice.setText("$ "+item.getPrice());
+        itemPrice.setText("$ "+String.format("%.0f",item.getPrice()));
         itemName.setText(item.getName());
 
         if(item.getProductPagoEnvio()==null||!item.getProductPagoEnvio().equals("gratis")){

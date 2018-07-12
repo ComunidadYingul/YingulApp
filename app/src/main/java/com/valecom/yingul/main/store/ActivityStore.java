@@ -91,10 +91,14 @@ public class ActivityStore extends AppCompatActivity {
     private Double minPriceItem;
     /*********/
 
+    int spans;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store);
+
+        spans = getResources().getInteger(R.integer.number_of_columns);
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.home_latest));
@@ -137,7 +141,7 @@ public class ActivityStore extends AppCompatActivity {
         recycler_cat_list = (RecyclerView) findViewById(R.id.vertical_cat_list);
         recycler_cat_list.setHasFixedSize(false);
         recycler_cat_list.setNestedScrollingEnabled(false);
-        recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(2,1));
+        recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(spans,1));
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(ActivityStore.this, R.dimen.item_offset);
         recycler_cat_list.addItemDecoration(itemDecoration);
 

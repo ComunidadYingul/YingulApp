@@ -98,10 +98,14 @@ public class PropertyActivity extends AppCompatActivity {
     private CityAdapter adapter2;
     private ArrayList<Yng_City> array_list2;
 
+    int spans;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_property);
+
+        spans = getResources().getInteger(R.integer.number_of_columns);
 
         mContext = PropertyActivity.this;
 
@@ -125,7 +129,7 @@ public class PropertyActivity extends AppCompatActivity {
         recycler_list = (RecyclerView) findViewById(R.id.vertical_cat_list);
         recycler_list.setHasFixedSize(false);
         recycler_list.setNestedScrollingEnabled(false);
-        recycler_list.setLayoutManager(new StaggeredGridLayoutManager(2,1));
+        recycler_list.setLayoutManager(new StaggeredGridLayoutManager(spans,1));
         recycler_list.addItemDecoration(itemDecoration);
 
         array_all_category = new ArrayList<>();

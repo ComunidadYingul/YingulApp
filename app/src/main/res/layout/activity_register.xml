@@ -16,13 +16,14 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!--TextView
+        <TextView
             android:id="@+id/text_logo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
             android:text="0"
             android:fontFamily="@font/roboto_thin"
-            android:textSize="110dp"
+            android:textSize="70dp"
             android:textColor="@color/white"
             android:gravity="center" />
 
@@ -30,18 +31,17 @@
             android:id="@+id/text_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="0dp"
             android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
             android:text="1"
             android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:textSize="30sp"/-->
+            android:textSize="15sp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="20dp"
             android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
             android:text="Regístrate"
@@ -59,6 +59,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Nombre"
+                android:textSize="15sp"
                 android:singleLine="true"
                 android:inputType="textPersonName"
                 android:textColor="@color/white"/>
@@ -74,6 +75,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Apellido"
+                android:textSize="15sp"
                 android:inputType="textPersonName"
                 android:singleLine="true"
                 android:textColor="@color/white"/>
@@ -89,6 +91,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Correo electrónico"
+                android:textSize="15sp"
                 android:inputType="textEmailAddress"
                 android:singleLine="true"
                 android:textColor="@color/white"/>
@@ -104,6 +107,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Contraseña"
+                android:textSize="15sp"
                 android:inputType="textPassword"
                 android:singleLine="true"
                 android:textColor="@color/white"/>
