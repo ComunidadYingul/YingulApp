@@ -78,7 +78,9 @@ public class OverActivity extends AppCompatActivity {
     private Double maxPriceItem;
     private Double minPriceItem;
     /*********/
-    int spans;
+    int col=2;
+    int modo=0;
+    DisplayMetrics metrics = new DisplayMetrics();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +93,7 @@ public class OverActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        spans = getResources().getInteger(R.integer.number_of_columns);
+        recyclerResponsive();
 
         progressDialog = new MaterialDialog.Builder(this)
                 .title(R.string.progress_dialog)
@@ -120,7 +122,7 @@ public class OverActivity extends AppCompatActivity {
         recycler_cat_list.setHasFixedSize(false);
         recycler_cat_list.setNestedScrollingEnabled(false);
         //recycler_cat_list.setLayoutManager(new GridLayoutManager(OverActivity.this, spans));
-        recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(spans,1));
+        recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(col,1));
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(OverActivity.this, R.dimen.item_offset);
         recycler_cat_list.addItemDecoration(itemDecoration);
 
@@ -136,8 +138,9 @@ public class OverActivity extends AppCompatActivity {
         ImgGrid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                modo=0;
                 //recycler_cat_list.setLayoutManager(new GridLayoutManager(OverActivity.this, spans));
-                recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(spans,1));
+                recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(col,1));
                 adapter_cat_list = new ListGridAdapter(OverActivity.this, array_cat_list);
                 recycler_cat_list.setAdapter(adapter_cat_list);
                 ImgGrid.setImageResource(R.drawable.ic_grid_hover);
@@ -148,6 +151,7 @@ public class OverActivity extends AppCompatActivity {
         ImgList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                modo=1;
                 recycler_cat_list.setLayoutManager(new GridLayoutManager(OverActivity.this, 1));
                 adapter_cat_list_listview = new ListRowAdapter(OverActivity.this, array_cat_list);
                 recycler_cat_list.setAdapter(adapter_cat_list_listview);
@@ -175,6 +179,23 @@ public class OverActivity extends AppCompatActivity {
         /*****************/
         loadJSONFromAssetCategoryList();
 
+    }
+
+    public void recyclerResponsive(){
+        Log.e("oriencation:----",""+getApplicationContext().getResources().getConfiguration().orientation);
+        Log.e("dpi:----",""+metrics.xdpi);
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        if(getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if (metrics.xdpi < 160) {col = 4;}
+            else if (metrics.xdpi < 220) {col = 4;}
+            else if (metrics.xdpi < 320) {col = 3;}
+            else {col = 2;}
+        }else if(getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            if(metrics.xdpi < 160){col=2;}
+            else if(metrics.xdpi < 220){col=2;}
+            else if(metrics.xdpi < 320){col=2;}
+            else {col=2;}
+        }
     }
 
     @Override
@@ -310,7 +331,7 @@ public class OverActivity extends AppCompatActivity {
 
     public void setAdapterHomeCategoryList() {
         //recycler_cat_list.setLayoutManager(new GridLayoutManager(OverActivity.this, spans));
-        recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(spans,1));
+        recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(col,1));
         adapter_cat_list = new ListGridAdapter(OverActivity.this, array_cat_list);
         txtNoOfItem.setText(adapter_cat_list.getItemCount()+"");
         recycler_cat_list.setAdapter(adapter_cat_list);
@@ -380,48 +401,14 @@ public class OverActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
-        int orientation=newConfig.orientation;
-        int col=2;
-
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        int width = metrics.widthPixels; // ancho absoluto en pixels
-        int height = metrics.heightPixels; // alto absoluto en pixels
-
-        switch(orientation) {
-
-            case Configuration.ORIENTATION_LANDSCAPE://to do something
-                if(metrics.xdpi < 160){col=5;}
-                else if(metrics.xdpi < 220){col=4;}
-                else if(metrics.xdpi < 320){col=3;}
-                else {col=2;}
-
-                Log.e("gonzalo:---","horizontal "+metrics.densityDpi);
-                Log.e("gonzalo:---","x:-- "+metrics.xdpi);
-                Log.e("gonzalo:---","y:-- "+metrics.ydpi);
-                recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(col,1));
-                adapter_cat_list = new ListGridAdapter(OverActivity.this, array_cat_list);
-                recycler_cat_list.setAdapter(adapter_cat_list);
-                ImgGrid.setImageResource(R.drawable.ic_grid_hover);
-                ImgList.setImageResource(R.drawable.ic_list);
-                break;
-
-            case Configuration.ORIENTATION_PORTRAIT://to do something
-                if(metrics.xdpi < 160){col=4;}
-                else if(metrics.xdpi < 220){col=3;}
-                else if(metrics.xdpi < 320){col=2;}
-                else {col=2;}
-
-                Log.e("gonzalo:---","vertical "+metrics.densityDpi);
-                Log.e("gonzalo:---","x:-- "+metrics.xdpi);
-                Log.e("gonzalo:---","y:-- "+metrics.ydpi);
-                recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(col,1));
-                adapter_cat_list = new ListGridAdapter(OverActivity.this, array_cat_list);
-                recycler_cat_list.setAdapter(adapter_cat_list);
-                ImgGrid.setImageResource(R.drawable.ic_grid_hover);
-                ImgList.setImageResource(R.drawable.ic_list);
-                break;
-
+        recyclerResponsive();
+        
+        if(modo==0) {
+            recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(col, 1));
+            adapter_cat_list = new ListGridAdapter(OverActivity.this, array_cat_list);
+            recycler_cat_list.setAdapter(adapter_cat_list);
+            ImgGrid.setImageResource(R.drawable.ic_grid_hover);
+            ImgList.setImageResource(R.drawable.ic_list);
         }
     }
 }
