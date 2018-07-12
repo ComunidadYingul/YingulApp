@@ -39,11 +39,13 @@ public class YingulPayActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int width = metrics.widthPixels; // ancho absoluto en pixels
         int height = metrics.heightPixels; // alto absoluto en pixels
-        int height2 = metrics.densityDpi;
+        int dpi = metrics.densityDpi;
 
         Log.e("G--ancho:---",width+"");
         Log.e("G--alto:---",height+"");
-        Log.e("G--alto2:---",height2+"");
+        Log.e("G--dpi:---",dpi+"");
+        Log.e("G--dpi x:---",metrics.xdpi+"");
+        Log.e("G--dpi y:---",metrics.ydpi+"");
 
         lytBanner.getLayoutParams().height = height*1/5;
 

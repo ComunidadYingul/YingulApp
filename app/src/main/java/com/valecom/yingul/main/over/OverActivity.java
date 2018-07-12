@@ -2,12 +2,14 @@ package com.valecom.yingul.main.over;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -373,4 +375,53 @@ public class OverActivity extends AppCompatActivity {
         return array_cat_list_new;
     }
     /*************************/
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        int orientation=newConfig.orientation;
+        int col=2;
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int width = metrics.widthPixels; // ancho absoluto en pixels
+        int height = metrics.heightPixels; // alto absoluto en pixels
+
+        switch(orientation) {
+
+            case Configuration.ORIENTATION_LANDSCAPE://to do something
+                if(metrics.xdpi < 160){col=5;}
+                else if(metrics.xdpi < 220){col=4;}
+                else if(metrics.xdpi < 320){col=3;}
+                else {col=2;}
+
+                Log.e("gonzalo:---","horizontal "+metrics.densityDpi);
+                Log.e("gonzalo:---","x:-- "+metrics.xdpi);
+                Log.e("gonzalo:---","y:-- "+metrics.ydpi);
+                recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(col,1));
+                adapter_cat_list = new ListGridAdapter(OverActivity.this, array_cat_list);
+                recycler_cat_list.setAdapter(adapter_cat_list);
+                ImgGrid.setImageResource(R.drawable.ic_grid_hover);
+                ImgList.setImageResource(R.drawable.ic_list);
+                break;
+
+            case Configuration.ORIENTATION_PORTRAIT://to do something
+                if(metrics.xdpi < 160){col=4;}
+                else if(metrics.xdpi < 220){col=3;}
+                else if(metrics.xdpi < 320){col=2;}
+                else {col=2;}
+
+                Log.e("gonzalo:---","vertical "+metrics.densityDpi);
+                Log.e("gonzalo:---","x:-- "+metrics.xdpi);
+                Log.e("gonzalo:---","y:-- "+metrics.ydpi);
+                recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(col,1));
+                adapter_cat_list = new ListGridAdapter(OverActivity.this, array_cat_list);
+                recycler_cat_list.setAdapter(adapter_cat_list);
+                ImgGrid.setImageResource(R.drawable.ic_grid_hover);
+                ImgList.setImageResource(R.drawable.ic_list);
+                break;
+
+        }
+    }
 }
