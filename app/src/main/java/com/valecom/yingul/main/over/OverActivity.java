@@ -79,7 +79,7 @@ public class OverActivity extends AppCompatActivity {
     private Double minPriceItem;
     /*********/
     int col=2;
-    int modo=0;
+    String modo="grid";
     DisplayMetrics metrics = new DisplayMetrics();
 
     @Override
@@ -138,7 +138,7 @@ public class OverActivity extends AppCompatActivity {
         ImgGrid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                modo=0;
+                modo="grid";
                 //recycler_cat_list.setLayoutManager(new GridLayoutManager(OverActivity.this, spans));
                 recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(col,1));
                 adapter_cat_list = new ListGridAdapter(OverActivity.this, array_cat_list);
@@ -151,7 +151,7 @@ public class OverActivity extends AppCompatActivity {
         ImgList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                modo=1;
+                modo="row";
                 recycler_cat_list.setLayoutManager(new GridLayoutManager(OverActivity.this, 1));
                 adapter_cat_list_listview = new ListRowAdapter(OverActivity.this, array_cat_list);
                 recycler_cat_list.setAdapter(adapter_cat_list_listview);
@@ -403,12 +403,10 @@ public class OverActivity extends AppCompatActivity {
 
         recyclerResponsive();
         
-        if(modo==0) {
+        if(modo.equals("grid")) {
             recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(col, 1));
             adapter_cat_list = new ListGridAdapter(OverActivity.this, array_cat_list);
             recycler_cat_list.setAdapter(adapter_cat_list);
-            ImgGrid.setImageResource(R.drawable.ic_grid_hover);
-            ImgList.setImageResource(R.drawable.ic_list);
         }
     }
 }
