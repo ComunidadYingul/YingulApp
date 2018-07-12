@@ -11,6 +11,8 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,13 +30,19 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
+import com.valecom.yingul.Item.ItemGallery;
 import com.valecom.yingul.R;
+import com.valecom.yingul.Util.ItemOffsetDecoration;
+import com.valecom.yingul.adapter.GalleryAdapter;
+import com.valecom.yingul.main.ActivityGalleryDetail;
 import com.valecom.yingul.main.ActivityProductDetail;
 import com.valecom.yingul.main.LoginActivity;
+import com.valecom.yingul.main.MainActivity;
 import com.valecom.yingul.main.categories.SubCategoryFragment;
 import com.valecom.yingul.main.edit.EditItemDescriptionFragment;
 import com.valecom.yingul.main.edit.EditItemImageFragment;
@@ -47,14 +55,24 @@ import com.valecom.yingul.model.Yng_User;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MyAccountPublicationDetailFragment extends Fragment
 {
+    ImageView ImgDetail,imgEnvioGratis;
+    RecyclerView recyclerViewDetail;
+    GalleryAdapter adapter_gallery;
+    ItemGallery itemGalleryList;
+    ArrayList<ItemGallery> array_gallery;
+    String itemId;
+    /***************************/
+
     private OnFragmentInteractionListener mListener;
 
     private MaterialDialog progressDialog;
@@ -113,8 +131,13 @@ public class MyAccountPublicationDetailFragment extends Fragment
         final Bundle bundle = getArguments();
         Gson gson = new Gson();
         item = gson.fromJson(bundle.getString("item"), Yng_Item.class);
+        itemId = String.valueOf(item.getItemId());
 
-        principalImage = (ImageView) view.findViewById(R.id.principalImage);
+        ImgDetail = (ImageView) view.findViewById(R.id.image_product_image);
+        recyclerViewDetail = (RecyclerView) view.findViewById(R.id.vertical_detail);
+        array_gallery = new ArrayList<>();
+
+        //principalImage = (ImageView) view.findViewById(R.id.principalImage);
         txtItemName = (TextView) view.findViewById(R.id.txtItemName);
         txtCurrencyPrice = (TextView) view.findViewById(R.id.txtCurrencyPrice);
         textPriceNormal = (TextView) view.findViewById(R.id.textPriceNormal);
@@ -132,10 +155,17 @@ public class MyAccountPublicationDetailFragment extends Fragment
         lytPriceNormal = (LinearLayout) view.findViewById(R.id.lytPriceNormal);
         lytDiscount = (LinearLayout) view.findViewById(R.id.lytDiscount);
 
+        recyclerViewDetail.setHasFixedSize(false);
+        recyclerViewDetail.setNestedScrollingEnabled(false);
+        recyclerViewDetail.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getContext(), R.dimen.item_offset);
+        recyclerViewDetail.addItemDecoration(itemDecoration);
+
         final Bundle bundleEdit = new Bundle();
         bundleEdit.putLong("itemId",item.getItemId());
 
-        RunLoginService();
+        //RunLoginService();
+        loadJSONFromAssetGallery();
 
         btnItemDetail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,6 +241,139 @@ public class MyAccountPublicationDetailFragment extends Fragment
         });
 
         return view;
+    }
+
+    public void setAdapterGalleryList() {
+
+        Log.e("Eddy","segundo");
+        adapter_gallery = new GalleryAdapter(getContext(), array_gallery);
+        recyclerViewDetail.setAdapter(adapter_gallery);
+
+        itemGalleryList = array_gallery.get(0);
+        Picasso.with(getContext()).load(Network.BUCKET_URL + itemGalleryList.getGalleryImage()).into(ImgDetail);
+
+        recyclerViewDetail.addOnItemTouchListener(new ActivityProductDetail.RecyclerTouchListener(getContext(), recyclerViewDetail, new ActivityProductDetail.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                itemGalleryList = array_gallery.get(position);
+                Picasso.with(getContext()).load(Network.BUCKET_URL + itemGalleryList.getGalleryImage()).into(ImgDetail);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
+        ImgDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_gallery = new Intent(getContext(), ActivityGalleryDetail.class);
+                intent_gallery.putExtra("itemId",itemId);
+                startActivity(intent_gallery);
+            }
+        });
+
+        RunLoginService();
+
+    }
+
+    /*******************************************************************************************************/
+    public ArrayList<ItemGallery> loadJSONFromAssetGallery() {
+
+        //progressDialog.show();
+
+        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "item/Image/"+itemId,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try
+                        {
+                            ItemGallery itemGalleryList = new ItemGallery();
+
+                            itemGalleryList.setGalleryImage(item.getPrincipalImage());
+                            Log.e("principalImage:--",item.getPrincipalImage());
+
+                            array_gallery.add(itemGalleryList);
+
+                            JSONArray m_jArry = response;
+                            Log.e("Eddy_array---",m_jArry.toString());
+                            for (int i = 0; i < m_jArry.length(); i++) {
+                                JSONObject jo_inside = m_jArry.getJSONObject(i);
+                                itemGalleryList = new ItemGallery();
+
+                                itemGalleryList.setGalleryImage(jo_inside.getString("image"));
+
+                                array_gallery.add(itemGalleryList);
+                            }
+
+                            setAdapterGalleryList();
+                        }
+                        catch(Exception ex)
+                        {
+                            Toast.makeText(getContext(), R.string.error_try_again_support, Toast.LENGTH_LONG).show();
+                        }
+
+                        /*if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }*/
+                    }
+                }, new Response.ErrorListener()
+        {
+
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                // TODO Auto-generated method stub
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    // If the response is JSONObject instead of expected JSONArray
+                    progressDialog.dismiss();
+                }
+
+                NetworkResponse response = error.networkResponse;
+                if (response != null && response.data != null)
+                {
+                    try
+                    {
+                        JSONObject json = new JSONObject(new String(response.data));
+                        Toast.makeText(getContext(), json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
+                    }
+                    catch (JSONException e)
+                    {
+                        Toast.makeText(getContext(), R.string.error_try_again_support, Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(getContext(), error != null && error.getMessage() != null ? error.getMessage() : error.toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+        })
+        {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError
+            {
+                //SharedPreferences settings = getSharedPreferences(LoginActivity.SESSION_USER, MODE_PRIVATE);
+                Map<String, String> params = new HashMap<String, String>();
+                //params.put("X-API-KEY", Network.API_KEY);
+                /*params.put("Authorization",
+                        "Basic " + Base64.encodeToString(
+                                (settings.getString("email","")+":" + settings.getString("api_key","")).getBytes(), Base64.NO_WRAP)
+                );*/
+                return params;
+            }
+        };
+
+        // Get a RequestQueue
+        //RequestQueue queue = MySingleton.getInstance(getContext()).getRequestQueue();
+
+        //Used to mark the request, so we can cancel it on our onStop method
+        postRequest.setTag(MainActivity.TAG);
+
+        MySingleton.getInstance(getContext()).addToRequestQueue(postRequest);
+
+        return array_gallery;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -315,7 +478,7 @@ public class MyAccountPublicationDetailFragment extends Fragment
                                     }
                                     txtDescription.setText(itemTemp.getDescription());
                                     txtQuantity.setText(String.valueOf(itemTemp.getQuantity()));
-                                    Picasso.with(getActivity()).load(Network.BUCKET_URL+itemTemp.getPrincipalImage()).into(principalImage);
+                                    //Picasso.with(getActivity()).load(Network.BUCKET_URL+itemTemp.getPrincipalImage()).into(principalImage);
 
                                     ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(itemTemp.getName());
 
