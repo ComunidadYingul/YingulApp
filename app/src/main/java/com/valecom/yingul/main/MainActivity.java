@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -52,6 +53,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -82,6 +84,7 @@ public class MainActivity extends AppCompatActivity
     public Toolbar toolbar;
     private Yng_User user;
     static final int ADD_PICTURES_TAG = 1;
+    static final int REQUEST_IMAGE_CAPTURE = 2;
 
     public static final MediaType JSON= MediaType.parse("application/json; charset=utf-8");
 
@@ -179,6 +182,11 @@ public class MainActivity extends AppCompatActivity
                                 @Override
                                 public void onNegative(MaterialDialog dialog)
                                 {
+                                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                    if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                                    }
+
                                     dialog.dismiss();
                                     if (dialog != null && dialog.isShowing())
                                     {
@@ -600,6 +608,18 @@ public class MainActivity extends AppCompatActivity
                         requestUpdatePhotoProfile(Network.API_URL + "user/updateProfilePhoto",jsonBody);
                     }
                 }
+                break;
+                case REQUEST_IMAGE_CAPTURE:
+                    if (resultCode == RESULT_OK) {
+                        Bundle extras = data.getExtras();
+                        Bitmap imageBitmap = (Bitmap) extras.get("data");
+                        String encodedImage = encodeImage(imageBitmap);
+                        user.setProfilePhoto("data:image/jpeg;base64," + encodedImage);
+                        Gson gson = new Gson();
+                        String jsonBody = gson.toJson(user);
+                        Log.e("usuario final", jsonBody);
+                        requestUpdatePhotoProfile(Network.API_URL + "user/updateProfilePhoto",jsonBody);
+                    }
                 break;
         }
     }
