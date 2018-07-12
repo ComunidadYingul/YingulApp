@@ -389,6 +389,9 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         }
+        else if (id == R.id.nav_create_store){
+
+        }
         else if (id == R.id.nav_sell) {
             Intent settingsIntent = new Intent(this, SellActivity.class);
             startActivity(settingsIntent);

@@ -33,6 +33,10 @@
 
     <group android:id="@+id/group_settings"  android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_create_store"
+            android:icon="@drawable/change_theme"
+            android:title="Crear tienda en YingulShop" />
+        <item
             android:id="@+id/nav_sell"
             android:icon="@drawable/change_theme"
             android:title="Vender gratis" />
