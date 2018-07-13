@@ -168,7 +168,7 @@ public class MyAccountFragment extends Fragment
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-                    getActivity().finish();
+                    //getActivity().finish();
                     return;
                 }else{
                     Log.e("Username:--",tempUsername);
@@ -186,8 +186,21 @@ public class MyAccountFragment extends Fragment
         yingulPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), YingulPayActivity.class);
-                startActivity(intent);
+                String tempUsername = settings.getString("username",null);
+
+                if (settings == null || settings.getInt("logged_in", 0) == 0 || settings.getString("api_key", "").equals(""))
+                {
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    //getActivity().finish();
+                    return;
+                }else{
+                    Intent intent = new Intent(getActivity(), YingulPayActivity.class);
+                    startActivity(intent);
+                }
+                /*Intent intent = new Intent(getActivity(), YingulPayActivity.class);
+                startActivity(intent);*/
             }
         });
 

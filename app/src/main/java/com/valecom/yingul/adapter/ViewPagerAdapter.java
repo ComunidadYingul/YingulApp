@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.allItems.AllItemsActivity;
+import com.valecom.yingul.main.createStore.CreateStoreActivity;
 import com.valecom.yingul.main.over.OverActivity;
 import com.valecom.yingul.main.sell.SellActivity;
 
@@ -64,6 +65,9 @@ public class ViewPagerAdapter extends PagerAdapter {
                     context.startActivity(intent);
                 }else  if(position == 4){
                     intent = new Intent(context,OverActivity.class);
+                    context.startActivity(intent);
+                }else  if(position == 5){
+                    intent = new Intent(context,CreateStoreActivity.class);
                     context.startActivity(intent);
                 }else{
                     //intent = new Intent(context,AllItemsActivity.class);
