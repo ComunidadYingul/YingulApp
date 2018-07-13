@@ -3,12 +3,14 @@ package com.valecom.yingul.main.motorized;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -93,15 +95,15 @@ public class MotorizedActivity extends AppCompatActivity {
     private Long minYear;
     private Yng_Category category;
     private String pathCategory="";
-
-    int spans;
+    /*********/
+    int col=2;
+    String modo="grid";
+    DisplayMetrics metrics = new DisplayMetrics();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_motorized);
-
-        spans = getResources().getInteger(R.integer.number_of_columns);
 
         mContext = MotorizedActivity.this;
 
@@ -296,7 +298,7 @@ public class MotorizedActivity extends AppCompatActivity {
         recycler_list = (RecyclerView) findViewById(R.id.vertical_cat_list);
         recycler_list.setHasFixedSize(false);
         recycler_list.setNestedScrollingEnabled(false);
-        recycler_list.setLayoutManager(new StaggeredGridLayoutManager(spans,1));
+        recycler_list.setLayoutManager(new StaggeredGridLayoutManager(col,1));
         recycler_list.addItemDecoration(itemDecoration);
 
         loadJSONFromAssetCategoryList();
@@ -1019,5 +1021,36 @@ public class MotorizedActivity extends AppCompatActivity {
 
                 })
                 .show();
+    }
+    /*************************/
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        recyclerResponsive();
+
+        if(modo.equals("grid")) {
+            recycler_list.setLayoutManager(new StaggeredGridLayoutManager(col, 1));
+            adapter_list = new ListGridAdapter(getApplicationContext(), array_list);
+            recycler_list.setAdapter(adapter_list);
+        }
+    }
+
+    public void recyclerResponsive(){
+        Log.e("oriencation:----",""+getApplicationContext().getResources().getConfiguration().orientation);
+        Log.e("dpi:----",""+metrics.xdpi);
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        if(getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if (metrics.xdpi < 160) {col = 4;}
+            else if (metrics.xdpi < 220) {col = 4;}
+            else if (metrics.xdpi < 320) {col = 3;}
+            else {col = 2;}
+        }else if(getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            if(metrics.xdpi < 160){col=2;}
+            else if(metrics.xdpi < 220){col=2;}
+            else if(metrics.xdpi < 320){col=2;}
+            else {col=2;}
+        }
     }
 }

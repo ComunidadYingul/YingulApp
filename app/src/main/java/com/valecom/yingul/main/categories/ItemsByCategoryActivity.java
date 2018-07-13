@@ -3,12 +3,14 @@ package com.valecom.yingul.main.categories;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -81,15 +83,14 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
     private Double maxPriceItem;
     private Double minPriceItem;
     /*********/
-
-    int spans;
+    int col=2;
+    String modo="grid";
+    DisplayMetrics metrics = new DisplayMetrics();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store);
-
-        spans = getResources().getInteger(R.integer.number_of_columns);
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.home_latest));
@@ -128,7 +129,7 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
         recycler_cat_list = (RecyclerView) findViewById(R.id.vertical_cat_list);
         recycler_cat_list.setHasFixedSize(false);
         recycler_cat_list.setNestedScrollingEnabled(false);
-        recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(spans,1));
+        recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(col,1));
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(ItemsByCategoryActivity.this, R.dimen.item_offset);
         recycler_cat_list.addItemDecoration(itemDecoration);
 
@@ -144,7 +145,8 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
         ImgGrid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recycler_cat_list.setLayoutManager(new GridLayoutManager(ItemsByCategoryActivity.this, 2));
+                modo="grid";
+                recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(col,1));
                 adapter_cat_list = new ListGridAdapter(ItemsByCategoryActivity.this, array_cat_list);
                 recycler_cat_list.setAdapter(adapter_cat_list);
                 ImgGrid.setImageResource(R.drawable.ic_grid_hover);
@@ -155,6 +157,7 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
         ImgList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                modo="row";
                 recycler_cat_list.setLayoutManager(new GridLayoutManager(ItemsByCategoryActivity.this, 1));
                 adapter_cat_list_listview = new ListRowAdapter(ItemsByCategoryActivity.this, array_cat_list);
                 recycler_cat_list.setAdapter(adapter_cat_list_listview);
@@ -316,7 +319,7 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
     }
 
     public void setAdapterHomeCategoryList() {
-        recycler_cat_list.setLayoutManager(new GridLayoutManager(ItemsByCategoryActivity.this, 2));
+        recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(col,1));
         adapter_cat_list = new ListGridAdapter(ItemsByCategoryActivity.this, array_cat_list);
         txtNoOfItem.setText(adapter_cat_list.getItemCount()+"");
         recycler_cat_list.setAdapter(adapter_cat_list);
@@ -381,4 +384,34 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
         return array_cat_list_new;
     }
     /*************************/
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        recyclerResponsive();
+
+        if(modo.equals("grid")) {
+            recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(col, 1));
+            adapter_cat_list = new ListGridAdapter(getApplicationContext(), array_cat_list);
+            recycler_cat_list.setAdapter(adapter_cat_list);
+        }
+    }
+
+    public void recyclerResponsive(){
+        Log.e("oriencation:----",""+getApplicationContext().getResources().getConfiguration().orientation);
+        Log.e("dpi:----",""+metrics.xdpi);
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        if(getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if (metrics.xdpi < 160) {col = 4;}
+            else if (metrics.xdpi < 220) {col = 4;}
+            else if (metrics.xdpi < 320) {col = 3;}
+            else {col = 2;}
+        }else if(getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            if(metrics.xdpi < 160){col=2;}
+            else if(metrics.xdpi < 220){col=2;}
+            else if(metrics.xdpi < 320){col=2;}
+            else {col=2;}
+        }
+    }
 }

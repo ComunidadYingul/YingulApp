@@ -181,23 +181,6 @@ public class OverActivity extends AppCompatActivity {
 
     }
 
-    public void recyclerResponsive(){
-        Log.e("oriencation:----",""+getApplicationContext().getResources().getConfiguration().orientation);
-        Log.e("dpi:----",""+metrics.xdpi);
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        if(getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            if (metrics.xdpi < 160) {col = 4;}
-            else if (metrics.xdpi < 220) {col = 4;}
-            else if (metrics.xdpi < 320) {col = 3;}
-            else {col = 2;}
-        }else if(getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-            if(metrics.xdpi < 160){col=2;}
-            else if(metrics.xdpi < 220){col=2;}
-            else if(metrics.xdpi < 320){col=2;}
-            else {col=2;}
-        }
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //return super.onOptionsItemSelected(item);
@@ -407,6 +390,23 @@ public class OverActivity extends AppCompatActivity {
             recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(col, 1));
             adapter_cat_list = new ListGridAdapter(OverActivity.this, array_cat_list);
             recycler_cat_list.setAdapter(adapter_cat_list);
+        }
+    }
+
+    public void recyclerResponsive(){
+        Log.e("oriencation:----",""+getApplicationContext().getResources().getConfiguration().orientation);
+        Log.e("dpi:----",""+metrics.xdpi);
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        if(getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if (metrics.xdpi < 160) {col = 4;}
+            else if (metrics.xdpi < 220) {col = 4;}
+            else if (metrics.xdpi < 320) {col = 3;}
+            else {col = 2;}
+        }else if(getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            if(metrics.xdpi < 160){col=2;}
+            else if(metrics.xdpi < 220){col=2;}
+            else if(metrics.xdpi < 320){col=2;}
+            else {col=2;}
         }
     }
 }

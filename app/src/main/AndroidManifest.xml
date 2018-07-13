@@ -245,20 +245,27 @@
         </activity>
         <activity android:name=".main.ActivityPlaceOrder" />
         <activity android:name=".main.ActivityGalleryDetail" />
-        <activity android:name=".main.ActivityPubliSellerList" />
-        <activity android:name=".main.store.ActivityStore" />
+        <activity android:name=".main.ActivityPubliSellerList"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity android:name=".main.store.ActivityStore"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
         <activity android:name=".main.categories.CategoryActivity" />
-        <activity android:name=".main.categories.ItemsByCategoryActivity" />
+        <activity android:name=".main.categories.ItemsByCategoryActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
         <activity android:name=".main.store.AllStoreActivity" />
-        <activity android:name=".main.service.ServiceActivity" />
-        <activity android:name=".main.motorized.MotorizedActivity" />
-        <activity android:name=".main.property.PropertyActivity" />
+        <activity android:name=".main.service.ServiceActivity"/>
+        <activity android:name=".main.motorized.MotorizedActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity android:name=".main.property.PropertyActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
         <activity android:name=".main.myAccount.yingulPay.YingulPayActivity" />
         <activity
             android:name=".main.over.OverActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"/>
-        <activity android:name=".main.allItems.AllItemsActivity" />
-        <activity android:name=".main.over.AllNotOverActivity"></activity>
+        <activity android:name=".main.allItems.AllItemsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity android:name=".main.over.AllNotOverActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"></activity>
     </application>
 
 </manifest>
