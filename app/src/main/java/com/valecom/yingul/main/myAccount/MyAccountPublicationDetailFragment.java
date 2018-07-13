@@ -43,15 +43,12 @@ import com.valecom.yingul.main.ActivityGalleryDetail;
 import com.valecom.yingul.main.ActivityProductDetail;
 import com.valecom.yingul.main.LoginActivity;
 import com.valecom.yingul.main.MainActivity;
-import com.valecom.yingul.main.categories.SubCategoryFragment;
+import com.valecom.yingul.main.edit.EditImageActivity;
 import com.valecom.yingul.main.edit.EditItemDescriptionFragment;
-import com.valecom.yingul.main.edit.EditItemImageFragment;
 import com.valecom.yingul.main.edit.EditItemPriceFragment;
 import com.valecom.yingul.main.edit.EditItemQuantityFragment;
 import com.valecom.yingul.main.edit.EditItemTitleFragment;
-import com.valecom.yingul.main.sell.SellItemAddSummaryFragment;
 import com.valecom.yingul.model.Yng_Item;
-import com.valecom.yingul.model.Yng_User;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
 
@@ -232,11 +229,9 @@ public class MyAccountPublicationDetailFragment extends Fragment
         imgEditImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditItemImageFragment fragment = new EditItemImageFragment();
-                FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                Intent intent_gallery = new Intent(getContext(), EditImageActivity.class);
+                intent_gallery.putExtra("itemId",itemId);
+                startActivity(intent_gallery);
             }
         });
 

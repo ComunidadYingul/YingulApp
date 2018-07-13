@@ -23,7 +23,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,13 +37,11 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.R;
-import com.valecom.yingul.main.buy.BuyActivity;
 import com.valecom.yingul.main.categories.ItemsByCategoryActivity;
+import com.valecom.yingul.main.createStore.CreateStoreActivity;
 import com.valecom.yingul.main.index.InicioFragment;
 import com.valecom.yingul.main.myAccount.MyAccountFragment;
 import com.valecom.yingul.main.sell.SellActivity;
-import com.valecom.yingul.main.sell.SellItemSetTitleFragment;
-import com.valecom.yingul.model.Yng_Category;
 import com.valecom.yingul.model.Yng_ItemImage;
 import com.valecom.yingul.model.Yng_User;
 import com.valecom.yingul.network.MySingleton;
@@ -53,7 +50,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -74,7 +70,7 @@ import okhttp3.ResponseBody;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, HomeFragment.OnFragmentInteractionListener,
         ItemFragment.OnFragmentInteractionListener, ClientFragment.OnFragmentInteractionListener,
-        FavoriteFragment.OnFragmentInteractionListener,  EstimateFragment.OnFragmentInteractionListener, MyAccountFragment.OnFragmentInteractionListener{
+        FavoriteFragment.OnFragmentInteractionListener, EstimateFragment.OnFragmentInteractionListener, MyAccountFragment.OnFragmentInteractionListener{
 
     public static String api_key;
     public static final String TAG = "MainActivity";
@@ -391,7 +387,8 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.commit();
         }
         else if (id == R.id.nav_create_store){
-
+            Intent settingsIntent = new Intent(this, CreateStoreActivity.class);
+            startActivity(settingsIntent);
         }
         else if (id == R.id.nav_sell) {
             Intent settingsIntent = new Intent(this, SellActivity.class);
