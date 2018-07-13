@@ -230,6 +230,25 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.valecom.yingul.main.SettingActivity" />
         </activity>
+        <activity
+            android:name=".main.edit.EditImageActivity"
+            android:label="Confirmar entrega al comprador"
+            android:parentActivityName=".main.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.valecom.yingul.main.MainActivity" />
+        </activity>
+        <activity
+            android:name=".main.createStore.CreateStoreActivity"
+            android:label="YingulShop"
+            android:parentActivityName=".main.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.valecom.yingul.main.MainActivity" />
+        </activity>
         <!-- activity android:name=".main.BuyActivity" / -->
         <activity android:name=".main.ActivityProductDetail">
             <intent-filter>
