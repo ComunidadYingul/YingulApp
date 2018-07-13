@@ -121,6 +121,7 @@
                             android:fontFamily="sans-serif-light"
                             android:ellipsize="end"
                             android:text="31"
+                            android:textColor="#ff5000"
                             android:textSize="12sp"/>
                         <TextView
                             android:layout_width="wrap_content"
@@ -128,6 +129,7 @@
                             android:fontFamily="sans-serif-light"
                             android:ellipsize="end"
                             android:text="% OFF"
+                            android:textColor="#ff5000"
                             android:textSize="12sp"/>
                     </LinearLayout>
 

@@ -121,7 +121,9 @@ public class SellItemUbicationSetCountryFragment extends Fragment {
                             JSONArray items = response;
                             Log.e("Eddy",items.toString());
                             array_list.clear();
-                            for (int i = 0; i < items.length(); i++) {
+                            /**************** DESCOMENTAR PARA MOSTRAR TODOS LOS PAISES *******************/
+                            //for (int i = 0; i < items.length(); i++) {
+                            for (int i = 0; i < 1; i++) {
                                 JSONObject obj = items.getJSONObject(i);
                                 Yng_Country item = new Yng_Country();
                                 item.setCountryId(obj.getInt("countryId"));
