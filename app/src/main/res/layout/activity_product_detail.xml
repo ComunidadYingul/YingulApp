@@ -111,207 +111,458 @@ android:background="@color/bg">
             android:layout_marginRight="2dp"
             android:layout_marginTop="6dp"
             card_view:cardBackgroundColor="@color/white"
-            card_view:cardCornerRadius="2dp"
+            card_view:cardCornerRadius="4dp"
             card_view:cardUseCompatPadding="false"
             card_view:elevation="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginLeft="15dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/text_product_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:background="#999"
                     android:text="@string/product_specification"
-                    android:textColor="@color/colorPrimaryText"
-                    android:textSize="24sp"
-                    android:fontFamily="sans-serif-light"/>
+                    android:textColor="#fff"
+                    android:textSize="20sp"
+                    android:fontFamily="sans-serif"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:orientation="vertical">
+
                     <LinearLayout
-                        android:id="@+id/lytPriceNormal"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:id="@+id/lytPriceNormal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:id="@+id/textMoneyNormal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-light"
+                                android:ellipsize="end"
+                                android:text="$"
+                                android:textSize="13sp"
+                                android:textColor="@color/black" />
+                            <TextView
+                                android:id="@+id/text_price_normal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-light"
+                                android:ellipsize="end"
+                                android:text="1200"
+                                android:textSize="20sp"
+                                android:textColor="@color/gray" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp">
+                                <TextView
+                                    android:id="@+id/textMoney"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-light"
+                                    android:layout_marginRight="2dp"
+                                    android:ellipsize="end"
+                                    android:textSize="20sp"
+                                    android:text="$"
+                                    android:textColor="@color/colorPrimaryText" />
+                                <TextView
+                                    android:id="@+id/text_product_price"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-light"
+                                    android:ellipsize="end"
+                                    android:textSize="35sp"
+                                    android:text="2000"
+                                    android:textColor="@color/colorPrimaryText" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/lytDiscount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:id="@+id/textDiscountPorcent"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-light"
+                                    android:ellipsize="end"
+                                    android:text="31"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/yngOrange" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-light"
+                                    android:ellipsize="end"
+                                    android:text="% OFF"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/yngOrange" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!--TextView
+                        android:id="@+id/text_product_no_emi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_no_cost"
+                        android:drawablePadding="5dp"
+                        android:gravity="center|left"
+                        android:text="@string/no_cost"
+                        android:textColor="@color/gray"
+                        android:textSize="16sp" /-->
+
+                    <!--LinearLayout
+                        android:id="@+id/lytEnvioGratis"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/imgEnvioGratis"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/ic_envio_orange"/>
                         <TextView
-                            android:id="@+id/textMoneyNormal"
+                            android:id="@+id/txtEnvio"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-light"
-                            android:ellipsize="end"
-                            android:text="$"
-                            android:textSize="13sp"
-                            android:textColor="@color/black" />
-                        <TextView
-                            android:id="@+id/text_price_normal"
+                            android:layout_margin="3dp"
+                            android:textSize="20sp"
+                            android:text="Envio gratis"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                            android:textColor="@color/yngOrange" />
+                    </LinearLayout-->
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/imgEnvioGratis"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/ic_envio_orange"/>
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-light"
-                            android:ellipsize="end"
-                            android:text="1200"
-                            android:textSize="20sp"
-                            android:textColor="@color/gray" />
-
+                            android:orientation="vertical">
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <LinearLayout
+                                    android:layout_width="10000dp"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_weight="1">
+                                    <TextView
+                                        android:id="@+id/txtEnvio"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:fontFamily="sans-serif-light"
+                                        android:layout_margin="3dp"
+                                        android:textSize="15sp"
+                                        android:paddingTop="10dp"
+                                        android:paddingBottom="10dp"
+                                        android:textColor="@color/yngOrange"
+                                        android:text="Envio gratis"/>
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:fontFamily="sans-serif-light"
+                                        android:layout_margin="3dp"
+                                        android:textSize="15sp"
+                                        android:paddingTop="10dp"
+                                        android:paddingBottom="10dp"
+                                        android:visibility="gone"
+                                        android:text="disponibles en stock"/>
+                                </LinearLayout>
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:src="@drawable/ic_arrow_right_gray"/>
+                            </LinearLayout>
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="#ddd"/>
+                        </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="10dp">
-                            <TextView
-                                android:id="@+id/textMoney"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-light"
-                                android:layout_marginRight="2dp"
-                                android:ellipsize="end"
-                                android:textSize="20sp"
-                                android:text="$"
-                                android:textColor="@color/colorPrimaryText" />
-                            <TextView
-                                android:id="@+id/text_product_price"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-light"
-                                android:ellipsize="end"
-                                android:textSize="35sp"
-                                android:text="2000"
-                                android:textColor="@color/colorPrimaryText" />
-
-                        </LinearLayout>
-                        <LinearLayout
-                            android:id="@+id/lytDiscount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:layout_gravity="center_vertical"
-                            android:orientation="horizontal">
-                            <TextView
-                                android:id="@+id/textDiscountPorcent"
+                            android:src="@drawable/ic_description"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-light"
-                                android:ellipsize="end"
-                                android:text="31"
-                                android:textSize="15sp"
-                                android:textColor="@color/yngOrange" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-light"
-                                android:ellipsize="end"
-                                android:text="% OFF"
-                                android:textSize="15sp"
-                                android:textColor="@color/yngOrange" />
+                                android:orientation="horizontal">
+                                <LinearLayout
+                                    android:layout_width="10000dp"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_weight="1">
+                                    <TextView
+                                        android:id="@+id/web_product_desc"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:fontFamily="sans-serif-light"
+                                        android:layout_margin="3dp"
+                                        android:textSize="15sp"
+                                        android:paddingTop="10dp"
+                                        android:paddingBottom="10dp"
+                                        android:text="Descripcion del producto"/>
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:fontFamily="sans-serif-light"
+                                        android:layout_margin="3dp"
+                                        android:textSize="15sp"
+                                        android:paddingTop="10dp"
+                                        android:paddingBottom="10dp"
+                                        android:visibility="gone"
+                                        android:text="disponibles en stock"/>
+                                </LinearLayout>
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:src="@drawable/ic_arrow_right_gray"/>
+                            </LinearLayout>
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="#ddd"/>
                         </LinearLayout>
-
                     </LinearLayout>
 
-                </LinearLayout>
-
-                <!--TextView
-                    android:id="@+id/text_product_no_emi"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_no_cost"
-                    android:drawablePadding="5dp"
-                    android:gravity="center|left"
-                    android:text="@string/no_cost"
-                    android:textColor="@color/gray"
-                    android:textSize="16sp" /-->
-
-                <LinearLayout
-                    android:id="@+id/lytEnvioGratis"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/imgEnvioGratis"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_envio_orange"/>
-                    <TextView
-                        android:id="@+id/txtEnvio"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/lytCondition"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:layout_margin="3dp"
-                        android:textSize="20sp"
-                        android:text="Envio gratis"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                        android:textColor="@color/yngOrange" />
+                        android:orientation="horizontal">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/ic_description"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <LinearLayout
+                                    android:layout_width="10000dp"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_weight="1">
+                                    <TextView
+                                        android:id="@+id/text_condition"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:fontFamily="sans-serif-light"
+                                        android:layout_margin="3dp"
+                                        android:textSize="15sp"
+                                        android:paddingTop="10dp"
+                                        android:paddingBottom="10dp"
+                                        android:text="Condicion del producto"/>
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:fontFamily="sans-serif-light"
+                                        android:layout_margin="3dp"
+                                        android:textSize="15sp"
+                                        android:paddingTop="10dp"
+                                        android:paddingBottom="10dp"
+                                        android:visibility="gone"
+                                        android:text="disponibles en stock"/>
+                                </LinearLayout>
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:src="@drawable/ic_arrow_right_gray"/>
+                            </LinearLayout>
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="#ddd"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/ic_stock"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <LinearLayout
+                                    android:layout_width="10000dp"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_weight="1">
+                                    <TextView
+                                        android:id="@+id/text_quantity_stock"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:fontFamily="sans-serif-light"
+                                        android:layout_margin="3dp"
+                                        android:textSize="15sp"
+                                        android:paddingTop="10dp"
+                                        android:paddingBottom="10dp"
+                                        android:text="12"/>
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:fontFamily="sans-serif-light"
+                                        android:layout_margin="3dp"
+                                        android:textSize="15sp"
+                                        android:paddingTop="10dp"
+                                        android:paddingBottom="10dp"
+                                        android:text="disponibles en stock"/>
+                                </LinearLayout>
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:src="@drawable/ic_arrow_right_gray"/>
+                            </LinearLayout>
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="#ddd"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/ic_stock"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <LinearLayout
+                                    android:layout_width="10000dp"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_weight="1">
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:fontFamily="sans-serif-light"
+                                        android:layout_margin="3dp"
+                                        android:textSize="15sp"
+                                        android:paddingTop="10dp"
+                                        android:paddingBottom="10dp"
+                                        android:text="Cantidad"/>
+                                    <EditText
+                                        android:id="@+id/edit_quantity"
+                                        android:layout_width="50dp"
+                                        android:layout_height="match_parent"
+                                        android:fontFamily="sans-serif-light"
+                                        android:layout_margin="3dp"
+                                        android:textSize="15sp"
+                                        android:inputType="number"
+                                        android:paddingTop="10dp"
+                                        android:paddingBottom="10dp"
+                                        android:text="1"/>
+                                </LinearLayout>
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:src="@drawable/ic_arrow_right_gray"/>
+                            </LinearLayout>
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="#ddd"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!--LinearLayout
+                        android:id="@+id/linear_Layout_Quantity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Cantidad: "/>
+
+                        <EditText
+                            android:id="@+id/edit_quantity"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:text="1"/>
+
+                    </LinearLayout-->
                 </LinearLayout>
-
-                <TextView
-                    android:id="@+id/text_desc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/product_description"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-                <TextView
-                    android:id="@+id/web_product_desc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:lineSpacingExtra="2dp"
-                    android:textColor="@color/gray"
-                    android:textSize="14sp">
-
-                </TextView>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Disponibilidad en stock: "/>
-
-                <TextView
-                    android:id="@+id/text_quantity_stock"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"/>
-
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/linear_Layout_Quantity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cantidad: "/>
-
-                <EditText
-                    android:id="@+id/edit_quantity"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:text="1"/>
-
-            </LinearLayout>
 
                 <!--LinearLayout
                     android:id="@+id/linear_Layout_stars"

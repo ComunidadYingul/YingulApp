@@ -99,12 +99,12 @@ public class ActivityProductDetail extends AppCompatActivity {
     ReviewListAdapter adapter_review;
     ItemGallery itemGalleryList;
     TextView edit_quantity, text_product_name, text_product_price, text_no_cost, text_product_rate, text_select_size, text_select_color,
-            text_product_buy, text_product_cart, txt_order_total_rs, txt_order_item, text_product_con_shop, text_product_place_order,text_description,text_product_title,text_desc;
+            text_product_buy, text_product_cart, text_condition, txt_order_item, text_product_con_shop, text_product_place_order,text_description,text_product_title,text_desc;
     //EditText edt_pincode;
     TextView web_desc,text_quantity_stock;
     View button_public_seller,allQueriesLayout;
     TextView textPriceNormal,textDiscountPorcent,textMoney,textMoneyNormal,txtEnvio;
-    LinearLayout lytEnvioGratis,lytDiscount,lytPriceNormal;
+    LinearLayout lytCondition,lytDiscount,lytPriceNormal;
     RatingView ratingView;
     ArrayList<ItemColorSize> array_color, array_size;
     SelectColorAdapter adapter_color;
@@ -210,7 +210,7 @@ public class ActivityProductDetail extends AppCompatActivity {
         text_product_price = (TextView) findViewById(R.id.text_product_price);
         textDiscountPorcent = (TextView) findViewById(R.id.textDiscountPorcent);
         txtEnvio = (TextView) findViewById(R.id.txtEnvio);
-        lytEnvioGratis = (LinearLayout) findViewById(R.id.lytEnvioGratis);
+        lytCondition = (LinearLayout) findViewById(R.id.lytCondition);
         imgEnvioGratis = (ImageView) findViewById(R.id.imgEnvioGratis);
         lytDiscount = (LinearLayout) findViewById(R.id.lytDiscount);
         lytPriceNormal = (LinearLayout) findViewById(R.id.lytPriceNormal);
@@ -221,6 +221,7 @@ public class ActivityProductDetail extends AppCompatActivity {
         text_product_cart = (TextView) findViewById(R.id.text_product_cart);
         //edt_pincode = (EditText) findViewById(R.id.edt_delivery_code);
         web_desc = (TextView) findViewById(R.id.web_product_desc);
+        text_condition = (TextView) findViewById(R.id.text_condition);
         //ratingView = (RatingView) findViewById(R.id.rating_product_rating);
         recycler_detail_review = (RecyclerView) findViewById(R.id.vertical_detail_review);
         //edt_pincode.setFocusable(false);
@@ -253,19 +254,11 @@ public class ActivityProductDetail extends AppCompatActivity {
         recycler_query.setLayoutManager(new GridLayoutManager(ActivityProductDetail.this, 1));
         recycler_query.addItemDecoration(itemDecoration);
         //*******************danielAgregado***
-        text_desc=(TextView) findViewById(R.id.text_desc);
         text_product_title=(TextView) findViewById(R.id.text_product_title);
-        //text_description=(TextView) findViewById(R.id.text_description);
-        //linear_Layout_stars=(LinearLayout) findViewById(R.id.linear_Layout_stars);
-        //linear_Layout_stars.setVisibility(View.INVISIBLE);
 
-        //text_description.setText("Descripción del Producto");
         text_product_name.setText("");
         text_product_price.setText("");
-        //text_no_cost.setText("");
-        //text_product_rate.setText("texto1");
         web_desc.setText("");
-        text_desc.setText("Descripción:");
 
 
 
@@ -1179,15 +1172,18 @@ public class ActivityProductDetail extends AppCompatActivity {
 
         try{
             if(itemTemp.getProductPagoEnvio().equals("gratis")) {
-                imgEnvioGratis.setVisibility(View.VISIBLE);
+                //imgEnvioGratis.setVisibility(View.VISIBLE);
+                imgEnvioGratis.setImageResource(R.drawable.ic_envio_orange);
                 txtEnvio.setText("Envio gratis");
             }else {
-                imgEnvioGratis.setVisibility(View.GONE);
+                //imgEnvioGratis.setVisibility(View.GONE);
+                imgEnvioGratis.setImageResource(R.drawable.ic_envio_pais);
                 txtEnvio.setText("Envios a todo el país");
                 txtEnvio.setTextColor(Color.parseColor("#6d7cff"));
             }
         }catch (Exception e){
-            imgEnvioGratis.setVisibility(View.GONE);
+            //imgEnvioGratis.setVisibility(View.GONE);
+            imgEnvioGratis.setImageResource(R.drawable.ic_envio_pais);
             txtEnvio.setText("Envios a todo el país");
             txtEnvio.setTextColor(Color.parseColor("#6d7cff"));
         }
@@ -1209,6 +1205,14 @@ public class ActivityProductDetail extends AppCompatActivity {
             web_desc.setText(itemTemp.getDescription());
         }catch (Exception e){
             web_desc.setText("");
+        }
+
+        try{
+            lytCondition.setVisibility(View.VISIBLE);
+            if(itemTemp.getCondition().equals("New")){text_condition.setText("Nuevo");}
+            else if(itemTemp.getCondition().equals("Used")){text_condition.setText("Usado");}
+        }catch (Exception e){
+            lytCondition.setVisibility(View.GONE);
         }
 
         loadJSONFromAssetGallery();
