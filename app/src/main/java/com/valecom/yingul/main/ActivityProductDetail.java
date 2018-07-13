@@ -104,7 +104,7 @@ public class ActivityProductDetail extends AppCompatActivity {
     TextView web_desc,text_quantity_stock;
     View button_public_seller,allQueriesLayout;
     TextView textPriceNormal,textDiscountPorcent,textMoney,textMoneyNormal,txtEnvio;
-    LinearLayout lytCondition,lytDiscount,lytPriceNormal;
+    LinearLayout lytCondition,lytDiscount,lytPriceNormal,lytEnvioGratis,lytCuotas;
     RatingView ratingView;
     ArrayList<ItemColorSize> array_color, array_size;
     SelectColorAdapter adapter_color;
@@ -214,6 +214,8 @@ public class ActivityProductDetail extends AppCompatActivity {
         imgEnvioGratis = (ImageView) findViewById(R.id.imgEnvioGratis);
         lytDiscount = (LinearLayout) findViewById(R.id.lytDiscount);
         lytPriceNormal = (LinearLayout) findViewById(R.id.lytPriceNormal);
+        lytEnvioGratis = (LinearLayout) findViewById(R.id.lytEnvioGratis);
+        lytCuotas = (LinearLayout) findViewById(R.id.lytCuotas);
         textMoney = (TextView) findViewById(R.id.textMoney);
         textMoneyNormal = (TextView) findViewById(R.id.textMoneyNormal);
         //text_select_color = (TextView) findViewById(R.id.text_select_color);
@@ -321,6 +323,20 @@ public class ActivityProductDetail extends AppCompatActivity {
                 intent.putExtra("queries1",queries1);
                 intent.putExtra("item",itemTemp);
                 startActivity(intent);
+            }
+        });
+
+        lytEnvioGratis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"Aún no implementado",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        lytCuotas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"Aún no implementado",Toast.LENGTH_SHORT).show();
             }
         });
 
