@@ -1,6 +1,8 @@
 package com.valecom.yingul.main.edit;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -11,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,6 +27,7 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.Item.ItemGallery;
 import com.valecom.yingul.R;
@@ -45,7 +49,6 @@ import java.util.Map;
 public class EditImageActivity extends AppCompatActivity {
 
     RecyclerView recyclerViewDetail;
-    // ImageView ImgDetail;
     ArrayList<ItemGallery> array_gallery;
     GalleryAdapter adapter_gallery;
     ItemGallery itemGalleryList;
@@ -53,6 +56,7 @@ public class EditImageActivity extends AppCompatActivity {
     ViewPager viewpager_slider;
     ImagePagerAdapter adapter;
     ImageView image_slider;
+    int positionImg;
 
     private MaterialDialog progressDialog;
     String itemId="2783";
@@ -61,22 +65,16 @@ public class EditImageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         myApplication = MyApplication.getInstance();
-        /*if (myApplication.getTheme1()) {
-            myApplication.saveTheme1(true);*/
-            setTheme(R.style.AppTheme);
-        /*}
-        if (myApplication.getTheme2()) {
-            setTheme(R.style.AppTheme_green);
-        }*/
+        setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_edit_image);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(getString(R.string.gallery_screen));
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         itemId = getIntent().getStringExtra("itemId");
-
+        positionImg = 0;
         progressDialog = new MaterialDialog.Builder(this)
                 .title(R.string.progress_dialog)
                 .content(R.string.please_wait)
@@ -99,6 +97,7 @@ public class EditImageActivity extends AppCompatActivity {
         recyclerViewDetail.addOnItemTouchListener(new RecyclerTouchListener(EditImageActivity.this, recyclerViewDetail, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
+                positionImg=position;
                 viewpager_slider.setCurrentItem(position);
             }
 
@@ -107,6 +106,15 @@ public class EditImageActivity extends AppCompatActivity {
 
             }
         }));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_edit_image, menu);
+
+        return true;
     }
 
     public ArrayList<ItemGallery> loadJSONFromAssetGallery() {
@@ -201,37 +209,6 @@ public class EditImageActivity extends AppCompatActivity {
         MySingleton.getInstance(EditImageActivity.this).addToRequestQueue(postRequest);
 
         return array_gallery;
-
-        /*ArrayList<ItemGallery> locList = new ArrayList<>();
-        String json = null;
-        try {
-            InputStream is = getAssets().open("gallery_product_list.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        try {
-            JSONObject obj = new JSONObject(json);
-            JSONArray m_jArry = obj.getJSONArray("EcommerceApp");
-
-            for (int i = 0; i < m_jArry.length(); i++) {
-                JSONObject jo_inside = m_jArry.getJSONObject(i);
-                ItemGallery itemGalleryList = new ItemGallery();
-
-                itemGalleryList.setGalleryImage(jo_inside.getString("gallery_image"));
-
-                array_gallery.add(itemGalleryList);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        setAdapterGalleryList();
-        return array_gallery;*/
     }
 
     public void setAdapterGalleryList() {
@@ -343,15 +320,27 @@ public class EditImageActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
-
-            default:
-                return super.onOptionsItemSelected(menuItem);
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        int id = item.getItemId();
+        Log.e("Select menu",id+"comparado con"+android.R.id.home);
+        if (id == R.id.menu_delete)
+        {
+            if(array_gallery.size()>0){
+                Log.e("sen envia esto",""+array_gallery.size()+"position"+positionImg);
+                array_gallery.remove(positionImg);
+                positionImg=0;
+                setAdapterGalleryList();
+            }
         }
-        return true;
+        else if (id == R.id.menu_rotate)
+        {
+            Log.e("sen envia esto","rotte");
+        }
+        else if(id == android.R.id.home){
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
+
 }
