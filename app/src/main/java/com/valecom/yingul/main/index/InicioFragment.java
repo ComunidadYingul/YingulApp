@@ -1,11 +1,13 @@
 package com.valecom.yingul.main.index;
 
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,6 +67,11 @@ public class InicioFragment extends Fragment {
 
     private ArrayList<Object> objects = new ArrayList<>();
 
+    /*********/
+    int col=2;
+    String modo="grid";
+    DisplayMetrics metrics = new DisplayMetrics();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -84,6 +91,8 @@ public class InicioFragment extends Fragment {
 
         recyclerView = (RecyclerView)rootView.findViewById(R.id.recycler_View);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        recyclerResponsive();
 
         loadMore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -544,6 +553,7 @@ public class InicioFragment extends Fragment {
     public void setAdapterHomeCategoryList() {
 
         adapter = new MainAdapter(getContext(), getObject());
+        adapter.setCol(col);
         recyclerView.setAdapter(adapter);
 
         adapter.setArrays(array_all_not_over,array_all_over,array_all_category,array_all_stores,array_all_items);
@@ -756,6 +766,52 @@ public class InicioFragment extends Fragment {
 
         return array_all_items;
 
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        /*adapter = new MainAdapter(getContext(), getObject());*/
+        recyclerResponsive2();
+        adapter.setCol(col);
+        recyclerView.setAdapter(adapter);
+
+        adapter.setArrays(array_all_not_over,array_all_over,array_all_category,array_all_stores,array_all_items);
+    }
+
+    public void recyclerResponsive(){
+        Log.e("oriencation:----",""+getContext().getResources().getConfiguration().orientation);
+        Log.e("dpi:----",""+metrics.xdpi);
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        if(getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if (metrics.xdpi < 160) {col = 4;}
+            else if (metrics.xdpi < 220) {col = 4;}
+            else if (metrics.xdpi < 320) {col = 3;}
+            else {col = 2;}
+        }else if(getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            if(metrics.xdpi < 160){col=3;}
+            else if(metrics.xdpi < 220){col=3;}
+            else if(metrics.xdpi < 320){col=2;}
+            else {col=2;}
+        }
+    }
+
+    public void recyclerResponsive2(){
+        Log.e("oriencation:----",""+getContext().getResources().getConfiguration().orientation);
+        Log.e("dpi:----",""+metrics.xdpi);
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        if(getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if (metrics.xdpi < 160) {col = 3;}
+            else if (metrics.xdpi < 220) {col = 3;}
+            else if (metrics.xdpi < 320) {col = 2;}
+            else {col = 2;}
+        }else if(getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            if(metrics.xdpi < 160){col=4;}
+            else if(metrics.xdpi < 220){col=4;}
+            else if(metrics.xdpi < 320){col=3;}
+            else {col=2;}
+        }
     }
 
 }

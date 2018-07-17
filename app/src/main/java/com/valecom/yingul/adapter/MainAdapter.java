@@ -60,7 +60,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         array_all_not_over = new ArrayList<>();
         array_all_stores = new ArrayList<>();
 
-        spans = context.getResources().getInteger(R.integer.number_of_columns);
+        //spans = context.getResources().getInteger(R.integer.number_of_columns);
     }
 
     @Override
@@ -279,5 +279,9 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         this.array_all_over =array_all_over;
         this.array_all_not_over =array_all_not_over;
         this.array_all_stores =array_all_stores;
+    }
+
+    public void setCol(int col){
+        spans=col;
     }
 }
