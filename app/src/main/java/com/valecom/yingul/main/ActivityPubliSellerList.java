@@ -100,6 +100,8 @@ public class ActivityPubliSellerList extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        recyclerResponsive();
+
         /*******filtros******/
         filterParams = new FilterParam();
         filterParams.setFreeShipping(false);
@@ -552,8 +554,8 @@ public class ActivityPubliSellerList extends AppCompatActivity {
             else if (metrics.xdpi < 320) {col = 3;}
             else {col = 2;}
         }else if(getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-            if(metrics.xdpi < 160){col=2;}
-            else if(metrics.xdpi < 220){col=2;}
+            if(metrics.xdpi < 160){col=3;}
+            else if(metrics.xdpi < 220){col=3;}
             else if(metrics.xdpi < 320){col=2;}
             else {col=2;}
         }
