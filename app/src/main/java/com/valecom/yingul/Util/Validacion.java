@@ -49,7 +49,7 @@ public class Validacion {
 
 
     public boolean validarCadena(String cadena){
-        if (cadena.trim().length() < 5)
+        if (cadena.trim().length() < 3)
         {
             return true;
         }else{
@@ -58,7 +58,7 @@ public class Validacion {
     }
 
     public boolean validarCadena(View view, String cadena){
-        if (cadena.trim().length() < 5)
+        if (cadena.trim().length() < 3)
         {
             view.requestFocus();
             return true;
@@ -68,7 +68,7 @@ public class Validacion {
     }
 
     public boolean valStringFiveChar(EditText view){
-        if (view.getText().toString().trim().length() < 5)
+        if (view.getText().toString().trim().length() < 3)
         {
             view.setError("Campo requerido y mínimo 5 caracteres");
             view.requestFocus();
