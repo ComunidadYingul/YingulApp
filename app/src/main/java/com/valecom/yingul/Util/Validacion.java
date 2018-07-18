@@ -70,7 +70,7 @@ public class Validacion {
     public boolean valStringFiveChar(EditText view){
         if (view.getText().toString().trim().length() < 3)
         {
-            view.setError("Campo requerido y mínimo 5 caracteres");
+            view.setError("Campo requerido y mínimo 3 caracteres");
             view.requestFocus();
             return false;
         }else{
