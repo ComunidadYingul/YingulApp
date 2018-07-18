@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity
         LinearLayout navigationHeaderView = (LinearLayout)navigationView.getHeaderView(0);
 
         user = new Yng_User();
-
+        Menu nav_Menu = navigationView.getMenu();
         profile_name = (TextView) navigationHeaderView.findViewById(R.id.profile_name);
         if (settings == null || settings.getInt("logged_in", 0) == 0 || settings.getString("api_key", "").equals(""))
         {
@@ -136,7 +136,10 @@ public class MainActivity extends AppCompatActivity
                     startActivity(settingsIntent);
                 }
             });
+
+            nav_Menu.findItem(R.id.nav_login).setVisible(true);
         }else{
+            nav_Menu.findItem(R.id.nav_login).setVisible(false);
             String email = settings.getString("email", "");
             username = settings.getString("username","");
             user.setEmail(email);
