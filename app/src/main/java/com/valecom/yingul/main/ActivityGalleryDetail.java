@@ -24,6 +24,8 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.valecom.yingul.Item.ItemGallery;
 import com.valecom.yingul.R;
 import com.valecom.yingul.Util.ItemOffsetDecoration;
@@ -277,7 +279,7 @@ public class ActivityGalleryDetail extends AppCompatActivity {
             itemGalleryList = array_gallery.get(position);
             image_slider = (ImageView) imageLayout.findViewById(R.id.image_product_image);
 
-            Picasso.with(ActivityGalleryDetail.this).load(Network.BUCKET_URL + itemGalleryList.getGalleryImage()).placeholder(R.drawable.placeholder320).into(image_slider);
+            Picasso.with(ActivityGalleryDetail.this).load(Network.BUCKET_URL + itemGalleryList.getGalleryImage()).placeholder(R.drawable.placeholder320).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(image_slider);
 
 
             container.addView(imageLayout, 0);

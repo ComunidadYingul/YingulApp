@@ -1,6 +1,7 @@
 package com.valecom.yingul.main;
 
 import android.annotation.TargetApi;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -23,7 +24,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -35,10 +39,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.categories.ItemsByCategoryActivity;
 import com.valecom.yingul.main.createStore.CreateStoreActivity;
+import com.valecom.yingul.main.edit.EditImageActivity;
 import com.valecom.yingul.main.index.InicioFragment;
 import com.valecom.yingul.main.myAccount.MyAccountFragment;
 import com.valecom.yingul.main.sell.SellActivity;
@@ -53,6 +60,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -82,6 +90,10 @@ public class MainActivity extends AppCompatActivity
     private Yng_User user;
     static final int ADD_PICTURES_TAG = 1;
     static final int REQUEST_IMAGE_CAPTURE = 2;
+    private MaterialDialog setting_address_edit_dialog;
+    private ListView list;
+    private ArrayAdapter adapter1;
+    private ArrayList array_list;
 
     public static final MediaType JSON= MediaType.parse("application/json; charset=utf-8");
 
@@ -100,6 +112,10 @@ public class MainActivity extends AppCompatActivity
 
         //Checks whether a user is logged in, otherwise redirects to the Login screen
 
+        array_list = new ArrayList();
+        array_list.add("Tomar foto");
+        array_list.add("Elegir existente");
+        adapter1 = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1, array_list);
 
         api_key = settings.getString("api_key", "");
 
@@ -148,47 +164,52 @@ public class MainActivity extends AppCompatActivity
             profile_email.setText(email);
 
             CircleImageView profilePhoto = (CircleImageView) navigationHeaderView.findViewById(R.id.profile_photo);
-            Picasso.with(MainActivity.this).load(Network.BUCKET_URL+"user/userProfile/"+settings.getString("profilePhoto","")).into(profilePhoto);
+            Picasso.with(MainActivity.this).load(Network.BUCKET_URL+"user/userProfile/"+settings.getString("profilePhoto","")).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(profilePhoto);
             profilePhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new MaterialDialog.Builder(MainActivity.this)
-                            .title("Editar foto")
-                            .content("Cambia tu foto de perfil.")
-                            .positiveText("Elegir existente")
-                            .negativeText("Tomar foto")
+                    setting_address_edit_dialog = new MaterialDialog.Builder(MainActivity.this)
+                            .customView(R.layout.type_upload_image_layout, true)
                             .cancelable(true)
-                            .negativeColorRes(R.color.colorAccent)
-                            .positiveColorRes(R.color.colorAccent)
-                            .callback(new MaterialDialog.ButtonCallback()
-                            {
+                            .showListener(new DialogInterface.OnShowListener() {
                                 @Override
-                                public void onPositive(MaterialDialog dialog)
-                                {
-                                    Intent intent = new Intent();
-                                    intent.setType("image/*");
-                                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                                    intent.setAction(Intent.ACTION_GET_CONTENT);
-                                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), ADD_PICTURES_TAG);
-                                    dialog.dismiss();
-                                    if (dialog != null && dialog.isShowing())
-                                    {
-                                        dialog.dismiss();
-                                    }
-                                }
-                                @Override
-                                public void onNegative(MaterialDialog dialog)
-                                {
-                                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                    if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                                    }
+                                public void onShow(DialogInterface dialog) {
+                                    View view = setting_address_edit_dialog.getCustomView();
+                                    list = (ListView) view.findViewById(R.id.list);
+                                    // Assigning the adapter to ListView
+                                    list.setAdapter(adapter1);
 
-                                    dialog.dismiss();
-                                    if (dialog != null && dialog.isShowing())
+                                    list.setOnItemClickListener(new AdapterView.OnItemClickListener()
                                     {
-                                        dialog.dismiss();
-                                    }
+                                        @Override
+                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+                                        {
+                                            switch (position){
+                                                case 0:
+                                                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                                    if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                                                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                                                    }
+                                                    if (setting_address_edit_dialog != null && setting_address_edit_dialog.isShowing())
+                                                    {
+                                                        setting_address_edit_dialog.dismiss();
+                                                    }
+                                                    break;
+                                                case 1:
+                                                    Intent intent = new Intent();
+                                                    intent.setType("image/*");
+                                                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                                                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                                                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), ADD_PICTURES_TAG);
+                                                    if (setting_address_edit_dialog != null && setting_address_edit_dialog.isShowing())
+                                                    {
+                                                        setting_address_edit_dialog.dismiss();
+                                                    }
+                                                    break;
+                                            }
+                                        }
+                                    });
+
                                 }
                             })
                             .show();

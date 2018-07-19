@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.valecom.yingul.Item.ItemCategory;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.LoginActivity;
@@ -46,7 +48,7 @@ public class CategoryHomeAdapter extends RecyclerView.Adapter<CategoryHomeAdapte
         final ItemCategory itemCategory = dataList.get(position);
 
         holder.text_cat_title.setText(itemCategory.getCategoryName());
-        Picasso.with(mContext).load(Network.BUCKET_URL + itemCategory.getCategoryImage()).into(holder.image_cat);
+        Picasso.with(mContext).load(Network.BUCKET_URL + itemCategory.getCategoryImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(holder.image_cat);
 
         holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
             @Override

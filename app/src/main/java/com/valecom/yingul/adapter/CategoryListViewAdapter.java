@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.valecom.yingul.Item.ItemCategoryList;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.ActivityProductDetail;
@@ -49,7 +51,7 @@ public class CategoryListViewAdapter extends RecyclerView.Adapter<CategoryListVi
         holder.text_cat_list_title.setText(itemCategorylist.getCategoryListName());
         holder.text_cat_list_price.setText(itemCategorylist.getCategoryListPrice());
         holder.text_cat_list_desc.setText(itemCategorylist.getCategoryListDescription());
-        Picasso.with(mContext).load(Network.BUCKET_URL+itemCategorylist.getCategoryListImage()).into(holder.image_cat_list);
+        Picasso.with(mContext).load(Network.BUCKET_URL+itemCategorylist.getCategoryListImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(holder.image_cat_list);
 
         holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
             @Override

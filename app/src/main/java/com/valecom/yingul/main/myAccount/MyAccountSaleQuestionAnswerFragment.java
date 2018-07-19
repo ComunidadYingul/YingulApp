@@ -30,6 +30,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.google.gson.Gson;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.R;
 import com.valecom.yingul.adapter.QueryChatAdapter;
@@ -154,8 +156,7 @@ public class MyAccountSaleQuestionAnswerFragment extends Fragment
         itemLayout = (LinearLayout) view.findViewById(R.id.itemLayout);
         btnAnswer = (Button) view.findViewById(R.id.btnAnswer);
         editAnswer = (EditText) view.findViewById(R.id.editAnswer);
-
-        Picasso.with(getContext()).load(Network.BUCKET_URL+query.getYng_Item().getPrincipalImage()).into(itemImage);
+        Picasso.with(getContext()).load(Network.BUCKET_URL+query.getYng_Item().getPrincipalImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(itemImage);
         itemCurrencyPrice.setText("$ "+query.getYng_Item().getPrice());
         itemName.setText(query.getYng_Item().getName());
         if(query.getYng_Item().getProductPagoEnvio()==null||!query.getYng_Item().getProductPagoEnvio().equals("gratis")){

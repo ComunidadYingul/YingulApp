@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.store.ActivityStore;
@@ -44,7 +46,7 @@ public class AllStoresAdapter extends RecyclerView.Adapter<AllStoresAdapter.Item
         final Yng_Store item = dataList.get(position);
 
         holder.text_title.setText(item.getName());
-        Picasso.with(mContext).load(Network.BUCKET_URL +"store/"+ item.getMainImage()).into(holder.image_public);
+        Picasso.with(mContext).load(Network.BUCKET_URL +"store/"+ item.getMainImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(holder.image_public);
 
         holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
             @Override

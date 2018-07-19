@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.buy.BuyActivity;
@@ -52,7 +54,7 @@ public class QueryAdapter extends ArrayAdapter<Yng_Query>
         TextView itemQuery = (TextView) rowView.findViewById(R.id.itemQuery);
         TextView queryDate = (TextView) rowView.findViewById(R.id.queryDate);
 
-        Picasso.with(context).load(Network.BUCKET_URL+query.getYng_Item().getPrincipalImage()).into(itemImage);
+        Picasso.with(context).load(Network.BUCKET_URL+query.getYng_Item().getPrincipalImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(itemImage);
 
         itemName.setText(query.getYng_Item().getName());
         itemQuery.setText(query.getQuery());
