@@ -52,7 +52,7 @@ public class BuyItemSetCashPaymentTypeFragment extends Fragment {
         array_list = new ArrayList();
         array_list.add("Cobro Express");
         array_list.add("Pago Fácil");
-        array_list.add("Provincia NET");
+        //array_list.add("Provincia NET");
         array_list.add("Rapipago");
         array_list.add("RIPSA red de pagos");
         adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, array_list);
@@ -73,13 +73,13 @@ public class BuyItemSetCashPaymentTypeFragment extends Fragment {
                     case 1:
                         ((BuyActivity)getActivity()).cashPayment.setPaymentMethod("PAGOFACIL");
                         break;
-                    case 2:
+                    /*case 2:
                         ((BuyActivity)getActivity()).cashPayment.setPaymentMethod("ProvinciaNET");
-                        break;
-                    case 3:
+                        break;*/
+                    case 2:
                         ((BuyActivity)getActivity()).cashPayment.setPaymentMethod("RAPIPAGO");
                         break;
-                    case 4:
+                    case 3:
                         ((BuyActivity)getActivity()).cashPayment.setPaymentMethod("RIPSA");
                         break;
                 }
