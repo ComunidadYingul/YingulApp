@@ -2,9 +2,11 @@ package com.valecom.yingul.main;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +25,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.valecom.yingul.R;
+import com.valecom.yingul.adapter.ListGridAdapter;
+import com.valecom.yingul.main.over.OverActivity;
 import com.valecom.yingul.main.rememberPassword.RememberPasswordActivity;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
@@ -261,5 +265,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         postRequest.setTag(TAG);
 
         MySingleton.getInstance(this).addToRequestQueue(postRequest);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        Log.e("oriencation:----",""+getApplicationContext().getResources().getConfiguration().orientation);
+        if(getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            textLogo.setVisibility(View.INVISIBLE);
+        }else if(getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            textLogo.setVisibility(View.VISIBLE);
+        }
     }
 }
