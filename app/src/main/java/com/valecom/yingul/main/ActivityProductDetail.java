@@ -336,7 +336,9 @@ public class ActivityProductDetail extends AppCompatActivity {
         lytCuotas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"Aún no implementado",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),"Aún no implementado",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ActivityProductDetail.this,PaymentMethodActivity.class);
+                startActivity(intent);
             }
         });
 

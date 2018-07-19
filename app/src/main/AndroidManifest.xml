@@ -9,7 +9,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-feature android:name="android.hardware.camera"
+
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="true" />
 
     <application
@@ -264,27 +266,35 @@
         </activity>
         <activity android:name=".main.ActivityPlaceOrder" />
         <activity android:name=".main.ActivityGalleryDetail" />
-        <activity android:name=".main.ActivityPubliSellerList"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
-        <activity android:name=".main.store.ActivityStore"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity
+            android:name=".main.ActivityPubliSellerList"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".main.store.ActivityStore"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity android:name=".main.categories.CategoryActivity" />
-        <activity android:name=".main.categories.ItemsByCategoryActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity
+            android:name=".main.categories.ItemsByCategoryActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity android:name=".main.store.AllStoreActivity" />
-        <activity android:name=".main.service.ServiceActivity"/>
-        <activity android:name=".main.motorized.MotorizedActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
-        <activity android:name=".main.property.PropertyActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity android:name=".main.service.ServiceActivity" />
+        <activity
+            android:name=".main.motorized.MotorizedActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".main.property.PropertyActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity android:name=".main.myAccount.yingulPay.YingulPayActivity" />
         <activity
             android:name=".main.over.OverActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
-        <activity android:name=".main.allItems.AllItemsActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
-        <activity android:name=".main.over.AllNotOverActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"></activity>
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".main.allItems.AllItemsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".main.over.AllNotOverActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity android:name=".main.PaymentMethodActivity"></activity>
     </application>
 
 </manifest>
