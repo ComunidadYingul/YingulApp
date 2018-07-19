@@ -49,7 +49,10 @@ import com.valecom.yingul.main.edit.EditImageActivity;
 import com.valecom.yingul.main.index.InicioFragment;
 import com.valecom.yingul.main.myAccount.MyAccountFragment;
 import com.valecom.yingul.main.sell.SellActivity;
+import com.valecom.yingul.main.store.ActivityStore;
+import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.model.Yng_ItemImage;
+import com.valecom.yingul.model.Yng_Store;
 import com.valecom.yingul.model.Yng_User;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
@@ -408,8 +411,7 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.commit();
         }
         else if (id == R.id.nav_create_store){
-            Intent settingsIntent = new Intent(this, CreateStoreActivity.class);
-            startActivity(settingsIntent);
+            createOrVisiteStore();
         }
         else if (id == R.id.nav_sell) {
             Intent settingsIntent = new Intent(this, SellActivity.class);
@@ -802,6 +804,91 @@ public class MainActivity extends AppCompatActivity
                         "Basic " + Base64.encodeToString(
                                 (editEmail.getText().toString().trim() + ":" + editPassword.getText().toString().trim()).getBytes(), Base64.NO_WRAP)
                 );*/
+                return params;
+            }
+        };
+
+        // Get a RequestQueue
+        RequestQueue queue = MySingleton.getInstance(this.getApplicationContext()).getRequestQueue();
+
+        //Used to mark the request, so we can cancel it on our onStop method
+        postRequest.setTag(TAG);
+
+        MySingleton.getInstance(this).addToRequestQueue(postRequest);
+    }
+    public void createOrVisiteStore(){
+        progressDialog.show();
+
+        JsonObjectRequest postRequest = new JsonObjectRequest
+                (Request.Method.GET, Network.API_URL + "store/findByUsername/"+username, api_parameter, new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+
+                        try
+                        {
+                            Log.e("Tienda por su nombre " , response.toString());
+                            if(response!=null){
+                                Yng_Store store = new Yng_Store();
+                                Gson gson = new Gson();
+                                store = gson.fromJson(String.valueOf(response), Yng_Store.class);
+                                Log.e("nombre tienda",store.getName());
+                                Intent intent = new Intent(MainActivity.this, ActivityStore.class);
+                                intent.putExtra("store",store.getName());
+                                startActivity(intent);
+                            }else{
+                                Intent settingsIntent = new Intent(MainActivity.this, CreateStoreActivity.class);
+                                startActivity(settingsIntent);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Toast.makeText(MainActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }, new Response.ErrorListener()
+                {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        // TODO Auto-generated method stub
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            // If the response is JSONObject instead of expected JSONArray
+                            progressDialog.dismiss();
+                        }
+
+                        NetworkResponse response = error.networkResponse;
+                        if (response != null && response.data != null)
+                        {
+                            try
+                            {
+                                JSONObject json = new JSONObject(new String(response.data));
+                                Toast.makeText(MainActivity.this, json.has("message") ? json.getString("message")+"1" : json.getString("error")+"2", Toast.LENGTH_LONG).show();
+                            }
+                            catch (JSONException e)
+                            {
+                                Toast.makeText(MainActivity.this, R.string.error_try_again_support+"3", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else
+                        {
+                            Intent settingsIntent = new Intent(MainActivity.this, CreateStoreActivity.class);
+                            startActivity(settingsIntent);
+                        }
+                    }
+                })
+        {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                //params.put("X-API-KEY", Network.API_KEY);
                 return params;
             }
         };
