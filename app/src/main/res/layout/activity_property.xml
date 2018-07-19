@@ -85,11 +85,11 @@
                             android:gravity="center">
 
                             <ImageView
-                                android:id="@+id/categoryImage"
+                                android:id="@+id/sellImage"
                                 android:layout_width="80dp"
                                 android:layout_height="80dp"
                                 android:gravity="center"
-                                android:src="@drawable/sale"
+                                android:src="@drawable/ic_property_sell_white"
                                 android:text="" />
                         </LinearLayout>
 
@@ -120,10 +120,11 @@
                             android:gravity="center">
 
                             <ImageView
+                                android:id="@+id/rentalImage"
                                 android:layout_width="80dp"
                                 android:layout_height="80dp"
                                 android:gravity="center"
-                                android:src="@drawable/rental"
+                                android:src="@drawable/ic_property_rental_white"
                                 android:text="" />
                         </LinearLayout>
 
@@ -153,10 +154,11 @@
                             android:gravity="center">
 
                             <ImageView
+                                android:id="@+id/rentalTempImage"
                                 android:layout_width="80dp"
                                 android:layout_height="80dp"
                                 android:gravity="center"
-                                android:src="@drawable/rental_temporal"
+                                android:src="@drawable/ic_property_rental_temp_white"
                                 android:text="" />
                         </LinearLayout>
 

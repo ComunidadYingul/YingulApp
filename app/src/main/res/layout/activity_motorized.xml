@@ -87,7 +87,7 @@
                                 android:layout_width="80dp"
                                 android:layout_height="80dp"
                                 android:gravity="center"
-                                android:src="@drawable/carstruncks"
+                                android:src="@drawable/ic_car_2001_white"
                                 android:text="" />
                         </LinearLayout>
 
@@ -121,7 +121,7 @@
                                 android:layout_width="80dp"
                                 android:layout_height="80dp"
                                 android:gravity="center"
-                                android:src="@drawable/motorcycles"
+                                android:src="@drawable/ic_car_2007_white"
                                 android:text="" />
                         </LinearLayout>
 
@@ -154,7 +154,7 @@
                                 android:layout_width="80dp"
                                 android:layout_height="80dp"
                                 android:gravity="center"
-                                android:src="@drawable/trucks"
+                                android:src="@drawable/ic_car_2002_white"
                                 android:text="" />
                         </LinearLayout>
 
@@ -187,7 +187,7 @@
                                 android:layout_width="80dp"
                                 android:layout_height="80dp"
                                 android:gravity="center"
-                                android:src="@drawable/showall"
+                                android:src="@drawable/ic_car_plus_white"
                                 android:text="" />
                         </LinearLayout>
 

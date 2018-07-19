@@ -18,6 +18,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -31,6 +32,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.squareup.picasso.Picasso;
 import com.valecom.yingul.R;
 import com.valecom.yingul.Util.ItemOffsetDecoration;
 import com.valecom.yingul.Util.RecyclerItemClickListener;
@@ -90,6 +92,7 @@ public class PropertyActivity extends AppCompatActivity {
     private TextView textCategory,textPathUbication,textUbicationName;
     private RelativeLayout content_header;
     private Button buttonSendParams;
+    private ImageView sellImage,rentalImage,rentalTempImage;
 
     private ListView list;
     private ArrayList<Yng_Country> array_list5;
@@ -155,6 +158,9 @@ public class PropertyActivity extends AppCompatActivity {
         layoutCity = (LinearLayout) findViewById(R.id.layoutCity);
         textUbicationName = (TextView) findViewById(R.id.textUbicationName);
         buttonSendParams = (Button) findViewById(R.id.buttonSendParams);
+        sellImage = (ImageView)findViewById(R.id.sellImage);
+        rentalImage = (ImageView)findViewById(R.id.rentalImage);
+        rentalTempImage = (ImageView)findViewById(R.id.rentalTempImage);
 
         layoutCategory.setVisibility(View.GONE);
         filterLayout.setVisibility(View.GONE);
@@ -188,9 +194,11 @@ public class PropertyActivity extends AppCompatActivity {
         saleLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                resetImage();
                 category=null;
                 content_header.getLayoutParams().height = (int) (200 * scale);
                 card_view_all_category.setVisibility(View.VISIBLE);
+                Picasso.with(PropertyActivity.this).load("file:///android_asset/image/ic_property_sell_orange.png").into(sellImage);
                 condition = "Venta";
                 loadJSONFromAssetHomeCoupon(condition);
                 filterLayout.setVisibility(View.VISIBLE);
@@ -200,9 +208,11 @@ public class PropertyActivity extends AppCompatActivity {
         rentalLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                resetImage();
                 category=null;
                 content_header.getLayoutParams().height = (int) (200 * scale);
                 card_view_all_category.setVisibility(View.VISIBLE);
+                Picasso.with(PropertyActivity.this).load("file:///android_asset/image/ic_property_rental_orange.png").into(rentalImage);
                 condition = "Alquiler";
                 loadJSONFromAssetHomeCoupon(condition);
                 filterLayout.setVisibility(View.VISIBLE);
@@ -212,9 +222,11 @@ public class PropertyActivity extends AppCompatActivity {
         rentalTemporalLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                resetImage();
                 category=null;
                 content_header.getLayoutParams().height = (int) (200 * scale);
                 card_view_all_category.setVisibility(View.VISIBLE);
+                Picasso.with(PropertyActivity.this).load("file:///android_asset/image/ic_property_rental_temp_orange.png").into(rentalTempImage);
                 condition = "temporario";
                 loadJSONFromAssetHomeCoupon(condition);
                 filterLayout.setVisibility(View.VISIBLE);
@@ -268,6 +280,12 @@ public class PropertyActivity extends AppCompatActivity {
 
         loadJSONFromAssetCategoryList();
 
+    }
+
+    public void resetImage(){
+        Picasso.with(PropertyActivity.this).load("file:///android_asset/image/ic_property_sell_white.png").into(sellImage);
+        Picasso.with(PropertyActivity.this).load("file:///android_asset/image/ic_property_rental_white.png").into(rentalImage);
+        Picasso.with(PropertyActivity.this).load("file:///android_asset/image/ic_property_rental_temp_white.png").into(rentalTempImage);
     }
 
     @Override

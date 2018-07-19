@@ -180,7 +180,7 @@ public class MotorizedActivity extends AppCompatActivity {
                 filterLayout.setVisibility(View.VISIBLE);
                 motorcicleLayout.setVisibility(View.GONE);
                 truckLayout.setVisibility(View.GONE);
-                Picasso.with(MotorizedActivity.this).load("file:///android_asset/image/car.png").into(categoryImage);
+                Picasso.with(MotorizedActivity.this).load("file:///android_asset/image/ic_car_2001_orange.png").into(categoryImage);
                 categoryNameText.setText("Autos y\nCamionetas");
                 loadJSONFromAssetCategoryList1(Long.valueOf(2001));
                 RunFindMotorizedService(Long.valueOf(2001));
@@ -193,7 +193,7 @@ public class MotorizedActivity extends AppCompatActivity {
                 filterLayout.setVisibility(View.VISIBLE);
                 motorcicleLayout.setVisibility(View.GONE);
                 truckLayout.setVisibility(View.GONE);
-                Picasso.with(MotorizedActivity.this).load("file:///android_asset/image/car.png").into(categoryImage);
+                Picasso.with(MotorizedActivity.this).load("file:///android_asset/image/ic_car_2007_orange.png").into(categoryImage);
                 categoryNameText.setText("Motos");
                 loadJSONFromAssetCategoryList1(Long.valueOf(2007));
                 RunFindMotorizedService(Long.valueOf(2007));
@@ -206,7 +206,7 @@ public class MotorizedActivity extends AppCompatActivity {
                 filterLayout.setVisibility(View.VISIBLE);
                 motorcicleLayout.setVisibility(View.GONE);
                 truckLayout.setVisibility(View.GONE);
-                Picasso.with(MotorizedActivity.this).load("file:///android_asset/image/car.png").into(categoryImage);
+                Picasso.with(MotorizedActivity.this).load("file:///android_asset/image/ic_car_2002_orange.png").into(categoryImage);
                 categoryNameText.setText("Camiones");
                 loadJSONFromAssetCategoryList1(Long.valueOf(2002));
                 RunFindMotorizedService(Long.valueOf(2002));
@@ -236,10 +236,11 @@ public class MotorizedActivity extends AppCompatActivity {
                             {
                                 content_header.getLayoutParams().height = (int) (200 * scale);;
                                 Yng_Category item = adapter.getItem(position);
+                                Log.e("id",""+item.getCategoryId());
                                 filterLayout.setVisibility(View.VISIBLE);
                                 motorcicleLayout.setVisibility(View.GONE);
                                 truckLayout.setVisibility(View.GONE);
-                                Picasso.with(MotorizedActivity.this).load("file:///android_asset/image/car.png").into(categoryImage);
+                                Picasso.with(MotorizedActivity.this).load("file:///android_asset/image/ic_car_"+item.getCategoryId()+"_orange.png").into(categoryImage);
                                 categoryNameText.setText(item.getName());
                                 loadJSONFromAssetCategoryList1(item.getCategoryId());
                                 RunFindMotorizedService(item.getCategoryId());
@@ -286,7 +287,7 @@ public class MotorizedActivity extends AppCompatActivity {
             public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
                 minPrice= Long.valueOf(minValue);
                 maxPrice= Long.valueOf(maxValue);
-                textPrecio.setText(minValue + "$-" + maxValue+"$");
+                //textPrecio.setText(minValue + "$-" + maxValue+"$");
                 if(Double.valueOf(minValue).equals(minPriceItem)&&Double.valueOf(maxValue).equals(maxPriceItem)){
                     Log.e("min,max,maxitem","entro");
                     textPrecio.setText("¿Qué rango de precio?");
@@ -556,6 +557,8 @@ public class MotorizedActivity extends AppCompatActivity {
                             minPriceItem = Double.valueOf(findMotorized.getMinPrice());
                             maxPriceItem = Double.valueOf(findMotorized.getMaxPrice());
                             seekBar.setRangeValues(minPriceItem.intValue(), maxPriceItem);
+                            seekBar.setSelectedMinValue(minPriceItem);
+                            seekBar.setSelectedMaxValue(maxPriceItem);
 
                         }
                         catch (Exception ex)

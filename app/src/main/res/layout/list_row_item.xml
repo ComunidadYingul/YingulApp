@@ -69,7 +69,7 @@
                         android:minLines="1"
                         android:text="Camara profesional nikon"
                         android:textSize="15sp"
-                        android:textColor="@color/gray" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
                 </LinearLayout>
 
                 <LinearLayout
