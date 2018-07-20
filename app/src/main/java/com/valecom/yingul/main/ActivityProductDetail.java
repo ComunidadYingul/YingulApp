@@ -329,7 +329,11 @@ public class ActivityProductDetail extends AppCompatActivity {
         lytEnvioGratis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"Aún no implementado",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),"Aún no implementado",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ActivityProductDetail.this,ShippingActivity.class);
+                intent.putExtra("item",itemTemp);
+                intent.putExtra("itemQuantity",Integer.parseInt(edit_quantity.getText().toString()));
+                startActivity(intent);
             }
         });
 
