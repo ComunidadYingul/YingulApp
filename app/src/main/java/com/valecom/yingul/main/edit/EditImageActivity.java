@@ -1,11 +1,13 @@
 package com.valecom.yingul.main.edit;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -13,6 +15,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -103,7 +106,7 @@ public class EditImageActivity extends AppCompatActivity {
     private Button buttonReturnImages;
     private Yng_Item item;
     private Yng_User user;
-
+    private static final int MY_CAMERA_REQUEST_CODE = 100;
     public static final MediaType JSON= MediaType.parse("application/json; charset=utf-8");
     String TAG="OkHttpConection";
 
@@ -198,13 +201,24 @@ public class EditImageActivity extends AppCompatActivity {
                                     {
                                         switch (position){
                                             case 0:
-                                                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                                                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                    if (checkSelfPermission(Manifest.permission.CAMERA)
+                                                            != PackageManager.PERMISSION_GRANTED) {
+                                                        requestPermissions(new String[]{Manifest.permission.CAMERA},
+                                                                MY_CAMERA_REQUEST_CODE);
+                                                    }else{
+                                                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                                        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                                                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                                                        }
+                                                    }
+                                                }else{
+                                                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                                    if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                                                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                                                    }
                                                 }
-
-                                                if (setting_address_edit_dialog != null && setting_address_edit_dialog.isShowing())
-                                                {
+                                                if (setting_address_edit_dialog != null && setting_address_edit_dialog.isShowing()) {
                                                     setting_address_edit_dialog.dismiss();
                                                 }
                                                 break;
@@ -741,5 +755,28 @@ public class EditImageActivity extends AppCompatActivity {
     public void start(String start){
         Log.i("start",""+start);
         progressDialog.show();
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == MY_CAMERA_REQUEST_CODE) {
+
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                }
+                if (setting_address_edit_dialog != null && setting_address_edit_dialog.isShowing()) {
+                    setting_address_edit_dialog.dismiss();
+                }
+            } else {
+
+                Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
+
+            }
+
+        }
     }
 }

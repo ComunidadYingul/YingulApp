@@ -528,35 +528,6 @@ public class SellActivity extends AppCompatActivity {
     }
 
     public void openGalery(){
-        /*AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(
-                this);
-        myAlertDialog.setTitle("Cargar imágenes");
-        myAlertDialog.setMessage("¿Cómo quieres cargar tu imagen?");
-
-        myAlertDialog.setPositiveButton("Galeria",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        Intent intent = new Intent();
-                        intent.setType("image/*");
-                        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                        intent.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
-                    }
-                });
-
-        myAlertDialog.setNegativeButton("Cámara",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-
-                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
-                        intent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(f));
-                        intent.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
-
-                    }
-                });
-        myAlertDialog.show();*/
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);

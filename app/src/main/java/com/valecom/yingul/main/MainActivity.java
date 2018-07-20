@@ -1,17 +1,22 @@
 package com.valecom.yingul.main;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -97,6 +102,7 @@ public class MainActivity extends AppCompatActivity
     private ListView list;
     private ArrayAdapter adapter1;
     private ArrayList array_list;
+    private static final int MY_CAMERA_REQUEST_CODE = 100;
 
     public static final MediaType JSON= MediaType.parse("application/json; charset=utf-8");
 
@@ -189,12 +195,24 @@ public class MainActivity extends AppCompatActivity
                                         {
                                             switch (position){
                                                 case 0:
-                                                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                                    if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                                                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                        if (checkSelfPermission(Manifest.permission.CAMERA)
+                                                                != PackageManager.PERMISSION_GRANTED) {
+                                                            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                                                                    MY_CAMERA_REQUEST_CODE);
+                                                        }else{
+                                                            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                                            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                                                                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                                                            }
+                                                        }
+                                                    }else{
+                                                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                                        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                                                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                                                        }
                                                     }
-                                                    if (setting_address_edit_dialog != null && setting_address_edit_dialog.isShowing())
-                                                    {
+                                                    if (setting_address_edit_dialog != null && setting_address_edit_dialog.isShowing()) {
                                                         setting_address_edit_dialog.dismiss();
                                                     }
                                                     break;
@@ -901,5 +919,29 @@ public class MainActivity extends AppCompatActivity
         postRequest.setTag(TAG);
 
         MySingleton.getInstance(this).addToRequestQueue(postRequest);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == MY_CAMERA_REQUEST_CODE) {
+
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                }
+                if (setting_address_edit_dialog != null && setting_address_edit_dialog.isShowing()) {
+                    setting_address_edit_dialog.dismiss();
+                }
+            } else {
+
+                Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
+
+            }
+
+        }
     }
 }
