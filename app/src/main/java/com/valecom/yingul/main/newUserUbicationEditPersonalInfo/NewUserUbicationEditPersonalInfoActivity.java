@@ -21,6 +21,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.LoginActivity;
+import com.valecom.yingul.main.MainActivity;
+import com.valecom.yingul.main.buy.BuyActivity;
 import com.valecom.yingul.model.Yng_City;
 import com.valecom.yingul.model.Yng_Country;
 import com.valecom.yingul.model.Yng_Province;
@@ -33,11 +35,19 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 
 public class NewUserUbicationEditPersonalInfoActivity extends AppCompatActivity {
-    public static final String TAG = "ItemPickerActivity";
 
     Toolbar toolbar;
     Yng_Ubication ubication;
@@ -47,6 +57,8 @@ public class NewUserUbicationEditPersonalInfoActivity extends AppCompatActivity 
     Yng_User user;
     MaterialDialog progressDialog;
     private JSONObject api_parameter;
+    String TAG="OkHttpConection";
+    public static final MediaType JSON= MediaType.parse("application/json; charset=utf-8");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,89 +114,77 @@ public class NewUserUbicationEditPersonalInfoActivity extends AppCompatActivity 
     }
 
     public void returnNewUbication(){
-        progressDialog.show();
-
         ubication.setYng_Country(country);
         ubication.setYng_Province(province);
         ubication.setYng_City(city);
         user.setYng_Ubication(ubication);
         Gson gson = new Gson();
         String jsonBody = gson.toJson(user);
-        try {
-            api_parameter= new JSONObject(jsonBody);
-            Log.e("Ubicacion", api_parameter.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        JsonObjectRequest postRequest = new JsonObjectRequest
-                (Request.Method.POST, Network.API_URL + "user/setUserUbicationEditPersonalInfo", api_parameter, new Response.Listener<JSONObject>()
-                {
-                    @Override
-                    public void onResponse(JSONObject response)
-                    {
-                        if (progressDialog != null && progressDialog.isShowing()) {
-                            // If the response is JSONObject instead of expected JSONArray
-                            progressDialog.dismiss();
-                        }
-                        Log.e("El nuevo usuario", String.valueOf(response));
-                        Gson gson = new Gson();
-                        user = gson.fromJson(String.valueOf(response), Yng_User.class);
-
-                        Intent returnIntent = new Intent();
-                        returnIntent.putExtra("data", user);
-                        setResult(Activity.RESULT_OK, returnIntent);
-                        finish();
-                    }
-                }, new Response.ErrorListener()
-                {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-                        // TODO Auto-generated method stub
-                        if (progressDialog != null && progressDialog.isShowing()) {
-                            // If the response is JSONObject instead of expected JSONArray
-                            progressDialog.dismiss();
-                        }
-
-                        NetworkResponse response = error.networkResponse;
-                        if (response != null && response.data != null)
-                        {
-                            try
-                            {
-                                JSONObject json = new JSONObject(new String(response.data));
-                                Toast.makeText(NewUserUbicationEditPersonalInfoActivity.this, json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
-                            }
-                            catch (JSONException ex)
-                            {
-                                Toast.makeText(NewUserUbicationEditPersonalInfoActivity.this, R.string.error_try_again_support, Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        else
-                        {
-                            Toast.makeText(NewUserUbicationEditPersonalInfoActivity.this, error != null && error.getMessage() != null ? error.getMessage() : error.toString(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                })
-        {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError
-            {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", user.getPassword());
-                return params;
-            }
-        };
-
-        // Get a RequestQueue
-        RequestQueue queue = MySingleton.getInstance(this.getApplicationContext()).getRequestQueue();
-
-        //Used to mark the request, so we can cancel it on our onStop method
-        postRequest.setTag(TAG);
-
-        MySingleton.getInstance(this).addToRequestQueue(postRequest);
+        Log.e("usuario que se envia",jsonBody);
+        requestArrayPost(Network.API_URL + "user/setUserUbicationEditPersonalInfo",jsonBody);
     }
+
+    public void  requestArrayPost(String url, String json){
+        start("inicio");
+        OkHttpClient httpClient = new OkHttpClient.Builder()
+                .connectTimeout(9000, TimeUnit.SECONDS)
+                .writeTimeout(9000, TimeUnit.SECONDS)
+                .readTimeout(9000, TimeUnit.SECONDS)
+                .build();
+        RequestBody body = RequestBody.create(JSON, json);
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(url)
+                .addHeader("Content-Type","application/json")
+                .addHeader("Authorization",user.getPassword())
+                .post(body)
+                .build();
+        httpClient.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "error in getting response using async okhttp call");
+            }
+            @Override public void onResponse(Call call, okhttp3.Response response) throws IOException {
+                ResponseBody responseBody = response.body();
+                if (!response.isSuccessful()) {
+                    throw new IOException("Error response " + response);
+                }
+                //
+
+                final String responce=""+(responseBody.string());
+                try {
+                    end(""+responce);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.i("responce:------------",""+responce);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(responce.contains("username")) {
+                            Log.e("El nuevo usuario", String.valueOf(responce));
+                            Gson gson = new Gson();
+                            user = gson.fromJson(String.valueOf(responce), Yng_User.class);
+
+                            Intent returnIntent = new Intent();
+                            returnIntent.putExtra("data", user);
+                            setResult(Activity.RESULT_OK, returnIntent);
+                            finish();
+                        }else{
+                            Toast.makeText(NewUserUbicationEditPersonalInfoActivity.this,"Algo salio mal intente nuevamente mas tarde",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+            }
+        });
+    }
+    public void end(String end) throws JSONException{
+        Log.i("end",""+end);
+        progressDialog.dismiss();
+    }
+    public void start(String start){
+        Log.i("start",""+start);
+        progressDialog.show();
+    }
+
 
 }

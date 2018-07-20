@@ -103,6 +103,7 @@ public class MainFindCategoryFragment extends Fragment {
 
                 Intent intent = new Intent(getActivity(),ItemsByCategoryActivity.class);
                 intent.putExtra("categoryId",item.getCategoryId().toString());
+                intent.putExtra("itemName","");
                 startActivity(intent);
             }
         });

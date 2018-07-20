@@ -74,7 +74,7 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
     LinearLayout lay_filter_click;
     private MaterialDialog progressDialog;
 
-    String categoryId;
+    String categoryId,itemName="";
     private MaterialDialog setting_address_edit_dialog;
     /******filtros*****/
     static final int ITEM_PICKER_TAG = 1;
@@ -102,6 +102,11 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
 
         Bundle bundle = this.getIntent().getExtras();
         categoryId = bundle.getString("categoryId");
+        try{
+            itemName = bundle.getString("itemName");
+        }catch (Exception e){
+            itemName="";
+        }
 
         Log.e("CategoryId recuperado:",""+categoryId);
 
@@ -243,10 +248,25 @@ public class ItemsByCategoryActivity extends AppCompatActivity {
                                     minPriceItem=item.getPrice();
                                 }
                                 /********************************/
-
-                                array_cat_list.add(item);
-
+                                Log.e("itemname",itemName);
+                                if(itemName.equals("")){
+                                    array_cat_list.add(item);
+                                }else{
+                                    Log.e("siiiii",itemName);
+                                    if(item.getName().contains(itemName)||item.getName().equals(itemName)){
+                                        Log.e("siii",itemName+item.getName());
+                                        try{
+                                            array_cat_list.remove(0);
+                                            array_cat_list.add(0,item);
+                                        }catch (Exception e){
+                                            array_cat_list.add(item);
+                                        }
+                                    }else {
+                                        array_cat_list.add(item);
+                                    }
+                                }
                             }
+                            Log.e("resultado final",array_cat_list.toString());
                             /**************filtro*************/
                             array_cat_list_backup=array_cat_list;
                             /***********************************/
