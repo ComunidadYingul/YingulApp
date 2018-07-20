@@ -61,6 +61,7 @@ import com.valecom.yingul.adapter.ReviewPublicListAdapter;
 import com.valecom.yingul.adapter.SelectColorAdapter;
 import com.valecom.yingul.adapter.SelectSizeAdapter;
 import com.valecom.yingul.main.buy.BuyActivity;
+import com.valecom.yingul.model.FilterParam;
 import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.model.Yng_Query;
 import com.valecom.yingul.model.Yng_Ubication;
@@ -142,6 +143,7 @@ public class ActivityProductDetail extends AppCompatActivity {
     public static final MediaType JSON= MediaType.parse("application/json; charset=utf-8");
 
     Toolbar toolbar;
+    static final int ITEM_PICKER_TAG = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -335,7 +337,15 @@ public class ActivityProductDetail extends AppCompatActivity {
                 Intent intent = new Intent(ActivityProductDetail.this,ShippingActivity.class);
                 intent.putExtra("item",itemTemp);
                 intent.putExtra("itemQuantity",Integer.parseInt(edit_quantity.getText().toString()));
-                startActivity(intent);
+                //startActivity(intent);
+
+                //Intent intent = new Intent(PropertyFilteredActivity.this, FilterActivity.class);
+                //Gson json = new Gson();
+                //intent.putExtra("itemList", json.toJson(array_cat_list_backup).toString());
+                //intent.putExtra("filterParams", filterParams);
+                //intent.putExtra("maxPriceItem", maxPriceItem);
+                //intent.putExtra("minPriceItem", minPriceItem);
+                startActivityForResult(intent, ITEM_PICKER_TAG);
             }
         });
 
@@ -1239,6 +1249,12 @@ public class ActivityProductDetail extends AppCompatActivity {
             lytCondition.setVisibility(View.GONE);
         }
 
+        if(itemTemp.getType().equals("Product")){
+            lytEnvioGratis.setVisibility(View.VISIBLE);
+        }else{
+            lytEnvioGratis.setVisibility(View.GONE);
+        }
+
         loadJSONFromAssetGallery();
     }
 
@@ -1601,5 +1617,20 @@ public class ActivityProductDetail extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == ITEM_PICKER_TAG) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                if(!itemTemp.getProductPagoEnvio().equals("gratis")) {
+                    String respuesta = data.getStringExtra("rate");
+                    txtEnvio.setText("Envio $ " + respuesta);
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

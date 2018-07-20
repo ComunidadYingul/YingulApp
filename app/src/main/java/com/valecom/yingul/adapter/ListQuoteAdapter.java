@@ -62,18 +62,6 @@ public class ListQuoteAdapter extends RecyclerView.Adapter<ListQuoteAdapter.Item
             holder.text_quote_rate.setText("$ "+quote.getRate());
         }
 
-        /*holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent_detail=new Intent(mContext, ActivityProductDetail.class);
-                intent_detail.putExtra("itemId",item.getItemId().toString());
-                //intent_detail.putExtra("seller",item.getCategorySeller());
-                mContext.startActivity(intent_detail);
-
-            }
-        });*/
-
     }
 
     @Override
@@ -83,6 +71,7 @@ public class ListQuoteAdapter extends RecyclerView.Adapter<ListQuoteAdapter.Item
 
     public class ItemRowHolder extends RecyclerView.ViewHolder {
         public TextView text_quote_branch_location,text_quote_street,text_quote_schedules,text_quote_rate;
+        public LinearLayout lyt_parent;
 
         public ItemRowHolder(View itemView) {
             super(itemView);
@@ -90,6 +79,7 @@ public class ListQuoteAdapter extends RecyclerView.Adapter<ListQuoteAdapter.Item
             text_quote_street = (TextView) itemView.findViewById(R.id.text_quote_street);
             text_quote_schedules = (TextView) itemView.findViewById(R.id.text_quote_schedules);
             text_quote_rate = (TextView) itemView.findViewById(R.id.text_quote_rate);
+            lyt_parent = (LinearLayout) itemView.findViewById(R.id.lyt_parent);
         }
     }
 }

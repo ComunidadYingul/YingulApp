@@ -1,34 +1,27 @@
 package com.valecom.yingul.main;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.valecom.yingul.R;
 import com.valecom.yingul.Util.ItemOffsetDecoration;
+import com.valecom.yingul.Util.RecyclerItemClickListener;
 import com.valecom.yingul.Util.Validacion;
 import com.valecom.yingul.adapter.ListQuoteAdapter;
 import com.valecom.yingul.adapter.QuoteAdapter;
-import com.valecom.yingul.main.buy.BuyActivity;
-import com.valecom.yingul.main.buy.BuyItemSetShippingBranchFragment;
-import com.valecom.yingul.main.buy.BuyItemSetWhoWithdrewPurchaseFragment;
-import com.valecom.yingul.main.categories.ItemsByCategoryActivity;
 import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.model.Yng_Quote;
 import com.valecom.yingul.model.Yng_Ubication;
@@ -37,7 +30,6 @@ import com.valecom.yingul.network.Network;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -77,12 +69,12 @@ public class ShippingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shipping);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Envio");
+        toolbar.setTitle("Medios de envío");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        progressDialog = new MaterialDialog.Builder(getApplicationContext())
+        progressDialog = new MaterialDialog.Builder(ShippingActivity.this)
                 .title(R.string.progress_dialog)
                 .content(R.string.please_wait)
                 .cancelable(false)
@@ -105,46 +97,23 @@ public class ShippingActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(itemDecoration);
 
 
-        /*list = (ListView) findViewById(R.id.list);
-
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-                Yng_Quote item = adapter.getItem(position);
-                //((BuyActivity)getActivity()).quote=item;
-                BuyItemSetWhoWithdrewPurchaseFragment fragment = new BuyItemSetWhoWithdrewPurchaseFragment();
-                FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+            public void onItemClick(View view, int position) {
+                Yng_Quote quote = array_list.get(position);
+                String rate = String.valueOf(quote.getRate());
+
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("rate",rate);
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
+
             }
-        });*/
-
-
-
+        }));
 
         buttonFindBranch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                SharedPreferences settings = getSharedPreferences(LoginActivity.SESSION_USER, MODE_PRIVATE);
-
-                /*if (settings == null || settings.getInt("logged_in", 0) == 0 || settings.getString("api_key", "").equals(""))
-                {
-                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    finish();
-                    return;
-                }else{*/
-                    //user.setUsername(settings.getString("username",""));
-
-                    //user.setPhone(settings.getString("phone",""));
-                    //user.setDocumentType(settings.getString("documentType",""));
-                    //user.setDocumentNumber(settings.getString("documentNumber",""));
-                    //user.setPassword(settings.getString("password",""));
 
                     Validacion val = new Validacion();
                     if(val.valCantString(editPostalCode,4)){
@@ -232,9 +201,10 @@ public class ShippingActivity extends AppCompatActivity {
     }
     public void end(String end) throws JSONException {
         Log.i("end",""+end);
+        progressDialog.dismiss();
     }
     public void start(String start){
         Log.i("start",""+start);
-        //progressDialog.show();
+        progressDialog.show();
     }
 }

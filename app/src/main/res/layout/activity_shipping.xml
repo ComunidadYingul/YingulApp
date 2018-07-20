@@ -46,18 +46,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:orientation="horizontal"
                 android:weightSum="6"
                 android:gravity="center">
 
                 <android.support.design.widget.TextInputLayout
-                    android:layout_width="50dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:paddingRight="@dimen/activity_horizontal_margin"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_weight="4">
@@ -77,8 +74,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:orientation="horizontal"
@@ -100,7 +95,7 @@
                         android:background="@color/yngBlue"
                         android:textColor="@android:color/white"
                         android:layout_weight="4"
-                        android:text="Buscar"/>
+                        android:text="Calcular"/>
 
                 </LinearLayout>
 
@@ -128,7 +123,7 @@
                     android:layout_weight="2"
                     android:textSize="18sp"
                     android:gravity="right"
-                    android:text="Costo envio"/>
+                    android:text="Costo envío"/>
 
             </LinearLayout>
             <View
