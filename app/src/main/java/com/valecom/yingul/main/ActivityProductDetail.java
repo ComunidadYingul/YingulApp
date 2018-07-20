@@ -42,6 +42,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.valecom.yingul.Item.ItemColorSize;
 import com.valecom.yingul.Item.ItemGallery;
 import com.valecom.yingul.Item.ItemOrderProduct;
@@ -480,13 +482,13 @@ public class ActivityProductDetail extends AppCompatActivity {
         recyclerViewDetail.setAdapter(adapter_gallery);
 
         itemGalleryList = array_gallery.get(0);
-        Picasso.with(ActivityProductDetail.this).load(Network.BUCKET_URL + itemGalleryList.getGalleryImage()).into(ImgDetail);
+        Picasso.with(ActivityProductDetail.this).load(Network.BUCKET_URL + itemGalleryList.getGalleryImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(ImgDetail);
 
         recyclerViewDetail.addOnItemTouchListener(new RecyclerTouchListener(ActivityProductDetail.this, recyclerViewDetail, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 itemGalleryList = array_gallery.get(position);
-                Picasso.with(ActivityProductDetail.this).load(Network.BUCKET_URL + itemGalleryList.getGalleryImage()).into(ImgDetail);
+                Picasso.with(ActivityProductDetail.this).load(Network.BUCKET_URL + itemGalleryList.getGalleryImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(ImgDetail);
             }
 
             @Override

@@ -28,6 +28,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.LoginActivity;
@@ -137,7 +139,7 @@ public class MyAccountPurchaseDetailFragment extends Fragment
         buyTime.setText(confirm.getBuy().getTime());
         txtCurrencyPrice.setText("$ "+confirm.getBuy().getItemCost());
         txtTotal.setText("$ "+confirm.getBuy().getCost());
-        Picasso.with(getActivity()).load(Network.BUCKET_URL+confirm.getBuy().getYng_item().getPrincipalImage()).into(principalImage);
+        Picasso.with(getActivity()).load(Network.BUCKET_URL+confirm.getBuy().getYng_item().getPrincipalImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(principalImage);
 
         if(confirm.getStatus().equals("confirm")){
             purchaseProblemLayout.setVisibility(View.VISIBLE);

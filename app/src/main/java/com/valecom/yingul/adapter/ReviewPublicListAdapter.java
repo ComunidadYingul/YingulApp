@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.ActivityProductDetail;
 import com.valecom.yingul.model.Yng_Item;
@@ -45,7 +47,7 @@ public class ReviewPublicListAdapter extends RecyclerView.Adapter<ReviewPublicLi
         holder.text_title.setText(item.getName());
         holder.text_price.setText(String.valueOf(item.getPrice()));
         holder.text_description.setText(item.getDescription());
-        Picasso.with(mContext).load(Network.BUCKET_URL+item.getPrincipalImage()).into(holder.image_public);
+        Picasso.with(mContext).load(Network.BUCKET_URL+item.getPrincipalImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(holder.image_public);
 
         holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
             @Override

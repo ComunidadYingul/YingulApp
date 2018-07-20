@@ -1,6 +1,7 @@
 package com.valecom.yingul.main;
 
 import android.annotation.TargetApi;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -23,7 +24,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -35,14 +39,20 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.categories.ItemsByCategoryActivity;
 import com.valecom.yingul.main.createStore.CreateStoreActivity;
+import com.valecom.yingul.main.edit.EditImageActivity;
 import com.valecom.yingul.main.index.InicioFragment;
 import com.valecom.yingul.main.myAccount.MyAccountFragment;
 import com.valecom.yingul.main.sell.SellActivity;
+import com.valecom.yingul.main.store.ActivityStore;
+import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.model.Yng_ItemImage;
+import com.valecom.yingul.model.Yng_Store;
 import com.valecom.yingul.model.Yng_User;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
@@ -53,6 +63,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -82,6 +93,10 @@ public class MainActivity extends AppCompatActivity
     private Yng_User user;
     static final int ADD_PICTURES_TAG = 1;
     static final int REQUEST_IMAGE_CAPTURE = 2;
+    private MaterialDialog setting_address_edit_dialog;
+    private ListView list;
+    private ArrayAdapter adapter1;
+    private ArrayList array_list;
 
     public static final MediaType JSON= MediaType.parse("application/json; charset=utf-8");
 
@@ -100,6 +115,10 @@ public class MainActivity extends AppCompatActivity
 
         //Checks whether a user is logged in, otherwise redirects to the Login screen
 
+        array_list = new ArrayList();
+        array_list.add("Tomar foto");
+        array_list.add("Elegir existente");
+        adapter1 = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1, array_list);
 
         api_key = settings.getString("api_key", "");
 
@@ -151,47 +170,52 @@ public class MainActivity extends AppCompatActivity
             profile_email.setText(email);
 
             CircleImageView profilePhoto = (CircleImageView) navigationHeaderView.findViewById(R.id.profile_photo);
-            Picasso.with(MainActivity.this).load(Network.BUCKET_URL+"user/userProfile/"+settings.getString("profilePhoto","")).into(profilePhoto);
+            Picasso.with(MainActivity.this).load(Network.BUCKET_URL+"user/userProfile/"+settings.getString("profilePhoto","")).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(profilePhoto);
             profilePhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new MaterialDialog.Builder(MainActivity.this)
-                            .title("Editar foto")
-                            .content("Cambia tu foto de perfil.")
-                            .positiveText("Elegir existente")
-                            .negativeText("Tomar foto")
+                    setting_address_edit_dialog = new MaterialDialog.Builder(MainActivity.this)
+                            .customView(R.layout.type_upload_image_layout, true)
                             .cancelable(true)
-                            .negativeColorRes(R.color.colorAccent)
-                            .positiveColorRes(R.color.colorAccent)
-                            .callback(new MaterialDialog.ButtonCallback()
-                            {
+                            .showListener(new DialogInterface.OnShowListener() {
                                 @Override
-                                public void onPositive(MaterialDialog dialog)
-                                {
-                                    Intent intent = new Intent();
-                                    intent.setType("image/*");
-                                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                                    intent.setAction(Intent.ACTION_GET_CONTENT);
-                                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), ADD_PICTURES_TAG);
-                                    dialog.dismiss();
-                                    if (dialog != null && dialog.isShowing())
-                                    {
-                                        dialog.dismiss();
-                                    }
-                                }
-                                @Override
-                                public void onNegative(MaterialDialog dialog)
-                                {
-                                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                    if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                                    }
+                                public void onShow(DialogInterface dialog) {
+                                    View view = setting_address_edit_dialog.getCustomView();
+                                    list = (ListView) view.findViewById(R.id.list);
+                                    // Assigning the adapter to ListView
+                                    list.setAdapter(adapter1);
 
-                                    dialog.dismiss();
-                                    if (dialog != null && dialog.isShowing())
+                                    list.setOnItemClickListener(new AdapterView.OnItemClickListener()
                                     {
-                                        dialog.dismiss();
-                                    }
+                                        @Override
+                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+                                        {
+                                            switch (position){
+                                                case 0:
+                                                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                                    if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                                                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                                                    }
+                                                    if (setting_address_edit_dialog != null && setting_address_edit_dialog.isShowing())
+                                                    {
+                                                        setting_address_edit_dialog.dismiss();
+                                                    }
+                                                    break;
+                                                case 1:
+                                                    Intent intent = new Intent();
+                                                    intent.setType("image/*");
+                                                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                                                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                                                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), ADD_PICTURES_TAG);
+                                                    if (setting_address_edit_dialog != null && setting_address_edit_dialog.isShowing())
+                                                    {
+                                                        setting_address_edit_dialog.dismiss();
+                                                    }
+                                                    break;
+                                            }
+                                        }
+                                    });
+
                                 }
                             })
                             .show();
@@ -390,8 +414,7 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.commit();
         }
         else if (id == R.id.nav_create_store){
-            Intent settingsIntent = new Intent(this, CreateStoreActivity.class);
-            startActivity(settingsIntent);
+            createOrVisiteStore();
         }
         else if (id == R.id.nav_sell) {
             Intent settingsIntent = new Intent(this, SellActivity.class);
@@ -784,6 +807,91 @@ public class MainActivity extends AppCompatActivity
                         "Basic " + Base64.encodeToString(
                                 (editEmail.getText().toString().trim() + ":" + editPassword.getText().toString().trim()).getBytes(), Base64.NO_WRAP)
                 );*/
+                return params;
+            }
+        };
+
+        // Get a RequestQueue
+        RequestQueue queue = MySingleton.getInstance(this.getApplicationContext()).getRequestQueue();
+
+        //Used to mark the request, so we can cancel it on our onStop method
+        postRequest.setTag(TAG);
+
+        MySingleton.getInstance(this).addToRequestQueue(postRequest);
+    }
+    public void createOrVisiteStore(){
+        progressDialog.show();
+
+        JsonObjectRequest postRequest = new JsonObjectRequest
+                (Request.Method.GET, Network.API_URL + "store/findByUsername/"+username, api_parameter, new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+
+                        try
+                        {
+                            Log.e("Tienda por su nombre " , response.toString());
+                            if(response!=null){
+                                Yng_Store store = new Yng_Store();
+                                Gson gson = new Gson();
+                                store = gson.fromJson(String.valueOf(response), Yng_Store.class);
+                                Log.e("nombre tienda",store.getName());
+                                Intent intent = new Intent(MainActivity.this, ActivityStore.class);
+                                intent.putExtra("store",store.getName());
+                                startActivity(intent);
+                            }else{
+                                Intent settingsIntent = new Intent(MainActivity.this, CreateStoreActivity.class);
+                                startActivity(settingsIntent);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Toast.makeText(MainActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }, new Response.ErrorListener()
+                {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        // TODO Auto-generated method stub
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            // If the response is JSONObject instead of expected JSONArray
+                            progressDialog.dismiss();
+                        }
+
+                        NetworkResponse response = error.networkResponse;
+                        if (response != null && response.data != null)
+                        {
+                            try
+                            {
+                                JSONObject json = new JSONObject(new String(response.data));
+                                Toast.makeText(MainActivity.this, json.has("message") ? json.getString("message")+"1" : json.getString("error")+"2", Toast.LENGTH_LONG).show();
+                            }
+                            catch (JSONException e)
+                            {
+                                Toast.makeText(MainActivity.this, R.string.error_try_again_support+"3", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else
+                        {
+                            Intent settingsIntent = new Intent(MainActivity.this, CreateStoreActivity.class);
+                            startActivity(settingsIntent);
+                        }
+                    }
+                })
+        {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                //params.put("X-API-KEY", Network.API_KEY);
                 return params;
             }
         };

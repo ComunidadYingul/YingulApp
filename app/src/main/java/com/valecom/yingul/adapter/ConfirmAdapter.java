@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.R;
 import com.valecom.yingul.model.Yng_Confirm;
@@ -51,7 +53,7 @@ public class ConfirmAdapter extends ArrayAdapter<Yng_Confirm>
         TextView buyCost = (TextView) rowView.findViewById(R.id.buyCost);
         TextView buyTime = (TextView) rowView.findViewById(R.id.buyTime);
 
-        Picasso.with(context).load(Network.BUCKET_URL+confirm.getBuy().getYng_item().getPrincipalImage()).into(itemImage);
+        Picasso.with(context).load(Network.BUCKET_URL+confirm.getBuy().getYng_item().getPrincipalImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(itemImage);
 
         itemName.setText(confirm.getBuy().getYng_item().getName());
         buyCost.setText("ARS "+confirm.getBuy().getCost());

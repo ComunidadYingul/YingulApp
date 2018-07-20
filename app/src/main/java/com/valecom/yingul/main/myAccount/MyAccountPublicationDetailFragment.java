@@ -1,11 +1,13 @@
 package com.valecom.yingul.main.myAccount;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -22,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -34,6 +35,8 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.Item.ItemGallery;
 import com.valecom.yingul.R;
@@ -51,14 +54,13 @@ import com.valecom.yingul.main.edit.EditItemTitleFragment;
 import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import static android.app.Activity.RESULT_OK;
 
 public class MyAccountPublicationDetailFragment extends Fragment
 {
@@ -82,9 +84,8 @@ public class MyAccountPublicationDetailFragment extends Fragment
     private Button btnItemDetail;
     private LinearLayout lytDiscount,lytPriceNormal;
 
-    private MaterialDialog setting_address_edit_dialog;
-
     public static final String TAG = "PurchaseDetailFragment";
+    static final int EDIT_IMAGE_TAG = 1;
     public MyAccountPublicationDetailFragment()
     {
         // Required empty public constructor
@@ -231,7 +232,8 @@ public class MyAccountPublicationDetailFragment extends Fragment
             public void onClick(View v) {
                 Intent intent_gallery = new Intent(getContext(), EditImageActivity.class);
                 intent_gallery.putExtra("itemId",itemId);
-                startActivity(intent_gallery);
+                intent_gallery.putExtra("principalImage",item.getPrincipalImage());
+                startActivityForResult(intent_gallery, EDIT_IMAGE_TAG);
             }
         });
 
@@ -245,13 +247,13 @@ public class MyAccountPublicationDetailFragment extends Fragment
         recyclerViewDetail.setAdapter(adapter_gallery);
 
         itemGalleryList = array_gallery.get(0);
-        Picasso.with(getContext()).load(Network.BUCKET_URL + itemGalleryList.getGalleryImage()).into(ImgDetail);
+        Picasso.with(getContext()).load(Network.BUCKET_URL + itemGalleryList.getGalleryImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(ImgDetail);
 
         recyclerViewDetail.addOnItemTouchListener(new ActivityProductDetail.RecyclerTouchListener(getContext(), recyclerViewDetail, new ActivityProductDetail.ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 itemGalleryList = array_gallery.get(position);
-                Picasso.with(getContext()).load(Network.BUCKET_URL + itemGalleryList.getGalleryImage()).into(ImgDetail);
+                Picasso.with(getContext()).load(Network.BUCKET_URL + itemGalleryList.getGalleryImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(ImgDetail);
             }
 
             @Override
@@ -540,6 +542,24 @@ public class MyAccountPublicationDetailFragment extends Fragment
         postRequest.setTag("");
 
         MySingleton.getInstance(getContext()).addToRequestQueue(postRequest);
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case EDIT_IMAGE_TAG:
+                super.onActivityResult(requestCode, resultCode, data);
+                if (resultCode == RESULT_OK) {
+                    Toast.makeText(getContext(), R.string.error_try_again_support, Toast.LENGTH_LONG).show();
+                    Log.e("eddy","sdfjj");
+                    Yng_Item item = (Yng_Item)data.getSerializableExtra("item");
+                    Gson gson = new Gson();
+                    String jsonBody = gson.toJson(item);
+                    Log.e("item de respuesta",jsonBody);
+                }
+                break;
+        }
     }
 
 }

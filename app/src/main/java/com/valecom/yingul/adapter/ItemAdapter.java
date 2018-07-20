@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.R;
 import com.valecom.yingul.model.Yng_Item;
@@ -55,7 +57,7 @@ public class ItemAdapter extends ArrayAdapter<Yng_Item>
         TextView discountRate = (TextView) rowView.findViewById(R.id.discountRate);
         LinearLayout freeShipping = (LinearLayout) rowView.findViewById(R.id.freeShipping);
 
-        Picasso.with(context).load(Network.BUCKET_URL+item.getPrincipalImage()).into(itemImage);
+        Picasso.with(context).load(Network.BUCKET_URL+item.getPrincipalImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(itemImage);
 
         if(item.getPriceDiscount()==0){
             itemPriceNormal.setVisibility(View.GONE);

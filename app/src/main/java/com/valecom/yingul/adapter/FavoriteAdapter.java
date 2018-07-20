@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.R;
 import com.valecom.yingul.model.Yng_Item;
@@ -52,7 +54,7 @@ public class FavoriteAdapter extends ArrayAdapter<Yng_Item>
         TextView itemName = (TextView) rowView.findViewById(R.id.itemName);
         LinearLayout freeShipping = (LinearLayout) rowView.findViewById(R.id.freeShipping);
 
-        Picasso.with(context).load(Network.BUCKET_URL+item.getPrincipalImage()).into(itemImage);
+        Picasso.with(context).load(Network.BUCKET_URL+item.getPrincipalImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(itemImage);
         itemPrice.setText("$ "+String.format("%.0f",item.getPrice()));
         itemName.setText(item.getName());
 

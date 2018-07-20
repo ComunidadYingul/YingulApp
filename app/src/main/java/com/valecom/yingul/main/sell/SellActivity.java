@@ -603,7 +603,6 @@ public class SellActivity extends AppCompatActivity {
                                     if (i == 0) {
                                         item.setPrincipalImage("data:image/jpeg;base64," + encodedImage);
                                     } else {
-
                                         Yng_ItemImage itemImage = new Yng_ItemImage();
                                         itemImage.setImage("data:image/jpeg;base64," + encodedImage);
                                         itemImageList.add(itemImage);
