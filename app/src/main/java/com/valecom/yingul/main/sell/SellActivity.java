@@ -23,6 +23,7 @@ import com.valecom.yingul.R;
 import com.valecom.yingul.main.LoginActivity;
 import com.valecom.yingul.main.MainActivity;
 import com.valecom.yingul.main.newUserUbicationEditPersonalInfo.NewUserUbicationEditPersonalInfoActivity;
+import com.valecom.yingul.main.newUserUbicationEditPersonalInfo.NewUserUbicationEditPersonalInfoFragment;
 import com.valecom.yingul.model.Yng_Barrio;
 import com.valecom.yingul.model.Yng_Category;
 import com.valecom.yingul.model.Yng_City;
@@ -319,9 +320,9 @@ public class SellActivity extends AppCompatActivity {
 
     public void setUbication(String setUbication){
         if(setUbication.equals("null")){
-            SellItemUbicationSetCountryFragment itemSetCountry = new SellItemUbicationSetCountryFragment();
+            SellItemUbicationSetCityByZipFragment fragment = new SellItemUbicationSetCityByZipFragment();
             FragmentTransaction fragmentTransaction  = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.content_frame, itemSetCountry);
+            fragmentTransaction.replace(R.id.content_frame, fragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         }else{

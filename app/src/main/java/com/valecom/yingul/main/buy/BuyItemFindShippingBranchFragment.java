@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.valecom.yingul.R;
 import com.valecom.yingul.Util.Validacion;
@@ -38,6 +40,7 @@ public class BuyItemFindShippingBranchFragment extends Fragment {
 
     EditText editPostalCode;
     Button buttonFindBranch;
+    private LinearLayout layoutWithoutZip;
 
     Yng_Quote quote;
     Yng_User user;
@@ -70,9 +73,11 @@ public class BuyItemFindShippingBranchFragment extends Fragment {
         quote = new Yng_Quote();
         user = new Yng_User();
         ubication = new Yng_Ubication();
-
+        layoutWithoutZip = (LinearLayout) v.findViewById(R.id.layoutWithoutZip);
         editPostalCode = (EditText) v.findViewById(R.id.editPostalCode);
         buttonFindBranch = (Button) v.findViewById(R.id.buttonFindBranch);
+        //Por el momento esconder no se mi código postal
+        layoutWithoutZip.setVisibility(View.GONE);
         buttonFindBranch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
