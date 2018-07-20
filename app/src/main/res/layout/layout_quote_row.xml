@@ -4,47 +4,55 @@
     android:layout_height="match_parent"
     android:gravity="center_vertical"
     android:minHeight="?android:attr/listPreferredItemHeight"
-    android:orientation="horizontal"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
+    android:orientation="vertical"
     android:weightSum="7">
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="5"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/text_quote_branch_location"
-            android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimaryText"
-            android:textSize="18sp"
-            android:text="Andreani (SALTA)"/>
-        <TextView
-            android:id="@+id/text_quote_street"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorSecondaryText"
-            android:layout_marginTop="5dp"
-            android:textSize="16sp"
-            android:text="Juramento 367, 4400, SALTA, SALTA"/>
-        <TextView
-            android:id="@+id/text_quote_schedules"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorSecondaryText"
-            android:textSize="16sp"
-            android:text="De Lunes a Viernes de 09:00 a 18:00 - Sabados de 08:00 a 11:00"/>
-    </LinearLayout>
+            android:layout_weight="5"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/text_quote_branch_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="16sp"
+                android:text="Andreani (SALTA)"/>
+            <TextView
+                android:id="@+id/text_quote_street"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:layout_marginTop="5dp"
+                android:textSize="13sp"
+                android:fontFamily="sans-serif-light"
+                android:text="Juramento 367, 4400, SALTA, SALTA"/>
+            <TextView
+                android:id="@+id/text_quote_schedules"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textSize="13sp"
+                android:fontFamily="sans-serif-light"
+                android:text="De Lunes a Viernes de 09:00 a 18:00 - Sabados de 08:00 a 11:00"/>
+        </LinearLayout>
 
 
-    <LinearLayout
+        <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="2"
+            android:gravity="center_vertical"
         android:orientation="vertical">
         <TextView
             android:id="@+id/text_quote_rate"
@@ -53,9 +61,17 @@
             android:gravity="right"
             android:singleLine="true"
             android:textColor="@color/colorPrimaryText"
+            android:fontFamily="sans-serif-light"
             android:textSize="18sp"
             android:text="$ 3000.99"/>
 
     </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ddd"/>
 
 </LinearLayout>

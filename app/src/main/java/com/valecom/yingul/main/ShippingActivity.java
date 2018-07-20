@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -18,11 +21,14 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.valecom.yingul.R;
+import com.valecom.yingul.Util.ItemOffsetDecoration;
 import com.valecom.yingul.Util.Validacion;
+import com.valecom.yingul.adapter.ListQuoteAdapter;
 import com.valecom.yingul.adapter.QuoteAdapter;
 import com.valecom.yingul.main.buy.BuyActivity;
 import com.valecom.yingul.main.buy.BuyItemSetShippingBranchFragment;
 import com.valecom.yingul.main.buy.BuyItemSetWhoWithdrewPurchaseFragment;
+import com.valecom.yingul.main.categories.ItemsByCategoryActivity;
 import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.model.Yng_Quote;
 import com.valecom.yingul.model.Yng_Ubication;
@@ -51,9 +57,13 @@ public class ShippingActivity extends AppCompatActivity {
     Toolbar toolbar;
     EditText editPostalCode;
     Button buttonFindBranch;
+
     ListView list;
     QuoteAdapter adapter;
     ArrayList<Yng_Quote> array_list;
+
+    RecyclerView recyclerView;
+    ListQuoteAdapter quoteAdapter;
 
     Yng_Quote quote;
     Yng_User user;
@@ -86,7 +96,16 @@ public class ShippingActivity extends AppCompatActivity {
         buttonFindBranch = (Button) findViewById(R.id.buttonFindBranch);
 
         array_list = new ArrayList<Yng_Quote>();
-        list = (ListView) findViewById(R.id.list);
+
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_View);
+        recyclerView.setHasFixedSize(false);
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getApplicationContext(), R.dimen.item_offset);
+        recyclerView.addItemDecoration(itemDecoration);
+
+
+        /*list = (ListView) findViewById(R.id.list);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
@@ -95,13 +114,13 @@ public class ShippingActivity extends AppCompatActivity {
             {
                 Yng_Quote item = adapter.getItem(position);
                 //((BuyActivity)getActivity()).quote=item;
-                /*BuyItemSetWhoWithdrewPurchaseFragment fragment = new BuyItemSetWhoWithdrewPurchaseFragment();
+                BuyItemSetWhoWithdrewPurchaseFragment fragment = new BuyItemSetWhoWithdrewPurchaseFragment();
                 FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.content_frame, fragment);
                 fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();*/
+                fragmentTransaction.commit();
             }
-        });
+        });*/
 
 
 
@@ -187,6 +206,7 @@ public class ShippingActivity extends AppCompatActivity {
                 String responce=""+(responseBody.string());
                 Log.i("responce",""+responce);
                 try {
+                    array_list.clear();
                     JSONArray jsonArray = new JSONArray(responce);
                     for(int i=0;i<jsonArray.length();i++){
                         Gson gson = new Gson();
@@ -198,8 +218,8 @@ public class ShippingActivity extends AppCompatActivity {
                         @Override
                         public void run() {
 
-                            adapter = new QuoteAdapter(getApplicationContext(), array_list);
-                            list.setAdapter(adapter);
+                            quoteAdapter = new ListQuoteAdapter(getApplicationContext(), array_list);
+                            recyclerView.setAdapter(quoteAdapter);
 
                         }
                     });
@@ -212,13 +232,6 @@ public class ShippingActivity extends AppCompatActivity {
     }
     public void end(String end) throws JSONException {
         Log.i("end",""+end);
-        //((BuyActivity)getActivity()).quotes = new JSONArray(end);
-        //progressDialog.dismiss();
-        /*BuyItemSetShippingBranchFragment fragment = new BuyItemSetShippingBranchFragment();
-        FragmentTransaction fragmentTransaction  = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.content_frame, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();*/
     }
     public void start(String start){
         Log.i("start",""+start);
