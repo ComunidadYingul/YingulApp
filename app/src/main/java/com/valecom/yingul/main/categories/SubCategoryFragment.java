@@ -70,6 +70,7 @@ public class SubCategoryFragment extends Fragment {
                 Yng_Category item = adapter.getItem(position);
                 Log.e("cateoria id:---",""+item.getCategoryId().toString());
                 intent.putExtra("categoryId",item.getCategoryId().toString());
+                intent.putExtra("itemName","");
                 startActivity(intent);
 
             }

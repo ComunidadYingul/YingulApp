@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity
     public static String api_key;
     public static final String TAG = "MainActivity";
     private JSONObject api_parameter;
-    private String username;
+    private String username,itemName;
     private TextView profile_name;
     private MaterialDialog progressDialog;
     public Toolbar toolbar;
@@ -320,8 +320,8 @@ public class MainActivity extends AppCompatActivity
             public boolean onQueryTextSubmit(String arg0) {
                 // TODO Auto-generated method stub
                     Log.e("onclick buscador",searchView.getQuery().toString());
-                    String name = searchView.getQuery().toString().replace(" ","");
-                    requestArrayPost(Network.API_URL+"category/bestMatch/"+name,"");
+                    itemName = searchView.getQuery().toString().replace(" ","");
+                    requestArrayPost(Network.API_URL+"category/bestMatch/"+itemName,"");
                 return false;
             }
 
@@ -566,6 +566,7 @@ public class MainActivity extends AppCompatActivity
                             Log.e("categoryId",""+categoryId);
                             Intent intent = new Intent(MainActivity.this,ItemsByCategoryActivity.class);
                             intent.putExtra("categoryId",categoryId);
+                            intent.putExtra("itemName",itemName);
                             startActivity(intent);
                         }else{
                             Toast.makeText(MainActivity.this,"No se encontro resultados para la busqueda",Toast.LENGTH_LONG).show();

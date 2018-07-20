@@ -77,6 +77,7 @@ public class ServiceActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(ServiceActivity.this,ItemsByCategoryActivity.class);
                 intent.putExtra("categoryId",item.getCategoryId().toString());
+                intent.putExtra("itemName","");
                 startActivity(intent);
             }
         });
