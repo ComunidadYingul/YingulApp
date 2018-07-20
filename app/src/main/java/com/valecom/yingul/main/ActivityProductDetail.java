@@ -106,7 +106,7 @@ public class ActivityProductDetail extends AppCompatActivity {
     //EditText edt_pincode;
     TextView web_desc,text_quantity_stock;
     View button_public_seller,allQueriesLayout;
-    TextView textPriceNormal,textDiscountPorcent,textMoney,textMoneyNormal,txtEnvio;
+    TextView textPriceNormal,textDiscountPorcent,textMoney,textMoneyNormal,txtEnvio,txtPayCoutas;
     LinearLayout lytCondition,lytDiscount,lytPriceNormal,lytEnvioGratis,lytCuotas;
     RatingView ratingView;
     ArrayList<ItemColorSize> array_color, array_size;
@@ -214,6 +214,7 @@ public class ActivityProductDetail extends AppCompatActivity {
         text_product_price = (TextView) findViewById(R.id.text_product_price);
         textDiscountPorcent = (TextView) findViewById(R.id.textDiscountPorcent);
         txtEnvio = (TextView) findViewById(R.id.txtEnvio);
+        txtPayCoutas = (TextView) findViewById(R.id.txtPayCoutas);
         lytCondition = (LinearLayout) findViewById(R.id.lytCondition);
         imgEnvioGratis = (ImageView) findViewById(R.id.imgEnvioGratis);
         lytDiscount = (LinearLayout) findViewById(R.id.lytDiscount);
@@ -1190,6 +1191,9 @@ public class ActivityProductDetail extends AppCompatActivity {
         Log.e("getName:",""+itemTemp.getName());
         //Typeface typeface = Typeface.createFromAsset(ActivityProductDetail.this.getAssets(), "fonts/"+"Roboto-Light.ttf");
         //text_product_price.setTypeface(typeface);
+        if(itemTemp.getType().equals("Motorized")){
+            txtPayCoutas.setText("Pagá en hasta 12 cuotas la reserva de tu vehículo");
+        }
         text_product_title.setText(itemTemp.getName());
         text_product_price.setText(String.format("%.0f", itemTemp.getPrice()));
         text_quantity_stock.setText(itemTemp.getQuantity()+"");
