@@ -125,11 +125,14 @@ android:background="@color/bg">
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:background="#999"
+                    android:minLines="1"
+                    android:maxLines="4"
+                    android:background="#ddd"
                     android:text="@string/product_specification"
-                    android:textColor="#fff"
+                    android:textColor="#444"
+
                     android:textSize="20sp"
-                    android:fontFamily="sans-serif"/>
+                    android:fontFamily="sans-serif-condensed"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
