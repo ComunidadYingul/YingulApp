@@ -31,7 +31,7 @@ public class NewUserUbicationEditPersonalInfoFragment extends Fragment {
         buttonSetPersonalInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NewUbicationSetCountryFragment fragment = new NewUbicationSetCountryFragment();
+                NewUbicationSetCityByZipFragment fragment = new NewUbicationSetCityByZipFragment();
                 FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.content_frame, fragment);
                 fragmentTransaction.addToBackStack(null);
