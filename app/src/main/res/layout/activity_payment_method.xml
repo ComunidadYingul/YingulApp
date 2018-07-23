@@ -40,10 +40,23 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="#ddd"/>
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Acreditación instantanea"/>
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Acreditación instantanea"/>
+                        <TextView
+                            android:id="@+id/textBankConditions"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/md_material_blue_800"
+                            android:paddingLeft="@dimen/activity_horizontal_margin"
+                            android:text="Ver condiciones"/>
+                    </LinearLayout>
+
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -204,7 +217,7 @@
                         android:fontFamily="sans-serif-bold"
                         android:textSize="20sp"
                         android:textColor="#000000"
-                        android:text="Tarjetas de crédito"/>
+                        android:text="Tarjetas de dédito"/>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"

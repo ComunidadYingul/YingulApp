@@ -297,6 +297,7 @@
             android:name=".main.over.AllNotOverActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity android:name=".main.PaymentMethodActivity" />
+        <activity android:name=".main.BankConditionsActivity" />
         <activity android:name=".main.ShippingActivity"></activity>
     </application>
 

@@ -81,7 +81,7 @@ public class NewUbicationSetCountryFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 Yng_Country item = adapter.getItem(position);
-                Log.e("null ", String.valueOf(item.getCountryId()));
+                Log.e("ubicacion que llega ", String.valueOf(item.getCountryId()));
 
                 ((NewUserUbicationEditPersonalInfoActivity)getActivity()).country.setCountryId(item.getCountryId());
                 ((NewUserUbicationEditPersonalInfoActivity)getActivity()).country.setName(item.getName());

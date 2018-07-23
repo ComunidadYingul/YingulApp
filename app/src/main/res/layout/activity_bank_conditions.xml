@@ -1,0 +1,1349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.valecom.yingul.main.BankConditionsActivity">
+
+    <include
+        android:id="@+id/toolbar_main"
+        layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:textAlignment="center"
+                android:fontFamily="sans-serif-bold"
+                android:textSize="30sp"
+                android:textColor="#000000"
+                android:text="Condiciones generales"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/banco_patagonia"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hasta 6 cuotas sin interés"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Mastercard + Banco Patagonia"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Mastercard + Banco Patagonia | CTF: 0.00%"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/activity_vertical_margin"
+                        android:text="PROMOCIONES VÁLIDAS EN LA REPÚBLICA ARGENTINA DESDE EL 01/07/2018 HASTA EL 31/07/2018 (AMBAS FECHAS INCLUSIVE), ESTA PROMOCIÓN SE AJUSTA A LA RESOLUCIÓN 51 E/2017 DE LA SECRETARÍA DE COMERCIO SIENDO LAS CUOTAS SIN INTERÉS. PROMOCIÓN VÁLIDA PARA COMPRAS ABONADAS CON TARJETA DE CRÉDITO BANCO PATAGONIA YINGUL PAY EN HASTA 6 CUOTAS. PARA LOS CONSUMOS EN CUOTAS SE APLICARÁ: TASA NOMINAL ANUAL: 0.00% - TASA EFECTIVA ANUAL: 0.00% - COSTO SEGURO DE VIDA 0.00%. - COSTO FINANCIERO TOTAL (C.F.T.) EXPRESADO EN TASA EFECTIVA ANUAL. BANCO PATAGONIA S.A. NO SE RESPONSABILIZA POR LOS CUPONES PRESENTADOS FUERA DE LAS FECHAS DE VIGENCIA DE LAS PROMOCIONES. LAS CUENTAS NO DEBERÁN REGISTRAR MORA. LOS ACCIONISTAS DE BANCO PATAGONIA S.A. LIMITAN SU RESPONSABILIDAD A LA INTEGRACIÓN DE LAS ACCIONES SUSCRIPTAS. EN VIRTUD DE ELLO, NI LOS ACCIONISTAS MAYORITARIOS DE CAPITAL EXTRANJERO NI LOS ACCIONISTAS LOCALES O EXTRANJEROS, RESPONDEN EN EXCESO DE LA CITADA INTEGRACIÓN ACCIONARIA POR LAS OBLIGACIONES EMERGENTES DE LAS OPERACIONES CONCERTADAS POR LA ENTIDAD FINANCIERA. LEY 25.738."/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/banco_provincia"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hasta 3 cuotas sin interés"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Visa y Mastercard"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Banco Provincia | CTF: 0.00%"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/activity_vertical_margin"
+                        android:text="(*) CFT: 0,00%. (*) Costo Financiero Total (CFT) Nominal Anual 0,00% por cargo seguro de vida sobre saldo deudor. Interés: Tasa Nominal Anual 0,00%. Tasa Efectiva Anual 0,00%. Promoción válida todos los días. (2) Para compras realizadas en hasta 3 cuotas sin interés desde el 01/07/2018 al 31/07/2018 con las tarjetas de crédito Visa y MasterCard emitidas por el Banco Provincia de Buenos. Promoción válida únicamente para la República Argentina. No combinable con otras promociones.(Ejemplo representativo de promoción de cuotas sin interés con tarjeta de crédito: en una compra con tarjeta de crédito de $1.500 en 3 cuotas sin interés, el cliente abonará 3 cuotas de $500 cada una. Adicionalmente, se incluirá en el rubro “Seguro sobre saldo deudor” la suma total de $1,81 que serán distribuidos en los dos primeros resúmenes, según el saldo de deuda que registre). Banco de la Provincia de Buenos Aires. CUIT 33-99924210-9 Calle 7 Nº 726 La Plata, Provincia de Buenos Aires."/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/nativa"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hasta 3 cuotas sin interés"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Mastercard y Nativa Mastercard"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Nativa Mastercard | CTF: 0.00%"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/activity_vertical_margin"
+                        android:text="COSTO FINANCIERO TOTAL: 0,00% - Promoción válida del 01/07/2018 hasta 31/07/2018 para compras con tarjeta de crédito Mastercard y Nativa Mastercard de Nativa Mastercard. TNA (Tasa Nominal Anual): 0% - TEA (Tasa Efectiva Anual): 0% - CFT (Costo Financiero Total): 0,00% por gestión de contratación de Seguro de Vida sobre saldo deudor. Consulta los detalles de esta promoción en www.nativanacion.com.ar ."/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/icbc"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hasta 3 cuotas sin interés"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Visa y Mastercard"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="ICBC | CTF: 0.00%"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/activity_vertical_margin"
+                        android:text="Propuesta válida del 01/07/2018 al 31/07/2018 exclusivo compras con tarjetas de crédito Visa y Mastercard del ICBC. No válido para compras mayoristas, ni tarjetas purchasing, agro, corporate. (*) Planes en cuotas indicados tienen costo financiero total (CFT): 0,00%, tasa nominal anual: 0,00%, tasa efectiva anual: 0,00%, costo seguro de vida s/deudor: 0,00%. Industrial and Commercial Bank of China (Argentina) S.A. Es una sociedad anónima bajo la ley argentina. Sus accionistas limitan su responsabilidad al capital aportado (ley 25738)."/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/banco_nacion"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hasta 3 cuotas sin interés"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Visa y Mastercard"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Banco Nacion | CTF: 0.00%"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/activity_vertical_margin"
+                        android:text="COSTO FINANCIERO TOTAL: 0,00% - Promoción válida desde el 01/07/2018 hasta el 31/07/2018, ambas fechas inclusive con tarjetas Visa y Mastercard del Banco Nación. No válido para tarjetas Nativa del BNA. (*) TNA (Tasa Nominal Anual): 0% - TEA (Tasa Efectiva Anual): 0% - CFT (Costo Financiero Total): 0,00% por gestión de contratación de Seguro de Vida sobre saldo deudor. Consulta los comercios adheridos exclusivamente a esta promoción en www.bna.com.ar ."/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/cabal_logo"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hasta 3 cuotas sin interés"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Cabal"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Cabal de todos los bancos"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/activity_vertical_margin"
+                        android:text="COSTO FINANCIERO TOTAL: 0.00% - 3 cuotas sin interés. Promoción válida para todas las tarjetas de Crédito Cabal, excepto Agrocabal, Tarjeta Mayorista y Tarjetas Sociales."/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/supervielle"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hasta 6 cuotas sin interés"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Visa y Mastercard"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Banco Supervielle | CTF: 0.00%"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/activity_vertical_margin"
+                        android:text="DISPONIBLE PARA CARTERA CONSUMO. Válido todos los desde el 23/07/2018 hasta el 24/07/2018. Promoción válida únicamente para la República Argentina. Para compras abonadas con tarjetas de crédito VISA y MasterCard emitidas por Banco Supervielle S.A (el “Banco”). La promoción solo es válida para clientes con paquete de productos del Banco y no es aplicable a tarjetas corporativas ni a tarjetas emitidas en origen por Cordial Compañía Financiera S.A. No combinable con otras promociones vigentes. Para compras en hasta 6 cuotas fijas: Tasa Nominal Anual (TNA): 0,00% Tasa Efectiva Anual (TEA): 0,00% Costo Financiero Total Nominal Anual (CFTNA): 0,00% el CFTNA y demás datos económicos informados en el presente, corresponden exclusivamente a la operación de compra en cuotas objeto de la presente. Ej.: Si compra un producto por $3.000, en 3 cuotas sin interés, del 1er. al 3er. resumen que se emita con posterioridad al cierre y luego de realizada la compra, se reflejará una cuota de $1.000 en cada uno de ellos. Banco Supervielle S.A. no es responsable por los productos y/o servicios comercializados por las marcas y locales participantes en las promociones. Banco Supervielle S.A.- B.Mitre 434 – C.A.B.A.- Cuit 33-50000517-9, Inscrip. I.G.J. N° 23, F° 502, L. 45, T° A de Estatutos Nac."/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/banco_santa_fe"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hasta 3 cuotas sin interés"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Visa y Mastercard"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Nuevo Banco de Santa Fe | CTF: 0.00%"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/activity_vertical_margin"
+                        android:text="COSTO FINANCIERO TOTAL NOMINAL ANUAL: 0,00% TNA (Tasa Nominal Anual): 0%, TEA (Tasa Efectiva Anual): 0%. Seguro de vida sobre saldo deudor: 0,2955%. Válido Todos los días desde el 01/07/2018 hasta el 31/07/2018 abonando con Tarjetas de Crédito Visa o MasterCard emitidas por el Banco Santa Fe. Promoción no acumulable con otras promociones vigentes. Ejemplo: en una compra de $ 1.200 abonada con tarjeta de crédito, financiada en tres cuotas, recibirá en la primera liquidación de su tarjeta un consumo de $400 y en las dos liquidaciones posteriores a la compra, recibirá un consumo de $400 en cada uno de ellos. Adicionalmente, se incluirá en el rubro Gto de contratación Seguro la suma total de $8,87 que será distribuida en los tres resúmenes posteriores al que ingresa la compra conforme el saldo de deuda que registre. Los datos y ofertas incluidos en este revisten carácter exclusivamente informativo y en modo alguno suponen que los establecimientos, productos o la calidad de los mismos se encuentran promocionados y/o garantizados por el Banco Santa Fe. Aviso – Ley 25.738. Banco Santa Fe es una marca registrada de Nuevo Banco de Santa Fe S.A., la cual es una Sociedad Anónima constituida bajo las leyes de la República Argentina. Sus accionistas limitan su responsabilidad al capital aportado."/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/banco_de_la_pampa"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hasta 3 cuotas sin interés"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Visa y Mastercard"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Banco de La Pampa | CTF: 0.00%"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/activity_vertical_margin"
+                        android:text="Promoción válida desde el 01/07/2018 hasta el 31/07/2018 para las compras que sean abonadas en Yingul con las tarjetas de crédito Visa y Mastercard emitidas por el Banco de La Pampa. La promoción aplica para las compras realizadas en hasta 3 cuotas sin interés. Promoción no válida para Tarjetas de Crédito Corporativas, Empresa o Tarjetas de Débito. Quedan excluidas las cuentas en mora y/o bloqueadas por motivos administrativos. El Banco de La Pampa no promueve los bienes y/o servicios ni al proveedor de los mismos. Los bienes y/o servicios aquí mencionados se ofrecen bajo responsabilidad exclusiva del establecimiento o proveedor de los bienes y/o servicios. Tasa Nominal Anual 0%, Tasa Efectiva Anual 0%, Costo Financiero Total 0,00%."/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/banco_entre_rios"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hasta 3 cuotas sin interés"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Visa y Mastercard"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Nuevo Banco de Entre Rios | CTF: 0.00%"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/activity_vertical_margin"
+                        android:text="Vigencia del 01/07/2018 al 31/07/2018. (1) Válido en hasta 3 cuotas sin interés, válido todos los días de la semana, abonando con Tarjetas de Crédito emitidas por el Nuevo Banco de Entre Ríos S.A. NO VÁLIDO PARA VUELOS. (1) Costo Financiero Total (Nominal Anual) CFT (NA): 0,00%, TNA (Tasa Nominal Anual): 0%, TEA (Tasa Efectiva Anual): 0%. Ejemplo: Ud. podrá financiar una compra de $ 1.200 en 3 cuotas de $ 400 c/u. VÁLIDO PARA CARTERA DE CONSUMO Y CARTERA COMERCIAL. Los datos y ofertas revisten carácter exclusivamente informativo y en modo alguno suponen que los establecimientos, productos o la calidad de los mismos se encuentran promocionados y/o garantizados por el Nuevo Banco de Entre Ríos SA. Aviso – Ley 25.738. El Nuevo Banco de Entre Ríos S.A. es una Sociedad Anónima constituida bajo las leyes de la República Argentina. Sus accionistas limitan su responsabilidad al capital aportado. VÁLIDO PARA CARTERA DE CONSUMO Y CARTERA COMERCIAL (1) C.F.T.N.A: 0,00%"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/banco_santa_cruz"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hasta 3 cuotas sin interés"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Visa y Mastercard"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Banco Santa Cruz | CTF: 0.00%"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/activity_vertical_margin"
+                        android:text="Comprá todos los días en hasta 12 cuotas sin interés (1) en productos seleccionados y en hasta 3 cuotas sin interés (2) en el resto de la tienda, con las tarjetas de crédito de Banco Santa Cruz. CFTNA: 0,00% (sin IVA, por gestión de contratación de cobertura de seguro de vida sobre saldo). Vigencia desde el 01/07/2018 hasta el 31/07/2018 inclusive. Válido todos los días de la semana, abonando con Tarjetas de Crédito emitidas por Banco Santa Cruz S.A. (1) TNA (Tasa Nominal Anual): 0%, TEA (Tasa Efectiva Anual): 0%. Ejemplo: Ud. podrá financiar una compra de $ 1.200 en 12 cuotas de $ 100 c/u. Adicionalmente, se incluirá en el rubro “Qualia Seguros s/Saldo Deudor” conforme el saldo de deuda que registre. (2) TNA (Tasa Nominal Anual): 0%, TEA (Tasa Efectiva Anual): 0%. Ejemplo: Ud. podrá financiar una compra de $ 600 en 3 cuotas de $ 200 c/u. Adicionalmente, se incluirá en el rubro “Qualia Seguros s/Saldo Deudor” conforme el saldo de deuda que registre. Los datos y ofertas incluidos en este revisten carácter exclusivamente informativo y en modo alguno suponen que los establecimientos, productos o la calidad de los mismos se encuentran promocionados y/o garantizados por el Banco Santa Cruz S.A. Aviso – Ley 25.738. El Banco Santa Cruz S.A. es una Sociedad Anónima constituida bajo las leyes de la República Argentina. Sus accionistas limitan su responsabilidad al capital aportado."/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/banco_san_juan"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hasta 3 cuotas sin interés"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Visa y Mastercard"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Banco San Juan | CTF: 0.00%"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/activity_vertical_margin"
+                        android:text="VÁLIDO PARA CARTERA DE CONSUMO Y CARTERA COMERCIAL. Vigencia desde el 01/07/2018 hasta el 31/07/2018 inclusive. Válido todos los días de la semana, abonando con Tarjetas de Crédito emitidas por Banco San Juan S.A. (1) De 1 a 3 cuotas aplicable a toda la tienda y de 4 a 12 cuotas aplicable solo en productos seleccionados. CFTNA: 0,00% (sin IVA, por gestión de contratación de cobertura de seguro de vida sobre saldo), TNA (Tasa Nominal Anual): 0%, TEA (Tasa Efectiva Anual): 0%. Ejemplo: Ud. podrá financiar una compra de $ 1.200 en 12 cuotas de $ 100 c/u.. Los datos y ofertas incluidos en este revisten carácter exclusivamente informativo y en modo alguno suponen que los establecimientos, productos o la calidad de los mismos se encuentran promocionados y/o garantizados por Banco San Juan S.A. Aviso - Ley 25.738. El Banco San Juan. es una Sociedad Anónima constituida bajo las leyes de la República Argentina. Sus accionistas limitan su responsabilidad al capital aportado. 1) C.F.T.N.A: 0,00% (sin IVA)."/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/provencred"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hasta 6 cuotas sin interés"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Visa"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Provencred | CTF: 0.00%"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/activity_vertical_margin"
+                        android:text="CFTNA: 0,00% Costo Financiero Total Nominal Anual. TNA: 0% Tasa Nominal Anual: TEA: 0% Tasa Efectiva Anual. Promoción válida desde el 01/07/2018 al 31/07/2018 inclusive para consumos realizados a través de Yingul Pay hasta en 6 cuotas, con tarjeta de crédito Provencred Visa. No acumulable con otras promociones."/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/banco_bica"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hasta 3 cuotas sin interés"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Visa y Mastercard"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Banco Bica | CTF: 0.00%"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/activity_vertical_margin"
+                        android:text="Promoción válida todos los días desde el 01/07/2018 al 31/07/2018 para tarjetas MasterCard Regional, Internacional, Gold, Platinum, Black, Corporate y para tarjetas Visa Internacional, Gold, Platinum y Signature emitidas por Banco Bica S.A.TNA (tasa nominal anual) 0.00%TEA (tasa efectiva anual)0,00% CFT (costo financiero total) 0.00 %( incluye seguro de vida sobre saldos). No válido para tarjeta de débito."/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/banco_columbia"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hasta 12 cuotas sin interés"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Visa y Mastercard"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Banco Columbia"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/activity_vertical_margin"
+                        android:text="Cartera de Consumo -Promoción válida desde 01/07/2018 al 31/07/2018 ambos inclusive para compras realizadas hasta en 12 cuotas sin interés en Yingul con tarjetas de créditos Columbia VISA y/o Mastercard. TNA (Tasa Nominal Anual) Fija: 0,00%, TEA (Tasa Efectiva Anual): 0,00%, CFTEA: (Costo Financiero Total Efectivo Anual) 0,00%. Banco Columbia S.A. no se responsabiliza por la calidad y funcionamiento de productos publicados. CFTEA: 0,00%"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/tarjeta_saenz"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hasta 12 cuotas sin interés"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Visa y Mastercard"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Banco Saenz"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/activity_vertical_margin"
+                        android:text="VIGENCIA DEL 01/07/2018 AL 31/07/2018. ESTA PROMOCIÓN ES VÁLIDA SÓLO PARA CONSUMOS HASTA 12 CUOTAS SIN INTERÉS CON LAS TARJETAS VISA Y MASTERCARD DE BANCO SAENZ. VÁLIDA TODOS LOS DÍAS, SÓLO PARA LOS CONSUMOS REALIZADOS EN EL ÁMBITO GEOGRÁFICO DE LA REPÚBLICA ARGENTINA EN YINGUL A TRAVÉS DE YINGUL PAY Y EN OTRAS PÁGINAS QUE ACEPTEN LA PLATAFORMA DE YINGUL PAY Y QUE BRINDEN EL BENEFICIO. LA PRESENTE PROMOCIÓN NO ES ACUMULABLE CON OTRAS PROMOCIONES VIGENTES. CONSULTA TÉRMINOS Y CONDICIONES EN WWW.CLUBSAENZ.COM.AR. C.F.T. 0.00%."/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/hsbc" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hasta 12 cuotas sin interés"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Visa"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="HSBC Time"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/activity_vertical_margin"
+                        android:text="Desde el 01/07/2018 y hasta el 31/07/2018 para las compras que sean abonadas exclusivamente a través del sitio YINGUL con las tarjetas de Crédito HSBC Time emitidas por HSBC Bank Argentina S.A. (en adelante, HSBC). La promoción aplica para las compras realizadas en hasta 12 (doce) cuotas sin interés en pesos. El valor de cada cuota surgirá del valor total bruto de la compra dividido la cantidad de cuotas seleccionadas por el cliente. Las promociones con cuotas sin interés y CFT 0.00% se ajustan a la Resolución 51 - E /2017 de la Secretaría de Comercio. Promoción válida únicamente para la República Argentina. Quedan excluidos de la presente promoción aquellos clientes que registren mora con HSBC. Promoción no acumulable con otras promociones vigentes. HSBC no promueve los bienes y/o servicios ni al proveedor de los mismos. Los bienes y/o servicios aquí mencionados se ofrecen bajo responsabilidad exclusiva del establecimiento o proveedor de los bienes y/o servicios."/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/cetelem"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hasta 12 cuotas sin interés"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Mastercard"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Cetelem"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/activity_vertical_margin"
+                        android:text="Costo Financiero Total Efectivo Anual (CFTEA): 0,00%; Tasa Nominal Anual (TNA) 0%; Tasa Efectiva Anual (TEA) 0%. Cartera de Consumo: Promoción válida en Argentina desde el 05/07/2018 hasta el 31/07/2018, ambas fechas inclusive. El beneficio consiste en 12 cuotas sin interés para pagos realizados a través del servicio de gestión de pagos de Yingul Pay operado por Yingul S.R.L., con las Tarjetas de Crédito Mastercard emitidas por el Banco Cetelem Argentina S.A. (el “Banco”) (el “Beneficio”). El costo del Beneficio será asumido por el Banco, quien en cumplimiento de la Ley Nº 25.738 informa que ni los accionistas mayoritarios de capital extranjero ni otros accionistas extranjeros responden en exceso de su integración accionaria por las obligaciones emergentes de las operaciones concertadas por el Banco. Banco Cetelem Argentina S.A. CUIT: 30-69730636-2. Domicilio: Av. Quintana 585, Piso 8º, CABA."/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/banco_coinag"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hasta 6 cuotas sin interés"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Visa y Mastercard"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Banco Coinag | CTF: 0.00%"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/activity_vertical_margin"
+                        android:text="Cartera de Consumo: Promoción válida en Argentina desde el 13/07/2018 hasta el 31/07/2018, ambas fechas inclusive. El beneficio consiste en 6 cuotas sin interés para pagos realizados a través del servicio de gestión de pagos de Yingul Pay operado por Yingul S.R.L., con las Tarjetas de Crédito Visa y Mastercard emitidas por el Banco Coinag S.A. (el “Beneficio”). Beneficio no acumulable con otras promociones. Costo Financiero Total Efectivo Anual (CFTEA): 0,00%; Tasa Nominal Anual (TNA) 0%; Tasa Efectiva Anual (TEA) 0%. Banco Coinag S.A. CUIT: 30-71419596-0. Domicilio: Mitre 602, Rosario, Santa Fe."/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/banco_ciudad"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hasta 3 cuotas sin interés"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Visa, Mastercard y Cabal"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Banco Ciudad"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/activity_vertical_margin"
+                        android:text="Promoción válida en la República Argentina para todos los días en compras realizadas en pesos en www.yingul.com, y otras páginas que acepten la plataforma de Yingul Pay y que brinden el beneficio.abonadas únicamente con tarjetas de crédito Mastercard, Visa y Cabal del Banco Ciudad en 3 cuotas sin interés. Válido para las compras de la cartera de consumo de tipo familiar. Conforme RES. 51-E/2017 y Res 240 E/2017. T.N.A., T.E.A. Y C.F.T. (IVA incluido): 0.00% variable. T.N.A: tasa nominal anual, T.E.A: tasa efectiva anual, C.F.T: costo financiero total expresado en forma de tasa efectiva anual con IVA. El producto ofrecido corresponde a la cartera de consumo."/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/banco_tierra_del_fuego"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hasta 3 cuotas sin interés"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Visa y Mastercard"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Fueguina"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/activity_vertical_margin"
+                        android:text="PROMOCIÓN BANCO TIERRA DEL FUEGO: VIGENTE DESDE EL 04/08/17 HASTA EL 30/06/18. LA PRESENTE PROMOCIÓN ES VÁLIDA SÓLO PARA CONSUMOS REALIZADOS EN 2 y 3 CUOTAS, CON TARJETAS DE CRÉDITO VISA FUEGUINA EN TODAS SUS VERSIONES, Y ÚNICAMENTE CON MASTERCARD FUEGUINA PLATINUM Y MASTERCARD FUEGUINA BLACK EMITIDAS POR EL BANCO DE TIERRA DEL FUEGO, TODOS LOS DIAS DE LA SEMANA, NO SE ACUMULA A OTRAS PROMOCIONES. VÁLIDA SOLAMENTE PARA CONSUMOS REALIZADOS EN EL ÁMBITO GEOGRÁFICO DE LA REPÚBLICA ARGENTINA. COSTO FINANCIERO TOTAL ES 0,00%, TASA NOMINAL ANUAL 0,00%, TASA EFECTIVA ANUAL 0,00, SEGURO DE VIDA 0.00% . NO PARTICIPAN TARJETAS PURCHASING Y BUSINESS."/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/efectivo_si"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hasta 3 cuotas sin interés"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Visa y Mastercard"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Efectivo Si"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/activity_vertical_margin"
+                        android:text="PROMOCIÓN HASTA 3 CUOTAS SIN INTERÉS: COSTO FINANCIERO TOTAL NOMINAL ANUAL (CFTNA) 0,00%. TASA NOMINAL ANUAL 0%, TASA EFECTIVA MENSUAL 0%. PROMOCIÓN VIGENTE EN LA REPÚBLICA ARGENTINA, DEL 13/07/2018 AL 31/07/2018 EXCLUSIVA PARA COMPRAS REALIZADAS A TRAVES DE YINGUL Y YINGUL PAY CON TARJETAS DE CRÉDITO VISA y MASTERCARD EMITIDAS POR COMPAÑÍA FINANCIERA ARGENTINA S.A. EJEMPLO REPRESENTATIVO: PARA UNA COMPRA DE $5.000, ABONA 12 CUOTAS DE $416.66. EFECTIVO SÍ ES UNA MARCA REGISTRADA DE COMPAÑÍA FINANCIERA ARGENTINA S.A., AV. PASEO COLÓN 746, PISO 4, CABA. CUIT Nº 3053800640-4. NO ACUMULABLE CON OTRAS PROMOCIONES VIGENTES."/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/comafi_chicas"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hasta 3 cuotas sin interés"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Visa"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="Comafi Chicas"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/activity_vertical_margin"
+                        android:text="CFT: Costo Financiero Total expresado en forma de tasa efectiva anual. TNA: 0% Tasa Nominal Anual. TEA: 0%. Tasa Efectiva Anual. Oferta exclusiva para la cartera de consumo. Promociones válidas desde el 01/07/2018 al 31/07/2018 abonando con Tarjeta de Crédito Visa Comafi Chicas NY. Quedan excluidas el resto de las tarjetas emitidas por la Entidad. Sólo válido para aquellos clientes que se encuentran al día en sus productos. El costo financiero es asumido en un 100% por Banco Comafi."/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ddd"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
