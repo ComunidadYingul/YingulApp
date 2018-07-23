@@ -45,11 +45,11 @@ public class BuySetShippingWithdrawTypeFragment extends Fragment {
             array_list.add("Retiro en domicilio del vendedor (Al finalizar la compra te daremos los datos del vendedor)");
         }else if(((BuyActivity)getActivity()).item.getType().equals("Product")){
             array_list.add("Retiro en sucursal");
-            if(!(((BuyActivity)getActivity()).item.getProductPagoEnvio()==null)){
+            array_list.add("Retiro en domicilio del vendedor (Al finalizar la compra te daremos los datos del vendedor)");
+            /*if(!(((BuyActivity)getActivity()).item.getProductPagoEnvio()==null)){
                 if(!((BuyActivity)getActivity()).item.getProductPagoEnvio().equals("gratis")){
-                    array_list.add("Retiro en domicilio del vendedor (Al finalizar la compra te daremos los datos del vendedor)");
                 }
-            }
+            }*/
         }
 
 

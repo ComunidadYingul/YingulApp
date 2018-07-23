@@ -130,6 +130,8 @@ public class ActivityProductDetail extends AppCompatActivity {
     Yng_User userTemp;
     private Yng_User user;
     private Yng_Ubication userUbication;
+    private LinearLayout layoutReturn;
+    private TextView textTitleDevolution,textBodyDevolution;
 
     private ListView list;
 //    private QueryListAdapter adapter;
@@ -240,6 +242,11 @@ public class ActivityProductDetail extends AppCompatActivity {
         textPriceNormal.setPaintFlags(textPriceNormal.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         buttonNewQuestion = (Button) findViewById(R.id.buttonNewQuestion);
         editNewQuestion = (EditText) findViewById(R.id.editNewQuestion);
+        layoutReturn = (LinearLayout) findViewById(R.id.layoutReturn);
+        textTitleDevolution = (TextView) findViewById(R.id.textTitleDevolution);
+        textBodyDevolution = (TextView) findViewById(R.id.textBodyDevolution);
+
+
 
         buttonNewQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1098,22 +1105,26 @@ public class ActivityProductDetail extends AppCompatActivity {
                                     itemSeller = userTemp.getUsername();
                                     Log.e("seller",""+itemSeller);
 
-                                    if(itemTemp.getType().equals("Product")) {
 
-                                        text_product_buy.setText("Comprar");
-
-                                    }else  if(itemTemp.getType().equals("Motorized")){
-
-                                        text_product_buy.setText("Reservar");
-
-                                    }else if(itemTemp.getType().equals("Property")){
-
-                                        text_product_buy.setText("Consultar");
-
-                                    }else  if(itemTemp.getType().equals("Service")){
-
-                                        text_product_buy.setText("Contactar");
-
+                                    switch (itemTemp.getType()){
+                                        case "Product":
+                                            text_product_buy.setText("Comprar");
+                                            layoutReturn.setVisibility(View.VISIBLE);
+                                            break;
+                                        case "Motorized":
+                                            text_product_buy.setText("Reservar");
+                                            layoutReturn.setVisibility(View.VISIBLE);
+                                            textTitleDevolution.setText("Devolución del dinero sin costo");
+                                            textBodyDevolution.setText("Site arrepentís o tenés algún problema, te devolvemos el 100% de la reserva.");
+                                            break;
+                                        case "Property":
+                                            text_product_buy.setText("Consultar");
+                                            layoutReturn.setVisibility(View.GONE);
+                                            break;
+                                        case "Service":
+                                            text_product_buy.setText("Contactar");
+                                            layoutReturn.setVisibility(View.GONE);
+                                            break;
                                     }
 
                                     setData(itemTemp);
