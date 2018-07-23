@@ -1,5 +1,9 @@
 package com.valecom.yingul.model;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by gonzalo on 18-05-18.
  */
@@ -11,6 +15,7 @@ public class Yng_Property {
     private String propertyYear;
     private String condition;
     private Yng_Item yng_Item;
+    private Set<Yng_PropertyAmenities> propertyAmenities= new HashSet<>();
 
     public Long getPropertyId() {
         return propertyId;
@@ -50,5 +55,13 @@ public class Yng_Property {
 
     public void setYng_Item(Yng_Item yng_Item) {
         this.yng_Item = yng_Item;
+    }
+
+    public Set<Yng_PropertyAmenities> getPropertyAmenities() {
+        return propertyAmenities;
+    }
+
+    public void setPropertyAmenities(Set<Yng_PropertyAmenities> propertyAmenities) {
+        this.propertyAmenities = propertyAmenities;
     }
 }

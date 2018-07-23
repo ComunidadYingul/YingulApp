@@ -63,8 +63,13 @@ import com.valecom.yingul.adapter.SelectSizeAdapter;
 import com.valecom.yingul.main.buy.BuyActivity;
 import com.valecom.yingul.model.FilterParam;
 import com.valecom.yingul.model.Yng_Item;
+import com.valecom.yingul.model.Yng_Motorized;
+import com.valecom.yingul.model.Yng_Person;
 import com.valecom.yingul.model.Yng_Product;
+import com.valecom.yingul.model.Yng_Property;
+import com.valecom.yingul.model.Yng_PropertyAmenities;
 import com.valecom.yingul.model.Yng_Query;
+import com.valecom.yingul.model.Yng_Service;
 import com.valecom.yingul.model.Yng_Ubication;
 import com.valecom.yingul.model.Yng_User;
 import com.valecom.yingul.network.MySingleton;
@@ -107,9 +112,13 @@ public class ActivityProductDetail extends AppCompatActivity {
     //EditText edt_pincode;
     TextView web_desc,text_quantity_stock,txtSellerEmail,txtSellerName,txtSellerWeb,txtSellerUbication,txtSellerPhoneMain,txtSellerPhone;
     TextView txtDescCondition,txtDescStock,txtDescPrice,txtDescCondSell,txtDescPayMethod,txtDescMethodShipping,txtDescCompleta;
+    TextView txtPropPrice,txtPropYearOld,txtPropAmenities,txtPropConfort;
+    TextView txtMotorBrand,txtMotorModel,txtMotorPrice,txtMotorYear,txtMotorOwner;
+    TextView txtServEmail,txtServPrice,txtServDispon;
     View button_public_seller,allQueriesLayout;
     TextView textPriceNormal,textDiscountPorcent,textMoney,textMoneyNormal,txtEnvio,txtPayCoutas;
     LinearLayout lytCondition,lytDiscount,lytPriceNormal,lytEnvioGratis,lytCuotas;
+    LinearLayout lytDescProduct,lytDescProperty,lytDescMotorized,lytDescService;
     RatingView ratingView;
     ArrayList<ItemColorSize> array_color, array_size;
     SelectColorAdapter adapter_color;
@@ -131,6 +140,10 @@ public class ActivityProductDetail extends AppCompatActivity {
     Yng_Item itemTemp;
     Yng_User userTemp;
     Yng_Product productTemp;
+    Yng_Property propertyTemp;
+    Yng_Motorized motorizedTemp;
+    Yng_Service serviceTemp;
+    Yng_Person personTemp;
     private Yng_User user;
     private Yng_Ubication userUbication;
 
@@ -256,6 +269,26 @@ public class ActivityProductDetail extends AppCompatActivity {
         txtDescPayMethod = (TextView) findViewById(R.id.txtDescPayMethod);
         txtDescMethodShipping = (TextView) findViewById(R.id.txtDescMethodShipping);
         txtDescCompleta = (TextView) findViewById(R.id.txtDescCompleta);
+
+        txtPropPrice = (TextView) findViewById(R.id.txtPropPrice);
+        txtPropYearOld = (TextView) findViewById(R.id.txtPropYearOld);
+        txtPropAmenities = (TextView) findViewById(R.id.txtPropAmenities);
+        txtPropConfort = (TextView) findViewById(R.id.txtPropConfort);
+
+        txtMotorBrand = (TextView) findViewById(R.id.txtMotorBrand);
+        txtMotorModel = (TextView) findViewById(R.id.txtMotorModel);
+        txtMotorPrice = (TextView) findViewById(R.id.txtMotorPrice);
+        txtMotorYear = (TextView) findViewById(R.id.txtMotorYear);
+        txtMotorOwner = (TextView) findViewById(R.id.txtMotorOwner);
+
+        txtServEmail = (TextView) findViewById(R.id.txtServEmail);
+        txtServPrice = (TextView) findViewById(R.id.txtServPrice);
+        txtServDispon = (TextView) findViewById(R.id.txtServDispon);
+
+        lytDescProduct = (LinearLayout) findViewById(R.id.lytDescProduct);
+        lytDescProperty = (LinearLayout) findViewById(R.id.lytDescProperty);
+        lytDescMotorized = (LinearLayout) findViewById(R.id.lytDescMotorized);
+        lytDescService = (LinearLayout) findViewById(R.id.lytDescService);
 
         buttonNewQuestion = (Button) findViewById(R.id.buttonNewQuestion);
         editNewQuestion = (EditText) findViewById(R.id.editNewQuestion);
@@ -1083,7 +1116,7 @@ public class ActivityProductDetail extends AppCompatActivity {
             }
         }
     }
-    /*******************************************************************************************************/
+    /******************************************** get item por id *********************************************/
     public void RunLoginService()
     {
 
@@ -1135,7 +1168,8 @@ public class ActivityProductDetail extends AppCompatActivity {
 
                                     }
 
-                                    RunLoginProduct();
+                                    RunGetPerson();
+                                    //RunLoginProduct();
                                     //setData(itemTemp);
 
                                     if(itemTemp.getType().equals("Product")){
@@ -1208,13 +1242,112 @@ public class ActivityProductDetail extends AppCompatActivity {
         MySingleton.getInstance(this).addToRequestQueue(postRequest);
     }
 
-    /******************************************** get product *****************************************************/
-    public void RunLoginProduct()
+    /******************************************** get person *****************************************************/
+    public void RunGetPerson()
     {
 
         progressDialog.show();
 
-        String type = itemTemp.getType().toLowerCase();
+        JsonObjectRequest postRequest = new JsonObjectRequest
+                (
+                        Request.Method.POST,
+                        Network.API_URL+"/item/Seller/"+itemId,
+                        null,
+                        new Response.Listener<JSONObject>()
+                        {
+                            @Override
+                            public void onResponse(JSONObject response)
+                            {
+                                try
+                                {
+                                    Log.e("person:------",response.toString());
+                                    Gson gson=new GsonBuilder().create();
+
+                                    //Yng_Item itemTemp=gson.fromJson(response.toString(),Yng_Item.class);
+                                    personTemp=gson.fromJson(response.toString(),Yng_Person.class);
+
+                                    //setData(itemTemp);
+
+                                        RunGetProduct();
+
+                                }
+                                catch (Exception ex)
+                                {
+                                }
+
+                            }
+                        }, new Response.ErrorListener()
+                {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        // TODO Auto-generated method stub
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            // If the response is JSONObject instead of expected JSONArray
+                            progressDialog.dismiss();
+                        }
+
+                        NetworkResponse response = error.networkResponse;
+                        if (response != null && response.data != null)
+                        {
+                            try
+                            {
+                                JSONObject json = new JSONObject(new String(response.data));
+                                //Toast.makeText(actib.this, json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
+                            }
+                            catch (JSONException e)
+                            {
+                                Toast.makeText(ActivityProductDetail.this, R.string.error_try_again_support, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else
+                        {
+                            new AlertDialog.Builder(ActivityProductDetail.this)
+                                    .setTitle("Algo Salio mal")
+                                    .setMessage("Usuario o contraseña incorrecto")
+                                    .setCancelable(true)
+                                    .show();
+                            //Toast.makeText(ActivityLogin.this, error != null && error.getMessage() != null ? error.getMessage() : "Usuario o contraseña incorrecta", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                })
+        {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("X-API-KEY", Network.API_KEY);
+                return params;
+            }
+        };
+
+        // Get a RequestQueue
+        RequestQueue queue = MySingleton.getInstance(this.getApplicationContext()).getRequestQueue();
+
+        //Used to mark the request, so we can cancel it on our onStop method
+        postRequest.setTag("");
+
+        MySingleton.getInstance(this).addToRequestQueue(postRequest);
+    }
+
+    /******************************************** get product *****************************************************/
+    public void RunGetProduct()
+    {
+
+        progressDialog.show();
+
+        String type;
+        if(itemTemp.getType().equals("Product")){
+            type = "Producto";
+        }else if(itemTemp.getType().equals("Motorized")){
+            type = "Vehiculo";
+        }else if(itemTemp.getType().equals("Property")){
+            type = "Inmueble";
+        }else{
+            type = "Servicio";
+        }
 
         JsonObjectRequest postRequest = new JsonObjectRequest
                 (
@@ -1228,11 +1361,19 @@ public class ActivityProductDetail extends AppCompatActivity {
                             {
                                 try
                                 {
-                                    Log.e("producto:------",response.toString());
+                                    Log.e("producto:------",itemTemp.getType()+"---"+response.toString());
                                     Gson gson=new GsonBuilder().create();
 
-                                    //Yng_Item itemTemp=gson.fromJson(response.toString(),Yng_Item.class);
-                                    productTemp=gson.fromJson(response.toString(),Yng_Product.class);
+                                    if(itemTemp.getType().equals("Product")) {
+                                        productTemp=gson.fromJson(response.toString(),Yng_Product.class);
+                                    }else if(itemTemp.getType().equals("Property")){
+                                        propertyTemp=gson.fromJson(response.toString(),Yng_Property.class);
+
+                                    }else if(itemTemp.getType().equals("Motorized")){
+                                        motorizedTemp=gson.fromJson(response.toString(),Yng_Motorized.class);
+                                    }else if(itemTemp.getType().equals("Service")){
+                                        serviceTemp=gson.fromJson(response.toString(),Yng_Service.class);
+                                    }
 
                                     setData(itemTemp);
 
@@ -1371,6 +1512,11 @@ public class ActivityProductDetail extends AppCompatActivity {
         }
 
         /******************************* informacion del vendedor ******************************/
+
+        try {
+            txtSellerName.setText(personTemp.getName()+" "+personTemp.getLastname());
+        }catch(Exception e){txtSellerName.setText("");}
+
         String country = userTemp.getYng_Ubication().getYng_Country().getName();
         String province = userTemp.getYng_Ubication().getYng_Province().getName();
         String city = userTemp.getYng_Ubication().getYng_City().getName();
@@ -1379,6 +1525,38 @@ public class ActivityProductDetail extends AppCompatActivity {
             txtSellerUbication.setText(country+", "+province+", "+city);
         }catch(Exception e){txtSellerUbication.setText("");}
 
+        resetDescription();
+        if(itemTemp.getType().equals("Product")) {
+            lytDescProduct.setVisibility(View.VISIBLE);
+            setProduct();
+        }else if(itemTemp.getType().equals("Property")){
+            lytDescProperty.setVisibility(View.VISIBLE);
+            setProperty();
+        }else if(itemTemp.getType().equals("Motorized")){
+            lytDescMotorized.setVisibility(View.VISIBLE);
+            setMotorized();
+        }else if(itemTemp.getType().equals("Service")){
+            lytDescService.setVisibility(View.VISIBLE);
+            setService();
+        }
+
+        try{
+            txtDescCompleta.setText(itemTemp.getDescription());
+        }catch (Exception e){
+            txtDescCompleta.setText("");
+        }
+
+        loadJSONFromAssetGallery();
+    }
+
+    private void resetDescription(){
+        lytDescProduct.setVisibility(View.GONE);
+        lytDescProperty.setVisibility(View.GONE);
+        lytDescMotorized.setVisibility(View.GONE);
+        lytDescService.setVisibility(View.GONE);
+    }
+
+    private void setProduct(){
         /************************* Descripcion detallada del producto **************************/
         try {
             if(itemTemp.getCondition().equals("New")){txtDescCondition.setText("Nuevo");}
@@ -1404,15 +1582,37 @@ public class ActivityProductDetail extends AppCompatActivity {
         try {
             txtDescMethodShipping.setText(productTemp.getProductFormDelivery());
         }catch (Exception e){txtDescMethodShipping.setText("");}
+    }
 
-        try{
-            txtDescCompleta.setText(itemTemp.getDescription());
-        }catch (Exception e){
-            txtDescCompleta.setText("");
-        }
+    private void setProperty(){
+        try {
+            txtPropPrice.setText(itemTemp.getPrice() + "");
+            txtPropYearOld.setText(propertyTemp.getPropertyYear() + "");
+            txtPropAmenities.setText(itemTemp.getAmbientes() + "");
+            txtPropConfort.setText("");
+        }catch (Exception e){}
+    }
 
+    private void setMotorized(){
+        try {
+            txtMotorBrand.setText(motorizedTemp.getMotorizedBrand());
+            txtMotorModel.setText(motorizedTemp.getMotorizedModel());
+            txtMotorPrice.setText(itemTemp.getPrice() + "");
+            txtMotorYear.setText(itemTemp.getItemYear() + "");
+            if(motorizedTemp.getMotorizedUnicoDue().equals("true")) {
+                txtMotorOwner.setText("Si");
+            }else if(motorizedTemp.getMotorizedUnicoDue().equals("false")) {
+                txtMotorOwner.setText("No");
+            }
+        }catch (Exception e){}
+    }
 
-        loadJSONFromAssetGallery();
+    private void setService(){
+        try {
+            txtServEmail.setText(serviceTemp.getEmailService());
+            txtServPrice.setText(itemTemp.getPrice() + "");
+            txtServDispon.setText("");
+        }catch (Exception e){}
     }
 
     private void shareTextUrl(String id) {
