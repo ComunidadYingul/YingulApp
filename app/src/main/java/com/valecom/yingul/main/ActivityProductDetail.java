@@ -63,6 +63,7 @@ import com.valecom.yingul.adapter.SelectSizeAdapter;
 import com.valecom.yingul.main.buy.BuyActivity;
 import com.valecom.yingul.model.FilterParam;
 import com.valecom.yingul.model.Yng_Item;
+import com.valecom.yingul.model.Yng_Product;
 import com.valecom.yingul.model.Yng_Query;
 import com.valecom.yingul.model.Yng_Ubication;
 import com.valecom.yingul.model.Yng_User;
@@ -104,7 +105,8 @@ public class ActivityProductDetail extends AppCompatActivity {
     TextView edit_quantity, text_product_name, text_product_price, text_no_cost, text_product_rate, text_select_size, text_select_color,
             text_product_buy, text_product_cart, text_condition, txt_order_item, text_product_con_shop, text_product_place_order,text_description,text_product_title,text_desc;
     //EditText edt_pincode;
-    TextView web_desc,text_quantity_stock;
+    TextView web_desc,text_quantity_stock,txtSellerEmail,txtSellerName,txtSellerWeb,txtSellerUbication,txtSellerPhoneMain,txtSellerPhone;
+    TextView txtDescCondition,txtDescStock,txtDescPrice,txtDescCondSell,txtDescPayMethod,txtDescMethodShipping,txtDescCompleta;
     View button_public_seller,allQueriesLayout;
     TextView textPriceNormal,textDiscountPorcent,textMoney,textMoneyNormal,txtEnvio,txtPayCoutas;
     LinearLayout lytCondition,lytDiscount,lytPriceNormal,lytEnvioGratis,lytCuotas;
@@ -128,6 +130,7 @@ public class ActivityProductDetail extends AppCompatActivity {
     String itemId,itemSeller,queries1;
     Yng_Item itemTemp;
     Yng_User userTemp;
+    Yng_Product productTemp;
     private Yng_User user;
     private Yng_Ubication userUbication;
 
@@ -238,6 +241,22 @@ public class ActivityProductDetail extends AppCompatActivity {
         text_quantity_stock = (TextView) findViewById(R.id.text_quantity_stock);
         textPriceNormal = (TextView) findViewById(R.id.text_price_normal);
         textPriceNormal.setPaintFlags(textPriceNormal.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+        txtSellerEmail = (TextView) findViewById(R.id.txtSellerEmail);
+        txtSellerName = (TextView) findViewById(R.id.txtSellerName);
+        txtSellerWeb = (TextView) findViewById(R.id.txtSellerWeb);
+        txtSellerUbication = (TextView) findViewById(R.id.txtSellerUbication);
+        txtSellerPhoneMain = (TextView) findViewById(R.id.txtSellerPhoneMain);
+        txtSellerPhone = (TextView) findViewById(R.id.txtSellerPhone);
+
+        txtDescCondition = (TextView) findViewById(R.id.txtDescCondition);
+        txtDescStock = (TextView) findViewById(R.id.txtDescStock);
+        txtDescPrice = (TextView) findViewById(R.id.txtDescPrice);
+        txtDescCondSell = (TextView) findViewById(R.id.txtDescCondSell);
+        txtDescPayMethod = (TextView) findViewById(R.id.txtDescPayMethod);
+        txtDescMethodShipping = (TextView) findViewById(R.id.txtDescMethodShipping);
+        txtDescCompleta = (TextView) findViewById(R.id.txtDescCompleta);
+
         buttonNewQuestion = (Button) findViewById(R.id.buttonNewQuestion);
         editNewQuestion = (EditText) findViewById(R.id.editNewQuestion);
 
@@ -1116,7 +1135,8 @@ public class ActivityProductDetail extends AppCompatActivity {
 
                                     }
 
-                                    setData(itemTemp);
+                                    RunLoginProduct();
+                                    //setData(itemTemp);
 
                                     if(itemTemp.getType().equals("Product")){
                                         toolbar.setTitle("Producto");
@@ -1187,6 +1207,97 @@ public class ActivityProductDetail extends AppCompatActivity {
 
         MySingleton.getInstance(this).addToRequestQueue(postRequest);
     }
+
+    /******************************************** get product *****************************************************/
+    public void RunLoginProduct()
+    {
+
+        progressDialog.show();
+
+        String type = itemTemp.getType().toLowerCase();
+
+        JsonObjectRequest postRequest = new JsonObjectRequest
+                (
+                        Request.Method.POST,
+                        Network.API_URL+"/item/"+type+"/"+itemId,
+                        null,
+                        new Response.Listener<JSONObject>()
+                        {
+                            @Override
+                            public void onResponse(JSONObject response)
+                            {
+                                try
+                                {
+                                    Log.e("producto:------",response.toString());
+                                    Gson gson=new GsonBuilder().create();
+
+                                    //Yng_Item itemTemp=gson.fromJson(response.toString(),Yng_Item.class);
+                                    productTemp=gson.fromJson(response.toString(),Yng_Product.class);
+
+                                    setData(itemTemp);
+
+                                }
+                                catch (Exception ex)
+                                {
+                                }
+
+                            }
+                        }, new Response.ErrorListener()
+                {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        // TODO Auto-generated method stub
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            // If the response is JSONObject instead of expected JSONArray
+                            progressDialog.dismiss();
+                        }
+
+                        NetworkResponse response = error.networkResponse;
+                        if (response != null && response.data != null)
+                        {
+                            try
+                            {
+                                JSONObject json = new JSONObject(new String(response.data));
+                                //Toast.makeText(actib.this, json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
+                            }
+                            catch (JSONException e)
+                            {
+                                Toast.makeText(ActivityProductDetail.this, R.string.error_try_again_support, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else
+                        {
+                            new AlertDialog.Builder(ActivityProductDetail.this)
+                                    .setTitle("Algo Salio mal")
+                                    .setMessage("Usuario o contraseña incorrecto")
+                                    .setCancelable(true)
+                                    .show();
+                            //Toast.makeText(ActivityLogin.this, error != null && error.getMessage() != null ? error.getMessage() : "Usuario o contraseña incorrecta", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                })
+        {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("X-API-KEY", Network.API_KEY);
+                return params;
+            }
+        };
+
+        // Get a RequestQueue
+        RequestQueue queue = MySingleton.getInstance(this.getApplicationContext()).getRequestQueue();
+
+        //Used to mark the request, so we can cancel it on our onStop method
+        postRequest.setTag("");
+
+        MySingleton.getInstance(this).addToRequestQueue(postRequest);
+    }
+
     public void setData(Yng_Item itemTemp){
         Log.e("getName:",""+itemTemp.getName());
         //Typeface typeface = Typeface.createFromAsset(ActivityProductDetail.this.getAssets(), "fonts/"+"Roboto-Light.ttf");
@@ -1258,6 +1369,48 @@ public class ActivityProductDetail extends AppCompatActivity {
         }else{
             lytEnvioGratis.setVisibility(View.GONE);
         }
+
+        /******************************* informacion del vendedor ******************************/
+        String country = userTemp.getYng_Ubication().getYng_Country().getName();
+        String province = userTemp.getYng_Ubication().getYng_Province().getName();
+        String city = userTemp.getYng_Ubication().getYng_City().getName();
+
+        try {
+            txtSellerUbication.setText(country+", "+province+", "+city);
+        }catch(Exception e){txtSellerUbication.setText("");}
+
+        /************************* Descripcion detallada del producto **************************/
+        try {
+            if(itemTemp.getCondition().equals("New")){txtDescCondition.setText("Nuevo");}
+            else if(itemTemp.getCondition().equals("Used")){txtDescCondition.setText("Usado");}
+        }catch (Exception e){txtDescCondition.setText("");}
+
+        try {
+            txtDescStock.setText(itemTemp.getQuantity()+"");
+        }catch (Exception e){txtDescStock.setText("");}
+
+        try {
+            txtDescPrice.setText(itemTemp.getPrice()+"");
+        }catch (Exception e){txtDescPrice.setText("");}
+
+        try {
+            txtDescCondSell.setText(productTemp.getProductSaleConditions());
+        }catch (Exception e){txtDescCondSell.setText("");}
+
+        try {
+            txtDescPayMethod.setText(productTemp.getProductPaymentMethod());
+        }catch (Exception e){txtDescPayMethod.setText("");}
+
+        try {
+            txtDescMethodShipping.setText(productTemp.getProductFormDelivery());
+        }catch (Exception e){txtDescMethodShipping.setText("");}
+
+        try{
+            txtDescCompleta.setText(itemTemp.getDescription());
+        }catch (Exception e){
+            txtDescCompleta.setText("");
+        }
+
 
         loadJSONFromAssetGallery();
     }
