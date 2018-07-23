@@ -804,6 +804,204 @@ android:background="@color/bg">
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
+            android:id="@+id/cardInfoSeller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="6dp"
+            card_view:cardBackgroundColor="@color/white"
+            card_view:cardCornerRadius="2dp"
+            card_view:cardUseCompatPadding="false"
+            card_view:elevation="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="5dp"
+                        android:text="Información del vendedor"
+                        android:textColor="@color/black"
+                        android:layout_weight="1"
+                        android:textSize="18sp" />
+
+                    <View
+                        android:layout_width="30dp"
+                        android:background="@drawable/ic_arrow_right"
+                        android:layout_height="30dp"
+                        android:visibility="invisible"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.6dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_below="@+id/text_message"
+                    android:background="#e7e7e7"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:orientation="horizontal"
+                    android:background="@color/white">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Nombre completo"
+                            android:fontFamily="sans-serif-light"/>
+                        <TextView
+                            android:id="@+id/txtSellerName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Juan Espinoza"
+                            android:textColor="@color/yngBlack"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Correo electrónico"
+                            android:fontFamily="sans-serif-light"/>
+                        <TextView
+                            android:id="@+id/txtSellerEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="XXXXXXXXXXX@XXXXX.XXX"
+                            android:textColor="@color/yngBlack"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:orientation="horizontal"
+                    android:background="@color/white">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Teléfono principal"
+                            android:fontFamily="sans-serif-light"/>
+                        <TextView
+                            android:id="@+id/txtSellerPhoneMain"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="XXX-XXXXXX"
+                            android:textColor="@color/yngBlack"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Teléfono"
+                            android:fontFamily="sans-serif-light"/>
+                        <TextView
+                            android:id="@+id/txtSellerPhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="XXX-XXXXXX"
+                            android:textColor="@color/yngBlack"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:orientation="horizontal"
+                    android:background="@color/white">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Sitio Web"
+                            android:fontFamily="sans-serif-light"/>
+                        <TextView
+                            android:id="@+id/txtSellerWeb"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="xxxxxxxxxxxxxxxx"
+                            android:textColor="@color/yngBlack"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Ubicación"
+                            android:fontFamily="sans-serif-light"/>
+                        <TextView
+                            android:id="@+id/txtSellerUbication"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Argentina, Buenos Aires"
+                            android:textColor="@color/yngBlack"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
             android:id="@+id/cardDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -839,7 +1037,8 @@ android:background="@color/bg">
                     <View
                         android:layout_width="30dp"
                         android:background="@drawable/ic_arrow_right"
-                        android:layout_height="30dp"/>
+                        android:layout_height="30dp"
+                        android:visibility="invisible"/>
 
                 </LinearLayout>
 
@@ -1013,7 +1212,8 @@ android:background="@color/bg">
                     <View
                         android:layout_width="30dp"
                         android:background="@drawable/ic_arrow_right"
-                        android:layout_height="30dp"/>
+                        android:layout_height="30dp"
+                        android:visibility="invisible"/>
 
                 </LinearLayout>
 
