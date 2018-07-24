@@ -48,6 +48,7 @@ import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.R;
+import com.valecom.yingul.main.buy.BuyActivity;
 import com.valecom.yingul.main.categories.ItemsByCategoryActivity;
 import com.valecom.yingul.main.createStore.CreateStoreActivity;
 import com.valecom.yingul.main.edit.EditImageActivity;
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity
     public static final String TAG = "MainActivity";
     private JSONObject api_parameter;
     private String username,itemName;
-    private TextView profile_name;
+    private TextView profile_name, textCartItemCount;
     private MaterialDialog progressDialog;
     public Toolbar toolbar;
     private Yng_User user;
@@ -144,6 +145,11 @@ public class MainActivity extends AppCompatActivity
 
         user = new Yng_User();
         Menu nav_Menu = navigationView.getMenu();
+        final MenuItem menuItem = nav_Menu.findItem(R.id.nav_settings);
+        View actionView = MenuItemCompat.getActionView(menuItem);
+        textCartItemCount = (TextView) actionView.findViewById(R.id.cart_badge);
+        setupBadge();
+
         profile_name = (TextView) navigationHeaderView.findViewById(R.id.profile_name);
         if (settings == null || settings.getInt("logged_in", 0) == 0 || settings.getString("api_key", "").equals(""))
         {
@@ -946,5 +952,70 @@ public class MainActivity extends AppCompatActivity
             }
 
         }
+    }
+    private void setupBadge() {
+        SharedPreferences settings = getSharedPreferences(LoginActivity.SESSION_USER, MODE_PRIVATE);
+        if (textCartItemCount.getVisibility() != View.GONE) {
+            textCartItemCount.setVisibility(View.GONE);
+        }
+        if (settings == null || settings.getInt("logged_in", 0) == 0 || settings.getString("api_key", "").equals("")) {
+
+        }else{
+            String jsonBody = "";
+            getNumberQueries(Network.API_URL + "query/Number/"+settings.getString("username",""),jsonBody);
+        }
+    }
+
+    public void  getNumberQueries(String url, String json){
+        Log.e("empezar preguntas",url);
+        start("inicio");
+        OkHttpClient httpClient = new OkHttpClient.Builder()
+                .connectTimeout(9000, TimeUnit.SECONDS)
+                .writeTimeout(9000, TimeUnit.SECONDS)
+                .readTimeout(9000, TimeUnit.SECONDS)
+                .build();
+        RequestBody body = RequestBody.create(JSON, json);
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(url)
+                .addHeader("Content-Type","application/json")
+                .get()
+                .build();
+        httpClient.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "error in getting response using async okhttp call");
+            }
+            @Override public void onResponse(Call call, okhttp3.Response response) throws IOException {
+                ResponseBody responseBody = response.body();
+                if (!response.isSuccessful()) {
+                    throw new IOException("Error response " + response);
+                }
+                //
+
+                final String responce=""+(responseBody.string());
+                try {
+                    end(""+responce);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.i("responce:------------",""+responce);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("cantidad de preguntas",responce+"");
+                        if(responce.equals("0")){
+                            if (textCartItemCount.getVisibility() != View.GONE) {
+                                textCartItemCount.setVisibility(View.GONE);
+                            }
+                        }else{
+                            if (textCartItemCount.getVisibility() != View.VISIBLE) {
+                                textCartItemCount.setVisibility(View.VISIBLE);
+                            }
+                            textCartItemCount.setText(responce+"");
+                        }
+                    }
+                });
+
+            }
+        });
     }
 }
