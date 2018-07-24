@@ -956,7 +956,7 @@ android:background="@color/bg">
                             android:id="@+id/txtSellerEmail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="XXXXXXXXXXX@XXXXX.XXX"
+                            android:text="xxxxxx@xxxx.xxx"
                             android:textColor="@color/yngBlack"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -986,7 +986,7 @@ android:background="@color/bg">
                             android:id="@+id/txtSellerPhoneMain"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="XXX-XXXXXX"
+                            android:text="xxx-xxxxxx"
                             android:textColor="@color/yngBlack"/>
                     </LinearLayout>
 
@@ -1004,7 +1004,7 @@ android:background="@color/bg">
                             android:id="@+id/txtSellerPhone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="XXX-XXXXXX"
+                            android:text="xxx-xxxxxx"
                             android:textColor="@color/yngBlack"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -1294,7 +1294,6 @@ android:background="@color/bg">
                                 android:id="@+id/txtPropTotalArea"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="1000"
                                 android:textColor="@color/yngBlack"/>
                         </LinearLayout>
 
@@ -1312,7 +1311,6 @@ android:background="@color/bg">
                                 android:id="@+id/txtPropDuildedArea"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="800"
                                 android:textColor="@color/yngBlack"/>
                         </LinearLayout>
                     </LinearLayout>
@@ -1342,7 +1340,6 @@ android:background="@color/bg">
                                 android:id="@+id/txtPropPrice"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="120000"
                                 android:textColor="@color/yngBlack"/>
                         </LinearLayout>
 
@@ -1360,7 +1357,6 @@ android:background="@color/bg">
                                 android:id="@+id/txtPropYearOld"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="5"
                                 android:textColor="@color/yngBlack"/>
                         </LinearLayout>
                     </LinearLayout>
@@ -1390,7 +1386,6 @@ android:background="@color/bg">
                                 android:id="@+id/txtPropAmenities"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="12"
                                 android:textColor="@color/yngBlack"/>
                         </LinearLayout>
 
@@ -1408,7 +1403,6 @@ android:background="@color/bg">
                                 android:id="@+id/txtPropConfort"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Ducha, baños, piscina, etc."
                                 android:textColor="@color/yngBlack"/>
                         </LinearLayout>
                     </LinearLayout>
@@ -1446,7 +1440,6 @@ android:background="@color/bg">
                                 android:id="@+id/txtMotorBrand"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Toyota"
                                 android:textColor="@color/yngBlack"/>
                         </LinearLayout>
 
@@ -1464,7 +1457,6 @@ android:background="@color/bg">
                                 android:id="@+id/txtMotorModel"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Hilux"
                                 android:textColor="@color/yngBlack"/>
                         </LinearLayout>
                     </LinearLayout>
@@ -1494,7 +1486,6 @@ android:background="@color/bg">
                                 android:id="@+id/txtMotorPrice"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="12000"
                                 android:textColor="@color/yngBlack"/>
                         </LinearLayout>
 
@@ -1512,7 +1503,6 @@ android:background="@color/bg">
                                 android:id="@+id/txtMotorYear"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="500000"
                                 android:textColor="@color/yngBlack"/>
                         </LinearLayout>
                     </LinearLayout>
@@ -1560,7 +1550,6 @@ android:background="@color/bg">
                                 android:id="@+id/txtMotorConfort"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Ducha, baños, piscina, etc."
                                 android:textColor="@color/yngBlack"/>
                         </LinearLayout>
                     </LinearLayout>
@@ -1581,12 +1570,13 @@ android:background="@color/bg">
                         android:paddingLeft="@dimen/activity_horizontal_margin"
                         android:paddingRight="@dimen/activity_horizontal_margin"
                         android:orientation="horizontal"
+                        android:weightSum="12"
                         android:background="@color/white">
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="7"
                             android:orientation="vertical">
 
                             <TextView
@@ -1605,7 +1595,7 @@ android:background="@color/bg">
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="5"
                             android:orientation="vertical">
                             <TextView
                                 android:layout_width="match_parent"

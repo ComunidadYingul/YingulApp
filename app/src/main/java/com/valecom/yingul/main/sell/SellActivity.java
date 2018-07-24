@@ -356,20 +356,40 @@ public class SellActivity extends AppCompatActivity {
         city.setCityId(Integer.parseInt(cityId));
         city.setName(name);
         ubication.setYng_City(city);
-        if(item.getType()=="Motorized" || item.getType()=="Property"){
-            SellItemAddContactFragment itemSetUbicationDetail = new SellItemAddContactFragment();
+        if(item.getType()=="Motorized" || item.getType()=="Property" || item.getType()=="Service"){
+            /*SellItemAddContactFragment itemSetUbicationDetail = new SellItemAddContactFragment();
             FragmentTransaction fragmentTransaction  = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.content_frame, itemSetUbicationDetail);
             fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
-        }else{
+            fragmentTransaction.commit();*/
+
             SellItemUbicationSetDetailFragment itemSetUbicationDetail = new SellItemUbicationSetDetailFragment();
             FragmentTransaction fragmentTransaction  = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.content_frame, itemSetUbicationDetail);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
+        }else{
+
         }
     }
+
+    public void setUbicationDetail(){
+
+        if(item.getType()=="Property" || item.getType()=="Service" || item.getType()=="Motorized"){
+            SellItemAddContactFragment fragment = new SellItemAddContactFragment();
+            FragmentTransaction fragmentTransaction  = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.content_frame, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }else{
+            SellItemAddSummaryFragment itemSetSummary = new SellItemAddSummaryFragment();
+            FragmentTransaction fragmentTransaction  = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.content_frame, itemSetSummary);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
+    }
+
     public void setUbicationDetail(String street, String number){
         ubication.setStreet(street);
         ubication.setNumber(number);

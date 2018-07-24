@@ -45,6 +45,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="www.yingul.com"
+                    android:scheme="http" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".main.LoginActivity"
@@ -61,8 +69,7 @@
             android:name=".main.SettingActivityOld"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".main.MainActivity"
-            android:screenOrientation="portrait">
+            android:parentActivityName=".main.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.valecom.yingul.main.MainActivity" />
@@ -72,7 +79,6 @@
             android:name=".main.NewItemActivity"
             android:label="@string/title_activity_new_item"
             android:parentActivityName=".main.MainActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden">
             <meta-data
@@ -83,7 +89,6 @@
             android:name=".main.NewClientActivity"
             android:label="@string/title_activity_new_client"
             android:parentActivityName=".main.MainActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden">
             <meta-data
@@ -94,7 +99,6 @@
             android:name=".main.NewInvoiceActivity"
             android:label="@string/title_activity_new_invoice"
             android:parentActivityName=".main.MainActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden">
             <meta-data
@@ -105,7 +109,6 @@
             android:name=".main.NewEstimateActivity"
             android:label="@string/title_activity_new_estimate"
             android:parentActivityName=".main.MainActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden">
             <meta-data
@@ -116,7 +119,6 @@
             android:name=".main.ItemPickerActivity"
             android:label="@string/title_activity_item_picker"
             android:parentActivityName=".main.NewInvoiceActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden">
             <meta-data
@@ -127,7 +129,6 @@
             android:name=".main.SettingActivity"
             android:label="Mi cuenta"
             android:parentActivityName=".main.MainActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -137,7 +138,6 @@
             android:name=".main.sell.SellActivity"
             android:label="@string/title_activity_setting"
             android:parentActivityName=".main.MainActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -147,7 +147,6 @@
             android:name=".main.buy.BuyActivity"
             android:label="@string/title_activity_setting"
             android:parentActivityName=".main.MainActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -157,7 +156,6 @@
             android:name=".main.newUserUbicationEditPersonalInfo.NewUserUbicationEditPersonalInfoActivity"
             android:label="@string/title_activity_setting"
             android:parentActivityName=".main.MainActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -167,7 +165,6 @@
             android:name=".main.rememberPassword.RememberPasswordActivity"
             android:label="¿Olvidó su contraseña?"
             android:parentActivityName=".main.MainActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -177,7 +174,6 @@
             android:name=".main.motorized.MotorizedFilteredActivity"
             android:label=""
             android:parentActivityName=".main.MainActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -187,7 +183,6 @@
             android:name=".main.property.PropertyFilteredActivity"
             android:label=""
             android:parentActivityName=".main.MainActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -197,7 +192,6 @@
             android:name=".main.myAccount.confirmDelivery.ConfirmDeliveryActivity"
             android:label="Confirmar entrega al comprador"
             android:parentActivityName=".main.MainActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -207,7 +201,6 @@
             android:name=".main.filter.FilterActivity"
             android:label="X"
             android:parentActivityName=".main.MainActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden">
             <meta-data
@@ -218,7 +211,6 @@
             android:name=".main.QueriesItemActivity"
             android:label="Preguntas al vendedor"
             android:parentActivityName=".main.MainActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden">
             <meta-data
@@ -238,7 +230,6 @@
             android:name=".main.edit.EditImageActivity"
             android:label="Confirmar entrega al comprador"
             android:parentActivityName=".main.MainActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -255,7 +246,7 @@
         </activity>
         <!-- activity android:name=".main.BuyActivity" / -->
         <activity android:name=".main.ActivityProductDetail">
-            <intent-filter>
+            <!--intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -264,7 +255,7 @@
                 <data
                     android:host="www.yingul.com"
                     android:scheme="http" />
-            </intent-filter>
+            </intent-filter-->
         </activity>
         <activity android:name=".main.ActivityPlaceOrder" />
         <activity android:name=".main.ActivityGalleryDetail" />

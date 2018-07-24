@@ -43,7 +43,10 @@ public class SellItemSetAreaDuildFragment extends Fragment {
                 Validacion val = new Validacion();
                 if(val.validarNumero(editAreaDuild,areaDuild)){
                     editAreaDuild.setError("Ingrese la superficie cubierta");
-                }else{
+                }else if(Long.parseLong(areaDuild) > Long.parseLong(((SellActivity)getActivity()).property.getPropertyTotalArea())){
+                    editAreaDuild.setError("La superficie cubierta no debe sobrepasar a la superficie total");
+                }
+                else{
                     ((SellActivity)getActivity()).item.setDuildedArea(Integer.parseInt(areaDuild));
 
                     SellItemSetAmenitiesFragment fragment = new SellItemSetAmenitiesFragment();

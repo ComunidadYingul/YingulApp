@@ -43,7 +43,11 @@ public class SellItemSetWeightFragment extends Fragment {
                 if(weight.trim().length()==0){
                     editWeight.setError("Ingrese el peso de su producto");
                     editWeight.requestFocus();
-                }else{
+                }else if(Long.valueOf(String.valueOf(weight)) > 5000000){
+                    editWeight.setError("El peso no debe sobrepasar los 5000000 grs.");
+                    editWeight.requestFocus();
+                }
+                else{
                     ((SellActivity)getActivity()).product.setProductWeight(Integer.parseInt(weight));
 
                     SellItemSetConditionFragment fragment = new SellItemSetConditionFragment();

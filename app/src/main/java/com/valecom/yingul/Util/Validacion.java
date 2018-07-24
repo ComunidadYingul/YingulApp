@@ -5,6 +5,10 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 /**
@@ -86,9 +90,9 @@ public class Validacion {
     /************ NUMEROS *************/
 
     public boolean valNumDig(EditText view,int cantDid){
-        if (view.getText().toString().trim().length() < cantDid)
+        if (view.getText().toString().trim().length() < cantDid || view.getText().toString().trim().length() > cantDid)
         {
-            view.setError("Campo requerido y mínimo "+cantDid+" dígitos");
+            view.setError("Campo requerido "+cantDid+" dígitos");
             view.requestFocus();
             return false;
         }else{
@@ -113,9 +117,52 @@ public class Validacion {
             view.setError("Kilómetros requerido");
             view.requestFocus();
             return false;
+        }else if(view.getText().toString().trim().length() > 6) {
+            view.setError("El valor no debe ser mayor a 999999");
+            view.requestFocus();
+            return false;
         }else{
             return true;
         }
+    }
+
+    public boolean valMotorizedYear(EditText view){
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy", Locale.getDefault());
+        Date date = new Date();
+
+        String fecha = dateFormat.format(date);
+        int year = Integer.valueOf(fecha);
+
+        if (view.getText().toString().trim().length() <= 0)
+        {
+            view.setError("Ingrese año");
+            view.requestFocus();
+            return false;
+        }else if(view.getText().toString().trim().length() != 4) {
+            view.setError("El año debe comprender entre 1900 y "+year);
+            view.requestFocus();
+            return false;
+        }else if(Integer.valueOf(String.valueOf(view.getText().toString())) < 1900 || Integer.valueOf(String.valueOf(view.getText().toString())) > year) {
+            view.setError("El año debe comprender entre 1900 y "+year);
+            view.requestFocus();
+            return false;
+        }
+        else{
+            return true;
+        }
+
+        /*if(val.validarNumero(editMotorizedYear,motorizedYear)){
+            editMotorizedYear.setError("Ingrese año");
+        }else if(Integer.parseInt(String.valueOf(editMotorizedYear)) > year){
+            editMotorizedYear.setError("El año no debe superar al actual");
+        }
+        else if(editMotorizedYear.length() < 4){
+            editMotorizedYear.setError("Ingrese un año valido");
+        }else if(Integer.parseInt(String.valueOf(editMotorizedYear)) < 1900){
+            editMotorizedYear.setError("Ingrese un año entre 1900 y "+year);
+        }*/
+
     }
 
     /************ CADENAS DE TEXTO ***********/

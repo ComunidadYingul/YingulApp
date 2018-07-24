@@ -114,7 +114,7 @@ public class ActivityProductDetail extends AppCompatActivity {
     //EditText edt_pincode;
     TextView web_desc,text_quantity_stock,txtSellerEmail,txtSellerName,txtSellerWeb,txtSellerUbication,txtSellerPhoneMain,txtSellerPhone;
     TextView txtDescCondition,txtDescStock,txtDescPrice,txtDescCondSell,txtDescPayMethod,txtDescMethodShipping,txtDescCompleta;
-    TextView txtPropPrice,txtPropYearOld,txtPropAmenities,txtPropConfort;
+    TextView txtPropPrice,txtPropYearOld,txtPropAmenities,txtPropConfort,txtPropDuildedArea,txtPropTotalArea;
     TextView txtMotorBrand,txtMotorModel,txtMotorPrice,txtMotorYear,txtMotorOwner;
     TextView txtServEmail,txtServPrice,txtServDispon;
     View button_public_seller,allQueriesLayout;
@@ -182,8 +182,8 @@ public class ActivityProductDetail extends AppCompatActivity {
         String dataString = getIntent().getDataString();
         if(intent!=null&&intent.getData()!=null)
         {
-            itemId="2412";
-            Log.e("daniel:-------","recupero:"+dataString);
+
+            Log.e("daniel:-------","recupero detail:"+dataString);
 
             String string = dataString;
             String[] parts = string.split("/");
@@ -278,6 +278,8 @@ public class ActivityProductDetail extends AppCompatActivity {
         txtPropYearOld = (TextView) findViewById(R.id.txtPropYearOld);
         txtPropAmenities = (TextView) findViewById(R.id.txtPropAmenities);
         txtPropConfort = (TextView) findViewById(R.id.txtPropConfort);
+        txtPropDuildedArea = (TextView) findViewById(R.id.txtPropDuildedArea);
+        txtPropTotalArea = (TextView) findViewById(R.id.txtPropTotalArea);
 
         txtMotorBrand = (TextView) findViewById(R.id.txtMotorBrand);
         txtMotorModel = (TextView) findViewById(R.id.txtMotorModel);
@@ -1582,7 +1584,7 @@ public class ActivityProductDetail extends AppCompatActivity {
         }catch (Exception e){txtDescStock.setText("");}
 
         try {
-            txtDescPrice.setText(itemTemp.getPrice()+"");
+            txtDescPrice.setText(String.format("%.0f",itemTemp.getPrice()));
         }catch (Exception e){txtDescPrice.setText("");}
 
         try {
@@ -1600,9 +1602,11 @@ public class ActivityProductDetail extends AppCompatActivity {
 
     private void setProperty(){
         try {
-            txtPropPrice.setText(itemTemp.getPrice() + "");
-            txtPropYearOld.setText(propertyTemp.getPropertyYear() + "");
-            txtPropAmenities.setText(itemTemp.getAmbientes() + "");
+            if(propertyTemp.getPropertyTotalArea() != null)txtPropTotalArea.setText(propertyTemp.getPropertyTotalArea()+"");
+            if(itemTemp.getDuildedArea() != 0)txtPropDuildedArea.setText(itemTemp.getDuildedArea()+"");
+            if(itemTemp.getPrice() != 0)txtPropPrice.setText(String.format("%.0f",itemTemp.getPrice()));
+            if(propertyTemp.getPropertyYear() != null) txtPropYearOld.setText(propertyTemp.getPropertyYear() + "");
+            if(itemTemp.getAmbientes() != 0)txtPropAmenities.setText(itemTemp.getAmbientes() + "");
             String amenities = "";
             Set<Yng_PropertyAmenities> propertyAmenities = propertyTemp.getPropertyAmenities();
             for (Yng_PropertyAmenities st:propertyAmenities) {
@@ -1616,7 +1620,7 @@ public class ActivityProductDetail extends AppCompatActivity {
         try {
             txtMotorBrand.setText(motorizedTemp.getMotorizedBrand());
             txtMotorModel.setText(motorizedTemp.getMotorizedModel());
-            txtMotorPrice.setText(itemTemp.getPrice() + "");
+            if(itemTemp.getPrice() != 0)txtMotorPrice.setText(String.format("%.0f",itemTemp.getPrice()));
             txtMotorYear.setText(itemTemp.getItemYear() + "");
             if(motorizedTemp.getMotorizedUnicoDue().equals("true")) {
                 txtMotorOwner.setText("Si");
@@ -1635,7 +1639,7 @@ public class ActivityProductDetail extends AppCompatActivity {
     private void setService(){
         try {
             txtServEmail.setText(serviceTemp.getEmailService());
-            txtServPrice.setText(itemTemp.getPrice() + "");
+            if(itemTemp.getPrice() != 0)txtServPrice.setText(String.format("%.0f",itemTemp.getPrice()));
             txtServDispon.setText("");
         }catch (Exception e){}
     }

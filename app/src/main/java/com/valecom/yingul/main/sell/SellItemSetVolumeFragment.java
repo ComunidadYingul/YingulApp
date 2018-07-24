@@ -143,6 +143,10 @@ public class SellItemSetVolumeFragment extends Fragment {
                     txtVolumeContent.setError("Ingresar volumen");
                     txtVolumeContent.requestFocus();
                 }
+                else if(Long.valueOf(String.valueOf(txtVolume.getText().toString())) > 15000000){
+                    txtVolumeContent.setError("El volumen no debe sobrepasar a 15000000");
+                    txtVolumeContent.requestFocus();
+                }
                 else{
 
                     height = Integer.parseInt(editHeight.getText().toString());
