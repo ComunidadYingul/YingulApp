@@ -53,6 +53,11 @@ import com.valecom.yingul.main.createStore.CreateStoreActivity;
 import com.valecom.yingul.main.edit.EditImageActivity;
 import com.valecom.yingul.main.index.InicioFragment;
 import com.valecom.yingul.main.myAccount.MyAccountFragment;
+import com.valecom.yingul.main.myAccount.MyAccountPurchasesListFragment;
+import com.valecom.yingul.main.myAccount.MyAccountShoppingQuestionsListFragment;
+import com.valecom.yingul.main.myAccount.confirmDelivery.ConfirmDeliveryActivity;
+import com.valecom.yingul.main.myAccount.yingulPay.YingulPayActivity;
+import com.valecom.yingul.main.rememberPassword.RememberPasswordActivity;
 import com.valecom.yingul.main.sell.SellActivity;
 import com.valecom.yingul.main.store.ActivityStore;
 import com.valecom.yingul.model.Yng_Item;
@@ -120,6 +125,111 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences settings = getSharedPreferences(LoginActivity.SESSION_USER, MODE_PRIVATE);
 
         //Checks whether a user is logged in, otherwise redirects to the Login screen
+        //String urlsec="";
+        String dataurl="";
+        //String itemId="";
+        Intent intent=getIntent();
+        String dataString = getIntent().getDataString();
+        if(intent!=null&&intent.getData()!=null)
+        {
+            Log.e("daniel:-------","recupero main:"+dataString);
+            String string = dataString;
+            String[] parts = string.split("/");
+            //http://www.yingul.com/frontYingulPay
+            String aux="";
+
+            String urlAux="";
+            Log.e("da"+"  length: ","");
+
+           // if (settings == null || settings.getInt("logged_in", 0) == 0 || settings.getString("api_key", "").equals(""))
+          //  {
+             //   Intent intentL = new Intent(this, LoginActivity.class);
+              //  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+               // startActivity(intent);
+                //getActivity().finish();
+               // return;
+          //  }else{
+                switch (dataString){
+                    case "http://www.yingul.com":
+
+                        break;
+                    case "http://www.yingul.com/frontYingulPay":
+                        Intent intentP = new Intent(MainActivity.this, YingulPayActivity.class);
+                        startActivity(intentP);
+                        break;
+                    case "http://www.yingul.com/userFront/claims":
+                        dataurl=parts[4];
+                        Log.e("da",""+dataurl);
+                        break;
+                    case "http://www.yingul.com/userFront/purchases":
+                        dataurl=parts[4];
+                        Log.e("da",""+dataurl);
+                        break;
+                    case "http://www.yingul.com/favorites":
+                        dataurl=parts[3];
+                        Log.e("da",""+dataurl);
+                        break;
+                    case "http://www.yingul.com/userFront/sales/query":
+                        dataurl=parts[5];
+                        break;
+                    case "http://www.yingul.com/userFront/purchases/query":
+                        dataurl=parts[5]+"P";
+                        break;
+                    case "http://www.yingul.com/about/contactUs":
+                        //para despues
+                        break;
+            /*case "http://www.yingul.com/confirmwos/":
+                break;
+            case "http://www.yingul.com/confirmws/":
+                break;
+            case "http://www.yingul.com/agreement/":
+                break;
+            case "http://www.yingul.com/tiendaOficial/":
+                break;
+            case "http://www.yingul.com/resetPassword/":
+                break;*/
+                    default:
+                        if(parts.length==5){
+                            String dd=parts[3];
+                            switch (dd) {
+                                case "itemDetail":
+                                    Intent detail =new Intent(this,ActivityProductDetail.class);
+                                    detail.putExtra("itemId",parts[4]);
+                                    startActivity(detail);
+                                    break;
+                                case "confirmwos":
+                                    Intent intentC = new Intent(this, ConfirmDeliveryActivity.class);
+                                    intentC.putExtra("confirmId",parts[4]);
+                                    startActivity(intentC);
+                                    break;
+                                case "agreement":
+//para despues
+                                    break;
+                                case "tiendaOficial":
+                                    Intent intentS = new Intent(MainActivity.this, ActivityStore.class);
+                                    intentS.putExtra("store",parts[4]);
+                                    startActivity(intentS);
+                                    break;
+                                case "resetPassword":
+                                    Intent intentR = new Intent(MainActivity.this, RememberPasswordActivity.class);
+                                    //intentR.putExtra("param",parts[4]);
+                                    intentR.putExtra("rest","rest");
+                                    startActivity(intentR);
+                                    break;
+                                default:
+                                    Intent atras=new Intent( this,MainActivity.class);
+                                    startActivity(atras);
+                                    break;
+                            }
+                        }
+                        break;
+                }
+           //}
+
+
+
+
+        }
 
         array_list = new ArrayList();
         array_list.add("Tomar foto");
@@ -275,16 +385,55 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.content_frame, fragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();*/
-            InicioFragment fragment = new InicioFragment();
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.content_frame, fragment);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
-            /*PrincipalFragment fragment = new PrincipalFragment();
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.content_frame, fragment);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();*/
+            switch (dataurl){
+                case "query":
+                    MyAccountShoppingQuestionsListFragment fragmentQ = new MyAccountShoppingQuestionsListFragment();
+                    FragmentTransaction fragmentTransactionQ = getSupportFragmentManager().beginTransaction();
+                    fragmentTransactionQ.replace(R.id.content_frame, fragmentQ);
+                    fragmentTransactionQ.addToBackStack(null);
+                    fragmentTransactionQ.commit();
+                    break;
+                case "favorites":
+                    FavoriteFragment fragmentF = new FavoriteFragment();
+                    FragmentTransaction fragmentTransactionF  = getSupportFragmentManager().beginTransaction();
+                    fragmentTransactionF.replace(R.id.content_frame, fragmentF);
+                    fragmentTransactionF.addToBackStack(null);
+                    fragmentTransactionF.commit();
+                    break;
+                case "purchases":
+                    MyAccountPurchasesListFragment fragmentP = new MyAccountPurchasesListFragment();
+                    FragmentTransaction fragmentTransaction  = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.content_frame, fragmentP);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                    break;
+                case "claims":
+                    MyAccountPurchasesListFragment fragmentC = new MyAccountPurchasesListFragment();
+                    FragmentTransaction fragmentTransactionC  = getSupportFragmentManager().beginTransaction();
+                    fragmentTransactionC.replace(R.id.content_frame, fragmentC);
+                    fragmentTransactionC.addToBackStack(null);
+                    fragmentTransactionC.commit();
+                    break;
+                case "queryP":
+                    MyAccountShoppingQuestionsListFragment fragmentQP = new MyAccountShoppingQuestionsListFragment();
+                    FragmentTransaction fragmentTransactionQP  = getSupportFragmentManager().beginTransaction();
+                    fragmentTransactionQP.replace(R.id.content_frame, fragmentQP);
+                    fragmentTransactionQP.addToBackStack(null);
+                    fragmentTransactionQP.commit();
+                    break;
+                default:
+                    InicioFragment fragmentI = new InicioFragment();
+                    FragmentTransaction fragmentTransactionI = getSupportFragmentManager().beginTransaction();
+                    fragmentTransactionI.replace(R.id.content_frame, fragmentI);
+                    fragmentTransactionI.addToBackStack(null);
+                    fragmentTransactionI.commit();
+                break;
+            }
+            /*InicioFragment fragmentI = new InicioFragment();
+            FragmentTransaction fragmentTransactionI = getSupportFragmentManager().beginTransaction();
+            fragmentTransactionI.replace(R.id.content_frame, fragmentI);
+            fragmentTransactionI.addToBackStack(null);
+            fragmentTransactionI.commit();*/
         }
     }
 
