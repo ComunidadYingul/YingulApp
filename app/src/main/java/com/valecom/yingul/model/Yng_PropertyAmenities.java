@@ -1,15 +1,14 @@
 package com.valecom.yingul.model;
 
-/**
- * Created by gonzalo on 23-07-18.
- */
+import java.io.Serializable;
 
-public class Yng_PropertyAmenities {
+public class Yng_PropertyAmenities implements Serializable {
     private long propertyAmenities;
-
     private Yng_Property property;
-
     private Yng_Amenities amenities;
+    public Yng_PropertyAmenities(){
+        super();
+    }
 
     public long getPropertyAmenities() {
         return propertyAmenities;

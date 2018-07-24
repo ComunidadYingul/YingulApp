@@ -64,6 +64,7 @@ import com.valecom.yingul.main.buy.BuyActivity;
 import com.valecom.yingul.model.FilterParam;
 import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.model.Yng_Motorized;
+import com.valecom.yingul.model.Yng_MotorizedConfort;
 import com.valecom.yingul.model.Yng_Person;
 import com.valecom.yingul.model.Yng_Product;
 import com.valecom.yingul.model.Yng_Property;
@@ -88,6 +89,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
@@ -147,7 +149,7 @@ public class ActivityProductDetail extends AppCompatActivity {
     private Yng_User user;
     private Yng_Ubication userUbication;
     private LinearLayout layoutReturn;
-    private TextView textTitleDevolution,textBodyDevolution;
+    private TextView textTitleDevolution,textBodyDevolution,txtMotorConfort;
 
     private ListView list;
 //    private QueryListAdapter adapter;
@@ -297,6 +299,7 @@ public class ActivityProductDetail extends AppCompatActivity {
         layoutReturn = (LinearLayout) findViewById(R.id.layoutReturn);
         textTitleDevolution = (TextView) findViewById(R.id.textTitleDevolution);
         textBodyDevolution = (TextView) findViewById(R.id.textBodyDevolution);
+        txtMotorConfort = (TextView) findViewById(R.id.txtMotorConfort);
 
 
 
@@ -1600,7 +1603,12 @@ public class ActivityProductDetail extends AppCompatActivity {
             txtPropPrice.setText(itemTemp.getPrice() + "");
             txtPropYearOld.setText(propertyTemp.getPropertyYear() + "");
             txtPropAmenities.setText(itemTemp.getAmbientes() + "");
-            txtPropConfort.setText("");
+            String amenities = "";
+            Set<Yng_PropertyAmenities> propertyAmenities = propertyTemp.getPropertyAmenities();
+            for (Yng_PropertyAmenities st:propertyAmenities) {
+                amenities += st.getAmenities().getName()+", ";
+            }
+            txtPropConfort.setText(amenities);
         }catch (Exception e){}
     }
 
@@ -1615,6 +1623,12 @@ public class ActivityProductDetail extends AppCompatActivity {
             }else if(motorizedTemp.getMotorizedUnicoDue().equals("false")) {
                 txtMotorOwner.setText("No");
             }
+            String confortM = "";
+            Set<Yng_MotorizedConfort> confort = motorizedTemp.getMotorizedConfort();
+            for (Yng_MotorizedConfort st:confort) {
+                confortM += st.getConfort().getName()+", ";
+            }
+            txtMotorConfort.setText(confortM);
         }catch (Exception e){}
     }
 
