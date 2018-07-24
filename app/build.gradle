@@ -22,8 +22,8 @@ android {
                                 onesignal_google_project_number: "953400958776"]
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 8
-        versionName '1.7'
+        versionCode 9
+        versionName '1.8'
         signingConfig signingConfigs.config
     }
     dexOptions {

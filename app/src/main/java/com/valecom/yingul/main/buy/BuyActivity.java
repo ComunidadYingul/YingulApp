@@ -207,10 +207,20 @@ public class BuyActivity extends AppCompatActivity {
                             Log.e("item desde backend ===>" , response.toString());
                             Gson gson = new Gson();
                             item = gson.fromJson(String.valueOf(response), Yng_Item.class);
-                            BuySetShippingTypeFragment fragment = new BuySetShippingTypeFragment();
-                            FragmentTransaction fragmentTransaction  = getSupportFragmentManager().beginTransaction();
-                            fragmentTransaction.replace(R.id.content_frame, fragment);
-                            fragmentTransaction.commit();
+                            switch (item.getType()){
+                                case "Product":
+                                    BuySetShippingTypeFragment fragment = new BuySetShippingTypeFragment();
+                                    FragmentTransaction fragmentTransaction  = getSupportFragmentManager().beginTransaction();
+                                    fragmentTransaction.replace(R.id.content_frame, fragment);
+                                    fragmentTransaction.commit();
+                                    break;
+                                case "Motorized":
+                                    BuyItemInfoReserveFragment fragment1 = new BuyItemInfoReserveFragment();
+                                    FragmentTransaction fragmentTransaction1  = getSupportFragmentManager().beginTransaction();
+                                    fragmentTransaction1.replace(R.id.content_frame, fragment1);
+                                    fragmentTransaction1.commit();
+                                    break;
+                            }
                             Log.e("esta llegando ===>","vhjk:"+user.getDocumentNumber());
                             if(userUbication==null||user.getPhone().equals("null")||user.getDocumentNumber().equals("null")||user.getDocumentType().equals("null")||user.getPhone().equals("")||user.getDocumentNumber().equals("")||user.getDocumentType().equals("")){
                                 Intent intent = new Intent(BuyActivity.this, NewUserUbicationEditPersonalInfoActivity.class);

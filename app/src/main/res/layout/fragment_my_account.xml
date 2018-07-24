@@ -22,12 +22,12 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/activity_vertical_margin"
-                    android:paddingBottom="@dimen/activity_vertical_margin"
-                    android:orientation="horizontal"
                     android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/activity_vertical_margin"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:paddingRight="@dimen/activity_horizontal_margin">
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:paddingTop="@dimen/activity_vertical_margin">
 
                     <Button
                         android:id="@+id/buttonSell"
@@ -35,15 +35,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="0dp"
                         android:background="@color/yngBlue"
-                        android:textColor="@android:color/white"
-                        android:text="Vender gratis"/>
+                        android:text="Vender gratis"
+                        android:textColor="@android:color/white" />
 
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/colorDivider"/>
+                    android:background="@color/colorDivider" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -59,20 +59,20 @@
                         android:layout_height="wrap_content"
                         android:text="Compras"
                         android:textColor="@color/colorPrimaryText"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp" />
 
                     <LinearLayout
                         android:id="@+id/shoppingQuestions"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingTop="4dp"
-                        android:paddingBottom="4dp"
-                        android:orientation="horizontal"
-                        android:weightSum="8"
-                        android:gravity="center"
-                        android:foreground="?android:selectableItemBackground"
                         android:background="?android:attr/selectableItemBackground"
-                        android:clickable="true">
+                        android:clickable="true"
+                        android:foreground="?android:selectableItemBackground"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingBottom="4dp"
+                        android:paddingTop="4dp"
+                        android:weightSum="8">
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -99,7 +99,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Preguntas"
                                 android:textColor="@color/yngBlack"
-                                android:textSize="15sp"/>
+                                android:textSize="15sp" />
 
                         </LinearLayout>
 
@@ -109,14 +109,14 @@
                         android:id="@+id/purchasesLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="8"
-                        android:paddingTop="4dp"
-                        android:paddingBottom="4dp"
-                        android:gravity="center"
-                        android:foreground="?android:selectableItemBackground"
                         android:background="?android:attr/selectableItemBackground"
-                        android:clickable="true">
+                        android:clickable="true"
+                        android:foreground="?android:selectableItemBackground"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingBottom="4dp"
+                        android:paddingTop="4dp"
+                        android:weightSum="8">
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -143,7 +143,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Compras"
                                 android:textColor="@color/yngBlack"
-                                android:textSize="15sp"/>
+                                android:textSize="15sp" />
 
                         </LinearLayout>
 
@@ -154,7 +154,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/colorDivider"/>
+                    android:background="@color/colorDivider" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -170,20 +170,21 @@
                         android:layout_height="wrap_content"
                         android:text="Ventas"
                         android:textColor="@color/colorPrimaryText"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp" />
 
                     <LinearLayout
                         android:id="@+id/publicationsLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingTop="4dp"
-                        android:paddingBottom="4dp"
-                        android:orientation="horizontal"
-                        android:weightSum="8"
-                        android:gravity="center"
-                        android:foreground="?android:selectableItemBackground"
                         android:background="?android:attr/selectableItemBackground"
-                        android:clickable="true">
+                        android:clickable="true"
+                        android:foreground="?android:selectableItemBackground"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingBottom="4dp"
+                        android:paddingTop="4dp"
+                        android:weightSum="8">
+
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -209,7 +210,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Publicaciones"
                                 android:textColor="@color/yngBlack"
-                                android:textSize="15sp"/>
+                                android:textSize="15sp" />
 
                         </LinearLayout>
 
@@ -219,14 +220,15 @@
                         android:id="@+id/salesQuestionsLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingTop="4dp"
-                        android:paddingBottom="4dp"
-                        android:weightSum="8"
-                        android:gravity="center"
-                        android:foreground="?android:selectableItemBackground"
                         android:background="?android:attr/selectableItemBackground"
-                        android:clickable="true">
+                        android:clickable="true"
+                        android:foreground="?android:selectableItemBackground"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingBottom="4dp"
+                        android:paddingTop="4dp"
+                        android:weightSum="8">
+
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -245,14 +247,26 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="7"
-                            android:orientation="vertical">
+                            android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Preguntas"
                                 android:textColor="@color/yngBlack"
-                                android:textSize="15sp"/>
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:id="@+id/cart_badge"
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="right"
+                                android:layout_marginRight="0dp"
+                                android:background="@drawable/badge_background"
+                                android:gravity="center"
+                                android:text="0"
+                                android:textColor="@android:color/white"
+                                android:textSize="12sp" />
 
                         </LinearLayout>
 
@@ -262,15 +276,14 @@
                         android:id="@+id/salesListLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingTop="4dp"
-                        android:paddingBottom="4dp"
-                        android:orientation="horizontal"
-                        android:weightSum="8"
-                        android:gravity="center"
-                        android:foreground="?android:selectableItemBackground"
                         android:background="?android:attr/selectableItemBackground"
                         android:clickable="true"
-                        >
+                        android:foreground="?android:selectableItemBackground"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingBottom="4dp"
+                        android:paddingTop="4dp"
+                        android:weightSum="8">
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -297,7 +310,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Ventas"
                                 android:textColor="@color/yngBlack"
-                                android:textSize="15sp"/>
+                                android:textSize="15sp" />
 
                         </LinearLayout>
 
@@ -309,7 +322,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/colorDivider"/>
+                    android:background="@color/colorDivider" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -325,17 +338,17 @@
                         android:layout_height="wrap_content"
                         android:text="Configuración"
                         android:textColor="@color/colorPrimaryText"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp" />
 
                     <LinearLayout
                         android:id="@+id/userProfile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
+                        android:gravity="center"
                         android:orientation="horizontal"
-                        android:weightSum="8"
-                        android:gravity="center">
+                        android:paddingBottom="8dp"
+                        android:paddingTop="8dp"
+                        android:weightSum="8">
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -362,7 +375,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Mis datos"
                                 android:textColor="@color/yngBlack"
-                                android:textSize="15sp"/>
+                                android:textSize="15sp" />
 
                         </LinearLayout>
 
@@ -372,11 +385,11 @@
                         android:id="@+id/yingulPay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
+                        android:gravity="center"
                         android:orientation="horizontal"
-                        android:weightSum="8"
-                        android:gravity="center">
+                        android:paddingBottom="8dp"
+                        android:paddingTop="8dp"
+                        android:weightSum="8">
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -403,7 +416,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Yingul Pay"
                                 android:textColor="@color/yngBlack"
-                                android:textSize="15sp"/>
+                                android:textSize="15sp" />
 
                         </LinearLayout>
 
@@ -412,9 +425,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:orientation="horizontal"
-                        android:weightSum="8"
-                        android:gravity="center">
+                        android:weightSum="8">
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -441,7 +454,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Seguridad"
                                 android:textColor="@color/yngBlack"
-                                android:textSize="15sp"/>
+                                android:textSize="15sp" />
 
                         </LinearLayout>
 
@@ -450,11 +463,11 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
+                        android:gravity="center"
                         android:orientation="horizontal"
-                        android:weightSum="8"
-                        android:gravity="center">
+                        android:paddingBottom="8dp"
+                        android:paddingTop="8dp"
+                        android:weightSum="8">
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -481,7 +494,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Ajustes"
                                 android:textColor="@color/yngBlack"
-                                android:textSize="15sp"/>
+                                android:textSize="15sp" />
 
                         </LinearLayout>
 
@@ -492,7 +505,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/colorDivider"/>
+                    android:background="@color/colorDivider" />
 
                 <LinearLayout
                     android:id="@+id/settings_session_layout"
@@ -507,7 +520,7 @@
                         android:id="@+id/settings_logout_button"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:text="@string/logout"/>
+                        android:text="@string/logout" />
 
                 </LinearLayout>
 

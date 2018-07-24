@@ -63,7 +63,14 @@ import com.valecom.yingul.adapter.SelectSizeAdapter;
 import com.valecom.yingul.main.buy.BuyActivity;
 import com.valecom.yingul.model.FilterParam;
 import com.valecom.yingul.model.Yng_Item;
+import com.valecom.yingul.model.Yng_Motorized;
+import com.valecom.yingul.model.Yng_MotorizedConfort;
+import com.valecom.yingul.model.Yng_Person;
+import com.valecom.yingul.model.Yng_Product;
+import com.valecom.yingul.model.Yng_Property;
+import com.valecom.yingul.model.Yng_PropertyAmenities;
 import com.valecom.yingul.model.Yng_Query;
+import com.valecom.yingul.model.Yng_Service;
 import com.valecom.yingul.model.Yng_Ubication;
 import com.valecom.yingul.model.Yng_User;
 import com.valecom.yingul.network.MySingleton;
@@ -82,6 +89,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
@@ -104,10 +112,15 @@ public class ActivityProductDetail extends AppCompatActivity {
     TextView edit_quantity, text_product_name, text_product_price, text_no_cost, text_product_rate, text_select_size, text_select_color,
             text_product_buy, text_product_cart, text_condition, txt_order_item, text_product_con_shop, text_product_place_order,text_description,text_product_title,text_desc;
     //EditText edt_pincode;
-    TextView web_desc,text_quantity_stock;
+    TextView web_desc,text_quantity_stock,txtSellerEmail,txtSellerName,txtSellerWeb,txtSellerUbication,txtSellerPhoneMain,txtSellerPhone;
+    TextView txtDescCondition,txtDescStock,txtDescPrice,txtDescCondSell,txtDescPayMethod,txtDescMethodShipping,txtDescCompleta;
+    TextView txtPropPrice,txtPropYearOld,txtPropAmenities,txtPropConfort,txtPropDuildedArea,txtPropTotalArea;
+    TextView txtMotorBrand,txtMotorModel,txtMotorPrice,txtMotorYear,txtMotorOwner;
+    TextView txtServEmail,txtServPrice,txtServDispon;
     View button_public_seller,allQueriesLayout;
     TextView textPriceNormal,textDiscountPorcent,textMoney,textMoneyNormal,txtEnvio,txtPayCoutas;
     LinearLayout lytCondition,lytDiscount,lytPriceNormal,lytEnvioGratis,lytCuotas;
+    LinearLayout lytDescProduct,lytDescProperty,lytDescMotorized,lytDescService;
     RatingView ratingView;
     ArrayList<ItemColorSize> array_color, array_size;
     SelectColorAdapter adapter_color;
@@ -128,8 +141,15 @@ public class ActivityProductDetail extends AppCompatActivity {
     String itemId,itemSeller,queries1;
     Yng_Item itemTemp;
     Yng_User userTemp;
+    Yng_Product productTemp;
+    Yng_Property propertyTemp;
+    Yng_Motorized motorizedTemp;
+    Yng_Service serviceTemp;
+    Yng_Person personTemp;
     private Yng_User user;
     private Yng_Ubication userUbication;
+    private LinearLayout layoutReturn;
+    private TextView textTitleDevolution,textBodyDevolution,txtMotorConfort;
 
     private ListView list;
 //    private QueryListAdapter adapter;
@@ -238,8 +258,52 @@ public class ActivityProductDetail extends AppCompatActivity {
         text_quantity_stock = (TextView) findViewById(R.id.text_quantity_stock);
         textPriceNormal = (TextView) findViewById(R.id.text_price_normal);
         textPriceNormal.setPaintFlags(textPriceNormal.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+        txtSellerEmail = (TextView) findViewById(R.id.txtSellerEmail);
+        txtSellerName = (TextView) findViewById(R.id.txtSellerName);
+        txtSellerWeb = (TextView) findViewById(R.id.txtSellerWeb);
+        txtSellerUbication = (TextView) findViewById(R.id.txtSellerUbication);
+        txtSellerPhoneMain = (TextView) findViewById(R.id.txtSellerPhoneMain);
+        txtSellerPhone = (TextView) findViewById(R.id.txtSellerPhone);
+
+        txtDescCondition = (TextView) findViewById(R.id.txtDescCondition);
+        txtDescStock = (TextView) findViewById(R.id.txtDescStock);
+        txtDescPrice = (TextView) findViewById(R.id.txtDescPrice);
+        txtDescCondSell = (TextView) findViewById(R.id.txtDescCondSell);
+        txtDescPayMethod = (TextView) findViewById(R.id.txtDescPayMethod);
+        txtDescMethodShipping = (TextView) findViewById(R.id.txtDescMethodShipping);
+        txtDescCompleta = (TextView) findViewById(R.id.txtDescCompleta);
+
+        txtPropPrice = (TextView) findViewById(R.id.txtPropPrice);
+        txtPropYearOld = (TextView) findViewById(R.id.txtPropYearOld);
+        txtPropAmenities = (TextView) findViewById(R.id.txtPropAmenities);
+        txtPropConfort = (TextView) findViewById(R.id.txtPropConfort);
+        txtPropDuildedArea = (TextView) findViewById(R.id.txtPropDuildedArea);
+        txtPropTotalArea = (TextView) findViewById(R.id.txtPropTotalArea);
+
+        txtMotorBrand = (TextView) findViewById(R.id.txtMotorBrand);
+        txtMotorModel = (TextView) findViewById(R.id.txtMotorModel);
+        txtMotorPrice = (TextView) findViewById(R.id.txtMotorPrice);
+        txtMotorYear = (TextView) findViewById(R.id.txtMotorYear);
+        txtMotorOwner = (TextView) findViewById(R.id.txtMotorOwner);
+
+        txtServEmail = (TextView) findViewById(R.id.txtServEmail);
+        txtServPrice = (TextView) findViewById(R.id.txtServPrice);
+        txtServDispon = (TextView) findViewById(R.id.txtServDispon);
+
+        lytDescProduct = (LinearLayout) findViewById(R.id.lytDescProduct);
+        lytDescProperty = (LinearLayout) findViewById(R.id.lytDescProperty);
+        lytDescMotorized = (LinearLayout) findViewById(R.id.lytDescMotorized);
+        lytDescService = (LinearLayout) findViewById(R.id.lytDescService);
+
         buttonNewQuestion = (Button) findViewById(R.id.buttonNewQuestion);
         editNewQuestion = (EditText) findViewById(R.id.editNewQuestion);
+        layoutReturn = (LinearLayout) findViewById(R.id.layoutReturn);
+        textTitleDevolution = (TextView) findViewById(R.id.textTitleDevolution);
+        textBodyDevolution = (TextView) findViewById(R.id.textBodyDevolution);
+        txtMotorConfort = (TextView) findViewById(R.id.txtMotorConfort);
+
+
 
         buttonNewQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1064,7 +1128,7 @@ public class ActivityProductDetail extends AppCompatActivity {
             }
         }
     }
-    /*******************************************************************************************************/
+    /******************************************** get item por id *********************************************/
     public void RunLoginService()
     {
 
@@ -1098,25 +1162,31 @@ public class ActivityProductDetail extends AppCompatActivity {
                                     itemSeller = userTemp.getUsername();
                                     Log.e("seller",""+itemSeller);
 
-                                    if(itemTemp.getType().equals("Product")) {
 
-                                        text_product_buy.setText("Comprar");
-
-                                    }else  if(itemTemp.getType().equals("Motorized")){
-
-                                        text_product_buy.setText("Reservar");
-
-                                    }else if(itemTemp.getType().equals("Property")){
-
-                                        text_product_buy.setText("Consultar");
-
-                                    }else  if(itemTemp.getType().equals("Service")){
-
-                                        text_product_buy.setText("Contactar");
-
+                                    switch (itemTemp.getType()){
+                                        case "Product":
+                                            text_product_buy.setText("Comprar");
+                                            layoutReturn.setVisibility(View.VISIBLE);
+                                            break;
+                                        case "Motorized":
+                                            text_product_buy.setText("Reservar");
+                                            layoutReturn.setVisibility(View.VISIBLE);
+                                            textTitleDevolution.setText("Devolución del dinero sin costo");
+                                            textBodyDevolution.setText("Site arrepentís o tenés algún problema, te devolvemos el 100% de la reserva.");
+                                            break;
+                                        case "Property":
+                                            text_product_buy.setText("Consultar");
+                                            layoutReturn.setVisibility(View.GONE);
+                                            break;
+                                        case "Service":
+                                            text_product_buy.setText("Contactar");
+                                            layoutReturn.setVisibility(View.GONE);
+                                            break;
                                     }
 
-                                    setData(itemTemp);
+                                    RunGetPerson();
+                                    //RunLoginProduct();
+                                    //setData(itemTemp);
 
                                     if(itemTemp.getType().equals("Product")){
                                         toolbar.setTitle("Producto");
@@ -1187,6 +1257,204 @@ public class ActivityProductDetail extends AppCompatActivity {
 
         MySingleton.getInstance(this).addToRequestQueue(postRequest);
     }
+
+    /******************************************** get person *****************************************************/
+    public void RunGetPerson()
+    {
+
+        progressDialog.show();
+
+        JsonObjectRequest postRequest = new JsonObjectRequest
+                (
+                        Request.Method.POST,
+                        Network.API_URL+"/item/Seller/"+itemId,
+                        null,
+                        new Response.Listener<JSONObject>()
+                        {
+                            @Override
+                            public void onResponse(JSONObject response)
+                            {
+                                try
+                                {
+                                    Log.e("person:------",response.toString());
+                                    Gson gson=new GsonBuilder().create();
+
+                                    //Yng_Item itemTemp=gson.fromJson(response.toString(),Yng_Item.class);
+                                    personTemp=gson.fromJson(response.toString(),Yng_Person.class);
+
+                                    //setData(itemTemp);
+
+                                        RunGetProduct();
+
+                                }
+                                catch (Exception ex)
+                                {
+                                }
+
+                            }
+                        }, new Response.ErrorListener()
+                {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        // TODO Auto-generated method stub
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            // If the response is JSONObject instead of expected JSONArray
+                            progressDialog.dismiss();
+                        }
+
+                        NetworkResponse response = error.networkResponse;
+                        if (response != null && response.data != null)
+                        {
+                            try
+                            {
+                                JSONObject json = new JSONObject(new String(response.data));
+                                //Toast.makeText(actib.this, json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
+                            }
+                            catch (JSONException e)
+                            {
+                                Toast.makeText(ActivityProductDetail.this, R.string.error_try_again_support, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else
+                        {
+                            new AlertDialog.Builder(ActivityProductDetail.this)
+                                    .setTitle("Algo Salio mal")
+                                    .setMessage("Usuario o contraseña incorrecto")
+                                    .setCancelable(true)
+                                    .show();
+                            //Toast.makeText(ActivityLogin.this, error != null && error.getMessage() != null ? error.getMessage() : "Usuario o contraseña incorrecta", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                })
+        {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("X-API-KEY", Network.API_KEY);
+                return params;
+            }
+        };
+
+        // Get a RequestQueue
+        RequestQueue queue = MySingleton.getInstance(this.getApplicationContext()).getRequestQueue();
+
+        //Used to mark the request, so we can cancel it on our onStop method
+        postRequest.setTag("");
+
+        MySingleton.getInstance(this).addToRequestQueue(postRequest);
+    }
+
+    /******************************************** get product *****************************************************/
+    public void RunGetProduct()
+    {
+
+        progressDialog.show();
+
+        String type;
+        if(itemTemp.getType().equals("Product")){
+            type = "Producto";
+        }else if(itemTemp.getType().equals("Motorized")){
+            type = "Vehiculo";
+        }else if(itemTemp.getType().equals("Property")){
+            type = "Inmueble";
+        }else{
+            type = "Servicio";
+        }
+
+        JsonObjectRequest postRequest = new JsonObjectRequest
+                (
+                        Request.Method.POST,
+                        Network.API_URL+"/item/"+type+"/"+itemId,
+                        null,
+                        new Response.Listener<JSONObject>()
+                        {
+                            @Override
+                            public void onResponse(JSONObject response)
+                            {
+                                try
+                                {
+                                    Log.e("producto:------",itemTemp.getType()+"---"+response.toString());
+                                    Gson gson=new GsonBuilder().create();
+
+                                    if(itemTemp.getType().equals("Product")) {
+                                        productTemp=gson.fromJson(response.toString(),Yng_Product.class);
+                                    }else if(itemTemp.getType().equals("Property")){
+                                        propertyTemp=gson.fromJson(response.toString(),Yng_Property.class);
+
+                                    }else if(itemTemp.getType().equals("Motorized")){
+                                        motorizedTemp=gson.fromJson(response.toString(),Yng_Motorized.class);
+                                    }else if(itemTemp.getType().equals("Service")){
+                                        serviceTemp=gson.fromJson(response.toString(),Yng_Service.class);
+                                    }
+
+                                    setData(itemTemp);
+
+                                }
+                                catch (Exception ex)
+                                {
+                                }
+
+                            }
+                        }, new Response.ErrorListener()
+                {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        // TODO Auto-generated method stub
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            // If the response is JSONObject instead of expected JSONArray
+                            progressDialog.dismiss();
+                        }
+
+                        NetworkResponse response = error.networkResponse;
+                        if (response != null && response.data != null)
+                        {
+                            try
+                            {
+                                JSONObject json = new JSONObject(new String(response.data));
+                                //Toast.makeText(actib.this, json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
+                            }
+                            catch (JSONException e)
+                            {
+                                Toast.makeText(ActivityProductDetail.this, R.string.error_try_again_support, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else
+                        {
+                            new AlertDialog.Builder(ActivityProductDetail.this)
+                                    .setTitle("Algo Salio mal")
+                                    .setMessage("Usuario o contraseña incorrecto")
+                                    .setCancelable(true)
+                                    .show();
+                            //Toast.makeText(ActivityLogin.this, error != null && error.getMessage() != null ? error.getMessage() : "Usuario o contraseña incorrecta", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                })
+        {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("X-API-KEY", Network.API_KEY);
+                return params;
+            }
+        };
+
+        // Get a RequestQueue
+        RequestQueue queue = MySingleton.getInstance(this.getApplicationContext()).getRequestQueue();
+
+        //Used to mark the request, so we can cancel it on our onStop method
+        postRequest.setTag("");
+
+        MySingleton.getInstance(this).addToRequestQueue(postRequest);
+    }
+
     public void setData(Yng_Item itemTemp){
         Log.e("getName:",""+itemTemp.getName());
         //Typeface typeface = Typeface.createFromAsset(ActivityProductDetail.this.getAssets(), "fonts/"+"Roboto-Light.ttf");
@@ -1259,7 +1527,121 @@ public class ActivityProductDetail extends AppCompatActivity {
             lytEnvioGratis.setVisibility(View.GONE);
         }
 
+        /******************************* informacion del vendedor ******************************/
+
+        try {
+            txtSellerName.setText(personTemp.getName()+" "+personTemp.getLastname());
+        }catch(Exception e){txtSellerName.setText("");}
+
+        String country = userTemp.getYng_Ubication().getYng_Country().getName();
+        String province = userTemp.getYng_Ubication().getYng_Province().getName();
+        String city = userTemp.getYng_Ubication().getYng_City().getName();
+
+        try {
+            txtSellerUbication.setText(country+", "+province+", "+city);
+        }catch(Exception e){txtSellerUbication.setText("");}
+
+        resetDescription();
+        if(itemTemp.getType().equals("Product")) {
+            lytDescProduct.setVisibility(View.VISIBLE);
+            setProduct();
+        }else if(itemTemp.getType().equals("Property")){
+            lytDescProperty.setVisibility(View.VISIBLE);
+            setProperty();
+        }else if(itemTemp.getType().equals("Motorized")){
+            lytDescMotorized.setVisibility(View.VISIBLE);
+            setMotorized();
+        }else if(itemTemp.getType().equals("Service")){
+            lytDescService.setVisibility(View.VISIBLE);
+            setService();
+        }
+
+        try{
+            txtDescCompleta.setText(itemTemp.getDescription());
+        }catch (Exception e){
+            txtDescCompleta.setText("");
+        }
+
         loadJSONFromAssetGallery();
+    }
+
+    private void resetDescription(){
+        lytDescProduct.setVisibility(View.GONE);
+        lytDescProperty.setVisibility(View.GONE);
+        lytDescMotorized.setVisibility(View.GONE);
+        lytDescService.setVisibility(View.GONE);
+    }
+
+    private void setProduct(){
+        /************************* Descripcion detallada del producto **************************/
+        try {
+            if(itemTemp.getCondition().equals("New")){txtDescCondition.setText("Nuevo");}
+            else if(itemTemp.getCondition().equals("Used")){txtDescCondition.setText("Usado");}
+        }catch (Exception e){txtDescCondition.setText("");}
+
+        try {
+            txtDescStock.setText(itemTemp.getQuantity()+"");
+        }catch (Exception e){txtDescStock.setText("");}
+
+        try {
+            txtDescPrice.setText(String.format("%.0f",itemTemp.getPrice()));
+        }catch (Exception e){txtDescPrice.setText("");}
+
+        try {
+            txtDescCondSell.setText(productTemp.getProductSaleConditions());
+        }catch (Exception e){txtDescCondSell.setText("");}
+
+        try {
+            txtDescPayMethod.setText(productTemp.getProductPaymentMethod());
+        }catch (Exception e){txtDescPayMethod.setText("");}
+
+        try {
+            txtDescMethodShipping.setText(productTemp.getProductFormDelivery());
+        }catch (Exception e){txtDescMethodShipping.setText("");}
+    }
+
+    private void setProperty(){
+        try {
+            if(propertyTemp.getPropertyTotalArea() != null)txtPropTotalArea.setText(propertyTemp.getPropertyTotalArea()+"");
+            if(itemTemp.getDuildedArea() != 0)txtPropDuildedArea.setText(itemTemp.getDuildedArea()+"");
+            if(itemTemp.getPrice() != 0)txtPropPrice.setText(String.format("%.0f",itemTemp.getPrice()));
+            if(propertyTemp.getPropertyYear() != null) txtPropYearOld.setText(propertyTemp.getPropertyYear() + "");
+            if(itemTemp.getAmbientes() != 0)txtPropAmenities.setText(itemTemp.getAmbientes() + "");
+            String amenities = "";
+            Set<Yng_PropertyAmenities> propertyAmenities = propertyTemp.getPropertyAmenities();
+            for (Yng_PropertyAmenities st:propertyAmenities) {
+                amenities += st.getAmenities().getName()+", ";
+            }
+            txtPropConfort.setText(amenities);
+        }catch (Exception e){}
+    }
+
+    private void setMotorized(){
+        try {
+            txtMotorBrand.setText(motorizedTemp.getMotorizedBrand());
+            txtMotorModel.setText(motorizedTemp.getMotorizedModel());
+            if(itemTemp.getPrice() != 0)txtMotorPrice.setText(String.format("%.0f",itemTemp.getPrice()));
+            txtMotorYear.setText(itemTemp.getItemYear() + "");
+            if(motorizedTemp.getMotorizedUnicoDue().equals("true")) {
+                txtMotorOwner.setText("Si");
+            }else if(motorizedTemp.getMotorizedUnicoDue().equals("false")) {
+                txtMotorOwner.setText("No");
+            }
+            String confortM = "";
+            Set<Yng_MotorizedConfort> confort = motorizedTemp.getMotorizedConfort();
+            for (Yng_MotorizedConfort st:confort) {
+                confortM += st.getConfort().getName()+", ";
+            }
+            txtMotorConfort.setText(confortM);
+        }catch (Exception e){}
+    }
+
+    private void setService(){
+        try {
+            txtServEmail.setText(serviceTemp.getEmailService());
+            if(itemTemp.getPrice() != 0)txtServPrice.setText(String.format("%.0f",itemTemp.getPrice()));
+            txtServDispon.setText("");
+        }catch (Exception e){}
     }
 
     private void shareTextUrl(String id) {

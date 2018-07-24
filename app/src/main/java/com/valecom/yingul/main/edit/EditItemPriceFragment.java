@@ -96,7 +96,7 @@ public class EditItemPriceFragment extends Fragment {
 
         editPrice.setText(String.format("%.0f",Double.valueOf(bundle.getString("data"))));
 
-        String currency[] = {"U$S","$"};
+        String currency[] = {"U$D","$"};
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(v.getContext(),   android.R.layout.simple_spinner_item, currency);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
         spinner_currency.setAdapter(spinnerArrayAdapter);

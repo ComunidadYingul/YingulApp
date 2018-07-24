@@ -43,7 +43,10 @@ public class SellItemSetAmenitiesFragment extends Fragment {
                 Validacion val = new Validacion();
                 if(val.validarNumero(editAmenities,amenities)){
                     editAmenities.setError("Ingresar número de ambientes");
-                }else{
+                }else if(Integer.parseInt(amenities) > 10000){
+                    editAmenities.setError("El número ingresado es demasiado grande");
+                }
+                else{
                     ((SellActivity)getActivity()).item.setAmbientes(Integer.parseInt(amenities));
 
                     SellItemSetPriceFragment fragment = new SellItemSetPriceFragment();
