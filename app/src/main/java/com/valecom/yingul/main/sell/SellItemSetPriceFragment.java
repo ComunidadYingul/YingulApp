@@ -77,7 +77,7 @@ public class SellItemSetPriceFragment extends Fragment {
             public void onClick(View v) {
                 if(val.validarNumero(editPrice,editPrice.getText().toString())){
                     editPrice.setError("Ingrese precio");
-                }else if(((SellActivity)getActivity()).item.getType().equals("Motorized") && editPrice.getText().toString().length() > 9){
+                }else if((((SellActivity)getActivity()).item.getType().equals("Motorized") || ((SellActivity)getActivity()).item.getType().equals("Property") || ((SellActivity)getActivity()).item.getType().equals("Service")) && editPrice.getText().toString().length() > 9){
                     editPrice.setError("El precio no debe sobrepasar 999999999");
                 }else if(((SellActivity)getActivity()).item.getType().equals("Product") && Integer.valueOf(String.valueOf(editPrice.getText())) > 29000){
                     editPrice.setError("El precio no debe sobrepasar de 29000");
