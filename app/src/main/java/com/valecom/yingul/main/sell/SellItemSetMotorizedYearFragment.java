@@ -14,6 +14,8 @@ import android.widget.Toast;
 import com.valecom.yingul.R;
 import com.valecom.yingul.Util.Validacion;
 
+import java.util.Calendar;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -41,9 +43,7 @@ public class SellItemSetMotorizedYearFragment extends Fragment {
             public void onClick(View v) {
                 String motorizedYear = editMotorizedYear.getText().toString();
                 Validacion val = new Validacion();
-                if(val.validarNumero(editMotorizedYear,motorizedYear)){
-                    editMotorizedYear.setError("Ingrese año");
-                }else{
+                if(val.valMotorizedYear(editMotorizedYear)){
                     ((SellActivity)getActivity()).item.setItemYear(Integer.parseInt(motorizedYear));
 
                     SellItemSetQuantityFragment fragment = new SellItemSetQuantityFragment();

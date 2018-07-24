@@ -63,7 +63,7 @@ public class SellItemSetPriceFragment extends Fragment {
             layoutOfferDiscount.setVisibility(View.GONE);
         }
 
-        String currency[] = {"U$S","$"};
+        String currency[] = {"U$D","$"};
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(v.getContext(),   android.R.layout.simple_spinner_item, currency);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
         spinner_currency.setAdapter(spinnerArrayAdapter);
@@ -77,7 +77,12 @@ public class SellItemSetPriceFragment extends Fragment {
             public void onClick(View v) {
                 if(val.validarNumero(editPrice,editPrice.getText().toString())){
                     editPrice.setError("Ingrese precio");
-                }else{
+                }else if(((SellActivity)getActivity()).item.getType().equals("Motorized") && editPrice.getText().toString().length() > 9){
+                    editPrice.setError("El precio no debe sobrepasar 999999999");
+                }else if(((SellActivity)getActivity()).item.getType().equals("Product") && Integer.valueOf(String.valueOf(editPrice.getText())) > 29000){
+                    editPrice.setError("El precio no debe sobrepasar de 29000");
+                }
+                else{
 
                     if(spinner_currency.getSelectedItemPosition()==0){
                         ((SellActivity)getActivity()).item.setMoney("USD");

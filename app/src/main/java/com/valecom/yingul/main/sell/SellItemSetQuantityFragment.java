@@ -43,7 +43,12 @@ public class SellItemSetQuantityFragment extends Fragment {
                 String quantity = editQuantity.getText().toString();
                 if(val.validarNumero(editQuantity,quantity)){
                     editQuantity.setError("Ingresa cuantos deseas publicar");
-                }else{
+                }else if(((SellActivity)getActivity()).item.getType().equals("Motorized") && Integer.valueOf(String.valueOf(quantity)) > 1){
+                    editQuantity.setError("Solo puedes publicar un vehiculo");
+                }else if(((SellActivity)getActivity()).item.getType().equals("Product") && Integer.valueOf(String.valueOf(quantity)) > 99999){
+                    editQuantity.setError("Cantidad exedida a 99999");
+                }
+                else {
                     ((SellActivity)getActivity()).item.setQuantity(Integer.parseInt(quantity));
 
                     SellItemSetPriceFragment fragment = new SellItemSetPriceFragment();
