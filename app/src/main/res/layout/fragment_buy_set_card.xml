@@ -31,6 +31,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Número de la tarjeta"
                     android:text="4111111111111111"
+                    android:inputType="number"
                     android:singleLine="true"/>
             </android.support.design.widget.TextInputLayout>
 
@@ -65,6 +66,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Fecha de vencimiento (mes/año)"
                     android:text="01/20"
+                    android:inputType="date"
                     android:singleLine="true"/>
             </android.support.design.widget.TextInputLayout>
 

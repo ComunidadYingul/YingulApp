@@ -90,9 +90,9 @@ public class Validacion {
     /************ NUMEROS *************/
 
     public boolean valNumDig(EditText view,int cantDid){
-        if (view.getText().toString().trim().length() < cantDid)
+        if (view.getText().toString().trim().length() < cantDid || view.getText().toString().trim().length() > cantDid)
         {
-            view.setError("Campo requerido y mínimo "+cantDid+" dígitos");
+            view.setError("Campo requerido "+cantDid+" dígitos");
             view.requestFocus();
             return false;
         }else{

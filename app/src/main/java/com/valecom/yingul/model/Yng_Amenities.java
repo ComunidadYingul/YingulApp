@@ -1,5 +1,6 @@
 package com.valecom.yingul.model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -7,7 +8,7 @@ import java.util.Set;
  * Created by gonzalo on 23-07-18.
  */
 
-public class Yng_Amenities {
+public class Yng_Amenities implements Serializable {
     private int amenitiesId;
     private String name;
 
