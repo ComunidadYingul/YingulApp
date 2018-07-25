@@ -149,6 +149,7 @@
         <activity
             android:name=".main.newUserUbicationEditPersonalInfo.NewUserUbicationEditPersonalInfoActivity"
             android:label="@string/title_activity_setting"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:parentActivityName=".main.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
@@ -158,6 +159,7 @@
         <activity
             android:name=".main.rememberPassword.RememberPasswordActivity"
             android:label="¿Olvidó su contraseña?"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:parentActivityName=".main.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
@@ -167,6 +169,7 @@
         <activity
             android:name=".main.motorized.MotorizedFilteredActivity"
             android:label=""
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:parentActivityName=".main.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
@@ -176,15 +179,19 @@
         <activity
             android:name=".main.property.PropertyFilteredActivity"
             android:label=""
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:parentActivityName=".main.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.valecom.yingul.main.MainActivity" />
         </activity>
+
+        <!-- revisar -->
         <activity
             android:name=".main.myAccount.confirmDelivery.ConfirmDeliveryActivity"
             android:label="Confirmar entrega al comprador"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:parentActivityName=".main.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
@@ -194,6 +201,7 @@
         <activity
             android:name=".main.filter.FilterActivity"
             android:label="X"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:parentActivityName=".main.MainActivity"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden">
@@ -204,6 +212,7 @@
         <activity
             android:name=".main.QueriesItemActivity"
             android:label="Preguntas al vendedor"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:parentActivityName=".main.MainActivity"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden">
