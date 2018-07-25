@@ -130,6 +130,7 @@
             android:name=".main.sell.SellActivity"
             android:label="@string/title_activity_setting"
             android:parentActivityName=".main.MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
