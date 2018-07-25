@@ -1588,7 +1588,11 @@ public class ActivityProductDetail extends AppCompatActivity {
         }catch (Exception e){txtDescPrice.setText("");}
 
         try {
-            txtDescCondSell.setText(productTemp.getProductSaleConditions());
+            if(productTemp.getProductSaleConditions().equals("Fijo")) {
+                txtDescCondSell.setText("Precio fijo");
+            }else {
+                txtDescCondSell.setText(productTemp.getProductSaleConditions());
+            }
         }catch (Exception e){txtDescCondSell.setText("");}
 
         try {
