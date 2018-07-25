@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -24,8 +25,20 @@ import com.valecom.yingul.main.MainActivity;
 import com.valecom.yingul.main.myAccount.yingulPay.ActividadYingulPayFragment;
 import com.valecom.yingul.main.myAccount.yingulPay.YingulPayActivity;
 import com.valecom.yingul.main.sell.SellActivity;
+import com.valecom.yingul.network.Network;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,8 +57,10 @@ public class MyAccountFragment extends Fragment
 
     private Button buttonSell,settings_logout_button;
     //private LinearLayout shoppingQuestions,purchasesLayout,publicationsLayout,salesQuestionsLayout,userProfile,;
-    private LinearLayout shoppingQuestions,purchasesLayout,publicationsLayout,salesQuestionsLayout,userProfile,yingulPay,salesListLayout;
-
+    private LinearLayout shoppingQuestions,purchasesLayout,publicationsLayout,salesQuestionsLayout,userProfile,yingulPay,salesListLayout,layoutCantQueries;
+    private TextView textCartItemCount;
+    public static final MediaType JSON= MediaType.parse("application/json; charset=utf-8");
+    public static final String TAG = "OKHTTPREQUEST";
     public MyAccountFragment()
     {
         // Required empty public constructor
@@ -93,6 +108,8 @@ public class MyAccountFragment extends Fragment
         userProfile = (LinearLayout) view.findViewById(R.id.userProfile);
         yingulPay = (LinearLayout) view.findViewById(R.id.yingulPay);
         salesListLayout = (LinearLayout) view.findViewById(R.id.salesListLayout);
+        layoutCantQueries = (LinearLayout) view.findViewById(R.id.layoutCantQueries);
+        textCartItemCount = (TextView) view.findViewById(R.id.textCartItemCount);
 
         buttonSell.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -203,6 +220,14 @@ public class MyAccountFragment extends Fragment
                 startActivity(intent);*/
             }
         });
+        layoutCantQueries.setVisibility(View.GONE);
+        if (settings == null || settings.getInt("logged_in", 0) == 0 || settings.getString("api_key", "").equals(""))
+        {
+
+        }else{
+            String jsonBody = "";
+            getNumberQueries(Network.API_URL + "query/Number/"+settings.getString("username",""),jsonBody);
+        }
 
         return view;
     }
@@ -262,6 +287,67 @@ public class MyAccountFragment extends Fragment
     {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void  getNumberQueries(String url, String json){
+        Log.e("empezar preguntas",url);
+        start("inicio");
+        OkHttpClient httpClient = new OkHttpClient.Builder()
+                .connectTimeout(9000, TimeUnit.SECONDS)
+                .writeTimeout(9000, TimeUnit.SECONDS)
+                .readTimeout(9000, TimeUnit.SECONDS)
+                .build();
+        RequestBody body = RequestBody.create(JSON, json);
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(url)
+                .addHeader("Content-Type","application/json")
+                .get()
+                .build();
+        httpClient.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "error in getting response using async okhttp call");
+            }
+            @Override public void onResponse(Call call, okhttp3.Response response) throws IOException {
+                ResponseBody responseBody = response.body();
+                if (!response.isSuccessful()) {
+                    throw new IOException("Error response " + response);
+                }
+                //
+
+                final String responce=""+(responseBody.string());
+                try {
+                    end(""+responce);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.i("responce:------------",""+responce);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("cantidad de preguntas",responce+"");
+                        if(responce.equals("0")){
+                            if (layoutCantQueries.getVisibility() != View.GONE) {
+                                layoutCantQueries.setVisibility(View.GONE);
+                            }
+                        }else{
+                            if (layoutCantQueries.getVisibility() != View.VISIBLE) {
+                                layoutCantQueries.setVisibility(View.VISIBLE);
+                            }
+                            textCartItemCount.setText(responce+"");
+                        }
+                    }
+                });
+
+            }
+        });
+    }
+    public void end(String end) throws JSONException {
+        Log.i("end",""+end);
+        progressDialog.dismiss();
+    }
+    public void start(String start){
+        Log.i("start",""+start);
+        progressDialog.show();
     }
 
 }

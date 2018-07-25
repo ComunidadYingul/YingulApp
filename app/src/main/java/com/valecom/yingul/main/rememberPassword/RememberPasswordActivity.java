@@ -59,11 +59,20 @@ public class RememberPasswordActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        String in = (String) getIntent().getSerializableExtra("rest");
+        if (in.equals("rest")) {
+            RememberPasswordSetCodeFragment fragment = new RememberPasswordSetCodeFragment();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.content_frame, fragment);
+            fragmentTransaction.commit();
+        } else {
+
+
         RememberPasswordFragment fragment = new RememberPasswordFragment();
-        FragmentTransaction fragmentTransaction  = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.content_frame, fragment);
         fragmentTransaction.commit();
-
+    }
         progressDialog = new MaterialDialog.Builder(this)
                 .title(R.string.progress_dialog)
                 .content(R.string.please_wait)

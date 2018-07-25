@@ -96,10 +96,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.txtRememberPassword:
                 intent = new Intent(this, RememberPasswordActivity.class);
+                intent.putExtra("rest","");
                 startActivity(intent);
                 break;
             case R.id.layoutRememberPassword:
                 intent = new Intent(this, RememberPasswordActivity.class);
+                intent.putExtra("rest","");
                 startActivity(intent);
                 break;
             case R.id.buttonLogin:

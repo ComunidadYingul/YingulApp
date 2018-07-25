@@ -182,8 +182,8 @@ public class ActivityProductDetail extends AppCompatActivity {
         String dataString = getIntent().getDataString();
         if(intent!=null&&intent.getData()!=null)
         {
-            itemId="2412";
-            Log.e("daniel:-------","recupero:"+dataString);
+
+            Log.e("daniel:-------","recupero detail:"+dataString);
 
             String string = dataString;
             String[] parts = string.split("/");
