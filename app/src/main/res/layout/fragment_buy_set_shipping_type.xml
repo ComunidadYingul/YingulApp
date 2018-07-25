@@ -15,20 +15,20 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
-        android:weightSum="10">
+        android:weightSum="3">
 
-        <LinearLayout
+        <!--LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
             android:orientation="horizontal">
 
-        </LinearLayout>
+        </LinearLayout-->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -42,13 +42,13 @@
                 android:textStyle="" />
         </LinearLayout>
 
-        <LinearLayout
+        <!--LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"-->
 
             <!--Button
                 android:id="@+id/btnUbicationLocal"
@@ -58,20 +58,20 @@
                 android:background="@color/yngBlue"
                 android:text="Revisar publicación"
                 android:textColor="@android:color/white" /-->
-        </LinearLayout>
+        <!--/LinearLayout-->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="20dp"
             android:layout_weight="1"
-            android:gravity="center"
+            android:gravity="top"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/txtWithdrawProduct"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:layout_marginTop="5dp"
                 android:textColor="@color/yngBlue"
@@ -89,12 +89,12 @@
                 android:text="Enviar a otra ubicación"/-->
         </LinearLayout>
 
-        <LinearLayout
+        <!--LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="20dp"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"-->
 
             <!--TextView
                 android:id="@+id/txtWithdrawProduct"
@@ -107,13 +107,13 @@
                 android:textSize="18sp"
                 android:clickable="true"/-->
 
-        </LinearLayout>
+        <!--/LinearLayout-->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
-            android:layout_weight="3"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
             <ImageView

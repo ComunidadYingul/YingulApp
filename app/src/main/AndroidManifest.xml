@@ -139,6 +139,7 @@
         <activity
             android:name=".main.buy.BuyActivity"
             android:label="@string/title_activity_setting"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:parentActivityName=".main.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
