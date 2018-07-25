@@ -1046,6 +1046,23 @@ public class MotorizedActivity extends AppCompatActivity {
         Log.e("oriencation:----",""+getApplicationContext().getResources().getConfiguration().orientation);
         Log.e("dpi:----",""+metrics.xdpi);
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        //DisplayMetrics displayMetrics = new DisplayMetrics();
+        //getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        double d1 = metrics.widthPixels / metrics.xdpi;
+        double d2 = metrics.heightPixels / metrics.ydpi;
+        double deviceInches = Math.sqrt(d1 * d1 + d2 * d2);
+        if(getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if (deviceInches > 8) {col = 4;}
+            else if (deviceInches >= 6) {col = 4;}
+            else if (deviceInches < 6) {col = 3;}
+            else {col = 2;}
+        }else if(getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            if(deviceInches > 8){col=3;}
+            else if(deviceInches >= 6){col=3;}
+            else if(deviceInches < 6){col=2;}
+            else {col=2;}
+        }
+        /*
         if(getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             if (metrics.xdpi < 160) {col = 4;}
             else if (metrics.xdpi < 220) {col = 4;}
@@ -1057,5 +1074,6 @@ public class MotorizedActivity extends AppCompatActivity {
             else if(metrics.xdpi < 320){col=2;}
             else {col=2;}
         }
+        * */
     }
 }
