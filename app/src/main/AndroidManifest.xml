@@ -240,6 +240,7 @@
         <activity
             android:name=".main.edit.EditImageActivity"
             android:label="Confirmar entrega al comprador"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:parentActivityName=".main.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
@@ -250,13 +251,15 @@
             android:name=".main.createStore.CreateStoreActivity"
             android:label="YingulShop"
             android:parentActivityName=".main.MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.valecom.yingul.main.MainActivity" />
         </activity>
         <!-- activity android:name=".main.BuyActivity" / -->
-        <activity android:name=".main.ActivityProductDetail">
+        <activity android:name=".main.ActivityProductDetail"
+            android:configChanges="orientation|keyboardHidden|screenSize">
             <!--intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -269,7 +272,8 @@
             </intent-filter-->
         </activity>
         <activity android:name=".main.ActivityPlaceOrder" />
-        <activity android:name=".main.ActivityGalleryDetail" />
+        <activity android:name=".main.ActivityGalleryDetail"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
         <activity
             android:name=".main.ActivityPubliSellerList"
             android:configChanges="orientation|keyboardHidden|screenSize" />
@@ -298,9 +302,12 @@
         <activity
             android:name=".main.over.AllNotOverActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
-        <activity android:name=".main.PaymentMethodActivity" />
-        <activity android:name=".main.BankConditionsActivity" />
-        <activity android:name=".main.ShippingActivity"></activity>
+        <activity android:name=".main.PaymentMethodActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity android:name=".main.BankConditionsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity android:name=".main.ShippingActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"></activity>
     </application>
 
 </manifest>
