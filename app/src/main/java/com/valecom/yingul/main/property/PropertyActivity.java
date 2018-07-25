@@ -3,7 +3,9 @@ package com.valecom.yingul.main.property;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -198,7 +200,8 @@ public class PropertyActivity extends AppCompatActivity {
                 category=null;
                 content_header.getLayoutParams().height = (int) (200 * scale);
                 card_view_all_category.setVisibility(View.VISIBLE);
-                Picasso.with(PropertyActivity.this).load("file:///android_asset/image/ic_property_sell_orange.png").into(sellImage);
+                setImage(sellImage,"image/ic_property_sell_orange.png");
+                //Picasso.with(PropertyActivity.this).load("file:///android_asset/image/ic_property_sell_orange.png").into(sellImage);
                 condition = "Venta";
                 loadJSONFromAssetHomeCoupon(condition);
                 filterLayout.setVisibility(View.VISIBLE);
@@ -212,7 +215,8 @@ public class PropertyActivity extends AppCompatActivity {
                 category=null;
                 content_header.getLayoutParams().height = (int) (200 * scale);
                 card_view_all_category.setVisibility(View.VISIBLE);
-                Picasso.with(PropertyActivity.this).load("file:///android_asset/image/ic_property_rental_orange.png").into(rentalImage);
+                setImage(rentalImage,"image/ic_property_rental_orange.png");
+                //Picasso.with(PropertyActivity.this).load("file:///android_asset/image/ic_property_rental_orange.png").into(rentalImage);
                 condition = "Alquiler";
                 loadJSONFromAssetHomeCoupon(condition);
                 filterLayout.setVisibility(View.VISIBLE);
@@ -226,7 +230,8 @@ public class PropertyActivity extends AppCompatActivity {
                 category=null;
                 content_header.getLayoutParams().height = (int) (200 * scale);
                 card_view_all_category.setVisibility(View.VISIBLE);
-                Picasso.with(PropertyActivity.this).load("file:///android_asset/image/ic_property_rental_temp_orange.png").into(rentalTempImage);
+                setImage(rentalTempImage,"image/ic_property_rental_temp_orange.png");
+                //Picasso.with(PropertyActivity.this).load("file:///android_asset/image/ic_property_rental_temp_orange.png").into(rentalTempImage);
                 condition = "temporario";
                 loadJSONFromAssetHomeCoupon(condition);
                 filterLayout.setVisibility(View.VISIBLE);
@@ -282,10 +287,24 @@ public class PropertyActivity extends AppCompatActivity {
 
     }
 
+    public void setImage(ImageView img, String path){
+        AssetManager assetManager = getAssets();
+        try {
+            InputStream ims = assetManager.open(path);
+            Drawable d = Drawable.createFromStream(ims, null);
+            img.setImageDrawable(d);
+        } catch (IOException ex) {
+            return;
+        }
+    }
+
     public void resetImage(){
-        Picasso.with(PropertyActivity.this).load("file:///android_asset/image/ic_property_sell_white.png").into(sellImage);
-        Picasso.with(PropertyActivity.this).load("file:///android_asset/image/ic_property_rental_white.png").into(rentalImage);
-        Picasso.with(PropertyActivity.this).load("file:///android_asset/image/ic_property_rental_temp_white.png").into(rentalTempImage);
+        setImage(sellImage,"image/ic_property_sell_white.png");
+        //Picasso.with(PropertyActivity.this).load("file:///android_asset/image/ic_property_sell_white.png").into(sellImage);
+        setImage(rentalImage,"image/ic_property_rental_white.png");
+        //Picasso.with(PropertyActivity.this).load("file:///android_asset/image/ic_property_rental_white.png").into(rentalImage);
+        setImage(rentalTempImage,"image/ic_property_rental_temp_white.png");
+        //Picasso.with(PropertyActivity.this).load("file:///android_asset/image/ic_property_rental_temp_white.png").into(rentalTempImage);
     }
 
     @Override

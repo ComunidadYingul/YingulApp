@@ -49,10 +49,10 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:layout_marginBottom="140dp"
+                    android:layout_marginBottom="160dp"
                     android:gravity="center"
                     android:text="¿Qué estás buscando?"
-                    android:textColor="@color/white"
+                    android:textColor="@color/yngOrange"
                     android:textSize="25sp" />
 
                 <LinearLayout
@@ -100,7 +100,8 @@
                             android:paddingTop="3dp"
                             android:text="Autos y\nCamionetas"
                             android:textColor="@android:color/white"
-                            android:textSize="15sp"/>
+                            android:fontFamily="sans-serif-condensed"
+                            android:textSize="13sp"/>
 
                     </LinearLayout>
                     <LinearLayout
@@ -130,10 +131,11 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:paddingTop="12dp"
+                            android:paddingTop="3dp"
                             android:text="Motos"
                             android:textColor="@android:color/white"
-                            android:textSize="15sp"/>
+                            android:fontFamily="sans-serif-condensed"
+                            android:textSize="13sp"/>
 
                     </LinearLayout>
                     <LinearLayout
@@ -163,10 +165,11 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:paddingTop="12dp"
+                            android:paddingTop="3dp"
                             android:text="Camiones"
                             android:textColor="@android:color/white"
-                            android:textSize="15sp"/>
+                            android:fontFamily="sans-serif-condensed"
+                            android:textSize="13sp"/>
 
                     </LinearLayout>
                     <LinearLayout
@@ -195,11 +198,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
-                            android:gravity="center"
-                            android:paddingTop="12dp"
+                            android:gravity="center_horizontal"
+                            android:paddingTop="3dp"
                             android:text="Ver todos"
                             android:textColor="@android:color/white"
-                            android:textSize="15sp"/>
+                            android:fontFamily="sans-serif-condensed"
+                            android:textSize="13sp"/>
 
                     </LinearLayout>
 

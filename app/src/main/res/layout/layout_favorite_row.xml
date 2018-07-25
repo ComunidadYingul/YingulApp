@@ -58,7 +58,7 @@
                 android:layout_height="25dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center_horizontal"
-                android:src="@drawable/car" />
+                android:src="@drawable/ic_envio_orange" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

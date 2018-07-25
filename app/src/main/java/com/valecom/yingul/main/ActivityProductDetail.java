@@ -15,6 +15,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.test.ActivityUnitTestCase;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -223,6 +224,14 @@ public class ActivityProductDetail extends AppCompatActivity {
         recycler_query = (RecyclerView)findViewById(R.id.recycler_query);
         ImgDetail = (ImageView) findViewById(R.id.image_product_image);
         scrollView=(ScrollView)findViewById(R.id.scrollView);
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int width = metrics.widthPixels; // ancho absoluto en pixels
+        int height = metrics.heightPixels; // alto absoluto en pixels
+        int dpi = metrics.densityDpi;
+
+        ImgDetail.getLayoutParams().height = height*2/6;
 
         recyclerViewDetail.setHasFixedSize(false);
         recyclerViewDetail.setNestedScrollingEnabled(false);
@@ -1475,6 +1484,12 @@ public class ActivityProductDetail extends AppCompatActivity {
                 textMoneyNormal.setText("$");
             }
         }catch (Exception e){}
+
+        if(itemTemp.getType().equals("Property") || itemTemp.getType().equals("Service")){
+            lytCuotas.setVisibility(View.GONE);
+        }else{
+            lytCuotas.setVisibility(View.VISIBLE);
+        }
 
         try{
             if(itemTemp.getProductPagoEnvio().equals("gratis")) {
