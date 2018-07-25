@@ -773,11 +773,14 @@ public class InicioFragment extends Fragment {
         super.onConfigurationChanged(newConfig);
 
         /*adapter = new MainAdapter(getContext(), getObject());*/
-        recyclerResponsive2();
-        adapter.setCol(col);
-        recyclerView.setAdapter(adapter);
+        if(adapter == null){recyclerResponsive2();}
+        else {
+            recyclerResponsive2();
+            adapter.setCol(col);
+            recyclerView.setAdapter(adapter);
 
-        adapter.setArrays(array_all_not_over,array_all_over,array_all_category,array_all_stores,array_all_items);
+            adapter.setArrays(array_all_not_over, array_all_over, array_all_category, array_all_stores, array_all_items);
+        }
     }
 
     public void recyclerResponsive(){
