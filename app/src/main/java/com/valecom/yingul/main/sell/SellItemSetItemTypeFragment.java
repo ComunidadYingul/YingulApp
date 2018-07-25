@@ -1,7 +1,9 @@
 package com.valecom.yingul.main.sell;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,8 @@ import com.valecom.yingul.R;
 public class SellItemSetItemTypeFragment extends Fragment {
 
     LinearLayout btnProduct,btnService,btnMotorized,btnProperty;
+    LinearLayout lytContainer,lytSubcont1,lytSubcont2;
+    DisplayMetrics metrics = new DisplayMetrics();
 
     public SellItemSetItemTypeFragment() {
         // Required empty public constructor
@@ -31,6 +35,10 @@ public class SellItemSetItemTypeFragment extends Fragment {
         btnService = (LinearLayout) v.findViewById(R.id.btn_service);
         btnMotorized = (LinearLayout) v.findViewById(R.id.btn_motorized);
         btnProperty = (LinearLayout) v.findViewById(R.id.btn_property);
+
+        lytContainer = (LinearLayout) v.findViewById(R.id.lytContainer);
+        lytSubcont1 = (LinearLayout) v.findViewById(R.id.lytSubcont1);
+        lytSubcont2 = (LinearLayout) v.findViewById(R.id.lytSubcont2);
 
         btnProduct.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +65,8 @@ public class SellItemSetItemTypeFragment extends Fragment {
             }
         });
 
+        setResponsive2();
+
         return v;
     }
 
@@ -64,6 +74,33 @@ public class SellItemSetItemTypeFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        setResponsive();
+    }
+
+    public void setResponsive(){
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        if(getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            lytContainer.setOrientation(LinearLayout.VERTICAL);
+
+        }else if(getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            lytContainer.setOrientation(LinearLayout.HORIZONTAL);
+        }
+    }
+
+    public void setResponsive2(){
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        if(getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            lytContainer.setOrientation(LinearLayout.HORIZONTAL);
+
+        }else if(getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            lytContainer.setOrientation(LinearLayout.VERTICAL);
+        }
     }
 
 }
