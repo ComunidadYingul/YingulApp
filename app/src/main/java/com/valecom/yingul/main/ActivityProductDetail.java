@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -79,11 +80,9 @@ import com.github.ornolfr.ratingview.RatingView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -91,7 +90,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -152,7 +150,7 @@ public class ActivityProductDetail extends AppCompatActivity {
     private TextView textTitleDevolution,textBodyDevolution,txtMotorConfort;
 
     private ListView list;
-//    private QueryListAdapter adapter;
+    //    private QueryListAdapter adapter;
     private QueryRowAdapter adapter;
     private ArrayList<Yng_Query> array_list;
     private Button buttonNewQuestion;
@@ -311,6 +309,18 @@ public class ActivityProductDetail extends AppCompatActivity {
                 Validacion val = new Validacion();
                 if(val.valCantString(editNewQuestion,1)){
                     RunCreateNewQuery();
+                }else{
+                    new CountDownTimer(3000, 1000) {
+                        public void onFinish() {
+                            editNewQuestion.clearFocus();
+                        }
+
+                        public void onTick(long millisUntilFinished) {
+                            // millisUntilFinished    The amount of time until finished.
+                        }
+                    }.start();
+                    /*Ver si con eso se corrige*/
+                    //
                 }
             }
         });
@@ -452,7 +462,7 @@ public class ActivityProductDetail extends AppCompatActivity {
 //
 //        });
     }
-/*******************************************************************************************************/
+    /*******************************************************************************************************/
     public ArrayList<ItemGallery> loadJSONFromAssetGallery() {
 
         //progressDialog.show();
@@ -675,7 +685,7 @@ public class ActivityProductDetail extends AppCompatActivity {
                         catch(Exception ex)
                         {
                             //if (isAdded()) {
-                                Toast.makeText(ActivityProductDetail.this, R.string.error_try_again_support, Toast.LENGTH_LONG).show();
+                            Toast.makeText(ActivityProductDetail.this, R.string.error_try_again_support, Toast.LENGTH_LONG).show();
                             //}
                         }
 
@@ -1055,12 +1065,12 @@ public class ActivityProductDetail extends AppCompatActivity {
 
             case R.id.menu_share:
                 /*********poner en el chat**********
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_msg) + getPackageName());
-                sendIntent.setType("text/plain");
-                startActivity(sendIntent);
-                /*********poner en el chat**********/
+                 Intent sendIntent = new Intent();
+                 sendIntent.setAction(Intent.ACTION_SEND);
+                 sendIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_msg) + getPackageName());
+                 sendIntent.setType("text/plain");
+                 startActivity(sendIntent);
+                 /*********poner en el chat**********/
                 shareTextUrl(itemId);
                 return true;
 
@@ -1284,7 +1294,7 @@ public class ActivityProductDetail extends AppCompatActivity {
 
                                     //setData(itemTemp);
 
-                                        RunGetProduct();
+                                    RunGetProduct();
 
                                 }
                                 catch (Exception ex)
@@ -1859,7 +1869,7 @@ public class ActivityProductDetail extends AppCompatActivity {
                         catch(Exception ex)
                         {
                             //if (isAdded()) {
-                                Toast.makeText(ActivityProductDetail.this, R.string.error_try_again_support, Toast.LENGTH_LONG).show();
+                            Toast.makeText(ActivityProductDetail.this, R.string.error_try_again_support, Toast.LENGTH_LONG).show();
                             //}
                         }
 

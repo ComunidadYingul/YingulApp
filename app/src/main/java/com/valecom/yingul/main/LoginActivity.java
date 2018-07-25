@@ -6,7 +6,6 @@ import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -25,15 +23,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.valecom.yingul.R;
-import com.valecom.yingul.adapter.ListGridAdapter;
-import com.valecom.yingul.main.over.OverActivity;
 import com.valecom.yingul.main.rememberPassword.RememberPasswordActivity;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,7 +37,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private EditText editEmail;
     private EditText editPassword;
-    private TextView textLogo, textTitle;
+    private TextView textTitle;
 
     public static final String TAG = "LoginActivity";
     private MaterialDialog progressDialog;
@@ -71,9 +65,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         Typeface typeface1 = Typeface.createFromAsset(LoginActivity.this.getAssets(), "fonts/font-yingul.ttf");
 
-        textLogo = (TextView)findViewById(R.id.text_logo);
         textTitle = (TextView)findViewById(R.id.text_title);
-        textLogo.setTypeface(typeface1);
         textTitle.setTypeface(typeface1);
         editEmail = (EditText) findViewById(R.id.editEmail);
         editPassword = (EditText) findViewById(R.id.editPassword);
@@ -274,10 +266,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onConfigurationChanged(newConfig);
 
         Log.e("oriencation:----",""+getApplicationContext().getResources().getConfiguration().orientation);
-        if(getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            textLogo.setVisibility(View.INVISIBLE);
-        }else if(getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-            textLogo.setVisibility(View.VISIBLE);
-        }
     }
 }

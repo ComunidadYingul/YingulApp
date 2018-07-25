@@ -1,6 +1,5 @@
 package com.valecom.yingul.main.rememberPassword;
 
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,23 +12,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 import com.valecom.yingul.R;
 import com.valecom.yingul.Util.Validacion;
-import com.valecom.yingul.main.MainActivity;
-import com.valecom.yingul.main.RegisterActivity;
-import com.valecom.yingul.main.buy.BuyActivity;
-import com.valecom.yingul.main.newUserUbicationEditPersonalInfo.NewUbicationSetCountryFragment;
-import com.valecom.yingul.model.Yng_User;
 import com.valecom.yingul.network.Network;
-
 import org.json.JSONException;
-
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -42,7 +32,7 @@ import okhttp3.ResponseBody;
  */
 public class RememberPasswordFragment extends Fragment {
 
-    private TextView textLogo, textTitle;
+    private TextView textTitle;
     private Button buttonSendEmail;
     private EditText editEmail;
     private MaterialDialog progressDialog;
@@ -60,9 +50,7 @@ public class RememberPasswordFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_remember_password, container, false);
         Typeface typeface1 = Typeface.createFromAsset(getContext().getAssets(), "fonts/font-yingul.ttf");
-        textLogo = (TextView)v.findViewById(R.id.text_logo);
         textTitle = (TextView)v.findViewById(R.id.text_title);
-        textLogo.setTypeface(typeface1);
         textTitle.setTypeface(typeface1);
         buttonSendEmail = (Button) v.findViewById(R.id.buttonSendEmail);
         editEmail = (EditText) v.findViewById(R.id.editEmail);
