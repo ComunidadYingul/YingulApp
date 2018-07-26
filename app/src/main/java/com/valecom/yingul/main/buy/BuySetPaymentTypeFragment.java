@@ -112,10 +112,12 @@ public class BuySetPaymentTypeFragment extends Fragment {
         }else if(getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     0, ViewGroup.LayoutParams.MATCH_PARENT);
+            LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(
+                    0, ViewGroup.LayoutParams.MATCH_PARENT);
             params.weight = 4;
             lytSubcont1.setLayoutParams(params);
-            params.weight = 2;
-            lytSubcont2.setLayoutParams(params);
+            params1.weight = 2;
+            lytSubcont2.setLayoutParams(params1);
             lytContainer.setOrientation(LinearLayout.HORIZONTAL);
         }
     }
@@ -123,9 +125,21 @@ public class BuySetPaymentTypeFragment extends Fragment {
     public void setResponsive2(){
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         if(getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    0, ViewGroup.LayoutParams.MATCH_PARENT);
+            LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(
+                    0, ViewGroup.LayoutParams.MATCH_PARENT);
+            params.weight = 4;
+            lytSubcont1.setLayoutParams(params);
+            params1.weight = 2;
+            lytSubcont2.setLayoutParams(params1);
             lytContainer.setOrientation(LinearLayout.HORIZONTAL);
-
         }else if(getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,0);
+            params.weight = 3;
+            lytSubcont1.setLayoutParams(params);
+            lytSubcont2.setLayoutParams(params);
             lytContainer.setOrientation(LinearLayout.VERTICAL);
         }
     }

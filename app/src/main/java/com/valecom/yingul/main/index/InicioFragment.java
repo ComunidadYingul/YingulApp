@@ -1,6 +1,7 @@
 package com.valecom.yingul.main.index;
 
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -26,6 +27,7 @@ import com.valecom.yingul.Util.ItemOffsetDecoration;
 import com.valecom.yingul.adapter.LatestListAdapter;
 import com.valecom.yingul.adapter.MainAdapter;
 import com.valecom.yingul.main.MainActivity;
+import com.valecom.yingul.main.buy.BuyActivity;
 import com.valecom.yingul.model.Yng_Category;
 import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.model.Yng_Store;
@@ -41,6 +43,14 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -71,6 +81,9 @@ public class InicioFragment extends Fragment {
     int col=2;
     String modo="grid";
     DisplayMetrics metrics = new DisplayMetrics();
+
+    String TAG="OkHttpConection";
+    public static final MediaType JSON= MediaType.parse("application/json; charset=utf-8");
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -559,16 +572,49 @@ public class InicioFragment extends Fragment {
         adapter.setArrays(array_all_not_over,array_all_over,array_all_category,array_all_stores,array_all_items);
     }
 
+    public void end(String end) throws JSONException {
+        Log.i("end",""+end);
+    }
+    public void start(String start){
+        Log.i("start",""+start);
+    }
+
     public ArrayList<Yng_Item> updateAllItems() {
+        start("inicio");
+        OkHttpClient httpClient = new OkHttpClient.Builder()
+                .connectTimeout(9000, TimeUnit.SECONDS)
+                .writeTimeout(9000, TimeUnit.SECONDS)
+                .readTimeout(9000, TimeUnit.SECONDS)
+                .build();
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(Network.API_URL + "/item/listItemParams/All/All/Desc/"+start+"/"+end)
+                .addHeader("Content-Type","application/json")
+                .addHeader("X-API-KEY",Network.API_KEY)
+                .get()
+                .build();
+        httpClient.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "error in getting response using async okhttp call");
+            }
+            @Override public void onResponse(Call call, okhttp3.Response response) throws IOException {
+                ResponseBody responseBody = response.body();
+                if (!response.isSuccessful()) {
+                    throw new IOException("Error response " + response);
+                }
+                //
 
-        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "/item/listItemParams/All/All/Desc/"+start+"/"+end,
-                new Response.Listener<JSONArray>() {
+                final String responce=""+(responseBody.string());
+                try {
+                    end(""+responce);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.i("responce:------------",""+responce);
+                getActivity().runOnUiThread(new Runnable() {
                     @Override
-                    public void onResponse(JSONArray response) {
-                        try
-                        {
-
-                            JSONArray m_jArry = response;
+                    public void run() {
+                        try {
+                            JSONArray m_jArry = new JSONArray(responce);
                             Log.e("All Items:---",m_jArry.toString());
                             for (int i = 0; i < m_jArry.length(); i++) {
                                 JSONObject jo_inside = m_jArry.getJSONObject(i);
@@ -582,89 +628,20 @@ public class InicioFragment extends Fragment {
                                 item.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));
                                 item.setPriceNormal(Double.valueOf(jo_inside.getString("priceNormal")));
                                 item.setPriceDiscount(Double.valueOf(jo_inside.getString("priceDiscount")));
-
-                                /*JSONObject user = jo_inside.getJSONObject("user");
-                                Gson gson = new Gson();
-                                Yng_User seller = gson.fromJson(String.valueOf(user) , Yng_User.class);
-                                item.setCategorySeller(seller.getUsername());*/
-
-
-                                //if(item.getPriceDiscount()==0 && !item.getProductPagoEnvio().equals("gratis")){
                                 array_all_items.add(item);
-                                //}
-                                //array_all_items.add(item);
                                 adapter.updateDataAllItems();
 
                             }
-
-                            //getAllOver();
-                            //setAdapterHomeCategoryList();
-
-                            /**/
-                            //JSONObject result = ((JSONObject)response.get("data"));
-                        }
-                        catch(Exception ex)
-                        {
+                        } catch (JSONException e) {
                             Toast.makeText(getContext(), "Mas publicaciones se muestran abajo", Toast.LENGTH_SHORT).show();
-                            Log.e("ERROR","Error excepiion revisar!!!!!!");
                         }
 
-                        /*if (progressDialog != null && progressDialog.isShowing()) {
-                            // If the response is JSONObject instead of expected JSONArray
-                            progressDialog.dismiss();
-                        }*/
-                    }
-                }, new Response.ErrorListener()
-        {
 
-            @Override
-            public void onErrorResponse(VolleyError error)
-            {
-                // TODO Auto-generated method stub
-                /*if (progressDialog != null && progressDialog.isShowing()) {
-                    // If the response is JSONObject instead of expected JSONArray
-                    progressDialog.dismiss();
-                }*/
+                    }
+                });
 
-                NetworkResponse response = error.networkResponse;
-                if (response != null && response.data != null)
-                {
-                    try
-                    {
-                        JSONObject json = new JSONObject(new String(response.data));
-                        Toast.makeText(getContext(), json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
-                    }
-                    catch (JSONException e)
-                    {
-                        Toast.makeText(getContext(), "Error 2", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                else
-                {
-                    Toast.makeText(getContext(), error != null && error.getMessage() != null ? error.getMessage() : error.toString(), Toast.LENGTH_LONG).show();
-                }
             }
-        })
-        {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError
-            {
-                //SharedPreferences settings = getActivity().getSharedPreferences(ActivityLogin.SESSION_USER, getActivity().MODE_PRIVATE);
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("X-API-KEY", Network.API_KEY);
-                /*params.put("Authorization",
-                        "Basic " + Base64.encodeToString(
-                                (settings.getString("email","")+":" + settings.getString("api_key","")).getBytes(), Base64.NO_WRAP)
-                );*/
-                return params;
-            }
-        };
-
-        //postRequest.setTag(MainActivity.TAG);
-
-        MySingleton.getInstance(getContext()).addToRequestQueue(postRequest);
-
+        });
 
         return array_all_items;
 
