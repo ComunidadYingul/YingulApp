@@ -56,6 +56,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:hint="Fotos"
+                        android:enabled="false"
                         android:singleLine="true"/>
                 </android.support.design.widget.TextInputLayout>
 
@@ -72,6 +73,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:hint="Tipo de precio"
+                        android:enabled="false"
                         android:singleLine="true"/>
                 </android.support.design.widget.TextInputLayout>
 
@@ -88,6 +90,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:hint="Qué incluye"
+                        android:enabled="false"
                         android:singleLine="true"/>
                 </android.support.design.widget.TextInputLayout>
 
@@ -104,6 +107,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:hint="Qué no incluye"
+                        android:enabled="false"
                         android:singleLine="true"/>
                 </android.support.design.widget.TextInputLayout>
 
@@ -120,6 +124,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:hint="Más información"
+                        android:enabled="false"
                         android:singleLine="true"/>
                 </android.support.design.widget.TextInputLayout>
 
@@ -136,6 +141,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:hint="Teléfono"
+                        android:enabled="false"
                         android:singleLine="true"/>
                 </android.support.design.widget.TextInputLayout>
 
@@ -152,6 +158,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:hint="Ubicación"
+                        android:enabled="false"
                         android:singleLine="true"/>
                 </android.support.design.widget.TextInputLayout>
 
