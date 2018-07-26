@@ -47,7 +47,7 @@ public class BuyItemSetCashPaymentFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Validacion val = new Validacion();
-                if(val.valNumDig(editDocument,8)) {
+                if(val.valNumMayorADig(editDocument,8)) {
                     switch (spinner_type_document.getSelectedItemPosition()) {
                         case 0:
                             ((BuyActivity) getActivity()).cashPayment.setDocumentType("DNI");
