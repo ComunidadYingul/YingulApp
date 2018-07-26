@@ -41,7 +41,7 @@ public class BuySetCardFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Validacion val = new Validacion();
-                if(val.valNumDig(editCardNumber,16) && val.valCantString(editFullName,5) && val.valExpireDate(editDueDate) && val.valCantString(editSecurityCode,3) && val.valNumDig(editTitularDNI,8)) {
+                if(val.valNumDig(editCardNumber,16) && val.valCantString(editFullName,5) && val.valExpireDate(editDueDate) && val.valCantString(editSecurityCode,3) && val.valNumMayorADig(editTitularDNI,8)) {
                     ((BuyActivity) getActivity()).card.setNumber(Long.valueOf(editCardNumber.getText().toString().trim()));
                     dueDate = editDueDate.getText().toString().trim();
                     String[] parts = dueDate.split("/");

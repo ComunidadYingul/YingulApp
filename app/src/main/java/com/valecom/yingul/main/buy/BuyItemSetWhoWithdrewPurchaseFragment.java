@@ -39,7 +39,7 @@ public class BuyItemSetWhoWithdrewPurchaseFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Validacion val = new Validacion();
-                if(val.valStringFiveChar(editName) && val.valStringFiveChar(editLastName) && val.valNumDig(editPhone,8)){
+                if(val.valStringFiveChar(editName) && val.valStringFiveChar(editLastName) && val.valNumMayorADig(editPhone,8)){
                     ((BuyActivity) getActivity()).shipping.setNameContact(editName.getText().toString().trim());
                     ((BuyActivity) getActivity()).shipping.setLastName(editLastName.getText().toString().trim());
                     ((BuyActivity) getActivity()).shipping.setPhoneContact(editPhone.getText().toString().trim());

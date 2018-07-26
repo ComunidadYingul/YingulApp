@@ -100,6 +100,17 @@ public class Validacion {
         }
     }
 
+    public boolean valNumMayorADig(EditText view,int cantDid){
+        if (view.getText().toString().trim().length() < cantDid)
+        {
+            view.setError("Campo requerido, minimo "+cantDid+" dígitos");
+            view.requestFocus();
+            return false;
+        }else{
+            return true;
+        }
+    }
+
     public boolean valNumber(EditText view){
         if (view.getText().toString().trim().length() <= 0)
         {
