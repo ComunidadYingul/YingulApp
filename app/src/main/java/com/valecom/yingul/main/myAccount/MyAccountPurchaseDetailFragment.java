@@ -139,7 +139,7 @@ public class MyAccountPurchaseDetailFragment extends Fragment
         buyTime.setText(confirm.getBuy().getTime());
         txtCurrencyPrice.setText("$ "+confirm.getBuy().getItemCost());
         txtTotal.setText("$ "+confirm.getBuy().getCost());
-        Picasso.with(getActivity()).load(Network.BUCKET_URL+confirm.getBuy().getYng_item().getPrincipalImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(principalImage);
+        Picasso.with(getActivity()).load(Network.BUCKET_URL+confirm.getBuy().getYng_item().getPrincipalImage()).into(principalImage);
 
         if(confirm.getStatus().equals("confirm")){
             purchaseProblemLayout.setVisibility(View.VISIBLE);

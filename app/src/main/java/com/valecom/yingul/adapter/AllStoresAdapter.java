@@ -46,7 +46,8 @@ public class AllStoresAdapter extends RecyclerView.Adapter<AllStoresAdapter.Item
         final Yng_Store item = dataList.get(position);
 
         holder.text_title.setText(item.getName());
-        Picasso.with(mContext).load(Network.BUCKET_URL +"store/"+ item.getMainImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(holder.image_public);
+        //Picasso.with(mContext).load(Network.BUCKET_URL +"store/"+ item.getMainImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(holder.image_public);
+        Picasso.with(mContext).load(Network.BUCKET_URL +"store/"+ item.getMainImage()).into(holder.image_public);
 
         holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
             @Override

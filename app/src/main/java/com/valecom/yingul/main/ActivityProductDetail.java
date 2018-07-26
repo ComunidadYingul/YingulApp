@@ -566,13 +566,13 @@ public class ActivityProductDetail extends AppCompatActivity {
         recyclerViewDetail.setAdapter(adapter_gallery);
 
         itemGalleryList = array_gallery.get(0);
-        Picasso.with(ActivityProductDetail.this).load(Network.BUCKET_URL + itemGalleryList.getGalleryImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(ImgDetail);
+        Picasso.with(ActivityProductDetail.this).load(Network.BUCKET_URL + itemGalleryList.getGalleryImage()).into(ImgDetail);
 
         recyclerViewDetail.addOnItemTouchListener(new RecyclerTouchListener(ActivityProductDetail.this, recyclerViewDetail, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 itemGalleryList = array_gallery.get(position);
-                Picasso.with(ActivityProductDetail.this).load(Network.BUCKET_URL + itemGalleryList.getGalleryImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(ImgDetail);
+                Picasso.with(ActivityProductDetail.this).load(Network.BUCKET_URL + itemGalleryList.getGalleryImage()).into(ImgDetail);
             }
 
             @Override

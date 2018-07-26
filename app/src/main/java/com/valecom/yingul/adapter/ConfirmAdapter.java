@@ -53,7 +53,7 @@ public class ConfirmAdapter extends ArrayAdapter<Yng_Confirm>
         TextView buyCost = (TextView) rowView.findViewById(R.id.buyCost);
         TextView buyTime = (TextView) rowView.findViewById(R.id.buyTime);
 
-        Picasso.with(context).load(Network.BUCKET_URL+confirm.getBuy().getYng_item().getPrincipalImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(itemImage);
+        Picasso.with(context).load(Network.BUCKET_URL+confirm.getBuy().getYng_item().getPrincipalImage()).into(itemImage);
 
         itemName.setText(confirm.getBuy().getYng_item().getName());
         buyCost.setText("ARS "+confirm.getBuy().getCost());

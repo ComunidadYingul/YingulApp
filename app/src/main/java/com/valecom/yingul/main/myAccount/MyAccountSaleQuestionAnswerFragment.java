@@ -156,7 +156,7 @@ public class MyAccountSaleQuestionAnswerFragment extends Fragment
         itemLayout = (LinearLayout) view.findViewById(R.id.itemLayout);
         btnAnswer = (Button) view.findViewById(R.id.btnAnswer);
         editAnswer = (EditText) view.findViewById(R.id.editAnswer);
-        Picasso.with(getContext()).load(Network.BUCKET_URL+query.getYng_Item().getPrincipalImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(itemImage);
+        Picasso.with(getContext()).load(Network.BUCKET_URL+query.getYng_Item().getPrincipalImage()).into(itemImage);
         itemCurrencyPrice.setText("$ "+query.getYng_Item().getPrice());
         itemName.setText(query.getYng_Item().getName());
         if(query.getYng_Item().getProductPagoEnvio()==null||!query.getYng_Item().getProductPagoEnvio().equals("gratis")){
