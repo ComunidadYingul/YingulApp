@@ -99,7 +99,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 holder = new HorizontalViewHolder(view);
                 TextView all = (TextView) view.findViewById(R.id.txt_home_latest);
                 Button btnNotOver = (Button) view.findViewById(R.id.btn__view_all_latest);
-                all.setText("Encuentra lo que buscas");
+                all.setText("Vende más, comprás mejor.");
                 btnNotOver.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
