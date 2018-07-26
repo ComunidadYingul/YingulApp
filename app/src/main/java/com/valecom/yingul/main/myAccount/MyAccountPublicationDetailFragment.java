@@ -247,13 +247,13 @@ public class MyAccountPublicationDetailFragment extends Fragment
         recyclerViewDetail.setAdapter(adapter_gallery);
 
         itemGalleryList = array_gallery.get(0);
-        Picasso.with(getContext()).load(Network.BUCKET_URL + itemGalleryList.getGalleryImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(ImgDetail);
+        Picasso.with(getContext()).load(Network.BUCKET_URL + itemGalleryList.getGalleryImage()).into(ImgDetail);
 
         recyclerViewDetail.addOnItemTouchListener(new ActivityProductDetail.RecyclerTouchListener(getContext(), recyclerViewDetail, new ActivityProductDetail.ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 itemGalleryList = array_gallery.get(position);
-                Picasso.with(getContext()).load(Network.BUCKET_URL + itemGalleryList.getGalleryImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(ImgDetail);
+                Picasso.with(getContext()).load(Network.BUCKET_URL + itemGalleryList.getGalleryImage()).into(ImgDetail);
             }
 
             @Override

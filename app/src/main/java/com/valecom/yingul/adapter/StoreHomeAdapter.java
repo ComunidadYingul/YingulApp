@@ -62,7 +62,7 @@ public class StoreHomeAdapter extends RecyclerView.Adapter<StoreHomeAdapter.Item
             holder.lytText.setVisibility(View.VISIBLE);
             holder.card1.setCardElevation(0);
             holder.card2.setCardElevation(0);
-            Picasso.with(mContext).load(Network.BUCKET_URL + item.getBannerImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(holder.banner_cat);
+            Picasso.with(mContext).load(Network.BUCKET_URL + item.getBannerImage()).into(holder.banner_cat);
             Picasso.with(mContext).load("file:///android_asset/image/more_stores.png").into(holder.image_cat);
 
             holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
@@ -83,8 +83,8 @@ public class StoreHomeAdapter extends RecyclerView.Adapter<StoreHomeAdapter.Item
             holder.lytText.setVisibility(View.INVISIBLE);
             holder.card1.setCardElevation(5);
             holder.card2.setCardElevation(5);
-            Picasso.with(mContext).load(Network.BUCKET_URL + item.getBannerImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(holder.banner_cat);
-            Picasso.with(mContext).load(Network.BUCKET_URL + item.getMainImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(holder.image_cat);
+            Picasso.with(mContext).load(Network.BUCKET_URL + item.getBannerImage()).into(holder.banner_cat);
+            Picasso.with(mContext).load(Network.BUCKET_URL + item.getMainImage()).into(holder.image_cat);
 
             holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
                 @Override

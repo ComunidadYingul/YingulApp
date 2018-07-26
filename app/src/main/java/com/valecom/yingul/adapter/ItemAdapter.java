@@ -57,7 +57,7 @@ public class ItemAdapter extends ArrayAdapter<Yng_Item>
         TextView discountRate = (TextView) rowView.findViewById(R.id.discountRate);
         LinearLayout freeShipping = (LinearLayout) rowView.findViewById(R.id.freeShipping);
 
-        Picasso.with(context).load(Network.BUCKET_URL+item.getPrincipalImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(itemImage);
+        Picasso.with(context).load(Network.BUCKET_URL+item.getPrincipalImage()).into(itemImage);
 
         if(item.getPriceDiscount()==0){
             itemPriceNormal.setVisibility(View.GONE);

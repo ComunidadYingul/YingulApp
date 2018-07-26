@@ -171,16 +171,16 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_gravity="center_vertical"
-                            android:src="@drawable/car"/>
+                            android:src="@drawable/ic_envio_orange"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-light"
                             android:layout_margin="3dp"
-                            android:textSize="10sp"
+                            android:textSize="13sp"
                             android:text="Envio gratis"
                             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                             android:textColor="@color/yngOrange" />

@@ -3,7 +3,9 @@ package com.valecom.yingul.main.motorized;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -52,6 +54,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -180,7 +184,8 @@ public class MotorizedActivity extends AppCompatActivity {
                 filterLayout.setVisibility(View.VISIBLE);
                 motorcicleLayout.setVisibility(View.GONE);
                 truckLayout.setVisibility(View.GONE);
-                Picasso.with(MotorizedActivity.this).load("file:///android_asset/image/ic_car_2001_orange.png").into(categoryImage);
+                setImage(categoryImage,"image/ic_car_2001_orange.png");
+                //Picasso.with(MotorizedActivity.this).load("file:///android_asset/image/ic_car_2001_orange.png").into(categoryImage);
                 categoryNameText.setText("Autos y\nCamionetas");
                 loadJSONFromAssetCategoryList1(Long.valueOf(2001));
                 RunFindMotorizedService(Long.valueOf(2001));
@@ -193,7 +198,8 @@ public class MotorizedActivity extends AppCompatActivity {
                 filterLayout.setVisibility(View.VISIBLE);
                 motorcicleLayout.setVisibility(View.GONE);
                 truckLayout.setVisibility(View.GONE);
-                Picasso.with(MotorizedActivity.this).load("file:///android_asset/image/ic_car_2007_orange.png").into(categoryImage);
+                setImage(categoryImage,"image/ic_car_2007_orange.png");
+                //Picasso.with(MotorizedActivity.this).load("file:///android_asset/image/ic_car_2007_orange.png").into(categoryImage);
                 categoryNameText.setText("Motos");
                 loadJSONFromAssetCategoryList1(Long.valueOf(2007));
                 RunFindMotorizedService(Long.valueOf(2007));
@@ -206,7 +212,8 @@ public class MotorizedActivity extends AppCompatActivity {
                 filterLayout.setVisibility(View.VISIBLE);
                 motorcicleLayout.setVisibility(View.GONE);
                 truckLayout.setVisibility(View.GONE);
-                Picasso.with(MotorizedActivity.this).load("file:///android_asset/image/ic_car_2002_orange.png").into(categoryImage);
+                setImage(categoryImage,"image/ic_car_2002_orange.png");
+                //Picasso.with(MotorizedActivity.this).load("file:///android_asset/image/ic_car_2002_orange.png").into(categoryImage);
                 categoryNameText.setText("Camiones");
                 loadJSONFromAssetCategoryList1(Long.valueOf(2002));
                 RunFindMotorizedService(Long.valueOf(2002));
@@ -234,13 +241,14 @@ public class MotorizedActivity extends AppCompatActivity {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
                             {
-                                content_header.getLayoutParams().height = (int) (200 * scale);;
+                                content_header.getLayoutParams().height = (int) (200 * scale);
                                 Yng_Category item = adapter.getItem(position);
                                 Log.e("id",""+item.getCategoryId());
                                 filterLayout.setVisibility(View.VISIBLE);
                                 motorcicleLayout.setVisibility(View.GONE);
                                 truckLayout.setVisibility(View.GONE);
-                                Picasso.with(MotorizedActivity.this).load("file:///android_asset/image/ic_car_"+item.getCategoryId()+"_orange.png").into(categoryImage);
+                                setImage(categoryImage,"image/ic_car_"+item.getCategoryId()+"_orange.png");
+                                //Picasso.with(MotorizedActivity.this).load("file:///android_asset/image/ic_car_"+item.getCategoryId()+"_orange.png").into(categoryImage);
                                 categoryNameText.setText(item.getName());
                                 loadJSONFromAssetCategoryList1(item.getCategoryId());
                                 RunFindMotorizedService(item.getCategoryId());
@@ -305,6 +313,17 @@ public class MotorizedActivity extends AppCompatActivity {
         recycler_list.addItemDecoration(itemDecoration);
 
         loadJSONFromAssetCategoryList();
+    }
+
+    public void setImage(ImageView img, String path){
+        AssetManager assetManager = getAssets();
+        try {
+            InputStream ims = assetManager.open(path);
+            Drawable d = Drawable.createFromStream(ims, null);
+            img.setImageDrawable(d);
+        } catch (IOException ex) {
+            return;
+        }
     }
 
     @Override
@@ -1046,6 +1065,23 @@ public class MotorizedActivity extends AppCompatActivity {
         Log.e("oriencation:----",""+getApplicationContext().getResources().getConfiguration().orientation);
         Log.e("dpi:----",""+metrics.xdpi);
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        //DisplayMetrics displayMetrics = new DisplayMetrics();
+        //getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        double d1 = metrics.widthPixels / metrics.xdpi;
+        double d2 = metrics.heightPixels / metrics.ydpi;
+        double deviceInches = Math.sqrt(d1 * d1 + d2 * d2);
+        if(getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if (deviceInches > 8) {col = 4;}
+            else if (deviceInches >= 6) {col = 4;}
+            else if (deviceInches < 6) {col = 3;}
+            else {col = 2;}
+        }else if(getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            if(deviceInches > 8){col=3;}
+            else if(deviceInches >= 6){col=3;}
+            else if(deviceInches < 6){col=2;}
+            else {col=2;}
+        }
+        /*
         if(getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             if (metrics.xdpi < 160) {col = 4;}
             else if (metrics.xdpi < 220) {col = 4;}
@@ -1057,5 +1093,6 @@ public class MotorizedActivity extends AppCompatActivity {
             else if(metrics.xdpi < 320){col=2;}
             else {col=2;}
         }
+        * */
     }
 }

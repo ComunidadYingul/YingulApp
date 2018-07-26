@@ -46,7 +46,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ItemRowH
     @Override
     public void onBindViewHolder(ItemRowHolder holder, final int position) {
         final ItemGallery itemGallery = dataList.get(position);
-        Picasso.with(mContext).load(Network.BUCKET_URL+itemGallery.getGalleryImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(holder.image_gallery);
+        Picasso.with(mContext).load(Network.BUCKET_URL+itemGallery.getGalleryImage()).into(holder.image_gallery);
         holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -292,7 +292,7 @@ public class MainActivity extends AppCompatActivity
             profile_email.setText(email);
 
             CircleImageView profilePhoto = (CircleImageView) navigationHeaderView.findViewById(R.id.profile_photo);
-            Picasso.with(MainActivity.this).load(Network.BUCKET_URL+"user/userProfile/"+settings.getString("profilePhoto","")).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(profilePhoto);
+            Picasso.with(MainActivity.this).load(Network.BUCKET_URL+"user/userProfile/"+settings.getString("profilePhoto","")).into(profilePhoto);
             profilePhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -133,7 +133,7 @@ public class MyAccountSaleDetailFragment extends Fragment
         txtCurrencyPrice.setText("$ "+confirm.getBuy().getItemCost());
         txtTotal.setText("$ "+confirm.getBuy().getCost());
         layoutConfirmDelivery.setVisibility(View.GONE);
-        Picasso.with(getActivity()).load(Network.BUCKET_URL+confirm.getBuy().getYng_item().getPrincipalImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(principalImage);
+        Picasso.with(getActivity()).load(Network.BUCKET_URL+confirm.getBuy().getYng_item().getPrincipalImage()).into(principalImage);
 
         if(confirm.getBuy().getShipping()==null){
             imgShipping.setImageResource(R.drawable.home);

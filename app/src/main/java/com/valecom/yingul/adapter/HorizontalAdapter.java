@@ -77,7 +77,7 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.My
             }
         }catch (Exception e){}
 
-        Picasso.with(mContext).load(Network.BUCKET_URL+item.getPrincipalImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(holder.image_cat_list);
+        Picasso.with(mContext).load(Network.BUCKET_URL+item.getPrincipalImage()).into(holder.image_cat_list);
 
         holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
             @Override
