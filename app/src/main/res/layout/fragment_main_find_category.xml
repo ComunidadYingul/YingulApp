@@ -12,6 +12,24 @@
         android:orientation="vertical"
         android:background="@color/mdtp_white"
         >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="4dp"
+            android:paddingBottom="0dp"
+            android:orientation="horizontal"
+            android:gravity="">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Categorias relacionadas con la búsqueda:"
+                android:textSize="10sp"
+                android:gravity="center"
+                android:textColor="@color/yngOrange"/>
+        </LinearLayout>
         <android.support.design.widget.CoordinatorLayout
             android:id="@+id/main_content"
             android:layout_width="match_parent"

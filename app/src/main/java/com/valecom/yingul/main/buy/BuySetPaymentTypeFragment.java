@@ -1,8 +1,10 @@
 package com.valecom.yingul.main.buy;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +17,8 @@ import com.valecom.yingul.R;
  */
 public class BuySetPaymentTypeFragment extends Fragment {
 
-    LinearLayout btn_creditCard,btn_debitCard,btn_cash;
+    private LinearLayout btn_creditCard,btn_debitCard,btn_cash,lytContainer,lytSubcont1,lytSubcont2;
+    DisplayMetrics metrics = new DisplayMetrics();
 
     public BuySetPaymentTypeFragment() {
         // Required empty public constructor
@@ -34,6 +37,9 @@ public class BuySetPaymentTypeFragment extends Fragment {
         btn_creditCard = (LinearLayout) v.findViewById(R.id.btn_creditCard);
         btn_debitCard = (LinearLayout) v.findViewById(R.id.btn_debitCard);
         btn_cash = (LinearLayout) v.findViewById(R.id.btn_cash);
+        lytContainer = (LinearLayout) v.findViewById(R.id.lytContainer);
+        lytSubcont1 = (LinearLayout) v.findViewById(R.id.lytSubcont1);
+        lytSubcont2 = (LinearLayout) v.findViewById(R.id.lytSubcont2);
         btn_creditCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,6 +82,8 @@ public class BuySetPaymentTypeFragment extends Fragment {
             }
         });
 
+        setResponsive2();
+
         return v;
     }
 
@@ -83,6 +91,43 @@ public class BuySetPaymentTypeFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        setResponsive();
+    }
+
+    public void setResponsive(){
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        if(getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,0);
+            params.weight = 3;
+            lytSubcont1.setLayoutParams(params);
+            lytSubcont2.setLayoutParams(params);
+            lytContainer.setOrientation(LinearLayout.VERTICAL);
+        }else if(getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    0, ViewGroup.LayoutParams.MATCH_PARENT);
+            params.weight = 4;
+            lytSubcont1.setLayoutParams(params);
+            params.weight = 2;
+            lytSubcont2.setLayoutParams(params);
+            lytContainer.setOrientation(LinearLayout.HORIZONTAL);
+        }
+    }
+
+    public void setResponsive2(){
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        if(getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            lytContainer.setOrientation(LinearLayout.HORIZONTAL);
+
+        }else if(getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            lytContainer.setOrientation(LinearLayout.VERTICAL);
+        }
     }
 
 }
