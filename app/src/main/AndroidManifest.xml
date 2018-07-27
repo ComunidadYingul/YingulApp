@@ -9,13 +9,15 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature
         android:name="android.hardware.camera.any"
         android:required="true" />
     <uses-feature
         android:name="android.hardware.camera.autofocus"
         android:required="false" />
-    <uses-feature android:name="android.hardware.camera"
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="true" />
 
     <application
@@ -47,8 +49,10 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
                     android:host="www.yingul.com"
                     android:scheme="http" />
@@ -136,9 +140,9 @@
         </activity>
         <activity
             android:name=".main.sell.SellActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_setting"
             android:parentActivityName=".main.MainActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -146,8 +150,8 @@
         </activity>
         <activity
             android:name=".main.buy.BuyActivity"
-            android:label="@string/title_activity_setting"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_setting"
             android:parentActivityName=".main.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
@@ -156,8 +160,8 @@
         </activity>
         <activity
             android:name=".main.newUserUbicationEditPersonalInfo.NewUserUbicationEditPersonalInfoActivity"
-            android:label="@string/title_activity_setting"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_setting"
             android:parentActivityName=".main.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
@@ -166,8 +170,8 @@
         </activity>
         <activity
             android:name=".main.rememberPassword.RememberPasswordActivity"
-            android:label="¿Olvidó su contraseña?"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="¿Olvidó su contraseña?"
             android:parentActivityName=".main.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
@@ -176,8 +180,8 @@
         </activity>
         <activity
             android:name=".main.motorized.MotorizedFilteredActivity"
-            android:label=""
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label=""
             android:parentActivityName=".main.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
@@ -186,8 +190,8 @@
         </activity>
         <activity
             android:name=".main.property.PropertyFilteredActivity"
-            android:label=""
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label=""
             android:parentActivityName=".main.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
@@ -198,8 +202,8 @@
         <!-- revisar -->
         <activity
             android:name=".main.myAccount.confirmDelivery.ConfirmDeliveryActivity"
-            android:label="Confirmar entrega al comprador"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Confirmar entrega al comprador"
             android:parentActivityName=".main.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
@@ -208,8 +212,8 @@
         </activity>
         <activity
             android:name=".main.filter.FilterActivity"
-            android:label="X"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="X"
             android:parentActivityName=".main.MainActivity"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden">
@@ -219,8 +223,8 @@
         </activity>
         <activity
             android:name=".main.QueriesItemActivity"
-            android:label="Preguntas al vendedor"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Preguntas al vendedor"
             android:parentActivityName=".main.MainActivity"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden">
@@ -239,8 +243,8 @@
         </activity>
         <activity
             android:name=".main.edit.EditImageActivity"
-            android:label="Confirmar entrega al comprador"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Confirmar entrega al comprador"
             android:parentActivityName=".main.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
@@ -249,18 +253,21 @@
         </activity>
         <activity
             android:name=".main.createStore.CreateStoreActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="YingulShop"
             android:parentActivityName=".main.MainActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.valecom.yingul.main.MainActivity" />
         </activity>
         <!-- activity android:name=".main.BuyActivity" / -->
-        <activity android:name=".main.ActivityProductDetail"
+        <activity
+            android:name=".main.ActivityProductDetail"
             android:configChanges="orientation|keyboardHidden|screenSize">
-            <!--intent-filter>
+
+            <!--
+            intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -269,11 +276,13 @@
                 <data
                     android:host="www.yingul.com"
                     android:scheme="http" />
-            </intent-filter-->
+            </intent-filter
+            -->
         </activity>
         <activity android:name=".main.ActivityPlaceOrder" />
-        <activity android:name=".main.ActivityGalleryDetail"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity
+            android:name=".main.ActivityGalleryDetail"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".main.ActivityPubliSellerList"
             android:configChanges="orientation|keyboardHidden|screenSize" />
@@ -302,12 +311,16 @@
         <activity
             android:name=".main.over.AllNotOverActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
-        <activity android:name=".main.PaymentMethodActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
-        <activity android:name=".main.BankConditionsActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
-        <activity android:name=".main.ShippingActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"></activity>
+        <activity
+            android:name=".main.PaymentMethodActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".main.BankConditionsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".main.ShippingActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity android:name=".main.filter.SearchActivity"></activity>
     </application>
 
 </manifest>
