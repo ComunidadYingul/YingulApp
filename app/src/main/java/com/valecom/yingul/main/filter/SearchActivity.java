@@ -460,7 +460,11 @@ public class SearchActivity extends AppCompatActivity {
                             /**************filtro*************/
                             array_cat_list_backup=array_cat_list;
                             /***********************************/
-                            adapter_cat_list.notifyDataSetChanged();
+                            if(modo.equals("grid")) {
+                                adapter_cat_list.notifyDataSetChanged();
+                            }else{
+                                adapter_cat_list_listview.notifyDataSetChanged();
+                            }
 
                             /**/
                             //JSONObject result = ((JSONObject)response.get("data"));
