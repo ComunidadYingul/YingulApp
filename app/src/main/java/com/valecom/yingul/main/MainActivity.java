@@ -512,11 +512,11 @@ public class MainActivity extends AppCompatActivity
                 Log.e("buscador",searchView.getQuery().toString());
                 Bundle bundle = new Bundle();
                 bundle.putString("nameCategory",searchView.getQuery().toString());
-                MainFindCategoryFragment fragment = new MainFindCategoryFragment();
+                /*MainFindCategoryFragment fragment = new MainFindCategoryFragment();
                 fragment.setArguments(bundle);
                 FragmentTransaction fragmentTransaction  = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.content_frame, fragment);
-                fragmentTransaction.commit();
+                fragmentTransaction.commit();*/
                 return false;
             }
         });
