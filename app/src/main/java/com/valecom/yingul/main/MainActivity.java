@@ -497,7 +497,9 @@ public class MainActivity extends AppCompatActivity
             public boolean onQueryTextSubmit(String arg0) {
                 // TODO Auto-generated method stub
                     Log.e("onclick buscador",searchView.getQuery().toString());
-                    itemName = searchView.getQuery().toString().replace(" ","");
+                    //itemName = searchView.getQuery().toString().replace(" ","");
+                    itemName = searchView.getQuery().toString();
+                    Log.e("onclick buscador",itemName);
                     Intent intent = new Intent(MainActivity.this,SearchActivity.class);
                     intent.putExtra("itemName",itemName);
                     startActivity(intent);

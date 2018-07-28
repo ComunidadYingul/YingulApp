@@ -320,7 +320,8 @@
         <activity
             android:name=".main.ShippingActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
-        <activity android:name=".main.filter.SearchActivity"></activity>
+        <activity android:name=".main.filter.SearchActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
     </application>
 
 </manifest>

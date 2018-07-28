@@ -258,7 +258,7 @@ public class SearchActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String arg0) {
                 // TODO Auto-generated method stub
                 Log.e("onclick buscador",searchView.getQuery().toString());
-                itemName = searchView.getQuery().toString().replace(" ","");
+                itemName = searchView.getQuery().toString();
                 Intent intent = new Intent(getApplicationContext(),SearchActivity.class);
                 intent.putExtra("itemName",itemName);
                 startActivity(intent);
@@ -538,7 +538,7 @@ public class SearchActivity extends AppCompatActivity {
         recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(col,1));
         adapter_cat_list = new ListGridAdapter(getApplicationContext(), array_cat_list);
         txtNoOfItem.setText("");
-        getCountSearch(Network.API_URL+"/item/getQuantityItemByName/"+itemName);
+        getCountSearch(Network.API_URL+"/item/getQuantityItemByName/"+itemName.replace(" ",""));
         recycler_cat_list.setAdapter(adapter_cat_list);
     }
 
