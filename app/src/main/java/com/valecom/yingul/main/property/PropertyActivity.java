@@ -416,7 +416,7 @@ public class PropertyActivity extends AppCompatActivity {
     }
 
     public void setAdapterHomeCategoryList() {
-        adapter_list = new ListGridAdapter(mContext, array_list);
+        adapter_list = new ListGridAdapter(this, array_list);
         //txtNoOfItem.setText(adapter_list.getItemCount()+"");
         recycler_list.setAdapter(adapter_list);
     }
@@ -1021,7 +1021,7 @@ public class PropertyActivity extends AppCompatActivity {
 
         if(modo.equals("grid")) {
             recycler_list.setLayoutManager(new StaggeredGridLayoutManager(col, 1));
-            adapter_list = new ListGridAdapter(getApplicationContext(), array_list);
+            adapter_list = new ListGridAdapter(this, array_list);
             recycler_list.setAdapter(adapter_list);
         }
     }

@@ -189,7 +189,7 @@ public class SearchActivity extends AppCompatActivity {
             public void onClick(View v) {
                 modo="grid";
                 recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(col,1));
-                adapter_cat_list = new ListGridAdapter(getApplicationContext(), array_cat_list);
+                adapter_cat_list = new ListGridAdapter(SearchActivity.this, array_cat_list);
                 recycler_cat_list.setAdapter(adapter_cat_list);
                 ImgGrid.setImageResource(R.drawable.ic_grid_hover);
                 ImgList.setImageResource(R.drawable.ic_list);
@@ -201,7 +201,7 @@ public class SearchActivity extends AppCompatActivity {
             public void onClick(View v) {
                 modo="row";
                 recycler_cat_list.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
-                adapter_cat_list_listview = new ListRowAdapter(getApplicationContext(), array_cat_list);
+                adapter_cat_list_listview = new ListRowAdapter(SearchActivity.this, array_cat_list);
                 recycler_cat_list.setAdapter(adapter_cat_list_listview);
                 ImgList.setImageResource(R.drawable.ic_listview_hover);
                 ImgGrid.setImageResource(R.drawable.ic_grid);
@@ -553,7 +553,7 @@ public class SearchActivity extends AppCompatActivity {
 
     public void setAdapterHomeCategoryList() {
         recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(col,1));
-        adapter_cat_list = new ListGridAdapter(getApplicationContext(), array_cat_list);
+        adapter_cat_list = new ListGridAdapter(SearchActivity.this, array_cat_list);
         recycler_cat_list.setAdapter(adapter_cat_list);
     }
 
@@ -678,7 +678,7 @@ public class SearchActivity extends AppCompatActivity {
 
         if(modo.equals("grid")) {
             recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(col, 1));
-            adapter_cat_list = new ListGridAdapter(getApplicationContext(), array_cat_list);
+            adapter_cat_list = new ListGridAdapter(SearchActivity.this, array_cat_list);
             recycler_cat_list.setAdapter(adapter_cat_list);
         }
     }

@@ -1,5 +1,6 @@
 package com.valecom.yingul.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -35,9 +36,9 @@ import java.util.ArrayList;
 public class ListRowAdapter extends RecyclerView.Adapter<ListRowAdapter.ItemRowHolder> {
 
     private ArrayList<Yng_Item> dataList;
-    private Context mContext;
+    private Activity mContext;
     private InterstitialAd mInterstitial;
-    public ListRowAdapter(Context context, ArrayList<Yng_Item> dataList) {
+    public ListRowAdapter(Activity context, ArrayList<Yng_Item> dataList) {
         this.dataList = dataList;
         this.mContext = context;
     }

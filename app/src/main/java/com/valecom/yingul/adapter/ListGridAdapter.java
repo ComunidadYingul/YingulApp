@@ -1,5 +1,6 @@
 package com.valecom.yingul.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +24,7 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.ActivityProductDetail;
+import com.valecom.yingul.main.filter.SearchActivity;
 import com.valecom.yingul.main.store.ActivityStore;
 import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.network.Network;
@@ -35,10 +37,10 @@ import java.util.ArrayList;
 
 public class ListGridAdapter extends RecyclerView.Adapter<ListGridAdapter.ItemRowHolder>{
     private ArrayList<Yng_Item> dataList;
-    private Context mContext;
+    private Activity mContext;
     private InterstitialAd mInterstitial;
 
-    public ListGridAdapter(Context context, ArrayList<Yng_Item> dataList) {
+    public ListGridAdapter(Activity context, ArrayList<Yng_Item> dataList) {
         this.dataList = dataList;
         this.mContext = context;
     }
@@ -90,6 +92,7 @@ public class ListGridAdapter extends RecyclerView.Adapter<ListGridAdapter.ItemRo
                 intent_detail.putExtra("itemId",item.getItemId().toString());
                 //intent_detail.putExtra("seller",item.getCategorySeller());
                 mContext.startActivity(intent_detail);
+
                 //Log.e("gonzalo:----","hola");
 
                 /*

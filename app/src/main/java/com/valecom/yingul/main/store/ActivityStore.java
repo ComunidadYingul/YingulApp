@@ -590,7 +590,7 @@ public class ActivityStore extends AppCompatActivity {
 
         if(modo.equals("grid")) {
             recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(col, 1));
-            adapter_cat_list = new ListGridAdapter(getApplicationContext(), array_cat_list);
+            adapter_cat_list = new ListGridAdapter(this, array_cat_list);
             recycler_cat_list.setAdapter(adapter_cat_list);
         }
     }
