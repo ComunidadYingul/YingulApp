@@ -54,6 +54,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -294,11 +295,22 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
+    public static String cleanString(String texto) {
+        texto = texto.trim().replace(" ","%20");
+        texto = Normalizer.normalize(texto, Normalizer.Form.NFD);
+        texto = texto.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
+        return texto;
+    }
+
     public ArrayList<Yng_Item> loadJSONFromAssetCategoryList() {
 
         progressDialog.show();
 
-        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "item/listItemByName/"+itemName.replace(" ","")+"/0/30",
+        String itemNameUrl = cleanString(itemName);
+
+        Log.e("palabra",itemNameUrl+"");
+
+        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "item/listItemByName/"+itemNameUrl+"/0/30",
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -417,7 +429,11 @@ public class SearchActivity extends AppCompatActivity {
 
         progressDialog.show();
 
-        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "item/listItemByName/"+itemName.replace(" ","")+"/"+start+"/"+end,
+        String itemNameUrl = cleanString(itemName);
+
+        Log.e("palabra",itemNameUrl+"");
+
+        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "item/listItemByName/"+itemNameUrl+"/"+start+"/"+end,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
