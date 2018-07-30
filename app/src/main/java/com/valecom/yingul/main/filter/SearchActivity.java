@@ -174,7 +174,7 @@ public class SearchActivity extends AppCompatActivity {
 
                 if (!recyclerView.canScrollVertically(1)) {
                     Log.e("Position:---","final");
-                    if(numCoincidencia > array_cat_list.size()) {
+                    if(array_cat_list.size() % paso == 0) {
                         start += paso;
                         end += paso;
                         updateListArray();
@@ -342,6 +342,7 @@ public class SearchActivity extends AppCompatActivity {
                             /**************filtro*************/
                             array_cat_list_backup=array_cat_list;
                             /***********************************/
+                            getCountSearch(Network.API_URL+"/item/getQuantityItemByName/"+itemName.replace(" ",""));
                             setAdapterHomeCategoryList();
 
                             /**/
@@ -537,8 +538,6 @@ public class SearchActivity extends AppCompatActivity {
     public void setAdapterHomeCategoryList() {
         recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(col,1));
         adapter_cat_list = new ListGridAdapter(getApplicationContext(), array_cat_list);
-        txtNoOfItem.setText("");
-        getCountSearch(Network.API_URL+"/item/getQuantityItemByName/"+itemName.replace(" ",""));
         recycler_cat_list.setAdapter(adapter_cat_list);
     }
 
@@ -563,6 +562,7 @@ public class SearchActivity extends AppCompatActivity {
                 Gson json = new Gson();
                 Log.e("itemList response",json.toJson(array_cat_list).toString());
                 Log.e("filer response",json.toJson(filterParams).toString());
+                txtNoOfItem.setText("");
                 setAdapterHomeCategoryList();
             }
         }
