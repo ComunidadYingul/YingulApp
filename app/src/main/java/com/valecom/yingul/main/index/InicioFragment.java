@@ -110,9 +110,12 @@ public class InicioFragment extends Fragment {
         loadMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                start += paso;
-                end += paso;
-                updateAllItems();
+
+                if(array_all_items.size() % paso == 0) {
+                    start += paso;
+                    end += paso;
+                    updateAllItems();
+                }
             }
         });
 
@@ -122,12 +125,36 @@ public class InicioFragment extends Fragment {
     }
 
     private ArrayList<Object> getObject() {
-        objects.add(array_Slider.get(0));
-        objects.add(array_all_category.get(0));
-        objects.add(array_all_over.get(0));
-        objects.add(array_all_not_over.get(0));
-        objects.add(array_all_stores.get(0));
-        objects.add(array_all_items.get(0));
+        if(array_Slider.size() > 0) {
+            objects.add(array_Slider.get(0));
+        }else {
+            objects.add(null);
+        }
+        if(array_all_category.size() > 0) {
+            objects.add(array_all_category.get(0));
+        }else {
+            objects.add(null);
+        }
+        if(array_all_over.size() > 0) {
+            objects.add(array_all_over.get(0));
+        }else {
+            objects.add(null);
+        }
+        if(array_all_not_over.size() > 0) {
+            objects.add(array_all_not_over.get(0));
+        }else {
+            objects.add(null);
+        }
+        if(array_all_stores.size() > 0) {
+            objects.add(array_all_stores.get(0));
+        }else {
+            objects.add(null);
+        }
+        if(array_all_items.size() > 0) {
+            objects.add(array_all_items.get(0));
+        }else {
+            objects.add(null);
+        }
         return objects;
     }
 
