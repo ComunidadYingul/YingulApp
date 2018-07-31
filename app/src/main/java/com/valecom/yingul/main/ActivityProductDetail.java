@@ -1625,7 +1625,9 @@ public class ActivityProductDetail extends AppCompatActivity {
         }catch (Exception e){txtDescPayMethod.setText("");}
 
         try {
-            txtDescMethodShipping.setText(productTemp.getProductFormDelivery());
+            if(productTemp.getProductFormDelivery().equals("YingulEnvios")) {
+                txtDescMethodShipping.setText("Yingul Express");
+            }
         }catch (Exception e){txtDescMethodShipping.setText("");}
     }
 
