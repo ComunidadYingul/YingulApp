@@ -4,6 +4,7 @@ package com.valecom.yingul.main.buy;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -29,7 +30,7 @@ import static android.content.Context.MODE_PRIVATE;
  */
 public class BuyItemInfoReserveFragment extends Fragment {
 
-    TextView txtShowInfo;
+    TextView txtAddPictures,txtShowInfo;
     private MaterialDialog setting_address_edit_dialog;
     private Button buttonSetInfo;
     private Yng_User user;
@@ -46,8 +47,13 @@ public class BuyItemInfoReserveFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_sell_item_info_reserve, container, false);
 
+        txtAddPictures = (TextView) v.findViewById(R.id.txtAddPictures);
         txtShowInfo = (TextView) v.findViewById(R.id.txtShowInfo);
         buttonSetInfo = (Button) v.findViewById(R.id.buttonSetinfo);
+
+        txtAddPictures.setText("Vas a reservar tu próximo vehículo");
+        txtShowInfo.setText("Elegís un medio para pagar $ 1500 de reserva. Luego, acordás con el vendedor el resto del pago y la entrega.");
+        txtShowInfo.setTextColor(Color.WHITE);
 
         user = new Yng_User();
         SharedPreferences settings = getActivity().getSharedPreferences(LoginActivity.SESSION_USER, MODE_PRIVATE);
@@ -73,7 +79,7 @@ public class BuyItemInfoReserveFragment extends Fragment {
             user.setPassword(settings.getString("password",""));
         }
 
-        txtShowInfo.setOnClickListener(new View.OnClickListener() {
+        /*txtShowInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -96,7 +102,7 @@ public class BuyItemInfoReserveFragment extends Fragment {
                             })
                             .show();
             }
-        });
+        });*/
 
         buttonSetInfo.setOnClickListener(new View.OnClickListener() {
             @Override
