@@ -7,8 +7,8 @@ android {
             keyPassword 'valecom'
             /*storeFile file('/home/gonzalo/Escritorio/yingul.jks')*/
             //storeFile file('/home/gonzalo/AndroidStudioProjects/PLANTILLA EDDY/app-master/yingul.jks')
-            //storeFile file('C:\\Users\\gsant\\Desktop\\yingul\\android\\app-master\\yingul.jks')
-            storeFile file('/home/gonzalo/AndroidStudioProjects/PLANTILLA EDDY/app-master/yingul.jks')
+            storeFile file('C:\\Users\\gsant\\Desktop\\yingul\\android\\app-master\\yingul.jks')
+            //storeFile file('/home/gonzalo/AndroidStudioProjects/PLANTILLA EDDY/app-master/yingul.jks')
             //storeFile file('C:\\Users\\Daniel\\Documents\\Android\\app-master\\app-master\\yingul.jks')
             storePassword 'valecom2018'
         }
@@ -22,8 +22,8 @@ android {
                                 onesignal_google_project_number: "953400958776"]
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 11
-        versionName '1.10'
+        versionCode 12
+        versionName '1.11'
         signingConfig signingConfigs.config
     }
     dexOptions {
