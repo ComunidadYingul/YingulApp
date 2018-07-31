@@ -51,7 +51,7 @@
                         android:id="@+id/editAreaDuild"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Superficie cubierta"
+                        android:hint="Superficie cubierta (m2)"
                         android:inputType="number"
                         android:singleLine="true"/>
                 </android.support.design.widget.TextInputLayout>
