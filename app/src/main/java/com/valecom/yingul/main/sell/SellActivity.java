@@ -255,8 +255,6 @@ public class SellActivity extends AppCompatActivity {
 
         Log.e("Precio", itemPrice+"");
         item.setPrice(itemPrice);
-        item.setPriceDiscount(0);
-        item.setPriceNormal(0);
 
         if(userUbication==null||user.getPhone().equals("null")||user.getDocumentNumber().equals("null")||user.getDocumentType().equals("null")||user.getPhone().equals("")||user.getDocumentNumber().equals("")||user.getDocumentType().equals("")){
             Intent intent = new Intent(SellActivity.this, NewUserUbicationEditPersonalInfoActivity.class);

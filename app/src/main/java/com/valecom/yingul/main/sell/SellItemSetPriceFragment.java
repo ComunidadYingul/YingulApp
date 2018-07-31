@@ -89,6 +89,8 @@ public class SellItemSetPriceFragment extends Fragment {
                     }else{
                         ((SellActivity)getActivity()).item.setMoney("ARS");
                     }
+                    ((SellActivity) getActivity()).item.setPriceDiscount(0);
+                    ((SellActivity) getActivity()).item.setPriceNormal(0);
                     ((SellActivity)getActivity()).setItemPrice(Double.parseDouble(editPrice.getText().toString()));
 
                     /*Log.e("Moneda", String.valueOf(spinner_currency.getSelectedItemPosition()));
@@ -175,14 +177,14 @@ public class SellItemSetPriceFragment extends Fragment {
                                 @Override
                                 public void onPositive(MaterialDialog dialog) {
                                     ((SellActivity) getActivity()).item.setMoney("ARS");
-                                    ((SellActivity) getActivity()).item.setPrice(Double.parseDouble(editPriceDiscount.getText().toString().trim()));
                                     ((SellActivity) getActivity()).item.setPriceDiscount(Double.parseDouble(editPriceDiscount.getText().toString().trim()));
                                     ((SellActivity) getActivity()).item.setPriceNormal(Double.parseDouble(editPriceNormal.getText().toString().trim()));
-                                    SellItemSetDeliveryFragment fragment = new SellItemSetDeliveryFragment();
+                                    ((SellActivity)getActivity()).setItemPrice(Double.parseDouble(editPriceDiscount.getText().toString()));
+                                    /*SellItemSetDeliveryFragment fragment = new SellItemSetDeliveryFragment();
                                     FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                                     fragmentTransaction.replace(R.id.content_frame, fragment);
                                     fragmentTransaction.addToBackStack(null);
-                                    fragmentTransaction.commit();
+                                    fragmentTransaction.commit();*/
                                 }
 
                                 @Override

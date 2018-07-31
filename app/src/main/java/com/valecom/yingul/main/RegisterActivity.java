@@ -174,7 +174,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     public void run() {
                         Log.d("responce:------------",""+responce);
                         if(responce.equals("save")) {
-                            Toast.makeText(RegisterActivity.this, responce, Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegisterActivity.this, "Sea ha registrado a Yingul exitosamente.", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                             startActivity(intent);
                         }else{
