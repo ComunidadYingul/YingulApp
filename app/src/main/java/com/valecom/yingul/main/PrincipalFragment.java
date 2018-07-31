@@ -14,6 +14,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -102,6 +103,7 @@ public class PrincipalFragment extends Fragment {
     RecyclerView recycler_home_all_items;
     ListGridAdapter adapter_all_items;
     ArrayList<Yng_Item> array_all_items;
+    StaggeredGridLayoutManager manager_all_items;
 
     private MaterialDialog progressDialog;
     private FragmentManager fragmentManager;
@@ -177,10 +179,11 @@ public class PrincipalFragment extends Fragment {
         recycler_home_category.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recycler_home_category.addItemDecoration(itemDecoration);
 
+        manager_all_items = new StaggeredGridLayoutManager(2,1);
         recycler_home_all_items = (RecyclerView) rootView.findViewById(R.id.rv_home_all_items);
         recycler_home_all_items.setHasFixedSize(true);
         recycler_home_all_items.setNestedScrollingEnabled(false);
-        recycler_home_all_items.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        recycler_home_all_items.setLayoutManager(manager_all_items);
         recycler_home_all_items.addItemDecoration(itemDecoration);
 
         recycler_home_all_items.getLayoutParams().height = height;
@@ -193,10 +196,12 @@ public class PrincipalFragment extends Fragment {
                 @Override
                 public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
 
+                    int[] viewsIds = manager_all_items.findFirstCompletelyVisibleItemPositions(null);
+
                     if (scrollY > oldScrollY) {
                         Log.i("Scroll:----", "Scroll DOWN");
                     }
-                    if (scrollY < oldScrollY && ((LinearLayoutManager) recycler_home_all_items.getLayoutManager()).findFirstCompletelyVisibleItemPosition() == 0) {
+                    if (scrollY < oldScrollY && viewsIds[0] == 0) {
                         Log.i("Scroll:----", "Scroll UP");
                         recycler_home_all_items.setHasFixedSize(true);
                         recycler_home_all_items.setNestedScrollingEnabled(false);
@@ -240,7 +245,7 @@ public class PrincipalFragment extends Fragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                Log.e("verify_Position:---",((LinearLayoutManager) recycler_home_all_items.getLayoutManager()).findFirstCompletelyVisibleItemPosition()+"");
+                //Log.e("verify_Position:---",((LinearLayoutManager) recycler_home_all_items.getLayoutManager()).findFirstCompletelyVisibleItemPosition()+"");
 
                 /*if(((LinearLayoutManager) recycler_home_all_items.getLayoutManager()).findFirstCompletelyVisibleItemPosition() == 0){
                     //Log.e("Position:---","toppppp");
@@ -254,6 +259,12 @@ public class PrincipalFragment extends Fragment {
                 } else if (dy > 0) {
                     Log.e("Position:---","downnnn");
                 }*/
+
+                int[] viewsIds = manager_all_items.findFirstCompletelyVisibleItemPositions(null);
+                //RecyclerView.ViewHolder firstViewHolder = recycler_home_all_items.findViewHolderForLayoutPosition(viewsIds[0]);
+                //View itemView = firstViewHolder.itemView;
+
+                //Log.e("verify_Position:---",""+viewsIds[0]);
             }
 
 
