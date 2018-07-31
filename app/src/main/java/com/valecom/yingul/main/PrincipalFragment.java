@@ -10,8 +10,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +38,7 @@ import com.valecom.yingul.Util.ItemOffsetDecoration;
 import com.valecom.yingul.adapter.AllCategoryHomeAdapter;
 import com.valecom.yingul.adapter.CategoryListAdapter;
 import com.valecom.yingul.adapter.LatestListAdapter;
+import com.valecom.yingul.adapter.ListGridAdapter;
 import com.valecom.yingul.adapter.StoreHomeAdapter;
 import com.valecom.yingul.main.allItems.AllItemsActivity;
 import com.valecom.yingul.main.over.OverActivity;
@@ -54,8 +58,13 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import me.relex.circleindicator.CircleIndicator;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 
 
 /**
@@ -63,7 +72,7 @@ import me.relex.circleindicator.CircleIndicator;
  */
 public class PrincipalFragment extends Fragment {
 
-    ScrollView scrollView;
+    NestedScrollView scrollView2;
 
     ArrayList<ItemHomeSlider> array_Slider;
     ItemHomeSlider itemSlider;
@@ -90,14 +99,20 @@ public class PrincipalFragment extends Fragment {
     StoreHomeAdapter adapter_category;
     ArrayList<Yng_Store> array_category;
 
-    //RecyclerView recycler_home_all_items;
-    //ListGridAdapter adapter_all_items;
-    //ArrayList<Yng_Item> array_all_items;
+    RecyclerView recycler_home_all_items;
+    ListGridAdapter adapter_all_items;
+    ArrayList<Yng_Item> array_all_items;
 
     private MaterialDialog progressDialog;
     private FragmentManager fragmentManager;
 
     private LinearLayout copyrightLayout;
+
+    DisplayMetrics metrics = new DisplayMetrics();
+    int paso = 20;
+    int start=0;
+    int end =paso;
+
     public PrincipalFragment() {
         // Required empty public constructor
     }
@@ -110,13 +125,23 @@ public class PrincipalFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_principal, container, false);
 
+        progressDialog = new MaterialDialog.Builder(getContext())
+                .title(R.string.progress_dialog)
+                .content(R.string.please_wait)
+                .cancelable(false)
+                .progress(true, 0).build();
+
         array_Slider = new ArrayList<>();
         array_all_category = new ArrayList<>();
         array_latest = new ArrayList<>();
         array_trending = new ArrayList<>();
         array_category = new ArrayList<>();
-        //array_all_items = new ArrayList<>();
+        array_all_items = new ArrayList<>();
         fragmentManager = getActivity().getSupportFragmentManager();
+
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int width = metrics.widthPixels; // ancho absoluto en pixels
+        int height = metrics.heightPixels; // alto absoluto en pixels
 
         viewpager_slider = (ViewPager) rootView.findViewById(R.id.viewPager);
         array_Slider = new ArrayList<>();
@@ -152,14 +177,90 @@ public class PrincipalFragment extends Fragment {
         recycler_home_category.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recycler_home_category.addItemDecoration(itemDecoration);
 
-        /*recycler_home_all_items = (RecyclerView) rootView.findViewById(R.id.rv_home_all_items);
-        recycler_home_all_items.setHasFixedSize(false);
-        recycler_home_all_items.setNestedScrollingEnabled(true);
+        recycler_home_all_items = (RecyclerView) rootView.findViewById(R.id.rv_home_all_items);
+        recycler_home_all_items.setHasFixedSize(true);
+        recycler_home_all_items.setNestedScrollingEnabled(false);
         recycler_home_all_items.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        recycler_home_all_items.addItemDecoration(itemDecoration);*/
+        recycler_home_all_items.addItemDecoration(itemDecoration);
 
-        copyrightLayout = (LinearLayout) rootView.findViewById(R.id.copyrightLayout);
-        copyrightLayout.setOnClickListener(new View.OnClickListener() {
+        recycler_home_all_items.getLayoutParams().height = height;
+
+        scrollView2 = (NestedScrollView) rootView.findViewById(R.id.scrollView2);
+
+        if (scrollView2 != null) {
+
+            scrollView2.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+
+                    if (scrollY > oldScrollY) {
+                        Log.i("Scroll:----", "Scroll DOWN");
+                    }
+                    if (scrollY < oldScrollY && ((LinearLayoutManager) recycler_home_all_items.getLayoutManager()).findFirstCompletelyVisibleItemPosition() == 0) {
+                        Log.i("Scroll:----", "Scroll UP");
+                        recycler_home_all_items.setHasFixedSize(true);
+                        recycler_home_all_items.setNestedScrollingEnabled(false);
+                    }
+
+                    if (scrollY == 0) {
+                        Log.e("Scroll:----", "TOP SCROLL");
+                    }
+
+                    if (scrollY == ( v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight() )) {
+                        Log.e("Scroll:----", "BOTTOM SCROLL");
+                        recycler_home_all_items.setHasFixedSize(false);
+                        recycler_home_all_items.setNestedScrollingEnabled(true);
+                        //updateProductTestData();
+                    }
+                }
+            });
+        }
+
+        recycler_home_all_items.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (!recyclerView.canScrollVertically(1)) {
+                    Log.e("Position:---","final");
+                    if(array_all_items.size() % paso == 0) {
+                        start += paso;
+                        end += paso;
+                        updateAllItems();
+                    }
+                }
+
+
+
+
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                Log.e("verify_Position:---",((LinearLayoutManager) recycler_home_all_items.getLayoutManager()).findFirstCompletelyVisibleItemPosition()+"");
+
+                /*if(((LinearLayoutManager) recycler_home_all_items.getLayoutManager()).findFirstCompletelyVisibleItemPosition() == 0){
+                    //Log.e("Position:---","toppppp");
+                    recycler_home_all_items.setHasFixedSize(true);
+                    recycler_home_all_items.setNestedScrollingEnabled(false);
+                }*/
+
+                /*if (dy < 0) {
+                    Log.e("Position:---","upppp");
+
+                } else if (dy > 0) {
+                    Log.e("Position:---","downnnn");
+                }*/
+            }
+
+
+        });
+
+        //copyrightLayout = (LinearLayout) rootView.findViewById(R.id.copyrightLayout);
+        /*copyrightLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent viewIntent =
@@ -167,7 +268,7 @@ public class PrincipalFragment extends Fragment {
                                 Uri.parse("https://s3-us-west-2.amazonaws.com/jsa-s3-bucketimage/politicas/terminos-y-condiciones-de-uso.pdf"));
                 startActivity(viewIntent);
             }
-        });
+        });*/
 
         view_all_trending.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,6 +289,124 @@ public class PrincipalFragment extends Fragment {
         loadJSONFromAssetHomeSlider();
 
         return rootView;
+    }
+
+    public ArrayList<Yng_Item> updateAllItems() {
+
+        progressDialog.show();
+
+        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "/item/listItemParams/All/All/Desc/"+start+"/"+end,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try
+                        {
+
+                            JSONArray m_jArry = response;
+                            Log.e("Eddy",m_jArry.toString());
+                            for (int i = 0; i < m_jArry.length(); i++) {
+                                JSONObject jo_inside = m_jArry.getJSONObject(i);
+                                Yng_Item item = new Yng_Item();
+                                item.setItemId(Long.valueOf(jo_inside.getString("itemId")));
+                                item.setName(jo_inside.getString("name"));
+                                item.setPrincipalImage(jo_inside.getString("principalImage"));
+                                item.setDescription(jo_inside.getString("description"));
+                                item.setPrice(Double.valueOf(jo_inside.getString("price")));
+                                item.setMoney(jo_inside.getString("money"));
+                                item.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));
+                                item.setPriceNormal(Double.valueOf(jo_inside.getString("priceNormal")));
+                                item.setPriceDiscount(Double.valueOf(jo_inside.getString("priceDiscount")));
+
+                                /*JSONObject user = jo_inside.getJSONObject("user");
+                                Gson gson = new Gson();
+                                Yng_User seller = gson.fromJson(String.valueOf(user) , Yng_User.class);
+                                item.setCategorySeller(seller.getUsername());*/
+
+
+                                //if(item.getPriceDiscount()==0 && !item.getProductPagoEnvio().equals("gratis")){
+                                //array_latest.add(item);
+                                //}
+                                array_all_items.add(item);
+
+
+                            }
+                            adapter_all_items.notifyDataSetChanged();
+
+                            /**/
+                            //JSONObject result = ((JSONObject)response.get("data"));
+                        }
+                        catch(Exception ex)
+                        {
+                            if (isAdded()) {
+                                Toast.makeText(getContext(), R.string.error_try_again_support, Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            // If the response is JSONObject instead of expected JSONArray
+                            progressDialog.dismiss();
+                        }
+                    }
+                }, new Response.ErrorListener()
+        {
+
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                // TODO Auto-generated method stub
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    // If the response is JSONObject instead of expected JSONArray
+                    progressDialog.dismiss();
+                }
+
+                NetworkResponse response = error.networkResponse;
+                if (response != null && response.data != null)
+                {
+                    try
+                    {
+                        JSONObject json = new JSONObject(new String(response.data));
+                        Toast.makeText(getContext(), json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
+                    }
+                    catch (JSONException e)
+                    {
+                        Toast.makeText(getContext(), R.string.error_try_again_support, Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(getContext(), error != null && error.getMessage() != null ? error.getMessage() : error.toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+        })
+        {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError
+            {
+                //SharedPreferences settings = getActivity().getSharedPreferences(ActivityLogin.SESSION_USER, getActivity().MODE_PRIVATE);
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("X-API-KEY", Network.API_KEY);
+                /*params.put("Authorization",
+                        "Basic " + Base64.encodeToString(
+                                (settings.getString("email","")+":" + settings.getString("api_key","")).getBytes(), Base64.NO_WRAP)
+                );*/
+                return params;
+            }
+        };
+
+        postRequest.setTag(MainActivity.TAG);
+
+        MySingleton.getInstance(getContext()).addToRequestQueue(postRequest);
+
+        return array_all_items;
+
+    }
+
+    public void end(String end) throws JSONException {
+        Log.i("end",""+end);
+    }
+    public void start(String start){
+        Log.i("start",""+start);
     }
 
     public ArrayList<ItemHomeSlider> loadJSONFromAssetHomeSlider() {
@@ -475,7 +694,7 @@ public class PrincipalFragment extends Fragment {
 
     public ArrayList<Yng_Item> loadJSONFromAssetHomeLatest() {
 
-        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "item/listItemParams/All/false/Desc/0/20",
+        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "/item/listItemParams/All/All/Desc/"+start+"/"+end,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -506,7 +725,7 @@ public class PrincipalFragment extends Fragment {
                                 //if(item.getPriceDiscount()==0 && !item.getProductPagoEnvio().equals("gratis")){
                                     array_latest.add(item);
                                 //}
-                                //array_all_items.add(item);
+                                array_all_items.add(item);
 
 
                             }
@@ -703,16 +922,16 @@ public class PrincipalFragment extends Fragment {
         recycler_home_category.setAdapter(adapter_category);
 
         //loadJSONFromAssetHomeAllItems();
-        //setAdapterHomeAllItems();
+        setAdapterHomeAllItems();
     }
 
     /***************************** ALL ITEMS BOTTOM********************************/
 
-    /*public void setAdapterHomeAllItems() {
+    public void setAdapterHomeAllItems() {
 
         adapter_all_items = new ListGridAdapter(getActivity(), array_all_items);
         recycler_home_all_items.setAdapter(adapter_all_items);
 
-    }*/
+    }
 
 }
