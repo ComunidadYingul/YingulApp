@@ -56,28 +56,6 @@ public class BuyItemInfoReserveFragment extends Fragment {
         txtShowInfo.setTextColor(Color.WHITE);
 
         user = new Yng_User();
-        SharedPreferences settings = getActivity().getSharedPreferences(LoginActivity.SESSION_USER, MODE_PRIVATE);
-        if (settings == null || settings.getInt("logged_in", 0) == 0 || settings.getString("api_key", "").equals(""))
-        {
-            Intent intent = new Intent(getContext(), LoginActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            getActivity().finish();
-        }else{
-            user.setUsername(settings.getString("username",""));
-            /*para obtener la ubicacion del usuario*/
-            if(settings.getString("yng_Ubication","").equals("null")){
-                userUbication=null;
-            }else{
-                Gson gson = new Gson();
-                userUbication = gson.fromJson(settings.getString("yng_Ubication","") , Yng_Ubication.class);
-            }
-            /*fin de la ubicacion del usuario*/
-            user.setPhone(settings.getString("phone",""));
-            user.setDocumentType(settings.getString("documentType",""));
-            user.setDocumentNumber(settings.getString("documentNumber",""));
-            user.setPassword(settings.getString("password",""));
-        }
 
         /*txtShowInfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,6 +85,28 @@ public class BuyItemInfoReserveFragment extends Fragment {
         buttonSetInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences settings = getActivity().getSharedPreferences(LoginActivity.SESSION_USER, MODE_PRIVATE);
+                if (settings == null || settings.getInt("logged_in", 0) == 0 || settings.getString("api_key", "").equals(""))
+                {
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    getActivity().finish();
+                }else{
+                    user.setUsername(settings.getString("username",""));
+                    /*para obtener la ubicacion del usuario*/
+                    if(settings.getString("yng_Ubication","").equals("null")){
+                        userUbication=null;
+                    }else{
+                        Gson gson = new Gson();
+                        userUbication = gson.fromJson(settings.getString("yng_Ubication","") , Yng_Ubication.class);
+                    }
+                    /*fin de la ubicacion del usuario*/
+                    user.setPhone(settings.getString("phone",""));
+                    user.setDocumentType(settings.getString("documentType",""));
+                    user.setDocumentNumber(settings.getString("documentNumber",""));
+                    user.setPassword(settings.getString("password",""));
+                }
                 if(userUbication==null||user.getPhone().equals("null")||user.getDocumentNumber().equals("null")||user.getDocumentType().equals("null")||user.getPhone().equals("")||user.getDocumentNumber().equals("")||user.getDocumentType().equals("")){
                     Intent intent = new Intent(getContext(), BuyActivity.class);
                     intent.putExtra("itemId",((BuyActivity)getActivity()).itemId);
