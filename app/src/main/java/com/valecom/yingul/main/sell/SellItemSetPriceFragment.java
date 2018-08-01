@@ -3,6 +3,7 @@ package com.valecom.yingul.main.sell;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
@@ -34,7 +35,8 @@ public class SellItemSetPriceFragment extends Fragment {
 
     Button buttonSetPrice;
     private EditText editPrice,editPriceNormal,editPriceDiscount;
-    private TextView editPorcentDiscount;
+    private TextView editPorcentDiscount,onlyPesos;
+    private TextInputLayout onlyAmbos;
     Spinner spinner_currency;
     private LinearLayout layoutOfferDiscount;
     private MaterialDialog setting_address_edit_dialog;
@@ -50,6 +52,9 @@ public class SellItemSetPriceFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_sell_item_set_price, container, false);
+
+        onlyPesos = (TextView) v.findViewById(R.id.onlyPesos);
+        onlyAmbos = (TextInputLayout) v.findViewById(R.id.onlyAmbos);
         editPrice = (EditText) v.findViewById(R.id.editPrice);
         buttonSetPrice = (Button) v.findViewById(R.id.buttonSetPrice);
         spinner_currency = (Spinner) v.findViewById(R.id.spinner_currency);
@@ -58,8 +63,12 @@ public class SellItemSetPriceFragment extends Fragment {
         val = new Validacion();
 
         if(((SellActivity)getActivity()).item.getType()=="Product"){
+            onlyAmbos.setVisibility(View.GONE);
+            onlyPesos.setVisibility(View.VISIBLE);
             layoutOfferDiscount.setVisibility(View.VISIBLE);
         }else{
+            onlyAmbos.setVisibility(View.VISIBLE);
+            onlyPesos.setVisibility(View.GONE);
             layoutOfferDiscount.setVisibility(View.GONE);
         }
 
@@ -83,11 +92,14 @@ public class SellItemSetPriceFragment extends Fragment {
                     editPrice.setError("El precio no debe sobrepasar de 29000");
                 }
                 else{
-
-                    if(spinner_currency.getSelectedItemPosition()==0){
-                        ((SellActivity)getActivity()).item.setMoney("USD");
-                    }else{
-                        ((SellActivity)getActivity()).item.setMoney("ARS");
+                    if(((SellActivity)getActivity()).item.getType()=="Product"){
+                        ((SellActivity) getActivity()).item.setMoney("ARS");
+                    }else {
+                        if (spinner_currency.getSelectedItemPosition() == 0) {
+                            ((SellActivity) getActivity()).item.setMoney("USD");
+                        } else {
+                            ((SellActivity) getActivity()).item.setMoney("ARS");
+                        }
                     }
                     ((SellActivity) getActivity()).item.setPriceDiscount(0);
                     ((SellActivity) getActivity()).item.setPriceNormal(0);
