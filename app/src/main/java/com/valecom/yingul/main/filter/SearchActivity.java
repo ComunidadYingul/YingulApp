@@ -297,8 +297,8 @@ public class SearchActivity extends AppCompatActivity {
 
     public static String cleanString(String texto) {
         texto = texto.trim().replace(" ","%20");
-        texto = Normalizer.normalize(texto, Normalizer.Form.NFD);
-        texto = texto.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
+        //texto = Normalizer.normalize(texto, Normalizer.Form.NFD);
+        //texto = texto.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
         return texto;
     }
 
