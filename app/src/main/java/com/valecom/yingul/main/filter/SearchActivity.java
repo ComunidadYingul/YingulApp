@@ -178,7 +178,8 @@ public class SearchActivity extends AppCompatActivity {
                     if(array_cat_list.size() % paso == 0) {
                         start += paso;
                         end += paso;
-                        updateListArray();
+                        String itemNameUrl = cleanString(itemName);
+                        updateListArray(Network.API_URL + "item/listItemByName/"+itemNameUrl+"/"+start+"/"+end);
                     }
                 }
             }
@@ -227,7 +228,8 @@ public class SearchActivity extends AppCompatActivity {
 
 
         /*****************/
-        loadJSONFromAssetCategoryList();
+        String itemNameUrl = cleanString(itemName);
+        getFirtsItemsByName(Network.API_URL + "item/listItemByName/"+itemNameUrl+"/0/30");
     }
 
     @Override
@@ -302,255 +304,6 @@ public class SearchActivity extends AppCompatActivity {
         return texto;
     }
 
-    public ArrayList<Yng_Item> loadJSONFromAssetCategoryList() {
-
-        progressDialog.show();
-
-        String itemNameUrl = cleanString(itemName);
-
-        Log.e("palabra",itemNameUrl+"");
-
-        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "item/listItemByName/"+itemNameUrl+"/0/30",
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try
-                        {
-
-                            JSONArray m_jArry = response;
-                            Log.e("tam dev:----",m_jArry.length()+"");
-                            for (int i = 0; i < m_jArry.length(); i++) {
-                                JSONObject jo_inside = m_jArry.getJSONObject(i);
-                                Yng_Item item = new Yng_Item();
-                                item.setItemId(Long.valueOf(jo_inside.getString("itemId")));
-                                item.setName(jo_inside.getString("name"));
-                                item.setPrincipalImage(jo_inside.getString("principalImage"));
-                                item.setDescription(jo_inside.getString("description"));
-                                item.setPrice(Double.valueOf(jo_inside.getString("price")));
-                                item.setType(jo_inside.getString("type"));
-                                item.setMoney(jo_inside.getString("money"));
-                                item.setCondition(jo_inside.getString("condition"));
-                                item.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));
-                                item.setOver(jo_inside.getBoolean("over"));
-                                item.setPriceNormal(Double.valueOf(jo_inside.getString("priceNormal")));
-                                item.setPriceDiscount(Double.valueOf(jo_inside.getString("priceDiscount")));
-
-                                Gson gson = new Gson();
-                                Yng_Ubication yngUbication = gson.fromJson(jo_inside.getString("yng_Ubication"), Yng_Ubication.class);
-                                item.setYng_Ubication(yngUbication);
-
-                                //Log.e("envia",jo_inside.getString("yng_Ubication"));
-                                /***********filtro**************/
-                                if(maxPriceItem<item.getPrice()){
-                                    maxPriceItem=item.getPrice();
-                                }
-                                if(minPriceItem>item.getPrice()){
-                                    minPriceItem=item.getPrice();
-                                }
-                                /********************************/
-                                array_cat_list.add(item);
-                            }
-                            Log.e("resultado final",array_cat_list.toString());
-                            /**************filtro*************/
-                            array_cat_list_backup=array_cat_list;
-                            /***********************************/
-                            getCountSearch(Network.API_URL+"/item/getQuantityItemByName/"+itemName.replace(" ",""));
-                            setAdapterHomeCategoryList();
-
-                            /**/
-                            //JSONObject result = ((JSONObject)response.get("data"));
-                        }
-                        catch(Exception ex)
-                        {
-                            //if (isAdded()) {
-                            Toast.makeText(getApplicationContext(), R.string.error_try_again_support, Toast.LENGTH_LONG).show();
-                            //}
-                        }
-
-                        if (progressDialog != null && progressDialog.isShowing()) {
-                            // If the response is JSONObject instead of expected JSONArray
-                            progressDialog.dismiss();
-                        }
-                    }
-                }, new Response.ErrorListener()
-        {
-
-            @Override
-            public void onErrorResponse(VolleyError error)
-            {
-                // TODO Auto-generated method stub
-                if (progressDialog != null && progressDialog.isShowing()) {
-                    // If the response is JSONObject instead of expected JSONArray
-                    progressDialog.dismiss();
-                }
-
-                NetworkResponse response = error.networkResponse;
-                if (response != null && response.data != null)
-                {
-                    try
-                    {
-                        JSONObject json = new JSONObject(new String(response.data));
-                        Toast.makeText(getApplicationContext(), json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
-                    }
-                    catch (JSONException e)
-                    {
-                        Toast.makeText(getApplicationContext(), R.string.error_try_again_support, Toast.LENGTH_SHORT).show();
-                    }
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(), error != null && error.getMessage() != null ? error.getMessage() : error.toString(), Toast.LENGTH_LONG).show();
-                }
-            }
-        })
-        {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError
-            {
-                //SharedPreferences settings = getActivity().getSharedPreferences(ActivityLogin.SESSION_USER, getActivity().MODE_PRIVATE);
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("X-API-KEY", Network.API_KEY);
-                /*params.put("Authorization",
-                        "Basic " + Base64.encodeToString(
-                                (settings.getString("email","")+":" + settings.getString("api_key","")).getBytes(), Base64.NO_WRAP)
-                );*/
-                return params;
-            }
-        };
-
-        postRequest.setTag(MainActivity.TAG);
-
-        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(postRequest);
-        return array_cat_list;
-    }
-
-    public ArrayList<Yng_Item> updateListArray() {
-
-        progressDialog.show();
-
-        String itemNameUrl = cleanString(itemName);
-
-        Log.e("palabra",itemNameUrl+"");
-
-        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "item/listItemByName/"+itemNameUrl+"/"+start+"/"+end,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try
-                        {
-
-                            JSONArray m_jArry = response;
-                            Log.e("tam dev:----",m_jArry.length()+"");
-                            for (int i = 0; i < m_jArry.length(); i++) {
-                                JSONObject jo_inside = m_jArry.getJSONObject(i);
-                                Yng_Item item = new Yng_Item();
-                                item.setItemId(Long.valueOf(jo_inside.getString("itemId")));
-                                item.setName(jo_inside.getString("name"));
-                                item.setPrincipalImage(jo_inside.getString("principalImage"));
-                                item.setDescription(jo_inside.getString("description"));
-                                item.setPrice(Double.valueOf(jo_inside.getString("price")));
-                                item.setType(jo_inside.getString("type"));
-                                item.setMoney(jo_inside.getString("money"));
-                                item.setCondition(jo_inside.getString("condition"));
-                                item.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));
-                                item.setOver(jo_inside.getBoolean("over"));
-                                item.setPriceNormal(Double.valueOf(jo_inside.getString("priceNormal")));
-                                item.setPriceDiscount(Double.valueOf(jo_inside.getString("priceDiscount")));
-
-                                Gson gson = new Gson();
-                                Yng_Ubication yngUbication = gson.fromJson(jo_inside.getString("yng_Ubication"), Yng_Ubication.class);
-                                item.setYng_Ubication(yngUbication);
-
-                                //Log.e("envia",jo_inside.getString("yng_Ubication"));
-                                /***********filtro**************/
-                                if(maxPriceItem<item.getPrice()){
-                                    maxPriceItem=item.getPrice();
-                                }
-                                if(minPriceItem>item.getPrice()){
-                                    minPriceItem=item.getPrice();
-                                }
-                                /********************************/
-                                array_cat_list.add(item);
-                            }
-                            Log.e("resultado final",array_cat_list.toString());
-                            /**************filtro*************/
-                            array_cat_list_backup=array_cat_list;
-                            /***********************************/
-                            if(modo.equals("grid")) {
-                                adapter_cat_list.notifyDataSetChanged();
-                            }else{
-                                adapter_cat_list_listview.notifyDataSetChanged();
-                            }
-
-                            /**/
-                            //JSONObject result = ((JSONObject)response.get("data"));
-                        }
-                        catch(Exception ex)
-                        {
-                            //if (isAdded()) {
-                            Toast.makeText(getApplicationContext(), R.string.error_try_again_support, Toast.LENGTH_LONG).show();
-                            //}
-                        }
-
-                        if (progressDialog != null && progressDialog.isShowing()) {
-                            // If the response is JSONObject instead of expected JSONArray
-                            progressDialog.dismiss();
-                        }
-                    }
-                }, new Response.ErrorListener()
-        {
-
-            @Override
-            public void onErrorResponse(VolleyError error)
-            {
-                // TODO Auto-generated method stub
-                if (progressDialog != null && progressDialog.isShowing()) {
-                    // If the response is JSONObject instead of expected JSONArray
-                    progressDialog.dismiss();
-                }
-
-                NetworkResponse response = error.networkResponse;
-                if (response != null && response.data != null)
-                {
-                    try
-                    {
-                        JSONObject json = new JSONObject(new String(response.data));
-                        Toast.makeText(getApplicationContext(), json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
-                    }
-                    catch (JSONException e)
-                    {
-                        Toast.makeText(getApplicationContext(), R.string.error_try_again_support, Toast.LENGTH_SHORT).show();
-                    }
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(), error != null && error.getMessage() != null ? error.getMessage() : error.toString(), Toast.LENGTH_LONG).show();
-                }
-            }
-        })
-        {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError
-            {
-                //SharedPreferences settings = getActivity().getSharedPreferences(ActivityLogin.SESSION_USER, getActivity().MODE_PRIVATE);
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("X-API-KEY", Network.API_KEY);
-                /*params.put("Authorization",
-                        "Basic " + Base64.encodeToString(
-                                (settings.getString("email","")+":" + settings.getString("api_key","")).getBytes(), Base64.NO_WRAP)
-                );*/
-                return params;
-            }
-        };
-
-        postRequest.setTag(MainActivity.TAG);
-
-        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(postRequest);
-        return array_cat_list;
-    }
-
     public void setAdapterHomeCategoryList() {
         recycler_cat_list.setLayoutManager(new StaggeredGridLayoutManager(col,1));
         adapter_cat_list = new ListGridAdapter(SearchActivity.this, array_cat_list);
@@ -559,8 +312,7 @@ public class SearchActivity extends AppCompatActivity {
 
     /**************filtros**************/
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
         if (requestCode == ITEM_PICKER_TAG) {
             // Make sure the request was successful
@@ -617,6 +369,178 @@ public class SearchActivity extends AppCompatActivity {
         return array_cat_list_new;
     }
     /*************************/
+    public void  updateListArray(String url){
+        start("inicio");
+        OkHttpClient httpClient = new OkHttpClient.Builder()
+                .connectTimeout(9000, TimeUnit.SECONDS)
+                .writeTimeout(9000, TimeUnit.SECONDS)
+                .readTimeout(9000, TimeUnit.SECONDS)
+                .build();
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(url)
+                .addHeader("Content-Type","application/json")
+                .addHeader("X-API-KEY", Network.API_KEY)
+                .get()
+                .build();
+        httpClient.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "error in getting response using async okhttp call");
+            }
+            @Override public void onResponse(Call call, okhttp3.Response response) throws IOException {
+                ResponseBody responseBody = response.body();
+                if (!response.isSuccessful()) {
+                    throw new IOException("Error response " + response);
+                }
+                //
+
+                final String responce=""+(responseBody.string());
+                try {
+                    end(""+responce);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.i("responce:------------",""+responce);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        JSONArray m_jArry = null;
+                        try {
+                            m_jArry = new JSONArray(responce);
+                            Log.e("tam dev:----",m_jArry.length()+"");
+                            for (int i = 0; i < m_jArry.length(); i++) {
+                                JSONObject jo_inside = m_jArry.getJSONObject(i);
+                                Yng_Item item = new Yng_Item();
+                                item.setItemId(Long.valueOf(jo_inside.getString("itemId")));
+                                item.setName(jo_inside.getString("name"));
+                                item.setPrincipalImage(jo_inside.getString("principalImage"));
+                                item.setDescription(jo_inside.getString("description"));
+                                item.setPrice(Double.valueOf(jo_inside.getString("price")));
+                                item.setType(jo_inside.getString("type"));
+                                item.setMoney(jo_inside.getString("money"));
+                                item.setCondition(jo_inside.getString("condition"));
+                                item.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));
+                                item.setOver(jo_inside.getBoolean("over"));
+                                item.setPriceNormal(Double.valueOf(jo_inside.getString("priceNormal")));
+                                item.setPriceDiscount(Double.valueOf(jo_inside.getString("priceDiscount")));
+
+                                Gson gson = new Gson();
+                                Yng_Ubication yngUbication = gson.fromJson(jo_inside.getString("yng_Ubication"), Yng_Ubication.class);
+                                item.setYng_Ubication(yngUbication);
+
+                                //Log.e("envia",jo_inside.getString("yng_Ubication"));
+                                /***********filtro**************/
+                                if(maxPriceItem<item.getPrice()){
+                                    maxPriceItem=item.getPrice();
+                                }
+                                if(minPriceItem>item.getPrice()){
+                                    minPriceItem=item.getPrice();
+                                }
+                                /********************************/
+                                array_cat_list.add(item);
+                            }
+                            Log.e("resultado final",array_cat_list.toString());
+                            /**************filtro*************/
+                            array_cat_list_backup=array_cat_list;
+                            /***********************************/
+                            if(modo.equals("grid")) {
+                                adapter_cat_list.notifyDataSetChanged();
+                            }else{
+                                adapter_cat_list_listview.notifyDataSetChanged();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+            }
+        });
+    }
+    
+    public void  getFirtsItemsByName(String url){
+        start("inicio");
+        OkHttpClient httpClient = new OkHttpClient.Builder()
+                .connectTimeout(9000, TimeUnit.SECONDS)
+                .writeTimeout(9000, TimeUnit.SECONDS)
+                .readTimeout(9000, TimeUnit.SECONDS)
+                .build();
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(url)
+                .addHeader("Content-Type","application/json")
+                .addHeader("X-API-KEY", Network.API_KEY)
+                .get()
+                .build();
+        httpClient.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "error in getting response using async okhttp call");
+            }
+            @Override public void onResponse(Call call, okhttp3.Response response) throws IOException {
+                ResponseBody responseBody = response.body();
+                if (!response.isSuccessful()) {
+                    throw new IOException("Error response " + response);
+                }
+                //
+
+                final String responce=""+(responseBody.string());
+                try {
+                    end(""+responce);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.i("responce:------------",""+responce);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        JSONArray m_jArry = null;
+                        try {
+                            m_jArry = new JSONArray(responce);
+                            Log.e("tam dev:----",m_jArry.length()+"");
+                            for (int i = 0; i < m_jArry.length(); i++) {
+                                JSONObject jo_inside = m_jArry.getJSONObject(i);
+                                Yng_Item item = new Yng_Item();
+                                item.setItemId(Long.valueOf(jo_inside.getString("itemId")));
+                                item.setName(jo_inside.getString("name"));
+                                item.setPrincipalImage(jo_inside.getString("principalImage"));
+                                item.setDescription(jo_inside.getString("description"));
+                                item.setPrice(Double.valueOf(jo_inside.getString("price")));
+                                item.setType(jo_inside.getString("type"));
+                                item.setMoney(jo_inside.getString("money"));
+                                item.setCondition(jo_inside.getString("condition"));
+                                item.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));
+                                item.setOver(jo_inside.getBoolean("over"));
+                                item.setPriceNormal(Double.valueOf(jo_inside.getString("priceNormal")));
+                                item.setPriceDiscount(Double.valueOf(jo_inside.getString("priceDiscount")));
+
+                                Gson gson = new Gson();
+                                Yng_Ubication yngUbication = gson.fromJson(jo_inside.getString("yng_Ubication"), Yng_Ubication.class);
+                                item.setYng_Ubication(yngUbication);
+
+                                //Log.e("envia",jo_inside.getString("yng_Ubication"));
+                                /***********filtro**************/
+                                if(maxPriceItem<item.getPrice()){
+                                    maxPriceItem=item.getPrice();
+                                }
+                                if(minPriceItem>item.getPrice()){
+                                    minPriceItem=item.getPrice();
+                                }
+                                /********************************/
+                                array_cat_list.add(item);
+                            }
+                            Log.e("resultado final",array_cat_list.toString());
+                            /**************filtro*************/
+                            array_cat_list_backup=array_cat_list;
+                            /***********************************/
+                            getCountSearch(Network.API_URL+"/item/getQuantityItemByName/"+itemName.replace(" ",""));
+                            setAdapterHomeCategoryList();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+            }
+        });
+    }
 
     public void  getCountSearch(String url){
         start("inicio");
