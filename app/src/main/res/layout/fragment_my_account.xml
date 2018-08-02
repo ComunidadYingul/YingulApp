@@ -534,18 +534,25 @@
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:paddingBottom="8dp"
-                    android:paddingTop="8dp"
+                    android:paddingTop="@dimen/activity_horizontal_margin"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
                     >
-
-                        <TextView
-                            android:gravity="right"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="v. 1.17."
-                            android:textColor="@color/black"
-                            android:textSize="15sp" />
+                    <TextView
+                        android:gravity="right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Versión "
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+                    <TextView
+                        android:id="@+id/txtVersionName"
+                        android:gravity="right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1.17."
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
