@@ -525,7 +525,7 @@ public class SearchActivity extends AppCompatActivity {
                             /**************filtro*************/
                             array_cat_list_backup=array_cat_list;
                             /***********************************/
-                            getCountSearch(Network.API_URL+"/item/getQuantityItemByName/"+itemName.replace(" ","%20"));
+                            getCountSearch(Network.API_URL+"/item/getQuantityItemByName/"+itemName.trim().replace(" ","%20"));
                             setAdapterHomeCategoryList();
                         } catch (JSONException e) {
                             e.printStackTrace();

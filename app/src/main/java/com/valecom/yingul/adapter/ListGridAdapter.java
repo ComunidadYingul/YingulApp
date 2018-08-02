@@ -83,7 +83,7 @@ public class ListGridAdapter extends RecyclerView.Adapter<ListGridAdapter.ItemRo
             }
         }catch (Exception e){}
 
-        Picasso.with(mContext).load(Network.BUCKET_URL+item.getPrincipalImage()).into(holder.image_cat_list);
+        Picasso.with(mContext).load(Network.BUCKET_URL+item.getPrincipalImage()).placeholder(R.drawable.placeholder120).into(holder.image_cat_list);
 
         holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
             @Override
