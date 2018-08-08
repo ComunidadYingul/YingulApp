@@ -167,7 +167,7 @@ public class MyAccountSaleDetailFragment extends Fragment
             layoutShipping.setVisibility(View.VISIBLE);
             layBranch.setVisibility(View.VISIBLE);
             layoutStatusShipment.setVisibility(View.VISIBLE);
-            layoutTicket.setVisibility(View.VISIBLE);
+            layoutTicket.setVisibility(View.GONE);
             if(confirm.getBuy().getYng_item().getProductPagoEnvio().equals("gratis")){
                 txtShippingCost.setText("GRATIS");
             }else{

@@ -178,6 +178,16 @@ public class Validacion {
 
     /************ CADENAS DE TEXTO ***********/
 
+    public boolean valCadVacia(EditText view){
+        if(view.getText().toString().trim().length() <= 0){
+            view.setError("Campo requerido");
+            view.requestFocus();
+            return false;
+        }else{
+            return true;
+        }
+    }
+
     public boolean valCantString(EditText view,int cantDig){
         if (view.getText().toString().trim().length() < cantDig)
         {
@@ -218,6 +228,24 @@ public class Validacion {
         if(!pass1.getText().toString().equals(pass2.getText().toString())){
             pass2.requestFocus();
             pass2.setError("Las contraseñas no coinciden");
+            return false;
+        }else {
+            return true;
+        }
+    }
+
+    /*********************** VALIDAR TEXTO SIN ACENTOS ****************/
+
+    public boolean valTextWithoutAcent(EditText view){
+        String REGEX = "^[a-zA-ZñÑ]+$";
+        Pattern patron = Pattern.compile(REGEX);
+        if(view.getText().toString().trim().length() <= 0){
+            view.requestFocus();
+            view.setError("Campo requerido");
+            return false;
+        }else if (!patron.matcher(view.getText().toString().trim()).matches()){
+            view.requestFocus();
+            view.setError("Por favor ingresar solo texto sin acentos ni caracteres especiales");
             return false;
         }else {
             return true;
