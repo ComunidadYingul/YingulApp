@@ -482,11 +482,11 @@ public class MainActivity extends AppCompatActivity
                 if (!hasFocus) {
                     MenuItemCompat.collapseActionView(searchMenuItem);
                     searchView.setQuery("", false);
-                    InicioFragment fragment = new InicioFragment();
+                    /*InicioFragment fragment = new InicioFragment();
                     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.content_frame, fragment);
                     fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
+                    fragmentTransaction.commit();*/
                 }
             }
         });

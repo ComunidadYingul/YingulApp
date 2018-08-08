@@ -238,22 +238,17 @@ public class SearchActivity extends AppCompatActivity {
         final MenuItem searchMenuItem = menu.findItem(R.id.search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
 
-        /*searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
 
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 // TODO Auto-generated method stub
-                if (!hasFocus) {
+                if (hasFocus) {
                     MenuItemCompat.collapseActionView(searchMenuItem);
-                    searchView.setQuery("", false);
-                    InicioFragment fragment = new InicioFragment();
-                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.content_frame, fragment);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
+                    searchView.setQuery(itemName, false);
                 }
             }
-        });*/
+        });
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
@@ -530,7 +525,7 @@ public class SearchActivity extends AppCompatActivity {
                             /**************filtro*************/
                             array_cat_list_backup=array_cat_list;
                             /***********************************/
-                            getCountSearch(Network.API_URL+"/item/getQuantityItemByName/"+itemName.replace(" ",""));
+                            getCountSearch(Network.API_URL+"/item/getQuantityItemByName/"+itemName.trim().replace(" ","%20"));
                             setAdapterHomeCategoryList();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -572,12 +567,12 @@ public class SearchActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Log.i("responce:------------",""+responce);
+                numCoincidencia = Integer.valueOf(responce+"");
+                Log.i("cant_coincide:---",""+numCoincidencia);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        txtNoOfItem.setText(responce+"");
-                        numCoincidencia = Integer.valueOf(responce+"");
+                        txtNoOfItem.setText(String.valueOf(numCoincidencia));
                     }
                 });
 

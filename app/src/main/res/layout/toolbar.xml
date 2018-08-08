@@ -14,5 +14,6 @@
     app:navigationContentDescription="up"
     android:background="?attr/colorPrimary"
     app:navigationIcon="?attr/homeAsUpIndicator"
+    android:theme="@style/ToolbarStyle"
     app:title="@string/action_settings"   />
 </android.support.design.widget.AppBarLayout>

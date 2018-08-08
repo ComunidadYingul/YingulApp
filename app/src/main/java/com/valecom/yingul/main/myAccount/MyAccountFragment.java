@@ -3,6 +3,7 @@ package com.valecom.yingul.main.myAccount;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -58,7 +59,7 @@ public class MyAccountFragment extends Fragment
     private Button buttonSell,settings_logout_button;
     //private LinearLayout shoppingQuestions,purchasesLayout,publicationsLayout,salesQuestionsLayout,userProfile,;
     private LinearLayout shoppingQuestions,purchasesLayout,publicationsLayout,salesQuestionsLayout,userProfile,yingulPay,salesListLayout,layoutCantQueries;
-    private TextView textCartItemCount;
+    private TextView textCartItemCount,txtVersionName;
     public static final MediaType JSON= MediaType.parse("application/json; charset=utf-8");
     public static final String TAG = "OKHTTPREQUEST";
     public MyAccountFragment()
@@ -110,6 +111,9 @@ public class MyAccountFragment extends Fragment
         salesListLayout = (LinearLayout) view.findViewById(R.id.salesListLayout);
         layoutCantQueries = (LinearLayout) view.findViewById(R.id.layoutCantQueries);
         textCartItemCount = (TextView) view.findViewById(R.id.textCartItemCount);
+        txtVersionName = (TextView) view.findViewById(R.id.txtVersionName);
+
+        txtVersionName.setText(getVersionName(getContext()));
 
         buttonSell.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -230,6 +234,15 @@ public class MyAccountFragment extends Fragment
         }
 
         return view;
+    }
+
+    private String getVersionName(Context ctx) {
+        try {
+            return ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

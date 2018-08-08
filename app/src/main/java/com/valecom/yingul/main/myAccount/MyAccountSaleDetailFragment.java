@@ -33,6 +33,8 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.LoginActivity;
+import com.valecom.yingul.main.MainActivity;
+import com.valecom.yingul.main.buy.BuyActivity;
 import com.valecom.yingul.main.myAccount.confirmDelivery.ConfirmDeliveryActivity;
 import com.valecom.yingul.main.property.PropertyActivity;
 import com.valecom.yingul.main.property.PropertyFilteredActivity;
@@ -45,8 +47,17 @@ import com.valecom.yingul.network.Network;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 
 public class MyAccountSaleDetailFragment extends Fragment
 {
@@ -58,10 +69,12 @@ public class MyAccountSaleDetailFragment extends Fragment
     private Yng_Confirm confirm;
     private TextView buyTime,txtItemType,txtCurrencyPrice,txtShippingCost,txtTypeOSchedules,txtTotal,txtItemName,txtQuantity,txtBranchName,txtBranchStreet,txtDischargeDate,txtDate,txtStatus,txtReason,txtBranch;
     private ImageView principalImage,imgShipping;
-    private LinearLayout layoutShipping,layBranch,layoutStatusShipment,layoutConfirmDelivery;
-    private Button btnFindShipping,btnConfirmDelivery;
+    private LinearLayout layoutShipping,layBranch,layoutStatusShipment,layoutConfirmDelivery,layoutTicket;
+    private Button btnFindShipping,btnConfirmDelivery,btnTicket;
 
     private MaterialDialog setting_address_edit_dialog;
+
+    public static final MediaType JSON= MediaType.parse("application/json; charset=utf-8");
 
     public static final String TAG = "PurchaseDetailFragment";
     public MyAccountSaleDetailFragment()
@@ -124,8 +137,10 @@ public class MyAccountSaleDetailFragment extends Fragment
         txtBranchStreet = (TextView) view.findViewById(R.id.txtBranchStreet);
         btnFindShipping = (Button) view.findViewById(R.id.btnFindShipping);
         layoutStatusShipment = (LinearLayout) view.findViewById(R.id.layoutStatusShipment);
+        layoutTicket = (LinearLayout) view.findViewById(R.id.layoutTicket);
         layoutConfirmDelivery = (LinearLayout) view.findViewById(R.id.layoutConfirmDelivery);
         btnConfirmDelivery = (Button) view.findViewById(R.id.btnConfirmDelivery);
+        btnTicket = (Button) view.findViewById(R.id.btnTicket);
 
         txtQuantity.setText(String.valueOf(confirm.getBuy().getQuantity()));
         txtItemName.setText(confirm.getBuy().getYng_item().getName());
@@ -140,6 +155,7 @@ public class MyAccountSaleDetailFragment extends Fragment
             layoutShipping.setVisibility(View.GONE);
             layBranch.setVisibility(LinearLayout.GONE);
             layoutStatusShipment.setVisibility(LinearLayout.GONE);
+            layoutTicket.setVisibility(LinearLayout.GONE);
             txtTypeOSchedules.setText("Retiro en el domicilio del vendedor");
             if(confirm.getStatus().equals("pending")){
                 layoutConfirmDelivery.setVisibility(View.VISIBLE);
@@ -151,6 +167,7 @@ public class MyAccountSaleDetailFragment extends Fragment
             layoutShipping.setVisibility(View.VISIBLE);
             layBranch.setVisibility(View.VISIBLE);
             layoutStatusShipment.setVisibility(View.VISIBLE);
+            layoutTicket.setVisibility(View.VISIBLE);
             if(confirm.getBuy().getYng_item().getProductPagoEnvio().equals("gratis")){
                 txtShippingCost.setText("GRATIS");
             }else{
@@ -181,6 +198,16 @@ public class MyAccountSaleDetailFragment extends Fragment
                 findShipping();
             }
         });
+
+        btnTicket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = Network.API_URL+"buy/getTicket/"+confirm.getBuy().getShipping().getYng_Shipment().getShipmentCod();
+                Log.e("Url:--",url);
+                requestArrayPost(url);
+            }
+        });
+
         btnConfirmDelivery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -372,6 +399,74 @@ public class MyAccountSaleDetailFragment extends Fragment
         postRequest.setTag(TAG);
 
         MySingleton.getInstance(getContext()).addToRequestQueue(postRequest);
+    }
+
+    public void  requestArrayPost(String url){
+        start("inicio");
+        OkHttpClient httpClient = new OkHttpClient.Builder()
+                .connectTimeout(3000, TimeUnit.SECONDS)
+                .writeTimeout(3000, TimeUnit.SECONDS)
+                .readTimeout(3000, TimeUnit.SECONDS)
+                .build();
+        //RequestBody body = RequestBody.create(JSON, json);
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(url)
+                .addHeader("Content-Type","application/json")
+                .get()
+                .build();
+        httpClient.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "error in getting response using async okhttp call");
+            }
+            @Override public void onResponse(Call call, okhttp3.Response response) throws IOException {
+                ResponseBody responseBody = response.body();
+                if (!response.isSuccessful()) {
+                    throw new IOException("Error response " + response);
+                }
+                //
+
+                final String responce=""+(responseBody.string());
+                try {
+                    end(""+responce);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.e("Url_ticket:--------",""+responce);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(responce));
+                        startActivity(intent);
+
+                        /*if(responce.equals("save")) {
+                            Toast.makeText(this, item.getType().equals("Motorized") ? "Reserva exitosa revise su email" : "Compra exitosa revise su email", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(BuyActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        }else{
+                            if(responce.contains(":")){
+                                String[] parts = responce.split(":");
+                                paymentId = Long.parseLong(parts[1]);
+                                Log.e("paymentId",""+paymentId);
+                                RunGetPaymentToTicketService();
+                            }else{
+                                Toast.makeText(getActivity(),"No se guardo 1",Toast.LENGTH_LONG).show();
+                            }
+                        }*/
+                    }
+                });
+
+            }
+        });
+    }
+
+    public void end(String end) throws JSONException {
+        Log.e("end",""+end);
+        progressDialog.dismiss();
+    }
+    public void start(String start){
+        Log.e("start",""+start);
+        progressDialog.show();
     }
 
 }
