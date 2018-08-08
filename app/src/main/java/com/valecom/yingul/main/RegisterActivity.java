@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.valecom.yingul.R;
+import com.valecom.yingul.Util.Validacion;
 import com.valecom.yingul.main.sell.SellActivity;
 import com.valecom.yingul.model.Yng_Person;
 import com.valecom.yingul.model.Yng_User;
@@ -235,42 +236,23 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     {
         boolean isValid = true;
 
-        if (editFirstname.getText().toString().trim().length() == 0)
-        {
-            editFirstname.setError("Nombre requerido");
-            isValid = false;
-        } else
-        {
-            editFirstname.setError(null);
-        }
+        Validacion val = new Validacion();
 
-        if (editLastname.getText().toString().trim().length() == 0)
+        if (!val.valTextWithoutAcent(editFirstname))
         {
-            editLastname.setError("Apellido requerido");
             isValid = false;
-        } else
+        }else if (!val.valTextWithoutAcent(editLastname))
         {
-            editLastname.setError(null);
-        }
-
-        if (editEmail.getText().toString().trim().length() == 0)
-        {
-            editEmail.setError("Correo requerido");
             isValid = false;
-        } else
+        }else if (!val.valEmail(editEmail))
         {
-            editEmail.setError(null);
-        }
-
-        if (editPassword.getText().toString().trim().length() == 0)
-        {
-            editPassword.setError("Contraseña requerida");
             isValid = false;
-        } else
+        }else if (!val.valTextWithoutAcent(editPassword))
         {
-            editPassword.setError(null);
+            isValid = false;
+        }else {
+            isValid = true;
         }
-
         return isValid;
     }
 
