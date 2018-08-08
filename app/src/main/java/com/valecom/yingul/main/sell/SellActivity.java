@@ -17,17 +17,25 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.LoginActivity;
 import com.valecom.yingul.main.MainActivity;
+import com.valecom.yingul.main.buy.BuyActivity;
 import com.valecom.yingul.main.newUserUbicationEditPersonalInfo.NewUserUbicationEditPersonalInfoActivity;
 import com.valecom.yingul.main.newUserUbicationEditPersonalInfo.NewUserUbicationEditPersonalInfoFragment;
 import com.valecom.yingul.model.Yng_Barrio;
 import com.valecom.yingul.model.Yng_Category;
 import com.valecom.yingul.model.Yng_City;
 import com.valecom.yingul.model.Yng_Country;
+import com.valecom.yingul.model.Yng_IpApi;
 import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.model.Yng_ItemCategory;
 import com.valecom.yingul.model.Yng_ItemImage;
@@ -38,14 +46,20 @@ import com.valecom.yingul.model.Yng_Province;
 import com.valecom.yingul.model.Yng_Service;
 import com.valecom.yingul.model.Yng_Ubication;
 import com.valecom.yingul.model.Yng_User;
+import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
 import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -73,6 +87,8 @@ public class SellActivity extends AppCompatActivity {
     Yng_Barrio barrio;
     //private Set<Yng_ItemCategory> itemCategoryList = new HashSet<>();
     Set<Yng_ItemCategory> itemCategoryList = new HashSet<>();
+    private JSONObject api_parameter;
+    Yng_IpApi ipApi;
     /***************/
     Yng_Category category;
     Yng_Category subCategory;
@@ -104,6 +120,7 @@ public class SellActivity extends AppCompatActivity {
         city = new Yng_City();
         user = new Yng_User();
         barrio = new Yng_Barrio();
+        ipApi = new Yng_IpApi();
         category = null;
         subCategory = null;
         subSubCategory = null;
@@ -514,6 +531,7 @@ public class SellActivity extends AppCompatActivity {
         }else{
             item.setDescription(aditionalDescription);
         }
+        getLocalIpAddress();
         switch (item.getType()){
             case "Service":
                 service.setYng_Item(item);
@@ -817,6 +835,87 @@ public class SellActivity extends AppCompatActivity {
             }
         });
     }
+    public void getLocalIpAddress() {
+        progressDialog.show();
 
+        JsonObjectRequest postRequest = new JsonObjectRequest
+                (Request.Method.POST, "http://ip-api.com/json", api_parameter, new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+                        /*if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }*/
+                        try
+                        {
+                            Log.e("json de ip" , response.toString());
+                            Gson gson = new Gson();
+                            ipApi = gson.fromJson(String.valueOf(response), Yng_IpApi.class);
+                            item.setIp(ipApi.getQuery());
+                            item.setOrg(ipApi.getOrg());
+                            item.setLat(String.valueOf(ipApi.getLat()));
+                            item.setLon(String.valueOf(ipApi.getLon()));
+                            item.setCity(ipApi.getCity());
+                            item.setCountry(ipApi.getCountry());
+                            item.setCountryCode(ipApi.getCountryCode());
+                            item.setRegionName(ipApi.getRegionName());
+                            item.setZip(ipApi.getZip());
+                        }
+                        catch (Exception ex)
+                        {
+                            Toast.makeText(SellActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }, new Response.ErrorListener()
+                {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        // TODO Auto-generated method stub
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            // If the response is JSONObject instead of expected JSONArray
+                            progressDialog.dismiss();
+                        }
+
+                        NetworkResponse response = error.networkResponse;
+                        if (response != null && response.data != null)
+                        {
+                            try
+                            {
+                                JSONObject json = new JSONObject(new String(response.data));
+                                Toast.makeText(SellActivity.this, json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
+                            }
+                            catch (JSONException e)
+                            {
+                                Toast.makeText(SellActivity.this, R.string.error_try_again_support, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else
+                        {
+                            Toast.makeText(SellActivity.this, error != null && error.getMessage() != null ? error.getMessage() : error.toString(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                })
+        {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                //params.put("X-API-KEY", Network.API_KEY);
+                return params;
+            }
+        };
+
+        // Get a RequestQueue
+        RequestQueue queue = MySingleton.getInstance(this.getApplicationContext()).getRequestQueue();
+
+        //Used to mark the request, so we can cancel it on our onStop method
+        postRequest.setTag(TAG);
+
+        MySingleton.getInstance(this).addToRequestQueue(postRequest);
+    }
 
 }

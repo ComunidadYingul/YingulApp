@@ -619,7 +619,7 @@ public class MainActivity extends AppCompatActivity
         progressDialog.show();
 
         JsonObjectRequest postRequest = new JsonObjectRequest
-                (Request.Method.GET, Network.API_URL + "user/person/"+username, api_parameter, new Response.Listener<JSONObject>()
+                (Request.Method.GET, Network.API_URL + "user/getPersonWithAuthorization/"+username, api_parameter, new Response.Listener<JSONObject>()
                 {
                     @Override
                     public void onResponse(JSONObject response)
@@ -660,7 +660,15 @@ public class MainActivity extends AppCompatActivity
                             progressDialog.dismiss();
                         }
 
-                        NetworkResponse response = error.networkResponse;
+                        SharedPreferences.Editor settings = MainActivity.this.getSharedPreferences(LoginActivity.SESSION_USER, MainActivity.this.MODE_PRIVATE).edit();
+                        settings.clear();
+                        settings.commit();
+                        Intent settingsIntent = new Intent(MainActivity.this, MainActivity.class);
+                        settingsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        settingsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(settingsIntent);
+
+                        /*NetworkResponse response = error.networkResponse;
                         if (response != null && response.data != null)
                         {
                             try
@@ -677,7 +685,7 @@ public class MainActivity extends AppCompatActivity
                         {
                             //Toast.makeText(LoginActivity.this, error != null && error.getMessage() != null ? error.getMessage()+"4" : error.toString()+"5", Toast.LENGTH_LONG).show();
                             Toast.makeText(MainActivity.this,"Usuario o contraseña incorrectos",Toast.LENGTH_SHORT).show();
-                        }
+                        }*/
                     }
                 })
         {
@@ -686,7 +694,7 @@ public class MainActivity extends AppCompatActivity
             public Map<String, String> getHeaders() throws AuthFailureError
             {
                 Map<String, String> params = new HashMap<String, String>();
-                //params.put("X-API-KEY", Network.API_KEY);
+                params.put("Authorization", user.getPassword());
                 return params;
             }
         };

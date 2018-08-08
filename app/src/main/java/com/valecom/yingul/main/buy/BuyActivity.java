@@ -443,7 +443,7 @@ public class BuyActivity extends AppCompatActivity {
                                 Log.e("paymentId",""+paymentId);
                                 RunGetPaymentToTicketService();
                             }else{
-                                Toast.makeText(BuyActivity.this,"No se guardo 1",Toast.LENGTH_LONG).show();
+                                Toast.makeText(BuyActivity.this, responce.toString(),Toast.LENGTH_LONG).show();
                             }
                         }
                     }
