@@ -251,4 +251,21 @@ public class Validacion {
             return true;
         }
     }
+
+    /**********************  VALIDACION DE PASSWORD ****************/
+    public boolean valPassword(EditText view){
+        String REGEX = "^[a-zA-ZñÑ0-9]+$";
+        Pattern patron = Pattern.compile(REGEX);
+        if(view.getText().toString().trim().length() <= 0){
+            view.requestFocus();
+            view.setError("Campo requerido");
+            return false;
+        }else if (!patron.matcher(view.getText().toString().trim()).matches()){
+            view.requestFocus();
+            view.setError("Por favor ingresar texto y/o números sin acentos ni caracteres especiales");
+            return false;
+        }else {
+            return true;
+        }
+    }
 }
