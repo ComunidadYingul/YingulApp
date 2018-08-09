@@ -100,10 +100,32 @@ public class Validacion {
         }
     }
 
+    public boolean valNumRange(EditText view,int cantMin,int canMax){
+        if (view.getText().toString().trim().length() < cantMin || view.getText().toString().trim().length() > canMax)
+        {
+            view.setError("Campo requerido entre "+cantMin+" y "+canMax+" digitos");
+            view.requestFocus();
+            return false;
+        }else{
+            return true;
+        }
+    }
+
     public boolean valNumMayorADig(EditText view,int cantDid){
         if (view.getText().toString().trim().length() < cantDid)
         {
             view.setError("Campo requerido, minimo "+cantDid+" dígitos");
+            view.requestFocus();
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public boolean valNumMenorADig(EditText view,int cantDid){
+        if (view.getText().toString().trim().length() > cantDid)
+        {
+            view.setError("Campo requerido, máximo "+cantDid+" dígitos");
             view.requestFocus();
             return false;
         }else{

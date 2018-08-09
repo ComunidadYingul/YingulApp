@@ -82,7 +82,7 @@ public class BuyItemSetCardPaymentTypeFragment extends Fragment {
                             ((BuyActivity)getActivity()).card.setProvider("VISA");
                             break;
                         case 1:
-                            ((BuyActivity)getActivity()).card.setProvider("MATERCARD");
+                            ((BuyActivity)getActivity()).card.setProvider("MASTERCARD");
                             break;
                         case 2:
                             ((BuyActivity)getActivity()).card.setProvider("AMEX");
