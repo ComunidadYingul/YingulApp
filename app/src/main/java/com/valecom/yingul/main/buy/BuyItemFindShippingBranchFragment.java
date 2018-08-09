@@ -15,6 +15,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.valecom.yingul.R;
 import com.valecom.yingul.Util.Validacion;
 import com.valecom.yingul.model.Yng_Quote;
+import com.valecom.yingul.model.Yng_Shipment;
 import com.valecom.yingul.model.Yng_Ubication;
 import com.valecom.yingul.model.Yng_User;
 import com.valecom.yingul.network.Network;
@@ -144,7 +145,13 @@ public class BuyItemFindShippingBranchFragment extends Fragment {
     public void end(String end) throws JSONException {
         Log.i("end",""+end);
         ((BuyActivity)getActivity()).quotes = new JSONArray(end);
-        ((BuyActivity)getActivity()).zip = editPostalCode.getText().toString().trim();
+        Yng_Ubication u = new Yng_Ubication();
+        u.setPostalCode(editPostalCode.getText().toString().trim());
+        Yng_User us = new Yng_User();
+        us.setYng_Ubication(u);
+        Yng_Shipment sh = new Yng_Shipment();
+        sh.setYng_User(us);
+        ((BuyActivity)getActivity()).shipment = sh;
         progressDialog.dismiss();
         BuyItemSetShippingBranchFragment fragment = new BuyItemSetShippingBranchFragment();
         FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();

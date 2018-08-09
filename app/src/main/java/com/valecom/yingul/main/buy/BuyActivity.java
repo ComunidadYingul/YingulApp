@@ -84,7 +84,7 @@ public class BuyActivity extends AppCompatActivity {
     Yng_CashPayment cashPayment;
     Yng_Shipping shipping;
     Yng_Quote quote;
-    String zip="";
+    Yng_Shipment shipment;
     /***********/
     /****************/
     JSONArray quotes;
@@ -124,6 +124,7 @@ public class BuyActivity extends AppCompatActivity {
         province = new Yng_Province();
         city = new Yng_City();
         user = new Yng_User();
+        shipment = new Yng_Shipment();
         /*********************/
         buy = new Yng_Buy();
         payment = new Yng_Payment();
@@ -292,13 +293,7 @@ public class BuyActivity extends AppCompatActivity {
         buy.setYng_Payment(payment);
         buy.setQuantity(quantity);
         shipping.setYng_Quote(quote);
-        Yng_Ubication u = new Yng_Ubication();
-        u.setPostalCode(zip);
-        Yng_User us = new Yng_User();
-        us.setYng_Ubication(u);
-        Yng_Shipment sh = new Yng_Shipment();
-        sh.setYng_User(us);
-        shipping.setYng_Shipment(sh);
+        shipping.setYng_Shipment(shipment);
         buy.setShipping(shipping);
         buy.setItemCost((double)Math.round((item.getPrice()*quantity) * 100d) / 100d);
 
