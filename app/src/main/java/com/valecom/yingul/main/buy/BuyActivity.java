@@ -38,6 +38,7 @@ import com.valecom.yingul.model.Yng_Payment;
 import com.valecom.yingul.model.Yng_Product;
 import com.valecom.yingul.model.Yng_Province;
 import com.valecom.yingul.model.Yng_Quote;
+import com.valecom.yingul.model.Yng_Shipment;
 import com.valecom.yingul.model.Yng_Shipping;
 import com.valecom.yingul.model.Yng_Ubication;
 import com.valecom.yingul.model.Yng_User;
@@ -291,7 +292,13 @@ public class BuyActivity extends AppCompatActivity {
         buy.setYng_Payment(payment);
         buy.setQuantity(quantity);
         shipping.setYng_Quote(quote);
-        shipping.getYng_Shipment().getYng_User().getYng_Ubication().setPostalCode(zip);
+        Yng_Ubication u = new Yng_Ubication();
+        u.setPostalCode(zip);
+        Yng_User us = new Yng_User();
+        us.setYng_Ubication(u);
+        Yng_Shipment sh = new Yng_Shipment();
+        sh.setYng_User(us);
+        shipping.setYng_Shipment(sh);
         buy.setShipping(shipping);
         buy.setItemCost(item.getPrice());
 
