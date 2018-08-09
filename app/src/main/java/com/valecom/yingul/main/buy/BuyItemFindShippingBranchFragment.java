@@ -144,6 +144,7 @@ public class BuyItemFindShippingBranchFragment extends Fragment {
     public void end(String end) throws JSONException {
         Log.i("end",""+end);
         ((BuyActivity)getActivity()).quotes = new JSONArray(end);
+        ((BuyActivity)getActivity()).zip = editPostalCode.getText().toString().trim();
         progressDialog.dismiss();
         BuyItemSetShippingBranchFragment fragment = new BuyItemSetShippingBranchFragment();
         FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();

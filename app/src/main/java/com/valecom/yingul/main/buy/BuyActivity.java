@@ -83,6 +83,7 @@ public class BuyActivity extends AppCompatActivity {
     Yng_CashPayment cashPayment;
     Yng_Shipping shipping;
     Yng_Quote quote;
+    String zip="";
     /***********/
     /****************/
     JSONArray quotes;
@@ -290,7 +291,7 @@ public class BuyActivity extends AppCompatActivity {
         buy.setYng_Payment(payment);
         buy.setQuantity(quantity);
         shipping.setYng_Quote(quote);
-        shipping.getYng_Shipment().getYng_User().getYng_Ubication().setPostalCode(quote.getYng_User().getYng_Ubication().getPostalCode());
+        shipping.getYng_Shipment().getYng_User().getYng_Ubication().setPostalCode(zip);
         buy.setShipping(shipping);
         buy.setItemCost(item.getPrice());
 
