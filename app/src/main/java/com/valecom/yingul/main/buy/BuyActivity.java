@@ -290,6 +290,7 @@ public class BuyActivity extends AppCompatActivity {
         buy.setYng_Payment(payment);
         buy.setQuantity(quantity);
         shipping.setYng_Quote(quote);
+        shipping.getYng_Shipment().getYng_User().getYng_Ubication().setPostalCode(quote.getYng_User().getYng_Ubication().getPostalCode());
         buy.setShipping(shipping);
         buy.setItemCost(item.getPrice());
 
