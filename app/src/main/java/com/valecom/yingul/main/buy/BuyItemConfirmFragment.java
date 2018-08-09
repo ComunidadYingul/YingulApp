@@ -73,17 +73,17 @@ public class BuyItemConfirmFragment extends Fragment {
                 layoutShipping.setVisibility(View.GONE);
                 layBranch.setVisibility(LinearLayout.GONE);
                 txtTypeOSchedules.setText("Retiro en el domicilio del vendedor");
-                txtTotal.setText("$ "+(((BuyActivity)getActivity()).item.getPrice()));
+                txtTotal.setText("$ "+((((BuyActivity)getActivity()).item.getPrice())*(((BuyActivity)getActivity()).quantity)));
             }else{
                 imgShipping.setImageResource(R.drawable.branch);
                 layoutShipping.setVisibility(View.VISIBLE);
                 layBranch.setVisibility(View.VISIBLE);
                 if(((BuyActivity)getActivity()).item.getProductPagoEnvio().equals("gratis")){
                     txtShippingCost.setText("GRATIS");
-                    txtTotal.setText("$ "+(((BuyActivity)getActivity()).item.getPrice()));
+                    txtTotal.setText("$ "+((((BuyActivity)getActivity()).item.getPrice())*(((BuyActivity)getActivity()).quantity)));
                 }else{
                     txtShippingCost.setText("$ "+((BuyActivity)getActivity()).quote.getRate());
-                    txtTotal.setText("$ "+(((BuyActivity)getActivity()).item.getPrice()+((BuyActivity)getActivity()).quote.getRate()));
+                    txtTotal.setText("$ "+(((((BuyActivity)getActivity()).item.getPrice())*(((BuyActivity)getActivity()).quantity))+((BuyActivity)getActivity()).quote.getRate()));
                 }
                 txtTypeOSchedules.setText(((BuyActivity)getActivity()).quote.getYng_Branch().getSchedules());
                 txtBranchName.setText("Sucursal "+((BuyActivity)getActivity()).quote.getYng_Branch().getNameMail()+" "+((BuyActivity)getActivity()).quote.getYng_Branch().getLocation());

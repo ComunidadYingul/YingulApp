@@ -300,16 +300,16 @@ public class BuyActivity extends AppCompatActivity {
         sh.setYng_User(us);
         shipping.setYng_Shipment(sh);
         buy.setShipping(shipping);
-        buy.setItemCost(item.getPrice());
+        buy.setItemCost((double)Math.round((item.getPrice()*quantity) * 100d) / 100d);
 
-        buy.setShippingCost(quote.getRate());
+        buy.setShippingCost((double)Math.round(quote.getRate() * 100d) / 100d);
         if(item.getType().equals("Motorized")){
             buy.setCost(1500);
         }else {
             if (!item.getProductPagoEnvio().equals("gratis")) {
-                buy.setCost(quote.getRate() + item.getPrice());
+                buy.setCost((double)Math.round((quote.getRate() + buy.getItemCost()) * 100d) / 100d);
             } else {
-                buy.setCost(buy.getItemCost());
+                buy.setCost((double)Math.round(buy.getItemCost() * 100d) / 100d);
             }
         }
 
