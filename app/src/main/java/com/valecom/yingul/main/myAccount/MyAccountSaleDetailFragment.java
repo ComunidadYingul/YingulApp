@@ -162,6 +162,7 @@ public class MyAccountSaleDetailFragment extends Fragment
             }else{
                 layoutConfirmDelivery.setVisibility(View.GONE);
             }
+            btnTicket.setVisibility(View.GONE);
         }else{
             imgShipping.setImageResource(R.drawable.branch);
             layoutShipping.setVisibility(View.VISIBLE);
