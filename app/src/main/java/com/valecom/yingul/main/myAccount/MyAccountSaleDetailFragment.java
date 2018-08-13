@@ -162,13 +162,12 @@ public class MyAccountSaleDetailFragment extends Fragment
             }else{
                 layoutConfirmDelivery.setVisibility(View.GONE);
             }
-            btnTicket.setVisibility(View.GONE);
         }else{
             imgShipping.setImageResource(R.drawable.branch);
             layoutShipping.setVisibility(View.VISIBLE);
             layBranch.setVisibility(View.VISIBLE);
             layoutStatusShipment.setVisibility(View.VISIBLE);
-            layoutTicket.setVisibility(View.GONE);
+            layoutTicket.setVisibility(View.VISIBLE);
             if(confirm.getBuy().getYng_item().getProductPagoEnvio().equals("gratis")){
                 txtShippingCost.setText("GRATIS");
             }else{
@@ -177,7 +176,6 @@ public class MyAccountSaleDetailFragment extends Fragment
             txtTypeOSchedules.setText(confirm.getBuy().getShipping().getYng_Quote().getYng_Branch().getSchedules());
             txtBranchName.setText("Sucursal "+confirm.getBuy().getShipping().getYng_Quote().getYng_Branch().getNameMail()+" "+confirm.getBuy().getShipping().getYng_Quote().getYng_Branch().getLocation());
             txtBranchStreet.setText(confirm.getBuy().getShipping().getYng_Quote().getYng_Branch().getStreet());
-            btnTicket.setVisibility(View.VISIBLE);
         }
         switch(confirm.getBuy().getYng_item().getType()){
             case "Product":
