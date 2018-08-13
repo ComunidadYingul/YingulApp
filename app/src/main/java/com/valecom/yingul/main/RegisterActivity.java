@@ -247,7 +247,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }else if (!val.valEmail(editEmail))
         {
             isValid = false;
-        }else if (!val.valTextWithoutAcent(editPassword))
+        }else if (!val.valPassword(editPassword))
         {
             isValid = false;
         }else {

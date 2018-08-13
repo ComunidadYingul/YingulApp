@@ -372,9 +372,14 @@ public class ActivityProductDetail extends AppCompatActivity {
         text_product_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(itemTemp.getType().equals("Product") || itemTemp.getType().equals("Motorized")){
 
-                    showOrderPlace();
+                if(itemTemp.getType().equals("Product") || itemTemp.getType().equals("Motorized")){
+                    if(edit_quantity.getText().toString().trim().length() == 0 || edit_quantity.getText().toString().equals("0")){
+                        edit_quantity.setError("Ingrese cantidad mayor a 0");
+                        edit_quantity.requestFocus();
+                    }else {
+                        showOrderPlace();
+                    }
                 }else if(itemTemp.getType().equals("Property") || itemTemp.getType().equals("Service")){
                     Validacion val = new Validacion();
                     if(val.valCantString(editNewQuestion,1)){

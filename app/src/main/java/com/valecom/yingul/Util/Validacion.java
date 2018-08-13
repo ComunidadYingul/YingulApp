@@ -100,10 +100,32 @@ public class Validacion {
         }
     }
 
+    public boolean valNumRange(EditText view,int cantMin,int canMax){
+        if (view.getText().toString().trim().length() < cantMin || view.getText().toString().trim().length() > canMax)
+        {
+            view.setError("Campo requerido entre "+cantMin+" y "+canMax+" digitos");
+            view.requestFocus();
+            return false;
+        }else{
+            return true;
+        }
+    }
+
     public boolean valNumMayorADig(EditText view,int cantDid){
         if (view.getText().toString().trim().length() < cantDid)
         {
             view.setError("Campo requerido, minimo "+cantDid+" dígitos");
+            view.requestFocus();
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public boolean valNumMenorADig(EditText view,int cantDid){
+        if (view.getText().toString().trim().length() > cantDid)
+        {
+            view.setError("Campo requerido, máximo "+cantDid+" dígitos");
             view.requestFocus();
             return false;
         }else{
@@ -246,6 +268,23 @@ public class Validacion {
         }else if (!patron.matcher(view.getText().toString().trim()).matches()){
             view.requestFocus();
             view.setError("Por favor ingresar solo texto sin acentos ni caracteres especiales");
+            return false;
+        }else {
+            return true;
+        }
+    }
+
+    /**********************  VALIDACION DE PASSWORD ****************/
+    public boolean valPassword(EditText view){
+        String REGEX = "^[a-zA-ZñÑ0-9]+$";
+        Pattern patron = Pattern.compile(REGEX);
+        if(view.getText().toString().trim().length() <= 0){
+            view.requestFocus();
+            view.setError("Campo requerido");
+            return false;
+        }else if (!patron.matcher(view.getText().toString().trim()).matches()){
+            view.requestFocus();
+            view.setError("Por favor ingresar texto y/o números sin acentos ni caracteres especiales");
             return false;
         }else {
             return true;
