@@ -176,6 +176,7 @@ public class MyAccountSaleDetailFragment extends Fragment
             txtTypeOSchedules.setText(confirm.getBuy().getShipping().getYng_Quote().getYng_Branch().getSchedules());
             txtBranchName.setText("Sucursal "+confirm.getBuy().getShipping().getYng_Quote().getYng_Branch().getNameMail()+" "+confirm.getBuy().getShipping().getYng_Quote().getYng_Branch().getLocation());
             txtBranchStreet.setText(confirm.getBuy().getShipping().getYng_Quote().getYng_Branch().getStreet());
+            btnTicket.setVisibility(View.VISIBLE);
         }
         switch(confirm.getBuy().getYng_item().getType()){
             case "Product":
