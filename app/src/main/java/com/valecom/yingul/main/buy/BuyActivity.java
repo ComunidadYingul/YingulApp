@@ -440,6 +440,7 @@ public class BuyActivity extends AppCompatActivity {
                             Toast.makeText(BuyActivity.this, item.getType().equals("Motorized") ? "Reserva exitosa revise su email" : "Compra exitosa revise su email", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(BuyActivity.this, MainActivity.class);
                             startActivity(intent);
+                            finish();
                         }else{
                             if(responce.contains(":")){
                                 String[] parts = responce.split(":");
@@ -490,10 +491,13 @@ public class BuyActivity extends AppCompatActivity {
                             paymentToTicket.setCashPayment(cashPaymentToTicket);
                             paymentToTicket.setValue(response.getDouble("value"));
 
-                            BuyItemTicketCashPaymentFragment fragment = new BuyItemTicketCashPaymentFragment();
-                            FragmentTransaction fragmentTransaction  = getSupportFragmentManager().beginTransaction();
-                            fragmentTransaction.replace(R.id.content_frame, fragment);
-                            fragmentTransaction.commit();
+                            Intent intent = new Intent(BuyActivity.this, BuyItemTicketCashPaymentActivity.class);
+                            intent.putExtra("cost",paymentToTicket.getValue());
+                            intent.putExtra("method",paymentToTicket.getCashPayment().getPaymentMethod());
+                            intent.putExtra("html",paymentToTicket.getCashPayment().getURL_PAYMENT_RECEIPT_HTML());
+                            intent.putExtra("pdf",paymentToTicket.getCashPayment().getURL_PAYMENT_RECEIPT_PDF());
+                            startActivity(intent);
+                            finish();
                         }
                         catch (Exception ex)
                         {
