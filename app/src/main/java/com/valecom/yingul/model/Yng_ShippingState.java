@@ -6,62 +6,62 @@ import java.io.Serializable;
 
 public class Yng_ShippingState implements Serializable {
 
-	private String Sucursal="";
-	private String Fecha="";
-	private String IdMotivo="";
-	private JSONObject Motivo= new JSONObject();
-	private String IdEstado="";
-	private String Estado="";
+	private String sucursal="";
+	private String fecha="";
+	private String idMotivo="";
+	private JSONObject motivo= new JSONObject();
+	private String idEstado="";
+	private String estado="";
 
 	public Yng_ShippingState() {
 		super();
 	}
 
-	public String getSucursal() {
-		return Sucursal;
-	}
+    public String getSucursal() {
+        return sucursal;
+    }
 
-	public void setSucursal(String sucursal) {
-		Sucursal = sucursal;
-	}
+    public void setSucursal(String sucursal) {
+        this.sucursal = sucursal;
+    }
 
-	public String getFecha() {
-		return Fecha;
-	}
+    public String getFecha() {
+        return fecha;
+    }
 
-	public void setFecha(String fecha) {
-		Fecha = fecha;
-	}
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
 
-	public String getIdMotivo() {
-		return IdMotivo;
-	}
+    public String getIdMotivo() {
+        return idMotivo;
+    }
 
-	public void setIdMotivo(String idMotivo) {
-		IdMotivo = idMotivo;
-	}
+    public void setIdMotivo(String idMotivo) {
+        this.idMotivo = idMotivo;
+    }
 
-	public JSONObject getMotivo() {
-		return Motivo;
-	}
+    public JSONObject getMotivo() {
+        return motivo;
+    }
 
-	public void setMotivo(JSONObject motivo) {
-		Motivo = motivo;
-	}
+    public void setMotivo(JSONObject motivo) {
+        this.motivo = motivo;
+    }
 
-	public String getIdEstado() {
-		return IdEstado;
-	}
+    public String getIdEstado() {
+        return idEstado;
+    }
 
-	public void setIdEstado(String idEstado) {
-		IdEstado = idEstado;
-	}
+    public void setIdEstado(String idEstado) {
+        this.idEstado = idEstado;
+    }
 
-	public String getEstado() {
-		return Estado;
-	}
+    public String getEstado() {
+        return estado;
+    }
 
-	public void setEstado(String estado) {
-		Estado = estado;
-	}
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
 }

@@ -272,7 +272,7 @@ public class MyAccountSaleDetailFragment extends Fragment
         progressDialog.show();
         Log.e("codigo que llega",confirm.getBuy().getShipping().getYng_Shipment().getShipmentCod());
         JsonObjectRequest postRequest = new JsonObjectRequest
-                (Request.Method.GET, Network.API_URL+"buy/getStateBuy/"+confirm.getBuy().getShipping().getYng_Shipment().getShipmentCod(), api_parameter, new Response.Listener<JSONObject>()
+                (Request.Method.GET, Network.API_URL+"buy/getTrazabBuy/"+confirm.getBuy().getShipping().getYng_Shipment().getShipmentCod(), api_parameter, new Response.Listener<JSONObject>()
                 {
 
                     @Override
@@ -284,28 +284,27 @@ public class MyAccountSaleDetailFragment extends Fragment
                         }
 
                         try{
-                            String state = "{\"FechaAlta\":\"2018-08-16T13:22:52-03:00\",\"Eventos\":{\"Evento_\":[{\"Sucursal\":\"-\",\"Fecha\":\"2018-08-16T13:22:52-03:00\",\"IdMotivo\":\"-1\",\"Motivo\":{},\"IdEstado\":\"30\",\"Estado\":\"Envío no ingresado\"},{\"Sucursal\":\"Sucursal Moreno (Bs. As.)\",\"Fecha\":\"2018-08-16T14:53:57-03:00\",\"IdMotivo\":\"-1\",\"Motivo\":{},\"IdEstado\":\"25\",\"Estado\":\"Envío ingresado al circuito operativo\"},{\"Sucursal\":\"Sucursal Moreno (Bs. As.)\",\"Fecha\":\"2018-08-16T18:29:29-03:00\",\"IdMotivo\":\"-1\",\"Motivo\":{},\"IdEstado\":\"21\",\"Estado\":\"Envío en tránsito a sucursal de Andreani\"},{\"Sucursal\":\"Planta de Operaciones Bs. As.\",\"Fecha\":\"2018-08-16T20:16:47-03:00\",\"IdMotivo\":\"-1\",\"Motivo\":{},\"IdEstado\":\"20\",\"Estado\":\"Envío en sucursal de Andreani\"},{\"Sucursal\":\"Planta de Operaciones Bs. As.\",\"Fecha\":\"2018-08-17T04:16:17-03:00\",\"IdMotivo\":\"-1\",\"Motivo\":{},\"IdEstado\":\"21\",\"Estado\":\"Envío en tránsito a sucursal de Andreani\"},{\"Sucursal\":\"Sucursal San Miguel (Bs. As.)\",\"Fecha\":\"2018-08-17T07:16:37-03:00\",\"IdMotivo\":\"-1\",\"Motivo\":{},\"IdEstado\":\"17\",\"Estado\":\"Envío en custodia en sucursal de Andreani\"}]},\"NombreEnvio\":\"Encomienda\",\"NroAndreani\":\"310000005335214\"}";
-                            JSONObject obj1 = new JSONObject(state);
+                            JSONObject obj1 = response;
                             Log.e("estado",String.valueOf(response));
                             Yng_ShippingTraceability shipTra = new Yng_ShippingTraceability();
                             //como esto statusShip.setEstado(response.optString("estado"));
-                            shipTra.setFechaAlta(obj1.optString("FechaAlta"));
-                            shipTra.setEventos(obj1.optJSONObject("Eventos"));
-                            shipTra.setNombreEnvio(obj1.optString("NombreEnvio"));
-                            shipTra.setNroAndreani(obj1.optString("NroAndreani"));
+                            shipTra.setFechaAlta(obj1.optString("fechaAlta"));
+                            shipTra.setEventos(obj1.optJSONObject("eventos"));
+                            shipTra.setNombreEnvio(obj1.optString("nombreEnvio"));
+                            shipTra.setNroAndreani(obj1.optString("nroAndreani"));
 
-                            JSONArray items = shipTra.getEventos().optJSONArray("Evento_");
+                            JSONArray items = shipTra.getEventos().optJSONArray("evento_");
                             Log.e("trazabilidad",items.toString());
                             array_list.clear();
                             for (int i = 0; i < items.length(); i++) {
                                 JSONObject obj = items.getJSONObject(i);
                                 Yng_ShippingState item = new Yng_ShippingState();
-                                item.setSucursal(obj.optString("Sucursal"));
-                                item.setFecha(obj.optString("Fecha"));
-                                item.setIdMotivo(obj.optString("IdMotivo"));
-                                item.setMotivo(obj.optJSONObject("Motivo"));
-                                item.setIdEstado(obj.optString("IdEstado"));
-                                item.setEstado(obj.optString("Estado"));
+                                item.setSucursal(obj.optString("sucursal"));
+                                item.setFecha(obj.optString("fecha"));
+                                item.setIdMotivo(obj.optString("idMotivo"));
+                                item.setMotivo(obj.optJSONObject("motivo"));
+                                item.setIdEstado(obj.optString("idEstado"));
+                                item.setEstado(obj.optString("estado"));
                                 array_list.add(item);
                             }
 
