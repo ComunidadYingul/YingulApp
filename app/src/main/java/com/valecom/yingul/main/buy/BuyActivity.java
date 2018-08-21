@@ -413,6 +413,7 @@ public class BuyActivity extends AppCompatActivity {
         okhttp3.Request request = new okhttp3.Request.Builder()
                 .url(url)
                 .addHeader("Content-Type","application/json")
+                .addHeader("Authorization",user.getPassword())
                 .post(body)
                 .build();
         httpClient.newCall(request).enqueue(new Callback() {
