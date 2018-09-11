@@ -1688,7 +1688,7 @@ public class ActivityProductDetail extends AppCompatActivity {
         // Add data to the intent, the receiving app will decide
         // what to do with it.
         share.putExtra(Intent.EXTRA_SUBJECT, "Title Of The Post");
-        share.putExtra(Intent.EXTRA_TEXT, "http://backendyingul-env.cqx28e6j2j.us-west-2.elasticbeanstalk.com/sell/meta/"+id);
+        share.putExtra(Intent.EXTRA_TEXT, "https://api.yingul.com/sell/meta/"+id);
 
         startActivity(Intent.createChooser(share, "Share link!"));
     }
