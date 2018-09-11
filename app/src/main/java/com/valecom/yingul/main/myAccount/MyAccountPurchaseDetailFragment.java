@@ -13,10 +13,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -28,20 +30,23 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.R;
+import com.valecom.yingul.adapter.ShippingStateAdapter;
 import com.valecom.yingul.main.LoginActivity;
 import com.valecom.yingul.main.MainActivity;
 import com.valecom.yingul.model.Yng_Claim;
 import com.valecom.yingul.model.Yng_Confirm;
-import com.valecom.yingul.model.Yng_StateShipping;
+import com.valecom.yingul.model.Yng_ShippingState;
+import com.valecom.yingul.model.Yng_ShippingTraceability;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -64,7 +69,9 @@ public class MyAccountPurchaseDetailFragment extends Fragment
     private ImageView principalImage,imgShipping,imgPayment;
     private LinearLayout layoutShipping,layBranch,downloadTicket,layoutStatusShipment,purchaseProblemLayout;
     private Button btnFindShipping;
-
+    ListView listShipState;
+    ShippingStateAdapter adapter;
+    ArrayList<Yng_ShippingState> array_list;
     private MaterialDialog setting_address_edit_dialog;
 
     public static final String TAG = "PurchaseDetailFragment";
@@ -99,6 +106,8 @@ public class MyAccountPurchaseDetailFragment extends Fragment
     {
         View view = inflater.inflate(R.layout.fragment_my_account_purchase_detail, container, false);
 
+        array_list = new ArrayList<Yng_ShippingState>();
+        adapter = new ShippingStateAdapter(getContext(), array_list);
         SharedPreferences settings = getActivity().getSharedPreferences(LoginActivity.SESSION_USER, getActivity().MODE_PRIVATE);
 
         if (settings == null || settings.getInt("logged_in", 0) == 0 || settings.getString("api_key", "").equals(""))
@@ -269,7 +278,7 @@ public class MyAccountPurchaseDetailFragment extends Fragment
         progressDialog.show();
         Log.e("codigo que llega",confirm.getBuy().getShipping().getYng_Shipment().getShipmentCod());
         JsonObjectRequest postRequest = new JsonObjectRequest
-                (Request.Method.GET, Network.API_URL+"buy/getStateBuy/"+confirm.getBuy().getShipping().getYng_Shipment().getShipmentCod(), api_parameter, new Response.Listener<JSONObject>()
+                (Request.Method.GET, Network.API_URL+"buy/getTrazabBuy/"+confirm.getBuy().getShipping().getYng_Shipment().getShipmentCod(), api_parameter, new Response.Listener<JSONObject>()
                 {
 
                     @Override
@@ -281,19 +290,35 @@ public class MyAccountPurchaseDetailFragment extends Fragment
                         }
 
                         try{
+                            JSONObject obj1 = response;
                             Log.e("estado",String.valueOf(response));
-                            Yng_StateShipping statusShip = new Yng_StateShipping();
-                            statusShip.setEstado(response.optString("estado"));
-                            statusShip.setSucursal(response.optString("sucursal"));
-                            statusShip.setFecha(response.optString("fecha"));
-                            statusShip.setNombreEnvio(response.optString("nombreEnvio"));
-                            statusShip.setNroAndreani(response.optString("nroAndreani"));
-                            statusShip.setFechaAlta(response.optString("fechaAlta"));
-                            statusShip.setMotivo(response.optString("motivo"));
+                            Yng_ShippingTraceability shipTra = new Yng_ShippingTraceability();
+                            //como esto statusShip.setEstado(response.optString("estado"));
+                            shipTra.setFechaAlta(obj1.optString("fechaAlta"));
+                            shipTra.setEventos(obj1.optJSONObject("eventos"));
+                            shipTra.setNombreEnvio(obj1.optString("nombreEnvio"));
+                            shipTra.setNroAndreani(obj1.optString("nroAndreani"));
+
+                            JSONArray items = shipTra.getEventos().optJSONArray("evento_");
+                            Log.e("trazabilidad",items.toString());
+                            array_list.clear();
+                            for (int i = 0; i < items.length(); i++) {
+                                JSONObject obj = items.getJSONObject(i);
+                                Yng_ShippingState item = new Yng_ShippingState();
+                                item.setSucursal(obj.optString("sucursal"));
+                                item.setFecha(obj.optString("fecha"));
+                                item.setIdMotivo(obj.optString("idMotivo"));
+                                item.setMotivo(obj.optJSONObject("motivo"));
+                                item.setIdEstado(obj.optString("idEstado"));
+                                item.setEstado(obj.optString("estado"));
+                                array_list.add(item);
+                            }
+
+                            adapter.notifyDataSetChanged();
                             /*******************/
-                            final Yng_StateShipping finalStatusShip = statusShip;
+                            final Yng_ShippingTraceability finalShipTra = shipTra;
                             setting_address_edit_dialog = new MaterialDialog.Builder(getContext())
-                                    .customView(R.layout.my_account_status_shipping_layout, true)
+                                    .customView(R.layout.my_account_shipping_traceability_layout, true)
                                     .positiveText("OK")
                                     .cancelable(false)
                                     .showListener(new DialogInterface.OnShowListener()
@@ -303,22 +328,57 @@ public class MyAccountPurchaseDetailFragment extends Fragment
                                         {
                                             View view = setting_address_edit_dialog.getCustomView();
 
-                                            txtDischargeDate = (TextView) view.findViewById(R.id.txtDischargeDate);
-                                            String[] parts = finalStatusShip.getFechaAlta().split("T1");
-                                            txtDischargeDate.setText(parts[0]);
+                                            listShipState = (ListView) view.findViewById(R.id.listShipState);
+                                            listShipState.setAdapter(adapter);
 
-                                            txtDate = (TextView) view.findViewById(R.id.txtDate);
-                                            parts = finalStatusShip.getFecha().split("T1");
-                                            txtDate.setText(parts[0]);
+                                            listShipState.setOnItemClickListener(new AdapterView.OnItemClickListener()
+                                            {
+                                                @Override
+                                                public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+                                                {
+                                                    final Yng_ShippingState item = adapter.getItem(position);
+                                                    /***************/
+                                                    setting_address_edit_dialog = new MaterialDialog.Builder(getContext())
+                                                            .customView(R.layout.my_account_status_shipping_layout, true)
+                                                            .positiveText("OK")
+                                                            .cancelable(false)
+                                                            .showListener(new DialogInterface.OnShowListener()
+                                                            {
+                                                                @Override
+                                                                public void onShow(DialogInterface dialog)
+                                                                {
+                                                                    View view = setting_address_edit_dialog.getCustomView();
 
-                                            txtStatus = (TextView) view.findViewById(R.id.txtStatus);
-                                            txtStatus.setText(finalStatusShip.getEstado());
+                                                                    //txtDischargeDate = (TextView) view.findViewById(R.id.txtDischargeDate);
+                                                                    //String[] parts = finalStatusShip.getFechaAlta().split("T1");
+                                                                    //txtDischargeDate.setText(parts[0]);
 
-                                            txtReason = (TextView) view.findViewById(R.id.txtReason);
-                                            txtReason.setText(finalStatusShip.getMotivo());
+                                                                    txtDate = (TextView) view.findViewById(R.id.txtDate);
+                                                                    //parts = finalStatusShip.getFecha().split("T1");
+                                                                    txtDate.setText(item.getFecha().replace("T"," "));
 
-                                            txtBranch = (TextView) view.findViewById(R.id.txtBranch);
-                                            txtBranch.setText(finalStatusShip.getSucursal());
+                                                                    txtStatus = (TextView) view.findViewById(R.id.txtStatus);
+                                                                    txtStatus.setText(item.getEstado());
+
+                                                                    txtReason = (TextView) view.findViewById(R.id.txtReason);
+                                                                    //txtReason.setText(item.getMotivo());
+                                                                    txtBranch = (TextView) view.findViewById(R.id.txtBranch);
+                                                                    txtBranch.setText(item.getSucursal());
+                                                                }
+                                                            })
+                                                            .callback(new MaterialDialog.ButtonCallback()
+                                                            {
+                                                                @Override
+                                                                public void onPositive(MaterialDialog dialog) {
+                                                                    if (dialog != null && dialog.isShowing()) {
+                                                                        // If the response is JSONObject instead of expected JSONArray
+                                                                        dialog.dismiss();
+                                                                    }
+                                                                }
+                                                            })
+                                                            .show();
+                                                }
+                                            });
                                         }
                                     })
                                     .callback(new MaterialDialog.ButtonCallback()

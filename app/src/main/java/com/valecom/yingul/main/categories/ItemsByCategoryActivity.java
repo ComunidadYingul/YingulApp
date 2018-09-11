@@ -1,7 +1,6 @@
 package com.valecom.yingul.main.categories;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
@@ -19,16 +18,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.valecom.yingul.Item.ItemColorSize;
 import com.valecom.yingul.R;
@@ -39,18 +34,14 @@ import com.valecom.yingul.adapter.SelectColorAdapter;
 import com.valecom.yingul.adapter.SelectSizeAdapter;
 import com.valecom.yingul.main.MainActivity;
 import com.valecom.yingul.main.filter.FilterActivity;
-import com.valecom.yingul.main.store.ActivityStore;
 import com.valecom.yingul.model.FilterParam;
 import com.valecom.yingul.model.Yng_Item;
-import com.valecom.yingul.model.Yng_StateShipping;
 import com.valecom.yingul.model.Yng_Ubication;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;

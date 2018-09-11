@@ -117,7 +117,7 @@ public class BuyItemConfirmFragment extends Fragment {
         Picasso.with(getActivity()).load(Network.BUCKET_URL+((BuyActivity)getActivity()).item.getPrincipalImage()).into(principalImage);
         if(((BuyActivity)getActivity()).payment.getType().equals("CASH")){
             imgPayment.setImageResource(R.drawable.cash1);
-            txtPayment.setText("Paga " + txtTotal.getText().toString() + " en " +((BuyActivity)getActivity()).cashPayment.getPaymentMethod()+ '\n' +" No te demores en ir a pagar, solo podemos reserverte stock cuando el pago se acredite.");
+            txtPayment.setText("Paga " + txtTotal.getText().toString() + " en " +((BuyActivity)getActivity()).cashPayment.getPaymentMethod()+ '\n' +" No te demores en ir a pagar, solo podemos reservarte stock cuando el pago se acredite.");
         }else {
             imgPayment.setImageResource(R.drawable.card1);
             txtPayment.setText("Paga " + txtTotal.getText().toString() + " con " +((BuyActivity)getActivity()).card.getProvider()+" "+((BuyActivity)getActivity()).card.getType()+"O terminada en "+(((BuyActivity)getActivity()).card.getNumber()%10000));
