@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,8 +18,9 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.valecom.yingul.R;
 import com.valecom.yingul.Util.Validacion;
-import com.valecom.yingul.main.sell.SellActivity;
+import com.valecom.yingul.model.Yng_Business;
 import com.valecom.yingul.model.Yng_Person;
+import com.valecom.yingul.model.Yng_Ubication;
 import com.valecom.yingul.model.Yng_User;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
@@ -38,12 +40,8 @@ import okhttp3.ResponseBody;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener
 {
-    private EditText editFirstname;
-    private EditText editLastname;
-    private EditText editEmail;
-    private EditText editPassword;
-    private TextView textTitle;
-    private TextView txtPolicies;
+    private EditText editFirstname, editLastname, editEmail, editPassword, editBusinessName, editDocumentNumber;
+    private TextView textTitle, txtPolicies;
     private CheckBox checkBussines;
 
     Yng_Person persona;
@@ -75,7 +73,29 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         editPassword = (EditText) findViewById(R.id.editPassword);
         txtPolicies = (TextView) findViewById(R.id.txtPolicies);
         checkBussines = (CheckBox) findViewById(R.id.checkBussines);
-
+        editBusinessName = (EditText) findViewById(R.id.editBusinessName);
+        editDocumentNumber = (EditText) findViewById(R.id.editDocumentNumber);
+        editBusinessName.setText("a");
+        editDocumentNumber.setText("a");
+        editBusinessName.setVisibility(View.GONE);
+        editDocumentNumber.setVisibility(View.GONE);
+        checkBussines.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+               public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+                    if(isChecked){
+                        editBusinessName.setVisibility(View.VISIBLE);
+                        editDocumentNumber.setVisibility(View.VISIBLE);
+                        editBusinessName.setText("");
+                        editDocumentNumber.setText("");
+                    }else{
+                        editBusinessName.setVisibility(View.GONE);
+                        editDocumentNumber.setVisibility(View.GONE);
+                        editBusinessName.setText("a");
+                        editDocumentNumber.setText("a");
+                    }
+               }
+           }
+        );
         String styledText = "<font color='#ffffff'>Al registrarme, declaro que soy mayor de edad y acepto los </font><font color='#1E88E5'>Términos y Condiciones</font><font color='#ffffff'> y las Políticas de Privacidad de Yingul Company.</font>";
         txtPolicies.setText(Html.fromHtml(styledText), TextView.BufferType.SPANNABLE);
         txtPolicies.setOnClickListener(new View.OnClickListener() {
@@ -126,25 +146,35 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         persona = new Yng_Person();
         user = new Yng_User();
 
-        persona.setName(editFirstname.getText().toString());
-        persona.setLastname(editLastname.getText().toString());
+        persona.setName(editFirstname.getText().toString().trim());
+        persona.setLastname(editLastname.getText().toString().trim());
 
-        user.setEmail(editEmail.getText().toString());
-        user.setPassword(editPassword.getText().toString());
+        user.setEmail(editEmail.getText().toString().trim());
+        user.setPassword(editPassword.getText().toString().trim());
 
         persona.setYng_User(user);
-
+        Gson gson = new Gson();
         if(checkBussines.isChecked()){
             persona.setBusiness(true);
+            Yng_Ubication ubication = new Yng_Ubication();
+            persona.getYng_User().setYng_Ubication(ubication);
+            Yng_Business business = new Yng_Business();
+            business.setBusinessName(editBusinessName.getText().toString().trim());
+            business.setDocumentType("CUIT");
+            business.setDocumentNumber(editDocumentNumber.getText().toString().trim());
+            String json ="\"{\\\"person\\\":"+(gson.toJson(persona).replace("\"","\\\""))+",\\\"business\\\":"+(gson.toJson(business).replace("\"","\\\""))+"}\"";
+            //String json ="\"{\\\"person\\\":{\\\"yng_User\\\":{\\\"yng_Ubication\\\":{\\\"yng_Province\\\":{\\\"yng_Country\\\":{}},\\\"yng_City\\\":{},\\\"yng_Barrio\\\":{},\\\"yng_Country\\\":{}},\\\"email\\\":\\\"quenallataeddy@gmail.com\\\",\\\"password\\\":\\\"eddy\\\"},\\\"name\\\":\\\"Eddy\\\",\\\"lastname\\\":\\\"Quenallata\\\",\\\"business\\\":true},\\\"business\\\":{\\\"user\\\":{\\\"yng_Ubication\\\":{\\\"yng_Province\\\":{\\\"yng_Country\\\":{}},\\\"yng_City\\\":{},\\\"yng_Barrio\\\":{},\\\"yng_Country\\\":{}}},\\\"businessName\\\":\\\"yingul compamny\\\",\\\"documentType\\\":\\\"CUIT\\\",\\\"documentNumber\\\":\\\"7054200010\\\"}}\"";
+            Log.e("========",json);
+            getAsyncCall(Network.API_URL + "business",json);
         }else{
             persona.setBusiness(false);
+            String json = gson.toJson(persona);
+
+            getAsyncCall(Network.API_URL + "signup",json);
+            Log.e("persona",json);
         }
 
-        Gson gson = new Gson();
-        String json = gson.toJson(persona);
 
-        getAsyncCall(Network.API_URL + "signup",json);
-        Log.e("persona",json);
     }
 
     public void  getAsyncCall(String url, String json){
@@ -248,6 +278,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         {
             isValid = false;
         }else if (!val.valPassword(editPassword))
+        {
+            isValid = false;
+        }else if (!val.valCadVacia(editBusinessName))
+        {
+            isValid = false;
+        }else if (!val.valCadVacia(editDocumentNumber))
         {
             isValid = false;
         }else {

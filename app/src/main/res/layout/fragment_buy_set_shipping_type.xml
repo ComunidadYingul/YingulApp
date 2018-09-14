@@ -15,15 +15,7 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
-        android:weightSum="3">
-
-        <!--LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:orientation="horizontal">
-
-        </LinearLayout-->
+        android:weightSum="5">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,30 +34,12 @@
                 android:textStyle="" />
         </LinearLayout>
 
-        <!--LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal"-->
-
-            <!--Button
-                android:id="@+id/btnUbicationLocal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:background="@color/yngBlue"
-                android:text="Revisar publicación"
-                android:textColor="@android:color/white" /-->
-        <!--/LinearLayout-->
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="20dp"
             android:layout_weight="1"
-            android:gravity="top"
+            android:gravity="bottom"
             android:orientation="horizontal">
 
             <TextView
@@ -79,35 +53,43 @@
                 android:textSize="18sp"
                 android:clickable="true"/>
 
-            <!--Button
-                android:id="@+id/btn_sendOtherUbication"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textColor="@color/yngBlue"
-                android:background="@drawable/button_marginblue"
-                android:text="Enviar a otra ubicación"/-->
         </LinearLayout>
 
-        <!--LinearLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="20dp"
             android:layout_weight="1"
-            android:orientation="horizontal"-->
+            android:gravity="center"
+            android:orientation="horizontal">
 
-            <!--TextView
-                android:id="@+id/txtWithdrawProduct"
+            <Button
+                android:id="@+id/btnUbicationLocal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="5dp"
-                android:textColor="@color/yngBlue"
-                android:text="Quiero retirar el producto"
-                android:textSize="18sp"
-                android:clickable="true"/-->
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:background="@color/yngBlue"
+                android:text="Recibir el producto en domicilio"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
 
-        <!--/LinearLayout-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:gravity="top"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnOtherUbication"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/button_marginblue"
+                android:text="Enviar a otro domicilio"
+                android:textColor="@color/yngBlue" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
