@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.valecom.yingul.R;
 import com.valecom.yingul.adapter.QuoteAdapter;
@@ -30,6 +32,7 @@ public class BuyItemSetShippingBranchFragment extends Fragment {
     QuoteAdapter adapter;
     ArrayList<Yng_Quote> array_list;
     MaterialDialog progressDialog;
+    private TextView title,titleLogistic;
 
     public BuyItemSetShippingBranchFragment() {
         // Required empty public constructor
@@ -52,14 +55,19 @@ public class BuyItemSetShippingBranchFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_buy_item_set_shipping_branch, container, false);
-
+        title = (TextView) v.findViewById(R.id.title);
+        titleLogistic = (TextView) v.findViewById(R.id.titleLogistic);
+        if(((BuyActivity) getActivity()).shipping.getTypeShipping().equals("branchHome")){
+            title.setText("Selecciona una logística para llevarte el producto");
+            titleLogistic.setText("Logística");
+        }else{
+            title.setText("Selecciona una sucursal");
+            titleLogistic.setText("Sucursal");
+        }
         array_list = new ArrayList<Yng_Quote>();
         adapter = new QuoteAdapter(getContext(), array_list);
-
         list = (ListView) v.findViewById(R.id.list);
-
         list.setAdapter(adapter);
-
         list.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override

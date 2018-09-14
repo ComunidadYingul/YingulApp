@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.valecom.yingul.R;
@@ -42,6 +43,7 @@ public class BuyItemFindShippingBranchFragment extends Fragment {
     EditText editPostalCode;
     Button buttonFindBranch;
     private LinearLayout layoutWithoutZip;
+    private TextView title;
 
     Yng_Quote quote;
     Yng_User user;
@@ -74,6 +76,7 @@ public class BuyItemFindShippingBranchFragment extends Fragment {
         quote = new Yng_Quote();
         user = new Yng_User();
         ubication = new Yng_Ubication();
+        title = (TextView) v.findViewById(R.id.title);
         layoutWithoutZip = (LinearLayout) v.findViewById(R.id.layoutWithoutZip);
         editPostalCode = (EditText) v.findViewById(R.id.editPostalCode);
         buttonFindBranch = (Button) v.findViewById(R.id.buttonFindBranch);
@@ -94,10 +97,20 @@ public class BuyItemFindShippingBranchFragment extends Fragment {
                     String jsonBody = gson.toJson(quote);
                     Log.e("quote final", jsonBody);
                     //
-                    getAsyncCall(Network.API_URL + "logistics/quote", jsonBody);
+                    if(((BuyActivity) getActivity()).shipping.getTypeShipping().equals("branchHome")){
+                        getAsyncCall(Network.API_URL + "logistics/quoteBranchHome", jsonBody);
+                    }else{
+                        getAsyncCall(Network.API_URL + "logistics/quote", jsonBody);
+                    }
                 }
             }
         });
+        if(((BuyActivity) getActivity()).shipping.getTypeShipping().equals("branchHome")){
+            title.setText("Ingresa tu código postal para llevarte el producto");
+        }else{
+            title.setText("Ingresa tu código postal para buscar sucursales cercanas");
+        }
+
 
         return v;
     }
@@ -153,11 +166,20 @@ public class BuyItemFindShippingBranchFragment extends Fragment {
         sh.setYng_User(us);
         ((BuyActivity)getActivity()).shipment = sh;
         progressDialog.dismiss();
-        BuyItemSetShippingBranchFragment fragment = new BuyItemSetShippingBranchFragment();
-        FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.content_frame, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        if(((BuyActivity) getActivity()).shipping.getTypeShipping().equals("branchHome")){
+            BuyItemSetUbicationDetailShippingHomeBranchFragment fragment = new BuyItemSetUbicationDetailShippingHomeBranchFragment();
+            FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.content_frame, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }else{
+            BuyItemSetShippingBranchFragment fragment = new BuyItemSetShippingBranchFragment();
+            FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.content_frame, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
+
     }
     public void start(String start){
         Log.i("start",""+start);

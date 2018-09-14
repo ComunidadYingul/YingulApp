@@ -10,7 +10,7 @@ public class Yng_Shipment {
     private java.lang.String respuesta="";
     private String typeMail="";
     private Yng_Item yng_Item;
-        private Yng_User yng_User;
+    private Yng_User yng_User;
     private java.lang.String ticket="";
     //numero para realizar el seguimiento si lo tiene
     private String shipmentCod="";

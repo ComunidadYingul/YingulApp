@@ -24,6 +24,7 @@
             android:gravity="center">
 
             <TextView
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Selecciona una sucursal"
@@ -43,6 +44,7 @@
             android:weightSum="2">
 
             <TextView
+                android:id="@+id/titleLogistic"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
