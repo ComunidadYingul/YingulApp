@@ -56,6 +56,8 @@ import com.valecom.yingul.main.filter.SearchActivity;
 import com.valecom.yingul.main.index.InicioFragment;
 import com.valecom.yingul.main.myAccount.MyAccountFragment;
 import com.valecom.yingul.main.myAccount.MyAccountPurchasesListFragment;
+import com.valecom.yingul.main.myAccount.MyAccountSaleDetailFragment;
+import com.valecom.yingul.main.myAccount.MyAccountSalesListFragment;
 import com.valecom.yingul.main.myAccount.MyAccountShoppingQuestionsListFragment;
 import com.valecom.yingul.main.myAccount.confirmDelivery.ConfirmDeliveryActivity;
 import com.valecom.yingul.main.myAccount.yingulPay.YingulPayActivity;
@@ -180,16 +182,20 @@ public class MainActivity extends AppCompatActivity
                     case "http://www.yingul.com/about/contactUs":
                         //para despues
                         break;
-            /*case "http://www.yingul.com/confirmwos/":
-                break;
-            case "http://www.yingul.com/confirmws/":
-                break;
-            case "http://www.yingul.com/agreement/":
-                break;
-            case "http://www.yingul.com/tiendaOficial/":
-                break;
-            case "http://www.yingul.com/resetPassword/":
-                break;*/
+                    case "http://www.yingul.com/userFront/sales":
+                        dataurl=parts[4]+"P";
+                        Log.e("da",""+dataurl);
+                        break;
+                    /*case "http://www.yingul.com/confirmwos/":
+                        break;
+                    case "http://www.yingul.com/confirmws/":
+                        break;
+                    case "http://www.yingul.com/agreement/":
+                        break;
+                    case "http://www.yingul.com/tiendaOficial/":
+                        break;
+                    case "http://www.yingul.com/resetPassword/":
+                        break;*/
                     default:
                         if(parts.length==5){
                             String dd=parts[3];
@@ -427,6 +433,13 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransactionQP.replace(R.id.content_frame, fragmentQP);
                     fragmentTransactionQP.addToBackStack(null);
                     fragmentTransactionQP.commit();
+                    break;
+                case "salesP":
+                    MyAccountSalesListFragment fragmentS = new MyAccountSalesListFragment();
+                    FragmentTransaction fragmentTransactionS  = getSupportFragmentManager().beginTransaction();
+                    fragmentTransactionS.replace(R.id.content_frame, fragmentS);
+                    fragmentTransactionS.addToBackStack(null);
+                    fragmentTransactionS.commit();
                     break;
                 default:
                     InicioFragment fragmentI = new InicioFragment();
