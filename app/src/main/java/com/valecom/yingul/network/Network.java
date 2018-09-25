@@ -9,6 +9,8 @@ public class Network
     //public static final String API_URL = "http://192.168.100.16:8080/";
     //public static final String API_URL = "http://192.168.100.60:8080/";
     public static final String API_URL = "http://backendyingul-env.cqx28e6j2j.us-west-2.elasticbeanstalk.com/";
+    //public static final String API_URL = "http://192.168.100.16:8080/";
+    //public static final String API_URL = "http://192.168.100.60:8080/";
     //public static final String API_URL = "http://api.yingul.com/";
     //public static final String API_URL = "http://192.168.100.51:8080/";
     public static final String API_KEY = "RUREWVFVRU5BTExBVEE6ZWRkeQ==";

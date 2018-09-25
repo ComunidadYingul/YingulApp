@@ -10,10 +10,12 @@ import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +47,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private EditText editFirstname, editLastname, editEmail, editPassword, editBusinessName, editDocumentNumber;
     private TextView textTitle, txtPolicies;
     private CheckBox checkBussines;
+    com.rey.material.widget.Spinner spinner_type_contributor;
 
     Yng_Person persona;
     Yng_User user;
@@ -81,17 +84,26 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         editDocumentNumber.setText("a");
         editBusinessName.setVisibility(View.GONE);
         editDocumentNumber.setVisibility(View.GONE);
+        spinner_type_contributor=(com.rey.material.widget.Spinner) findViewById(R.id.spinner_type_contributor);
+        spinner_type_contributor.setVisibility(View.GONE);
+        String typeDocument[] = {"Exento","Exterior","IVA No Alcanzado","Monotributista","Responsable Inscripto"};
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this,   android.R.layout.simple_spinner_item, typeDocument);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
+
+        spinner_type_contributor.setAdapter(spinnerArrayAdapter);
         checkBussines.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
                public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
                     if(isChecked){
                         editBusinessName.setVisibility(View.VISIBLE);
                         editDocumentNumber.setVisibility(View.VISIBLE);
+                        spinner_type_contributor.setVisibility(View.VISIBLE);
                         editBusinessName.setText("");
                         editDocumentNumber.setText("");
                     }else{
                         editBusinessName.setVisibility(View.GONE);
                         editDocumentNumber.setVisibility(View.GONE);
+                        spinner_type_contributor.setVisibility(View.GONE);
                         editBusinessName.setText("a");
                         editDocumentNumber.setText("a");
                     }
@@ -199,6 +211,27 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             business.setBusinessName(editBusinessName.getText().toString().trim());
             business.setDocumentType("CUIT");
             business.setDocumentNumber(editDocumentNumber.getText().toString().trim().replace("-",""));
+            switch (spinner_type_contributor.getSelectedItemPosition())
+            {
+                case 0:
+                    business.setContributorType("Exento");
+                    break;
+                case 1:
+                    business.setContributorType("Exterior");
+                    break;
+                case 2:
+                    business.setContributorType("IVA No Alcanzado");
+                    break;
+                case 3:
+                    business.setContributorType("Monotributista");
+                    break;
+                case 4:
+                    business.setContributorType("Responsable Inscripto");
+                    break;
+                default:
+                    business.setContributorType("Exento");
+                    break;
+            }
             String json ="\"{\\\"person\\\":"+(gson.toJson(persona).replace("\"","\\\""))+",\\\"business\\\":"+(gson.toJson(business).replace("\"","\\\""))+"}\"";
             //String json ="\"{\\\"person\\\":{\\\"yng_User\\\":{\\\"yng_Ubication\\\":{\\\"yng_Province\\\":{\\\"yng_Country\\\":{}},\\\"yng_City\\\":{},\\\"yng_Barrio\\\":{},\\\"yng_Country\\\":{}},\\\"email\\\":\\\"quenallataeddy@gmail.com\\\",\\\"password\\\":\\\"eddy\\\"},\\\"name\\\":\\\"Eddy\\\",\\\"lastname\\\":\\\"Quenallata\\\",\\\"business\\\":true},\\\"business\\\":{\\\"user\\\":{\\\"yng_Ubication\\\":{\\\"yng_Province\\\":{\\\"yng_Country\\\":{}},\\\"yng_City\\\":{},\\\"yng_Barrio\\\":{},\\\"yng_Country\\\":{}}},\\\"businessName\\\":\\\"yingul compamny\\\",\\\"documentType\\\":\\\"CUIT\\\",\\\"documentNumber\\\":\\\"7054200010\\\"}}\"";
             Log.e("========",json);

@@ -50,4 +50,5 @@ public class Yng_Person {
         this.yng_User = yng_User;
     }
 
+
 }
