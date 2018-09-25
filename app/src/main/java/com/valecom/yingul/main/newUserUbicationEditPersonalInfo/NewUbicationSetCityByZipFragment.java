@@ -34,6 +34,7 @@ import com.valecom.yingul.main.LoginActivity;
 import com.valecom.yingul.main.MainActivity;
 import com.valecom.yingul.model.Yng_City;
 import com.valecom.yingul.model.Yng_Item;
+import com.valecom.yingul.model.Yng_Person;
 import com.valecom.yingul.model.Yng_Query;
 import com.valecom.yingul.model.Yng_Ubication;
 import com.valecom.yingul.model.Yng_User;
@@ -46,6 +47,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -116,7 +120,7 @@ public class NewUbicationSetCityByZipFragment extends Fragment {
                 fragmentTransaction.commit();
             }
         });
-
+        getPerson();
         return v;
     }
 
@@ -272,6 +276,96 @@ public class NewUbicationSetCityByZipFragment extends Fragment {
                             fragmentTransaction.replace(R.id.content_frame, fragment);
                             fragmentTransaction.addToBackStack(null);
                             fragmentTransaction.commit();
+                        }
+                        catch (Exception ex)
+                        {
+                            Toast.makeText(getContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }, new Response.ErrorListener()
+                {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        // TODO Auto-generated method stub
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            // If the response is JSONObject instead of expected JSONArray
+                            progressDialog.dismiss();
+                        }
+
+                        NetworkResponse response = error.networkResponse;
+                        if (response != null && response.data != null)
+                        {
+                            try
+                            {
+                                JSONObject json = new JSONObject(new String(response.data));
+                                Toast.makeText(getContext(), json.has("message") ? json.getString("message")+"1" : json.getString("error")+"2", Toast.LENGTH_LONG).show();
+                            }
+                            catch (JSONException e)
+                            {
+                                Toast.makeText(getContext(), R.string.error_try_again_support+"3", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else
+                        {
+                            //Toast.makeText(LoginActivity.this, error != null && error.getMessage() != null ? error.getMessage()+"4" : error.toString()+"5", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(),"Ocurrio un error vuelva a intentarlo mas tarde.",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+        {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                //params.put("X-API-KEY", Network.API_KEY);
+                return params;
+            }
+        };
+
+        // Get a RequestQueue
+        RequestQueue queue = MySingleton.getInstance(getContext()).getRequestQueue();
+        //Used to mark the request, so we can cancel it on our onStop method
+        postRequest.setTag(TAG);
+        MySingleton.getInstance(getContext()).addToRequestQueue(postRequest);
+    }
+    Yng_User user;
+    public void getPerson(){
+        progressDialog.show();
+        SharedPreferences settings = getActivity().getSharedPreferences(LoginActivity.SESSION_USER, getActivity().MODE_PRIVATE);
+        SharedPreferences settings2 = getActivity().getSharedPreferences(LoginActivity.SESSION_USER, MODE_PRIVATE);
+        Log.e("settieng : ",""+settings2.getString("phone",""));
+
+        JsonObjectRequest postRequest = new JsonObjectRequest
+                (Request.Method.GET, Network.API_URL + "user/person/"+settings.getString("username",""), api_parameter, new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+                        try
+                        {
+                            Yng_Person personTemp=new Yng_Person();
+                            Gson gson = new Gson();
+                            personTemp = gson.fromJson(String.valueOf(response), Yng_Person.class);
+                            //Log.e("Yng_User user;",""+user.getUsername());
+                            Log.e("da",""+personTemp.isBusiness()+" : "+personTemp.getName());
+                            if(personTemp.isBusiness()){
+                                title.setText("Ingresa la dirección de la Casa Central de la Empresa");
+                            }
+
+                            /*((NewUserUbicationEditPersonalInfoActivity)getActivity()).country = ubication.getYng_Country();
+                            ((NewUserUbicationEditPersonalInfoActivity)getActivity()).province = ubication.getYng_Province();
+                            ((NewUserUbicationEditPersonalInfoActivity)getActivity()).city = ubication.getYng_City();
+                            NewUbicationSetDetailFragment fragment = new NewUbicationSetDetailFragment();
+                            FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
+                            fragmentTransaction.replace(R.id.content_frame, fragment);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();*/
                         }
                         catch (Exception ex)
                         {

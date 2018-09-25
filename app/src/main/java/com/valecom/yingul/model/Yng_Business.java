@@ -8,7 +8,7 @@ public class Yng_Business implements Serializable {
 	private String businessName;
 	private String documentType;
 	private String documentNumber;
-
+	private String contributorType;
 	private Yng_User user;
 	
 	public Yng_Business() {
@@ -54,4 +54,8 @@ public class Yng_Business implements Serializable {
 	public void setUser(Yng_User user) {
 		this.user = user;
 	}
+
+	public String getContributorType() { return contributorType;}
+
+	public void setContributorType(String contributorType) {this.contributorType = contributorType;	}
 }
