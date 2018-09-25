@@ -5,7 +5,9 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.Html;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -96,6 +98,41 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                }
            }
         );
+        editDocumentNumber.addTextChangedListener(new TextWatcher()
+        {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {   }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count)  {    }
+
+            @Override
+            public void afterTextChanged(Editable s)
+            {
+                String aux=editDocumentNumber.getText().toString().trim();
+                if(editDocumentNumber.getText().toString().trim().contains("-")){
+                    aux=editDocumentNumber.getText().toString().trim().replace("-","");
+                }
+                if(aux.length()>2&&aux.length()<=10){
+                    if(aux.contains("-")){
+                        aux=aux.replace("-","");
+                    }
+                    editDocumentNumber.removeTextChangedListener(this);
+                    editDocumentNumber.setText(aux.substring(0, 2)+"-".toString()+aux.substring(2, aux.length()));
+                    editDocumentNumber.setSelection(editDocumentNumber.getText().toString().trim().length() );  // Set selection
+                    editDocumentNumber.addTextChangedListener(this);
+                }
+                if(aux.length()>10){
+                    if(aux.contains("-")){
+                        aux=aux.replace("-","");
+                    }
+                    editDocumentNumber.removeTextChangedListener(this);
+                    editDocumentNumber.setText(aux.substring(0, 2)+"-"+aux.substring(2, 10)+"-"+aux.substring(10, aux.length()));
+                    editDocumentNumber.setSelection(editDocumentNumber.getText().toString().trim().length() );  // Set selection
+                    editDocumentNumber.addTextChangedListener(this);
+                }
+            }
+        });
         String styledText = "<font color='#ffffff'>Al registrarme, declaro que soy mayor de edad y acepto los </font><font color='#1E88E5'>Términos y Condiciones</font><font color='#ffffff'> y las Políticas de Privacidad de Yingul Company.</font>";
         txtPolicies.setText(Html.fromHtml(styledText), TextView.BufferType.SPANNABLE);
         txtPolicies.setOnClickListener(new View.OnClickListener() {
@@ -161,7 +198,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             Yng_Business business = new Yng_Business();
             business.setBusinessName(editBusinessName.getText().toString().trim());
             business.setDocumentType("CUIT");
-            business.setDocumentNumber(editDocumentNumber.getText().toString().trim());
+            business.setDocumentNumber(editDocumentNumber.getText().toString().trim().replace("-",""));
             String json ="\"{\\\"person\\\":"+(gson.toJson(persona).replace("\"","\\\""))+",\\\"business\\\":"+(gson.toJson(business).replace("\"","\\\""))+"}\"";
             //String json ="\"{\\\"person\\\":{\\\"yng_User\\\":{\\\"yng_Ubication\\\":{\\\"yng_Province\\\":{\\\"yng_Country\\\":{}},\\\"yng_City\\\":{},\\\"yng_Barrio\\\":{},\\\"yng_Country\\\":{}},\\\"email\\\":\\\"quenallataeddy@gmail.com\\\",\\\"password\\\":\\\"eddy\\\"},\\\"name\\\":\\\"Eddy\\\",\\\"lastname\\\":\\\"Quenallata\\\",\\\"business\\\":true},\\\"business\\\":{\\\"user\\\":{\\\"yng_Ubication\\\":{\\\"yng_Province\\\":{\\\"yng_Country\\\":{}},\\\"yng_City\\\":{},\\\"yng_Barrio\\\":{},\\\"yng_Country\\\":{}}},\\\"businessName\\\":\\\"yingul compamny\\\",\\\"documentType\\\":\\\"CUIT\\\",\\\"documentNumber\\\":\\\"7054200010\\\"}}\"";
             Log.e("========",json);
