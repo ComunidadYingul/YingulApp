@@ -13,8 +13,8 @@
             android:title="Favoritos" />
         <item
             android:id="@+id/nav_estimates"
-            android:icon="@drawable/ic_category_2"
-            android:title="Categorías" />
+            android:icon="@drawable/ic_notifications"
+            android:title="Notificaciones" />
         <item
             android:visible="false"
             android:id="@+id/nav_items"

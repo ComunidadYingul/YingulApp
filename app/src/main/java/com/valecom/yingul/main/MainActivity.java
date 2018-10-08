@@ -442,9 +442,9 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransactionS.commit();
                     break;
                 default:
-                    InicioFragment fragmentI = new InicioFragment();
+                    HomeFragment fragment = new HomeFragment();
                     FragmentTransaction fragmentTransactionI = getSupportFragmentManager().beginTransaction();
-                    fragmentTransactionI.replace(R.id.content_frame, fragmentI);
+                    fragmentTransactionI.replace(R.id.content_frame, fragment);
                     fragmentTransactionI.addToBackStack(null);
                     fragmentTransactionI.commit();
                 break;
@@ -559,8 +559,8 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home)
         {
-            InicioFragment fragment = new InicioFragment();
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            HomeFragment fragment = new HomeFragment();
+            FragmentTransaction fragmentTransaction  = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.content_frame, fragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
