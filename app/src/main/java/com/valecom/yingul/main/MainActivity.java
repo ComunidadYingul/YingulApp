@@ -70,6 +70,8 @@ import com.valecom.yingul.model.Yng_Store;
 import com.valecom.yingul.model.Yng_User;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
+import com.valecom.yingul.service.NotificationService;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -455,6 +457,10 @@ public class MainActivity extends AppCompatActivity
             fragmentTransactionI.addToBackStack(null);
             fragmentTransactionI.commit();*/
         }
+
+        //*******************servicio************/
+        Intent serviceIntent = new Intent(MainActivity.this, NotificationService.class);
+        MainActivity.this.startService(serviceIntent);
     }
 
     @Override
@@ -575,11 +581,11 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_estimates)
         {
-            /*PrincipalFragment fragment = new PrincipalFragment();
+            EstimateFragment fragment = new EstimateFragment();
             FragmentTransaction fragmentTransaction  = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.content_frame, fragment);
             fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();*/
+            fragmentTransaction.commit();
         }
         else if (id == R.id.nav_items)
         {

@@ -73,4 +73,5 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     compile 'com.onesignal:OneSignal:3.4.2@aar'
     compile 'com.yahoo.mobile.client.android.util.rangeseekbar:rangeseekbar-library:0.1.0'
+    compile 'com.github.arturogutierrez:badges:1.0.5@aar'
 }

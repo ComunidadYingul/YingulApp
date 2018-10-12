@@ -49,6 +49,7 @@ import com.valecom.yingul.model.Yng_User;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
 import com.google.gson.Gson;
+import com.valecom.yingul.service.NotificationService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -171,6 +172,9 @@ public class SellActivity extends AppCompatActivity {
                 .content(R.string.please_wait)
                 .cancelable(false)
                 .progress(true, 0).build();
+
+        Intent serviceIntent = new Intent(SellActivity.this, NotificationService.class);
+        SellActivity.this.stopService(serviceIntent);
     }
 
     @Override

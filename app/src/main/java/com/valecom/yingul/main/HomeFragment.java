@@ -163,7 +163,7 @@ public class HomeFragment extends Fragment
         //Checks to make sure fragment is still attached to activity
         if (isAdded())
         {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_activity_home);
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Yingul");
             NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
             navigationView.setCheckedItem(R.id.nav_home);
         }
