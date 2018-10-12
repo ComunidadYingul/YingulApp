@@ -1,6 +1,7 @@
 package com.valecom.yingul.main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
@@ -13,12 +14,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TableLayout;
-
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.valecom.yingul.R;
 import com.valecom.yingul.adapter.ViewPagerAdapter2;
 import com.valecom.yingul.main.index.InicioFragment;
+import com.valecom.yingul.service.NotificationService;
 
 
 /**
@@ -76,17 +76,20 @@ public class HomeFragment extends Fragment
     {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager);
+        final ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         loadViewPager(viewPager);
+        viewPager.setCurrentItem(0);
         tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         tabIcons();
         colorDefaultIcons();
         iconColor(tabLayout.getTabAt(tabLayout.getSelectedTabPosition()),"#FF5000");
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 iconColor(tab,"#FF5000");
+                viewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
@@ -100,6 +103,11 @@ public class HomeFragment extends Fragment
             }
         });
 
+
+        //*******************servicio************/
+        Intent serviceIntent = new Intent(getContext(), NotificationService.class);
+        getContext().startService(serviceIntent);
+
         return view;
     }
 
@@ -110,9 +118,9 @@ public class HomeFragment extends Fragment
     private void loadViewPager(ViewPager viewPager){
         ViewPagerAdapter2 adapter = new ViewPagerAdapter2(getActivity().getSupportFragmentManager());
         adapter.addFragment(newInstance());
-        adapter.addFragment(newInstance());
-        adapter.addFragment(newInstance());
-        adapter.addFragment(newInstance());
+        adapter.addFragment(newInstance1());
+        adapter.addFragment(newInstance1());
+        adapter.addFragment(newInstance1());
         viewPager.setAdapter(adapter);
     }
 
@@ -130,6 +138,11 @@ public class HomeFragment extends Fragment
 
     private InicioFragment newInstance(){
         InicioFragment fragment = new InicioFragment();
+        return fragment;
+    }
+
+    private NotificationFragment newInstance1(){
+        NotificationFragment fragment = new NotificationFragment();
         return fragment;
     }
 

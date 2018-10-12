@@ -2,6 +2,8 @@ package com.valecom.yingul.main;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -97,7 +99,7 @@ import okhttp3.ResponseBody;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, HomeFragment.OnFragmentInteractionListener,
         ItemFragment.OnFragmentInteractionListener, ClientFragment.OnFragmentInteractionListener,
-        FavoriteFragment.OnFragmentInteractionListener, EstimateFragment.OnFragmentInteractionListener, MyAccountFragment.OnFragmentInteractionListener{
+        FavoriteFragment.OnFragmentInteractionListener, NotificationFragment.OnFragmentInteractionListener, MyAccountFragment.OnFragmentInteractionListener{
 
     public static String api_key;
     public static final String TAG = "MainActivity";
@@ -387,7 +389,7 @@ public class MainActivity extends AppCompatActivity
         }
         else if (tab != null && tab.equals("estimates"))
         {
-            EstimateFragment fragment = new EstimateFragment();
+            NotificationFragment fragment = new NotificationFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.content_frame, fragment);
             fragmentTransaction.addToBackStack(null);
@@ -458,9 +460,7 @@ public class MainActivity extends AppCompatActivity
             fragmentTransactionI.commit();*/
         }
 
-        //*******************servicio************/
-        Intent serviceIntent = new Intent(MainActivity.this, NotificationService.class);
-        MainActivity.this.startService(serviceIntent);
+
     }
 
     @Override
@@ -579,9 +579,9 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         }
-        else if (id == R.id.nav_estimates)
+        else if (id == R.id.nav_notifications)
         {
-            EstimateFragment fragment = new EstimateFragment();
+            NotificationFragment fragment = new NotificationFragment();
             FragmentTransaction fragmentTransaction  = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.content_frame, fragment);
             fragmentTransaction.addToBackStack(null);

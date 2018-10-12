@@ -176,7 +176,7 @@ public class NotificationService extends Service{
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
 
-        Toast.makeText(this, "Servicio Iniciado", Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "Servicio Iniciado", Toast.LENGTH_LONG).show();
         Thread thread = new Thread(new MyThreadClass(startId));
                 thread.start();
         return START_STICKY;
@@ -184,7 +184,7 @@ public class NotificationService extends Service{
 
     @Override
     public void onDestroy(){
-        Toast.makeText(this, "Servicio Detenido", Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "Servicio Detenido", Toast.LENGTH_LONG).show();
     }
 
     @Override

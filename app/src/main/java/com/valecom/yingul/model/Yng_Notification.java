@@ -10,6 +10,7 @@ public class Yng_Notification implements Serializable {
 	private String url;
 	private String date;
 	private String status;
+	private String desktopStatus;
 
     private Yng_User user;
 
@@ -81,5 +82,13 @@ public class Yng_Notification implements Serializable {
 
 	public void setItem(Yng_Item item) {
 		this.item = item;
+	}
+
+	public String getDesktopStatus() {
+		return desktopStatus;
+	}
+
+	public void setDesktopStatus(String desktopStatus) {
+		this.desktopStatus = desktopStatus;
 	}
 }
