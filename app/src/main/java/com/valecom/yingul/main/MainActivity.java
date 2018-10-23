@@ -60,6 +60,7 @@ import com.valecom.yingul.main.myAccount.MyAccountFragment;
 import com.valecom.yingul.main.myAccount.MyAccountPurchasesListFragment;
 import com.valecom.yingul.main.myAccount.MyAccountSaleDetailFragment;
 import com.valecom.yingul.main.myAccount.MyAccountSalesListFragment;
+import com.valecom.yingul.main.myAccount.MyAccountSalesQuestionsListFragment;
 import com.valecom.yingul.main.myAccount.MyAccountShoppingQuestionsListFragment;
 import com.valecom.yingul.main.myAccount.confirmDelivery.ConfirmDeliveryActivity;
 import com.valecom.yingul.main.myAccount.yingulPay.YingulPayActivity;
@@ -138,6 +139,23 @@ public class MainActivity extends AppCompatActivity
         //String itemId="";
         Intent intent=getIntent();
         String dataString = getIntent().getDataString();
+        if(getIntent().hasExtra("notificationUrl")){
+            dataString =(String) getIntent().getSerializableExtra("notificationUrl");
+            switch (dataString) {
+                case "https://www.yingul.com/userFront/purchases":
+                    dataurl="purchases";
+                    break;
+                case "https://www.yingul.com/userFront/sales":
+                    dataurl="salesP";
+                    break;
+                case "https://www.yingul.com/userFront/sales/query":
+                    dataurl="query";
+                    break;
+                case "https://www.yingul.com/userFront/purchases/query":
+                    dataurl="queryP";
+                    break;
+            }
+        }
         if(intent!=null&&intent.getData()!=null)
         {
             Log.e("daniel:-------","recupero main:"+dataString);
@@ -158,35 +176,35 @@ public class MainActivity extends AppCompatActivity
                // return;
           //  }else{
                 switch (dataString){
-                    case "http://www.yingul.com":
+                    case "https://www.yingul.com":
 
                         break;
-                    case "http://www.yingul.com/frontYingulPay":
+                    case "https://www.yingul.com/frontYingulPay":
                         Intent intentP = new Intent(MainActivity.this, YingulPayActivity.class);
                         startActivity(intentP);
                         break;
-                    case "http://www.yingul.com/userFront/claims":
+                    case "https://www.yingul.com/userFront/claims":
                         dataurl=parts[4];
                         Log.e("da",""+dataurl);
                         break;
-                    case "http://www.yingul.com/userFront/purchases":
+                    case "https://www.yingul.com/userFront/purchases":
                         dataurl=parts[4];
                         Log.e("da",""+dataurl);
                         break;
-                    case "http://www.yingul.com/favorites":
+                    case "https://www.yingul.com/favorites":
                         dataurl=parts[3];
                         Log.e("da",""+dataurl);
                         break;
-                    case "http://www.yingul.com/userFront/sales/query":
+                    case "https://www.yingul.com/userFront/sales/query":
                         dataurl=parts[5];
                         break;
-                    case "http://www.yingul.com/userFront/purchases/query":
+                    case "https://www.yingul.com/userFront/purchases/query":
                         dataurl=parts[5]+"P";
                         break;
-                    case "http://www.yingul.com/about/contactUs":
+                    case "https://www.yingul.com/about/contactUs":
                         //para despues
                         break;
-                    case "http://www.yingul.com/userFront/sales":
+                    case "https://www.yingul.com/userFront/sales":
                         dataurl=parts[4]+"P";
                         Log.e("da",""+dataurl);
                         break;
@@ -404,7 +422,12 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.commit();*/
             switch (dataurl){
                 case "query":
-                    MyAccountShoppingQuestionsListFragment fragmentQ = new MyAccountShoppingQuestionsListFragment();
+                    HomeFragment fragment1 = new HomeFragment();
+                    FragmentTransaction fragmentTransactionI1 = getSupportFragmentManager().beginTransaction();
+                    fragmentTransactionI1.replace(R.id.content_frame, fragment1);
+                    fragmentTransactionI1.addToBackStack(null);
+                    fragmentTransactionI1.commit();
+                    MyAccountSalesQuestionsListFragment fragmentQ = new MyAccountSalesQuestionsListFragment();
                     FragmentTransaction fragmentTransactionQ = getSupportFragmentManager().beginTransaction();
                     fragmentTransactionQ.replace(R.id.content_frame, fragmentQ);
                     fragmentTransactionQ.addToBackStack(null);
@@ -418,6 +441,11 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransactionF.commit();
                     break;
                 case "purchases":
+                    HomeFragment fragment2 = new HomeFragment();
+                    FragmentTransaction fragmentTransactionI2 = getSupportFragmentManager().beginTransaction();
+                    fragmentTransactionI2.replace(R.id.content_frame, fragment2);
+                    fragmentTransactionI2.addToBackStack(null);
+                    fragmentTransactionI2.commit();
                     MyAccountPurchasesListFragment fragmentP = new MyAccountPurchasesListFragment();
                     FragmentTransaction fragmentTransaction  = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.content_frame, fragmentP);
@@ -432,6 +460,11 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransactionC.commit();
                     break;
                 case "queryP":
+                    HomeFragment fragment4 = new HomeFragment();
+                    FragmentTransaction fragmentTransactionI4 = getSupportFragmentManager().beginTransaction();
+                    fragmentTransactionI4.replace(R.id.content_frame, fragment4);
+                    fragmentTransactionI4.addToBackStack(null);
+                    fragmentTransactionI4.commit();
                     MyAccountShoppingQuestionsListFragment fragmentQP = new MyAccountShoppingQuestionsListFragment();
                     FragmentTransaction fragmentTransactionQP  = getSupportFragmentManager().beginTransaction();
                     fragmentTransactionQP.replace(R.id.content_frame, fragmentQP);
@@ -439,6 +472,11 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransactionQP.commit();
                     break;
                 case "salesP":
+                    HomeFragment fragment3 = new HomeFragment();
+                    FragmentTransaction fragmentTransactionI3 = getSupportFragmentManager().beginTransaction();
+                    fragmentTransactionI3.replace(R.id.content_frame, fragment3);
+                    fragmentTransactionI3.addToBackStack(null);
+                    fragmentTransactionI3.commit();
                     MyAccountSalesListFragment fragmentS = new MyAccountSalesListFragment();
                     FragmentTransaction fragmentTransactionS  = getSupportFragmentManager().beginTransaction();
                     fragmentTransactionS.replace(R.id.content_frame, fragmentS);

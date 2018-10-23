@@ -9,7 +9,8 @@ import java.util.List;
 
 public class ViewPagerAdapter2 extends FragmentPagerAdapter
 {
-    List<Fragment> fragmentList = new ArrayList<>();
+    private final List<Fragment> fragmentList = new ArrayList<>();
+    
     public ViewPagerAdapter2(FragmentManager fm) {
         super(fm);
     }

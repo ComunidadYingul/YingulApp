@@ -22,25 +22,16 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.valecom.yingul.R;
 import com.valecom.yingul.adapter.NotificationAdapter;
-import com.valecom.yingul.helper.helper_string;
-import com.valecom.yingul.main.buy.BuySetCardFragment;
 import com.valecom.yingul.main.myAccount.MyAccountPurchasesListFragment;
 import com.valecom.yingul.main.myAccount.MyAccountSalesListFragment;
-import com.valecom.yingul.main.myAccount.MyAccountSalesQuestionsListFragment;
-import com.valecom.yingul.main.myAccount.MyAccountShoppingQuestionsListFragment;
-import com.valecom.yingul.model.Estimate;
-import com.valecom.yingul.model.Yng_City;
 import com.valecom.yingul.model.Yng_Notification;
-import com.valecom.yingul.model.Yng_Ubication;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
 
@@ -55,12 +46,12 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link NotificationFragment.OnFragmentInteractionListener} interface
+ * {@link NotificationFragment2.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link NotificationFragment#newInstance} factory method to
+ * Use the {@link NotificationFragment2#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NotificationFragment extends Fragment
+public class NotificationFragment2 extends Fragment
 {
     private OnFragmentInteractionListener mListener;
 
@@ -73,7 +64,7 @@ public class NotificationFragment extends Fragment
     private RelativeLayout lytLogout,lytWhitoutNotifications,lytList;
     //private LinearLayout lytLogin;
 
-    public NotificationFragment()
+    public NotificationFragment2()
     {
         // Required empty public constructor
     }
@@ -85,9 +76,9 @@ public class NotificationFragment extends Fragment
      * @return A new instance of fragment NotificationFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static NotificationFragment newInstance(String param1, String param2)
+    public static NotificationFragment2 newInstance(String param1, String param2)
     {
-        NotificationFragment fragment = new NotificationFragment();
+        NotificationFragment2 fragment = new NotificationFragment2();
         return fragment;
     }
 
@@ -115,18 +106,21 @@ public class NotificationFragment extends Fragment
         //lytLogin = (LinearLayout) view.findViewById(R.id.lytLogin);
 
         /*lytLogin.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent settingsIntent = new Intent(getActivity(), LoginActivity.class);
-            settingsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            settingsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(settingsIntent);
-        }
+            @Override
+            public void onClick(View v) {
+                Log.e("======","click");
+                Intent settingsIntent = new Intent(getActivity(), LoginActivity.class);
+                settingsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                settingsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(settingsIntent);
+            }
         });*/
 
         lytLogout.setVisibility(View.GONE);
         lytWhitoutNotifications.setVisibility(View.GONE);
         lytList.setVisibility(View.VISIBLE);
+
+
 
         array_list = new ArrayList<Yng_Notification>();
         adapter = new NotificationAdapter(getContext(), array_list);
@@ -141,36 +135,9 @@ public class NotificationFragment extends Fragment
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 Yng_Notification notification = adapter.getItem(position);
-                switch (notification.getUrl()){
-                    case "https://www.yingul.com/userFront/sales":
-                        MyAccountSalesListFragment fragmentS = new MyAccountSalesListFragment();
-                        FragmentTransaction fragmentTransactionS  = getFragmentManager().beginTransaction();
-                        fragmentTransactionS.replace(R.id.content_frame, fragmentS);
-                        fragmentTransactionS.addToBackStack(null);
-                        fragmentTransactionS.commit();
-                        break;
-                    case "https://www.yingul.com/userFront/purchases":
-                        MyAccountPurchasesListFragment fragmentP = new MyAccountPurchasesListFragment();
-                        FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.content_frame, fragmentP);
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
-                        break;
-                    case "https://www.yingul.com/userFront/sales/query":
-                        MyAccountSalesQuestionsListFragment fragmentQ = new MyAccountSalesQuestionsListFragment();
-                        FragmentTransaction fragmentTransactionQ = getFragmentManager().beginTransaction();
-                        fragmentTransactionQ.replace(R.id.content_frame, fragmentQ);
-                        fragmentTransactionQ.addToBackStack(null);
-                        fragmentTransactionQ.commit();
-                        break;
-                    case "https://www.yingul.com/userFront/purchases/query":
-                        MyAccountShoppingQuestionsListFragment fragmentQP = new MyAccountShoppingQuestionsListFragment();
-                        FragmentTransaction fragmentTransactionQP  = getFragmentManager().beginTransaction();
-                        fragmentTransactionQP.replace(R.id.content_frame, fragmentQP);
-                        fragmentTransactionQP.addToBackStack(null);
-                        fragmentTransactionQP.commit();
-                        break;
-                }
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                intent.putExtra("notificationUrl",notification.getUrl());
+                startActivity(intent);
 
             }
         });
@@ -200,37 +167,8 @@ public class NotificationFragment extends Fragment
     }
 
     @Override
-    public void onAttach(Context context)
-    {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener)
-        {
-            mListener = (OnFragmentInteractionListener) context;
-        } else
-        {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-
-        //Checks to make sure fragment is still attached to activity
-        if (isAdded())
-        {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Notificaciones");
-            NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
-            navigationView.setCheckedItem(R.id.nav_notifications);
-        }
-    }
-
-    @Override
-    public void onDetach()
-    {
-        super.onDetach();
-        mListener = null;
     }
 
     /**
@@ -260,10 +198,11 @@ public class NotificationFragment extends Fragment
                     public void onResponse(JSONArray response) {
                         try
                         {
+
+
                             JSONArray items = response;
                             Log.e("Eddy",items.toString());
                             array_list.clear();
-
                             for (int i = 0; i < items.length(); i++) {
                                 JSONObject obj = items.getJSONObject(i);
                                 Yng_Notification notification = new Yng_Notification();

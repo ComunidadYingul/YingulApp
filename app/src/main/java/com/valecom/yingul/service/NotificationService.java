@@ -118,15 +118,18 @@ public class NotificationService extends Service{
                                     NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                                     Random random = new Random();
                                     notificationManager.notify(random.nextInt(),builder.build());
+                                    editNotifications(Network.API_URL + "notification/updateNotificationsForUser/"+username+"/"+notification.getNotificationId()+"/notified","",settings.getString("password",""));
                                 }
 
                                 try {
-                                    Badges.setBadge(context, notificationList.length());
+                                    if(notificationList.length()>0){
+                                        Badges.setBadge(context, notificationList.length());
+                                    }
                                 } catch (BadgesNotSupportedException badgesNotSupportedException) {
 
                                 }
 
-                                editNotifications(Network.API_URL + "notification/updateAllNotificationsForUser/"+username+"/notified","",settings.getString("password",""));
+
 
                             }
                             catch(Exception ex)

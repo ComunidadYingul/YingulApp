@@ -13,17 +13,18 @@ android {
             storePassword 'valecom2018'
         }
     }
-    compileSdkVersion 23
+    compileSdkVersion 26
     buildToolsVersion '27.0.3'
     defaultConfig {
+        multiDexEnabled true
         applicationId "com.valecom.yingul"
         manifestPlaceholders = [manifestApplicationId          : "${applicationId}",
                                 onesignal_app_id               : "7a36ee80-e9d6-422a-8ab4-bf715d65efd4",
                                 onesignal_google_project_number: "953400958776"]
         minSdkVersion 15
-        targetSdkVersion 23
-        versionCode 34
-        versionName '1.33'
+        targetSdkVersion 26
+        versionCode 38
+        versionName '1.37'
         signingConfig signingConfigs.config
     }
     dexOptions {
@@ -54,18 +55,18 @@ dependencies {
         transitive = true
     }
     //noinspection GradleCompatible
-    compile 'com.android.support:appcompat-v7:23.2.1'
-    compile 'com.android.support:design:23.2.1'
-    compile 'com.android.support:support-v4:23.2.1'
+    compile 'com.android.support:appcompat-v7:26.0.1'
+    compile 'com.android.support:design:26.0.1'
+    compile 'com.android.support:support-v4:26.0.1'
     compile 'com.android.volley:volley:1.0.0'
-    compile 'com.android.support:recyclerview-v7:23.2.1'
-    compile 'com.android.support:cardview-v7:23.2.0'
+    compile 'com.android.support:recyclerview-v7:26.0.1'
+    compile 'com.android.support:cardview-v7:26.0.1'
     compile 'com.github.rey5137:material:1.2.2'
     compile 'com.wdullaer:materialdatetimepicker:2.1.0'
     compile 'com.google.code.gson:gson:2.5'
     compile files('libs/itext/itextg-5.5.4.jar')
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
-    compile 'com.google.android.gms:play-services-ads:9.0.0'
+    compile 'com.google.android.gms:play-services:11.6.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.squareup.okhttp3:okhttp:3.10.0'
     compile 'me.relex:circleindicator:1.2.2@aar'
