@@ -29,7 +29,6 @@
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_setting_2"
             android:title="Mi cuenta"
-            app:actionLayout="@layout/custom_action_item_layout"
             />
     </group>
 

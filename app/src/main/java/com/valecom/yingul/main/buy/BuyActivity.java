@@ -176,8 +176,12 @@ public class BuyActivity extends AppCompatActivity {
                 .content(R.string.please_wait)
                 .cancelable(false)
                 .progress(true, 0).build();
+        if(userUbication==null||user.getPhone().equals("null")||user.getDocumentNumber().equals("null")||user.getDocumentType().equals("null")||user.getPhone().equals("")||user.getDocumentNumber().equals("")||user.getDocumentType().equals("")){
+            setUserUbication();
+        }else{
+            RunGetItemService();
+        }
 
-        RunGetItemService();
 
         Intent serviceIntent = new Intent(BuyActivity.this, NotificationService.class);
         BuyActivity.this.stopService(serviceIntent);
@@ -230,11 +234,6 @@ public class BuyActivity extends AppCompatActivity {
                                     break;
                             }
                             Log.e("esta llegando ===>","vhjk:"+user.getDocumentNumber());
-                            if(userUbication==null||user.getPhone().equals("null")||user.getDocumentNumber().equals("null")||user.getDocumentType().equals("null")||user.getPhone().equals("")||user.getDocumentNumber().equals("")||user.getDocumentType().equals("")){
-                                Intent intent = new Intent(BuyActivity.this, NewUserUbicationEditPersonalInfoActivity.class);
-                                intent.putExtra("data", user);
-                                startActivityForResult(intent, ITEM_PICKER_TAG);
-                            }
                         }
                         catch (Exception ex)
                         {
@@ -290,6 +289,12 @@ public class BuyActivity extends AppCompatActivity {
         postRequest.setTag(TAG);
 
         MySingleton.getInstance(this).addToRequestQueue(postRequest);
+    }
+
+    public void setUserUbication(){
+        Intent intent = new Intent(BuyActivity.this, NewUserUbicationEditPersonalInfoActivity.class);
+        intent.putExtra("data", user);
+        startActivityForResult(intent, ITEM_PICKER_TAG);
     }
 
     public void RunBuyService(){
@@ -572,12 +577,17 @@ public class BuyActivity extends AppCompatActivity {
                     Gson gson = new Gson();
                     String jsonBody = gson.toJson(newUser.getYng_Ubication());
                     Log.e("ubica:---",jsonBody);
-                    SharedPreferences.Editor user = getSharedPreferences(LoginActivity.SESSION_USER, MODE_PRIVATE).edit();
-                    user.putString("yng_Ubication",jsonBody);
-                    user.putString("phone",newUser.getPhone());
-                    user.putString("documentType",newUser.getDocumentType());
-                    user.putString("documentNumber",newUser.getDocumentNumber());
-                    user.commit();
+                    SharedPreferences.Editor user1 = getSharedPreferences(LoginActivity.SESSION_USER, MODE_PRIVATE).edit();
+                    user1.putString("yng_Ubication",jsonBody);
+                    user1.putString("phone",newUser.getPhone());
+                    user1.putString("documentType",newUser.getDocumentType());
+                    user1.putString("documentNumber",newUser.getDocumentNumber());
+                    user1.commit();
+                    if(userUbication==null||user.getPhone().equals("null")||user.getDocumentNumber().equals("null")||user.getDocumentType().equals("null")||user.getPhone().equals("")||user.getDocumentNumber().equals("")||user.getDocumentType().equals("")){
+                        setUserUbication();
+                    }else{
+                        RunGetItemService();
+                    }
                 }
                 break;
         }

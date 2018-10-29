@@ -172,7 +172,7 @@ public class HomeFragment extends Fragment
         adapter.addFragment(newInstance());
         adapter.addFragment(newInstance1());
         adapter.addFragment(newInstance1());
-        adapter.addFragment(newInstance1());
+        adapter.addFragment(newInstance3());
         viewPager.setAdapter(adapter);
     }
 
@@ -217,6 +217,11 @@ public class HomeFragment extends Fragment
 
     private NotificationFragment2 newInstance1(){
         NotificationFragment2 fragment = new NotificationFragment2();
+        return fragment;
+    }
+
+    private ContactsFragment newInstance3(){
+        ContactsFragment fragment = new ContactsFragment();
         return fragment;
     }
 

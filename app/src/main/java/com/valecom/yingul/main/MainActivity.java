@@ -2,8 +2,6 @@ package com.valecom.yingul.main;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,9 +14,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -46,19 +42,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.valecom.yingul.R;
-import com.valecom.yingul.main.buy.BuyActivity;
-import com.valecom.yingul.main.categories.ItemsByCategoryActivity;
 import com.valecom.yingul.main.createStore.CreateStoreActivity;
-import com.valecom.yingul.main.edit.EditImageActivity;
 import com.valecom.yingul.main.filter.SearchActivity;
-import com.valecom.yingul.main.index.InicioFragment;
 import com.valecom.yingul.main.myAccount.MyAccountFragment;
 import com.valecom.yingul.main.myAccount.MyAccountPurchasesListFragment;
-import com.valecom.yingul.main.myAccount.MyAccountSaleDetailFragment;
 import com.valecom.yingul.main.myAccount.MyAccountSalesListFragment;
 import com.valecom.yingul.main.myAccount.MyAccountSalesQuestionsListFragment;
 import com.valecom.yingul.main.myAccount.MyAccountShoppingQuestionsListFragment;
@@ -67,17 +56,13 @@ import com.valecom.yingul.main.myAccount.yingulPay.YingulPayActivity;
 import com.valecom.yingul.main.rememberPassword.RememberPasswordActivity;
 import com.valecom.yingul.main.sell.SellActivity;
 import com.valecom.yingul.main.store.ActivityStore;
-import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.model.Yng_ItemImage;
 import com.valecom.yingul.model.Yng_Store;
 import com.valecom.yingul.model.Yng_User;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
-import com.valecom.yingul.service.NotificationService;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -88,7 +73,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -106,7 +90,7 @@ public class MainActivity extends AppCompatActivity
     public static final String TAG = "MainActivity";
     private JSONObject api_parameter;
     private String username,itemName;
-    private TextView profile_name, textCartItemCount;
+    private TextView profile_name;
     private MaterialDialog progressDialog;
     public Toolbar toolbar;
     private Yng_User user;
@@ -286,8 +270,6 @@ public class MainActivity extends AppCompatActivity
         Menu nav_Menu = navigationView.getMenu();
         final MenuItem menuItem = nav_Menu.findItem(R.id.nav_settings);
         View actionView = MenuItemCompat.getActionView(menuItem);
-        textCartItemCount = (TextView) actionView.findViewById(R.id.cart_badge);
-        setupBadge();
 
         profile_name = (TextView) navigationHeaderView.findViewById(R.id.profile_name);
         if (settings == null || settings.getInt("logged_in", 0) == 0 || settings.getString("api_key", "").equals(""))
@@ -1122,69 +1104,5 @@ public class MainActivity extends AppCompatActivity
 
         }
     }
-    private void setupBadge() {
-        SharedPreferences settings = getSharedPreferences(LoginActivity.SESSION_USER, MODE_PRIVATE);
-        if (textCartItemCount.getVisibility() != View.GONE) {
-            textCartItemCount.setVisibility(View.GONE);
-        }
-        if (settings == null || settings.getInt("logged_in", 0) == 0 || settings.getString("api_key", "").equals("")) {
 
-        }else{
-            String jsonBody = "";
-            getNumberQueries(Network.API_URL + "query/Number/"+settings.getString("username",""),jsonBody);
-        }
-    }
-
-    public void  getNumberQueries(String url, String json){
-        Log.e("empezar preguntas",url);
-        start("inicio");
-        OkHttpClient httpClient = new OkHttpClient.Builder()
-                .connectTimeout(9000, TimeUnit.SECONDS)
-                .writeTimeout(9000, TimeUnit.SECONDS)
-                .readTimeout(9000, TimeUnit.SECONDS)
-                .build();
-        RequestBody body = RequestBody.create(JSON, json);
-        okhttp3.Request request = new okhttp3.Request.Builder()
-                .url(url)
-                .addHeader("Content-Type","application/json")
-                .get()
-                .build();
-        httpClient.newCall(request).enqueue(new Callback() {
-            @Override public void onFailure(Call call, IOException e) {
-                Log.e(TAG, "error in getting response using async okhttp call");
-            }
-            @Override public void onResponse(Call call, okhttp3.Response response) throws IOException {
-                ResponseBody responseBody = response.body();
-                if (!response.isSuccessful()) {
-                    throw new IOException("Error response " + response);
-                }
-                //
-
-                final String responce=""+(responseBody.string());
-                try {
-                    end(""+responce);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Log.i("responce:------------",""+responce);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.e("cantidad de preguntas",responce+"");
-                        if(responce.equals("0")){
-                            if (textCartItemCount.getVisibility() != View.GONE) {
-                                textCartItemCount.setVisibility(View.GONE);
-                            }
-                        }else{
-                            if (textCartItemCount.getVisibility() != View.VISIBLE) {
-                                textCartItemCount.setVisibility(View.VISIBLE);
-                            }
-                            textCartItemCount.setText(responce+"");
-                        }
-                    }
-                });
-
-            }
-        });
-    }
 }

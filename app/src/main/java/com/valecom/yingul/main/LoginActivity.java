@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
@@ -62,6 +63,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         txtRememberPassword.setOnClickListener(this);
         LinearLayout layoutRememberPassword =(LinearLayout) findViewById(R.id.layoutRememberPassword);
         layoutRememberPassword.setOnClickListener(this);
+        LinearLayout linearDataWeb = (LinearLayout) findViewById(R.id.linearDataWeb);
+        linearDataWeb.setOnClickListener(this);
 
         Typeface typeface1 = Typeface.createFromAsset(LoginActivity.this.getAssets(), "fonts/font-yingul.ttf");
 
@@ -78,6 +81,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         Intent intent = null;
         switch (v.getId()) {
+            case R.id.linearDataWeb:
+                Intent viewIntent =
+                        new Intent("android.intent.action.VIEW",
+                                Uri.parse("http://qr.afip.gob.ar/?qr=j2FQEYjI5LF9Me8MX8DjXQ,,"));
+                startActivity(viewIntent);
+                break;
             case R.id.txtSignUp:
                 intent = new Intent(this, RegisterActivity.class);
                 startActivity(intent);
