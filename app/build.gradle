@@ -23,8 +23,8 @@ android {
                                 onesignal_google_project_number: "953400958776"]
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 41
-        versionName '1.40'
+        versionCode 43
+        versionName '1.42'
         signingConfig signingConfigs.config
     }
     dexOptions {
@@ -46,33 +46,33 @@ android {
 
 dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    compile('com.github.afollestad.material-dialogs:core:0.8.5.2@aar') {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'junit:junit:4.12'
+    implementation('com.github.afollestad.material-dialogs:core:0.8.5.2@aar') {
         transitive = true
     }
-    compile('com.github.afollestad.material-dialogs:commons:0.8.5.2@aar') {
+    implementation('com.github.afollestad.material-dialogs:commons:0.8.5.2@aar') {
         transitive = true
     }
     //noinspection GradleCompatible
-    compile 'com.android.support:appcompat-v7:26.0.1'
-    compile 'com.android.support:design:26.0.1'
-    compile 'com.android.support:support-v4:26.0.1'
-    compile 'com.android.volley:volley:1.0.0'
-    compile 'com.android.support:recyclerview-v7:26.0.1'
-    compile 'com.android.support:cardview-v7:26.0.1'
-    compile 'com.github.rey5137:material:1.2.2'
-    compile 'com.wdullaer:materialdatetimepicker:2.1.0'
-    compile 'com.google.code.gson:gson:2.5'
-    compile files('libs/itext/itextg-5.5.4.jar')
-    compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
-    compile 'com.google.android.gms:play-services:11.6.0'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.squareup.okhttp3:okhttp:3.10.0'
-    compile 'me.relex:circleindicator:1.2.2@aar'
-    compile 'com.github.ornolfr:rating-view:0.1.2@aar'
+    implementation 'com.android.support:appcompat-v7:26.0.1'
+    implementation 'com.android.support:design:26.0.1'
+    implementation 'com.android.support:support-v4:26.0.1'
+    implementation 'com.android.volley:volley:1.0.0'
+    implementation 'com.android.support:recyclerview-v7:26.0.1'
+    implementation 'com.android.support:cardview-v7:26.0.1'
+    implementation 'com.github.rey5137:material:1.2.2'
+    implementation 'com.wdullaer:materialdatetimepicker:2.1.0'
+    implementation 'com.google.code.gson:gson:2.5'
+    implementation files('libs/itext/itextg-5.5.4.jar')
+    implementation 'com.github.PhilJay:MPAndroidChart:v2.2.4'
+    implementation 'com.google.android.gms:play-services:11.6.0'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'me.relex:circleindicator:1.2.2@aar'
+    implementation 'com.github.ornolfr:rating-view:0.1.2@aar'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
-    compile 'com.onesignal:OneSignal:3.4.2@aar'
-    compile 'com.yahoo.mobile.client.android.util.rangeseekbar:rangeseekbar-library:0.1.0'
-    compile 'com.github.arturogutierrez:badges:1.0.5@aar'
+    implementation 'com.onesignal:OneSignal:3.4.2@aar'
+    implementation 'com.yahoo.mobile.client.android.util.rangeseekbar:rangeseekbar-library:0.1.0'
+    implementation 'com.github.arturogutierrez:badges:1.0.5@aar'
 }

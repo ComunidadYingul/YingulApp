@@ -338,7 +338,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         Validacion val = new Validacion();
 
-        if (!val.valTextWithoutAcent(editFirstname))
+        if (!val.valCantString(editFirstname,2))
         {
             isValid = false;
         }else if (!val.valTextWithoutAcent(editLastname))

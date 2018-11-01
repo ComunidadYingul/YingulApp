@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -29,24 +28,19 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.github.arturogutierrez.Badges;
 import com.github.arturogutierrez.BadgesNotSupportedException;
-import com.google.gson.Gson;
 import com.valecom.yingul.R;
 import com.valecom.yingul.adapter.ViewPagerAdapter2;
 import com.valecom.yingul.main.index.InicioFragment;
-import com.valecom.yingul.model.Yng_Notification;
 import com.valecom.yingul.network.MySingleton;
 import com.valecom.yingul.network.Network;
 import com.valecom.yingul.service.NotificationService;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -172,7 +166,7 @@ public class HomeFragment extends Fragment
         adapter.addFragment(newInstance());
         adapter.addFragment(newInstance1());
         adapter.addFragment(newInstance1());
-        adapter.addFragment(newInstance3());
+        //adapter.addFragment(newInstance3());
         viewPager.setAdapter(adapter);
     }
 
@@ -181,7 +175,7 @@ public class HomeFragment extends Fragment
         if(username==""){
             tabLayout.getTabAt(1).setCustomView(getTabView(R.drawable.ic_notifications_black_24dp,0));
             tabLayout.getTabAt(2).setCustomView(getTabView(R.drawable.ic_chat_black,0));
-            tabLayout.getTabAt(3).setCustomView(getTabView(R.drawable.ic_contacts_black,0));
+            //tabLayout.getTabAt(3).setCustomView(getTabView(R.drawable.ic_contacts_black,0));
             colorDefaultIcons();
             iconColor(tabLayout.getTabAt(tabLayout.getSelectedTabPosition()),"#FF5000");
         }else{
@@ -220,10 +214,10 @@ public class HomeFragment extends Fragment
         return fragment;
     }
 
-    private ContactsFragment newInstance3(){
+    /*private ContactsFragment newInstance3(){
         ContactsFragment fragment = new ContactsFragment();
         return fragment;
-    }
+    }*/
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri)
@@ -296,7 +290,7 @@ public class HomeFragment extends Fragment
                             Log.e("===",items.length()+password);
                             tabLayout.getTabAt(1).setCustomView(getTabView(R.drawable.ic_notifications_black_24dp,items.length()));
                             tabLayout.getTabAt(2).setCustomView(getTabView(R.drawable.ic_chat_black,0));
-                            tabLayout.getTabAt(3).setCustomView(getTabView(R.drawable.ic_contacts_black,0));
+                            //tabLayout.getTabAt(3).setCustomView(getTabView(R.drawable.ic_contacts_black,0));
                             colorDefaultIcons();
                             iconColor(tabLayout.getTabAt(tabLayout.getSelectedTabPosition()),"#FF5000");
                         }

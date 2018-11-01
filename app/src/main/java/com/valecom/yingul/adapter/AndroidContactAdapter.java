@@ -1,6 +1,7 @@
 package com.valecom.yingul.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,7 @@ public class AndroidContactAdapter extends ArrayAdapter<Yng_AndroidContact>
             Picasso.with(context).load(Network.BUCKET_URL+"user/userProfile/profile.jpg").into(profilePhotoContact);
             textInvite.setVisibility(View.VISIBLE);
         }else{
+            Log.e("photo",Network.BUCKET_URL+"user/userProfile/"+item.getUser().getProfilePhoto());
             Picasso.with(context).load(Network.BUCKET_URL+"user/userProfile/"+item.getUser().getProfilePhoto()).into(profilePhotoContact);
             textInvite.setVisibility(View.INVISIBLE);
         }

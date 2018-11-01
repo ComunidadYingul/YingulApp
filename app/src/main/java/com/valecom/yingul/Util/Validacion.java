@@ -211,8 +211,7 @@ public class Validacion {
     }
 
     public boolean valCantString(EditText view,int cantDig){
-        if (view.getText().toString().trim().length() < cantDig)
-        {
+        if (view.getText().toString().trim().length() < cantDig) {
             view.setError("Campo requerido y mínimo "+cantDig+" caracteres");
             view.requestFocus();
             return false;

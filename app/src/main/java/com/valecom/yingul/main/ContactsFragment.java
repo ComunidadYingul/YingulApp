@@ -114,7 +114,6 @@ public class ContactsFragment extends Fragment
                 startActivityForResult(i, PICK_CONTACT_REQUEST);
             }
         });
-
         array_list = new ArrayList<Yng_AndroidContact>();
         adapter = new AndroidContactAdapter(getContext(), array_list);
 
@@ -161,7 +160,10 @@ public class ContactsFragment extends Fragment
     }
 
     public void loadContacts(){
-        progressDialog.show();
+        //progressDialog.show();
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
         Log.e("Mostrar","mostrar");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (getActivity().checkSelfPermission(Manifest.permission.WRITE_CONTACTS)
