@@ -165,7 +165,7 @@ public class HomeFragment extends Fragment
         ViewPagerAdapter2 adapter = new ViewPagerAdapter2(getChildFragmentManager());
         adapter.addFragment(newInstance());
         adapter.addFragment(newInstance1());
-        adapter.addFragment(newInstance1());
+        adapter.addFragment(newInstance2());
         //adapter.addFragment(newInstance3());
         viewPager.setAdapter(adapter);
     }
@@ -199,7 +199,7 @@ public class HomeFragment extends Fragment
     }
 
     private void colorDefaultIcons(){
-        for(int i=0; i<4; i++){
+        for(int i=0; i<3; i++){
             iconColor(tabLayout.getTabAt(i),"#E0E0E0");
         }
     }
@@ -211,6 +211,11 @@ public class HomeFragment extends Fragment
 
     private NotificationFragment2 newInstance1(){
         NotificationFragment2 fragment = new NotificationFragment2();
+        return fragment;
+    }
+
+    private ChatFragment newInstance2(){
+        ChatFragment fragment = new ChatFragment();
         return fragment;
     }
 
