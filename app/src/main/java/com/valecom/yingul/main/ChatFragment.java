@@ -67,8 +67,11 @@ public class ChatFragment extends Fragment
         FloatingActionButton add_client_button = (FloatingActionButton) view.findViewById(R.id.add_button);
         add_client_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), NewClientActivity.class);
-                startActivityForResult(intent , NEW_CHAT);
+                //Intent intent = new Intent(getActivity(), NewClientActivity.class);
+                //startActivityForResult(intent , NEW_CHAT);
+
+                Intent intent = new Intent(getContext(), ContactsActivity.class);
+                startActivity(intent);
             }
         });
 

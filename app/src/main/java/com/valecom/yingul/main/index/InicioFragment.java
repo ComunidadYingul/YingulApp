@@ -777,9 +777,9 @@ public class InicioFragment extends Fragment {
         super.onConfigurationChanged(newConfig);
 
         /*adapter = new MainAdapter(getContext(), getObject());*/
-        if(adapter == null){recyclerResponsive2();}
+        if(adapter == null){recyclerResponsive();}
         else {
-            recyclerResponsive2();
+            recyclerResponsive();
             adapter.setCol(col);
             recyclerView.setAdapter(adapter);
 
