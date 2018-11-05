@@ -96,10 +96,14 @@ public class ContactsActivity extends AppCompatActivity {
             {
                 Yng_AndroidContact contact = adapter.getItem(position);
                 if(contact.getUser()==null){
-                    Uri uri = Uri.parse("smsto:"+contact.getAndroid_contact_TelefonNr());
-                    Intent it = new Intent(Intent.ACTION_SENDTO, uri);
-                    it.putExtra("sms_body", "Descarga la nueva aplicación de Compras,Ventas y Chat YINGUL app y comenzá a publicar gratis y chatea ahora https://play.google.com/store/apps/details?id=com.valecom.yingul");
-                    startActivity(it);
+                    if(contact.getAndroid_contact_Name().equals("Nuevo grupo")){
+
+                    }else {
+                        Uri uri = Uri.parse("smsto:" + contact.getAndroid_contact_TelefonNr());
+                        Intent it = new Intent(Intent.ACTION_SENDTO, uri);
+                        it.putExtra("sms_body", "Descarga la nueva aplicación de Compras,Ventas y Chat YINGUL app y comenzá a publicar gratis y chatea ahora https://play.google.com/store/apps/details?id=com.valecom.yingul");
+                        startActivity(it);
+                    }
                 }
             }
         });
@@ -185,6 +189,12 @@ public class ContactsActivity extends AppCompatActivity {
             }
         });
 
+        Collections.reverse(array_list);
+        Yng_AndroidContact android_contact = new Yng_AndroidContact();
+        android_contact.setAndroid_contact_Name("Nuevo grupo");
+        array_list.add(android_contact);
+        Collections.reverse(array_list);
+
         YingulcheckAndOrder(array_list);
 
 
@@ -192,8 +202,10 @@ public class ContactsActivity extends AppCompatActivity {
 
     public boolean checkRepeated(ArrayList<Yng_AndroidContact> array_list,Yng_AndroidContact android_contact){
         for (Yng_AndroidContact androidContact : array_list) {
-            if(androidContact.getAndroid_contact_TelefonNr().contains(android_contact.getAndroid_contact_TelefonNr().replace(" ","").replace("+","").replace("-",""))||android_contact.getAndroid_contact_TelefonNr().contains(androidContact.getAndroid_contact_TelefonNr().replace(" ","").replace("+","").replace("-",""))){
-                return true;
+            if(android_contact.getAndroid_contact_TelefonNr() != null){
+                if(androidContact.getAndroid_contact_TelefonNr().contains(android_contact.getAndroid_contact_TelefonNr().replace(" ","").replace("+","").replace("-",""))||android_contact.getAndroid_contact_TelefonNr().contains(androidContact.getAndroid_contact_TelefonNr().replace(" ","").replace("+","").replace("-",""))){
+                    return true;
+                }
             }
         }
         return false;
@@ -296,68 +308,61 @@ public class ContactsActivity extends AppCompatActivity {
 
     public void getUserByPhoneNumber(final Yng_AndroidContact android_contact, final int position, boolean last)
     {
-        JsonObjectRequest postRequest = new JsonObjectRequest
-                (Request.Method.GET, Network.API_URL + "user/getUserByPhoneNumber/"+android_contact.getAndroid_contact_TelefonNr().replace(" ","").replace("+","").replace("-",""), api_parameter, new Response.Listener<JSONObject>()
-                {
-                    @Override
-                    public void onResponse(JSONObject response)
-                    {
-                        try
-                        {
-                            Yng_User user = new Yng_User();
-                            Gson gson = new Gson();
-                            user = gson.fromJson(String.valueOf(response), Yng_User.class);
-                            android_contact.setUser(user);
-                            array_list.set(position,android_contact);
+        if(android_contact.getAndroid_contact_TelefonNr() != null) {
+            JsonObjectRequest postRequest = new JsonObjectRequest
+                    (Request.Method.GET, Network.API_URL + "user/getUserByPhoneNumber/" + android_contact.getAndroid_contact_TelefonNr().replace(" ", "").replace("+", "").replace("-", ""), api_parameter, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                Yng_User user = new Yng_User();
+                                Gson gson = new Gson();
+                                user = gson.fromJson(String.valueOf(response), Yng_User.class);
+                                android_contact.setUser(user);
+                                array_list.set(position, android_contact);
+                            } catch (Exception ex) {
+                                Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
                         }
-                        catch (Exception ex)
-                        {
-                            Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
+                    }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
                         }
-                    }
-                }, new Response.ErrorListener()
-                {
+                    }) {
 
-                    @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-
-                    }
-                })
-        {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError
-            {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("X-API-KEY", Network.API_KEY);
-                return params;
-            }
-        };
-        RequestQueue queue = MySingleton.getInstance(getApplicationContext().getApplicationContext()).getRequestQueue();
-        postRequest.setTag(TAG);
-        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(postRequest);
-        if(last){
-            /*Collections.sort(array_list, new Comparator<Yng_AndroidContact>() {
-                public int compare(Yng_AndroidContact o1, Yng_AndroidContact o2){
-                    if(o1.getUser()==null && o2.getUser()==null){
-                        return o1.getAndroid_contact_Name().compareTo(o2.getAndroid_contact_Name());
-                    }
-                    else if(o1.getUser()==null && o2.getUser()!=null){
-                        return 1;
-                    }
-                    else if(o1.getUser()!=null && o2.getUser()==null){
-                        return -1;
-                    }
-                    else{
-                        return o1.getAndroid_contact_Name().compareTo(o2.getAndroid_contact_Name());
-                    }
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("X-API-KEY", Network.API_KEY);
+                    return params;
                 }
-            });*/
-            if (progressDialog != null && progressDialog.isShowing()) {
-                progressDialog.dismiss();
+            };
+            RequestQueue queue = MySingleton.getInstance(getApplicationContext().getApplicationContext()).getRequestQueue();
+            postRequest.setTag(TAG);
+            MySingleton.getInstance(getApplicationContext()).addToRequestQueue(postRequest);
+            if (last) {
+                /*Collections.sort(array_list, new Comparator<Yng_AndroidContact>() {
+                    public int compare(Yng_AndroidContact o1, Yng_AndroidContact o2){
+                        if(o1.getUser()==null && o2.getUser()==null){
+                            return o1.getAndroid_contact_Name().compareTo(o2.getAndroid_contact_Name());
+                        }
+                        else if(o1.getUser()==null && o2.getUser()!=null){
+                            return 1;
+                        }
+                        else if(o1.getUser()!=null && o2.getUser()==null){
+                            return -1;
+                        }
+                        else{
+                            return o1.getAndroid_contact_Name().compareTo(o2.getAndroid_contact_Name());
+                        }
+                    }
+                });*/
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+                adapter.notifyDataSetChanged();
             }
-            adapter.notifyDataSetChanged();
         }
     }
 

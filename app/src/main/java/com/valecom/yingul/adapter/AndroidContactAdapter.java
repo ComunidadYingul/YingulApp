@@ -49,9 +49,16 @@ public class AndroidContactAdapter extends ArrayAdapter<Yng_AndroidContact>
         TextView nameContact = (TextView) rowView.findViewById(R.id.nameContact);
         TextView phoneNumberContact = (TextView) rowView.findViewById(R.id.phoneNumberContact);
         TextView textInvite = (TextView) rowView.findViewById(R.id.textInvite);
+        TextView typeContact = (TextView) rowView.findViewById(R.id.typeContact);
         if(item.getUser()==null){
-            Picasso.with(context).load(Network.BUCKET_URL+"user/userProfile/profile.jpg").into(profilePhotoContact);
-            textInvite.setVisibility(View.VISIBLE);
+            if(item.getAndroid_contact_Name().equals("Nuevo grupo")){
+                Picasso.with(context).load("file:///android_asset/image/ic_group.png").into(profilePhotoContact);
+                textInvite.setVisibility(View.INVISIBLE);
+                typeContact.setVisibility(View.INVISIBLE);
+            }else {
+                Picasso.with(context).load(Network.BUCKET_URL + "user/userProfile/profile.jpg").into(profilePhotoContact);
+                textInvite.setVisibility(View.VISIBLE);
+            }
         }else{
             Log.e("photo",Network.BUCKET_URL+"user/userProfile/"+item.getUser().getProfilePhoto());
             Picasso.with(context).load(Network.BUCKET_URL+"user/userProfile/"+item.getUser().getProfilePhoto()).into(profilePhotoContact);
