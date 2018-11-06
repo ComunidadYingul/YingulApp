@@ -15,6 +15,7 @@
         android:background="@color/white"
         app:tabIndicatorHeight="0dp"
         app:tabMode="fixed"
+        android:layout_gravity="left"
         app:tabGravity="fill"/>
 
     <View

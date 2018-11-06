@@ -142,11 +142,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"
                 android:layout_margin="16dp"
-                android:src="@drawable/ic_chat_white"
-                app:backgroundTint="@color/colorAccent"
+                android:src="@drawable/ic_new_chat_2"
+                app:backgroundTint="@color/md_material_blue_600"
                 app:layout_anchor="@id/list"
                 app:layout_anchorGravity="bottom|right|end"
-                app:rippleColor="@color/colorPrimary"/>
+                app:rippleColor="@color/md_material_blue_800"/>
         </android.support.design.widget.CoordinatorLayout>
 
     </RelativeLayout>

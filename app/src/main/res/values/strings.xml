@@ -9,8 +9,8 @@
     <string name="sign_up_login">No Account? <b><u>Sign Up</u></b></string>
     <string name="title_activity_register">RegisterActivity</string>
 
-    <string name="progress_dialog">Loading...</string>
-    <string name="please_wait">Please wait</string>
+    <string name="progress_dialog">Cargando...</string>
+    <string name="please_wait">Por favor espere</string>
 
     <string name="error_try_again_support">Error. Try again or contact support</string>
     <string name="title_activity_settings">Settings</string>

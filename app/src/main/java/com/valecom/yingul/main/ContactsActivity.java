@@ -66,11 +66,19 @@ public class ContactsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
 
+        progressDialog = new MaterialDialog.Builder(this)
+                .title(R.string.progress_dialog)
+                .content(R.string.please_wait)
+                .cancelable(false)
+                .progress(true, 0).build();
+
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Contactos");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        toolbar.setBackgroundColor(getResources().getColor(R.color.yngOrange));
 
         FloatingActionButton add_client_button = (FloatingActionButton) findViewById(R.id.add_button);
         add_client_button.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +119,7 @@ public class ContactsActivity extends AppCompatActivity {
     }
 
     public void loadContacts(){
-        //progressDialog.show();
+        progressDialog.show();
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
@@ -273,19 +281,13 @@ public class ContactsActivity extends AppCompatActivity {
                 onBackPressed();
                 return true;
 
-            case R.id.menu_share:
-                /*********poner en el chat**********
-                 Intent sendIntent = new Intent();
-                 sendIntent.setAction(Intent.ACTION_SEND);
-                 sendIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_msg) + getPackageName());
-                 sendIntent.setType("text/plain");
-                 startActivity(sendIntent);
-                 /*********poner en el chat**********/
-                //shareTextUrl(itemId);
-                //Toast.makeText(this, "Menu", Toast.LENGTH_SHORT).show();
+            case R.id.menu_update:
+
+                loadContacts();
+
                 return true;
 
-            case R.id.menu_fav:
+            case R.id.menu_search:
                 /*SharedPreferences settings = getSharedPreferences(LoginActivity.SESSION_USER, MODE_PRIVATE);
                 if (settings == null || settings.getInt("logged_in", 0) == 0 || settings.getString("api_key", "").equals("")) {
                     Intent intent = new Intent(this, LoginActivity.class);

@@ -113,6 +113,7 @@ public class HomeFragment extends Fragment
         final ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         loadViewPager(viewPager);
         tabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setupWithViewPager(viewPager);
         tabIcons();
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -171,6 +172,7 @@ public class HomeFragment extends Fragment
     }
 
     private void tabIcons(){
+        //tabLayout.getTabAt(0).setIcon(R.drawable.ic_buy_now_black);
         tabLayout.getTabAt(0).setCustomView(getTabView(R.drawable.ic_buy_now_black,0));
         if(username==""){
             tabLayout.getTabAt(1).setCustomView(getTabView(R.drawable.ic_notifications_black_24dp,0));

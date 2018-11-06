@@ -5,29 +5,15 @@
     tools:context=".MainActivity">
 
     <item
-        android:id="@+id/menu_fav"
+        android:id="@+id/menu_search"
         android:title=" "
         app:showAsAction="always"
         android:icon="@drawable/ic_search"/>
 
-    <!--item
-        android:id="@+id/search"
-        android:title="@string/menu_search"
-        app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="always|collapseActionView"
-        android:icon="@drawable/ic_search"/-->
-
     <item
-        android:id="@+id/menu_share"
-        android:title=" "
-        app:showAsAction="always"
-        android:icon="@drawable/ic_menu_white"/>
-
-    <!--item
-        android:id="@+id/menu_share"
-        android:title="@string/menu_search"
-        app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="always|collapseActionView"
-        android:icon="@drawable/ic_menu_white"/-->
+        android:id="@+id/menu_update"
+        android:orderInCategory="100"
+        android:title="Actualizar"
+        app:showAsAction="never" />
 
 </menu>
