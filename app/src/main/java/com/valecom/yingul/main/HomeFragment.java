@@ -206,10 +206,15 @@ public class HomeFragment extends Fragment
         }
     }
 
-    private InicioFragment newInstance(){
-        InicioFragment fragment = new InicioFragment();
+    private PrincipalFragment newInstance(){
+        PrincipalFragment fragment = new PrincipalFragment();
         return fragment;
     }
+
+    /*private InicioFragment newInstance(){
+        InicioFragment fragment = new InicioFragment();
+        return fragment;
+    }*/
 
     private NotificationFragment2 newInstance1(){
         NotificationFragment2 fragment = new NotificationFragment2();
