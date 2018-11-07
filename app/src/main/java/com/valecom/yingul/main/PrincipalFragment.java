@@ -3,6 +3,7 @@ package com.valecom.yingul.main;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -42,7 +43,10 @@ import com.valecom.yingul.adapter.LatestListAdapter;
 import com.valecom.yingul.adapter.ListGridAdapter;
 import com.valecom.yingul.adapter.StoreHomeAdapter;
 import com.valecom.yingul.main.allItems.AllItemsActivity;
+import com.valecom.yingul.main.createStore.CreateStoreActivity;
+import com.valecom.yingul.main.over.AllNotOverActivity;
 import com.valecom.yingul.main.over.OverActivity;
+import com.valecom.yingul.main.sell.SellActivity;
 import com.valecom.yingul.model.Yng_Category;
 import com.valecom.yingul.model.Yng_Item;
 import com.valecom.yingul.model.Yng_Store;
@@ -110,6 +114,9 @@ public class PrincipalFragment extends Fragment {
 
     private LinearLayout copyrightLayout;
 
+    /*********/
+    int col=2;
+    String modo="grid";
     DisplayMetrics metrics = new DisplayMetrics();
     int paso = 20;
     int start=0;
@@ -126,6 +133,8 @@ public class PrincipalFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_principal, container, false);
+
+        recyclerResponsive();
 
         progressDialog = new MaterialDialog.Builder(getContext())
                 .title(R.string.progress_dialog)
@@ -179,7 +188,7 @@ public class PrincipalFragment extends Fragment {
         recycler_home_category.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recycler_home_category.addItemDecoration(itemDecoration);
 
-        manager_all_items = new StaggeredGridLayoutManager(2,1);
+        manager_all_items = new StaggeredGridLayoutManager(col,1);
         recycler_home_all_items = (RecyclerView) rootView.findViewById(R.id.rv_home_all_items);
         recycler_home_all_items.setHasFixedSize(true);
         recycler_home_all_items.setNestedScrollingEnabled(false);
@@ -292,7 +301,7 @@ public class PrincipalFragment extends Fragment {
         view_all_latest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AllItemsActivity.class);
+                Intent intent = new Intent(getActivity(), AllNotOverActivity.class);
                 startActivity(intent);
             }
         });
@@ -527,6 +536,28 @@ public class PrincipalFragment extends Fragment {
                 public void onClick(View v) {
                     /*Intent intent_detail=new Intent(getActivity(), ActivityProductDetail.class);
                     startActivity(intent_detail);*/
+                    Intent intent;
+                    if(position == 0){
+                        intent = new Intent(getContext(),AllItemsActivity.class);
+                        getContext().startActivity(intent);
+                    }else  if(position == 1){
+                        intent = new Intent(getContext(),SellActivity.class);
+                        getContext().startActivity(intent);
+                    }else  if(position == 2){
+                        intent = new Intent(getContext(),SellActivity.class);
+                        getContext().startActivity(intent);
+                    }else  if(position == 3){
+                        intent = new Intent(getContext(),OverActivity.class);
+                        getContext().startActivity(intent);
+                    }else  if(position == 4){
+                        intent = new Intent(getContext(),OverActivity.class);
+                        getContext().startActivity(intent);
+                    }else  if(position == 5){
+                        intent = new Intent(getContext(),CreateStoreActivity.class);
+                        getContext().startActivity(intent);
+                    }else{
+                        //intent = new Intent(context,AllItemsActivity.class);
+                    }
                 }
             });
 
@@ -705,7 +736,7 @@ public class PrincipalFragment extends Fragment {
 
     public ArrayList<Yng_Item> loadJSONFromAssetHomeLatest() {
 
-        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "/item/listItemParams/All/All/Desc/"+start+"/"+end,
+        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "/item/listItemParams/All/false/Desc/"+start+"/"+end,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -736,7 +767,7 @@ public class PrincipalFragment extends Fragment {
                                 //if(item.getPriceDiscount()==0 && !item.getProductPagoEnvio().equals("gratis")){
                                     array_latest.add(item);
                                 //}
-                                array_all_items.add(item);
+                                //array_all_items.add(item);
 
 
                             }
@@ -932,17 +963,194 @@ public class PrincipalFragment extends Fragment {
         adapter_category = new StoreHomeAdapter(getActivity(), array_category);
         recycler_home_category.setAdapter(adapter_category);
 
-        //loadJSONFromAssetHomeAllItems();
-        setAdapterHomeAllItems();
+        loadJSONFromAssetHomeAllItems();
+        //setAdapterHomeAllItems();
     }
 
     /***************************** ALL ITEMS BOTTOM********************************/
+
+    public ArrayList<Yng_Item> loadJSONFromAssetHomeAllItems() {
+
+        JsonArrayRequest postRequest = new JsonArrayRequest(Network.API_URL + "/item/listItemParams/All/All/Desc/"+start+"/"+end,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try
+                        {
+
+                            JSONArray m_jArry = response;
+                            Log.e("Eddy",m_jArry.toString());
+                            for (int i = 0; i < m_jArry.length(); i++) {
+                                JSONObject jo_inside = m_jArry.getJSONObject(i);
+                                Yng_Item item = new Yng_Item();
+                                item.setItemId(Long.valueOf(jo_inside.getString("itemId")));
+                                item.setName(jo_inside.getString("name"));
+                                item.setPrincipalImage(jo_inside.getString("principalImage"));
+                                item.setDescription(jo_inside.getString("description"));
+                                item.setPrice(Double.valueOf(jo_inside.getString("price")));
+                                item.setMoney(jo_inside.getString("money"));
+                                item.setProductPagoEnvio(jo_inside.getString("productPagoEnvio"));
+                                item.setPriceNormal(Double.valueOf(jo_inside.getString("priceNormal")));
+                                item.setPriceDiscount(Double.valueOf(jo_inside.getString("priceDiscount")));
+
+                                /*JSONObject user = jo_inside.getJSONObject("user");
+                                Gson gson = new Gson();
+                                Yng_User seller = gson.fromJson(String.valueOf(user) , Yng_User.class);
+                                item.setCategorySeller(seller.getUsername());*/
+
+
+                                //if(item.getPriceDiscount()==0 && !item.getProductPagoEnvio().equals("gratis")){
+                                //array_latest.add(item);
+                                //}
+                                array_all_items.add(item);
+
+
+                            }
+                            setAdapterHomeAllItems();
+
+                            /**/
+                            //JSONObject result = ((JSONObject)response.get("data"));
+                        }
+                        catch(Exception ex)
+                        {
+                            if (isAdded()) {
+                                Toast.makeText(getContext(), R.string.error_try_again_support, Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            // If the response is JSONObject instead of expected JSONArray
+                            progressDialog.dismiss();
+                        }
+                    }
+                }, new Response.ErrorListener()
+        {
+
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                // TODO Auto-generated method stub
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    // If the response is JSONObject instead of expected JSONArray
+                    progressDialog.dismiss();
+                }
+
+                NetworkResponse response = error.networkResponse;
+                if (response != null && response.data != null)
+                {
+                    try
+                    {
+                        JSONObject json = new JSONObject(new String(response.data));
+                        Toast.makeText(getContext(), json.has("message") ? json.getString("message") : json.getString("error"), Toast.LENGTH_LONG).show();
+                    }
+                    catch (JSONException e)
+                    {
+                        Toast.makeText(getContext(), R.string.error_try_again_support, Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(getContext(), error != null && error.getMessage() != null ? error.getMessage() : error.toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+        })
+        {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError
+            {
+                //SharedPreferences settings = getActivity().getSharedPreferences(ActivityLogin.SESSION_USER, getActivity().MODE_PRIVATE);
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("X-API-KEY", Network.API_KEY);
+                /*params.put("Authorization",
+                        "Basic " + Base64.encodeToString(
+                                (settings.getString("email","")+":" + settings.getString("api_key","")).getBytes(), Base64.NO_WRAP)
+                );*/
+                return params;
+            }
+        };
+
+        postRequest.setTag(MainActivity.TAG);
+
+        MySingleton.getInstance(getContext()).addToRequestQueue(postRequest);
+
+
+        return array_latest;
+
+    }
 
     public void setAdapterHomeAllItems() {
 
         adapter_all_items = new ListGridAdapter(getActivity(), array_all_items);
         recycler_home_all_items.setAdapter(adapter_all_items);
 
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        recyclerResponsive();
+
+        manager_all_items = new StaggeredGridLayoutManager(col,1);
+        recycler_home_all_items.setLayoutManager(manager_all_items);
+
+        Log.e("ROTACION----:", "Rotando...");
+    }
+
+    public void recyclerResponsive(){
+        Log.e("oriencation:----",""+getContext().getResources().getConfiguration().orientation);
+        Log.e("dpi:----",""+metrics.xdpi);
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        //DisplayMetrics displayMetrics = new DisplayMetrics();
+        //getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        double d1 = metrics.widthPixels / metrics.xdpi;
+        double d2 = metrics.heightPixels / metrics.ydpi;
+        double deviceInches = Math.sqrt(d1 * d1 + d2 * d2);
+        if(getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if (deviceInches > 8) {col = 4;}
+            else if (deviceInches >= 6) {col = 4;}
+            else if (deviceInches < 6) {col = 3;}
+            else {col = 2;}
+        }else if(getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            if(deviceInches > 8){col=3;}
+            else if(deviceInches >= 6){col=3;}
+            else if(deviceInches < 6){col=2;}
+            else {col=2;}
+        }
+        /*
+        if(getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if (metrics.xdpi < 160) {col = 4;}
+            else if (metrics.xdpi < 220) {col = 4;}
+            else if (metrics.xdpi < 320) {col = 3;}
+            else {col = 2;}
+        }else if(getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            if(metrics.xdpi < 160){col=3;}
+            else if(metrics.xdpi < 220){col=3;}
+            else if(metrics.xdpi < 320){col=2;}
+            else {col=2;}
+        }
+        * */
+    }
+
+    public void recyclerResponsive2(){
+        Log.e("oriencation:----",""+getContext().getResources().getConfiguration().orientation);
+        Log.e("dpi:----",""+metrics.xdpi);
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        double d1 = metrics.widthPixels / metrics.xdpi;
+        double d2 = metrics.heightPixels / metrics.ydpi;
+        double deviceInches = Math.sqrt(d1 * d1 + d2 * d2);
+        if(getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if (deviceInches >8) {col = 3;}
+            else if (deviceInches >= 6) {col = 3;}
+            else if (deviceInches < 6) {col = 2;}
+            else {col = 2;}
+        }else if(getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            if(deviceInches > 8){col=4;}
+            else if(deviceInches >= 6){col=4;}
+            else if(deviceInches < 6){col=3;}
+            else {col=2;}
+        }
     }
 
 }
