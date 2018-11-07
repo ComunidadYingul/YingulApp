@@ -87,7 +87,7 @@ public class AllNotOverActivity extends AppCompatActivity {
         setContentView(R.layout.activity_all_not_over);
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Vendés más, comprás mejor.");
+        toolbar.setTitle("Vende más, comprás mejor.");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
