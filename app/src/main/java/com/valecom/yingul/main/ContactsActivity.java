@@ -203,7 +203,7 @@ public class ContactsActivity extends AppCompatActivity {
         array_list.add(android_contact);
         Collections.reverse(array_list);
 
-        YingulcheckAndOrder(array_list);
+        //YingulcheckAndOrder(array_list);
 
 
     }
