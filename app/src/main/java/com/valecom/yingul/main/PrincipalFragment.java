@@ -118,9 +118,9 @@ public class PrincipalFragment extends Fragment {
     int col=2;
     String modo="grid";
     DisplayMetrics metrics = new DisplayMetrics();
-    int paso = 20;
-    int start=0;
-    int end =paso;
+    int paso;
+    int start;
+    int end;
 
     public PrincipalFragment() {
         // Required empty public constructor
@@ -133,6 +133,10 @@ public class PrincipalFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_principal, container, false);
+
+        paso = 20;
+        start=0;
+        end =paso;
 
         recyclerResponsive();
 

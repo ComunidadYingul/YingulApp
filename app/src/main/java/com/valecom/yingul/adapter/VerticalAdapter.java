@@ -45,7 +45,7 @@ public class VerticalAdapter extends RecyclerView.Adapter<VerticalAdapter.MyView
     public void onBindViewHolder(MyViewHolder holder, int position) {
         final Yng_Item item = data.get(position);
 
-        Log.e("position:------",position+"");
+        Log.e("ItemVrtical:------",position+"");
 
         holder.text_cat_list_title.setText(item.getName());
         holder.text_cat_list_price.setText(String.format("%.0f", item.getPrice()));

@@ -55,7 +55,7 @@ public class ListGridAdapter extends RecyclerView.Adapter<ListGridAdapter.ItemRo
     public void onBindViewHolder(ListGridAdapter.ItemRowHolder holder, final int position) {
         final Yng_Item item = dataList.get(position);
 
-        Log.e("position:------",position+"");
+        Log.e("position-grid:------",position+"   Num: "+dataList.size());
 
         holder.text_cat_list_title.setText(item.getName());
         holder.text_cat_list_price.setText(String.format("%.0f", item.getPrice()));

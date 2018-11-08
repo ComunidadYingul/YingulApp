@@ -220,7 +220,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     @Override
     public int getItemViewType(int position) {
-        Log.e("position:---",position+"");
+        Log.e("seccion:---",position+"");
 
         switch (position){
             case 0:
