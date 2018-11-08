@@ -216,8 +216,9 @@ public class PrincipalFragment extends Fragment {
                     }
                     if (scrollY < oldScrollY && viewsIds[0] == 0) {
                         Log.i("Scroll:----", "Scroll UP");
-                        recycler_home_all_items.setHasFixedSize(true);
-                        recycler_home_all_items.setNestedScrollingEnabled(false);
+                        //recycler_home_all_items.setHasFixedSize(true);
+                        //recycler_home_all_items.setNestedScrollingEnabled(false);
+                        disabledScrollRecyclerView();
                     }
 
                     if (scrollY == 0) {
@@ -1088,6 +1089,9 @@ public class PrincipalFragment extends Fragment {
         adapter_all_items = new ListGridAdapter(getActivity(), array_all_items);
         recycler_home_all_items.setAdapter(adapter_all_items);
 
+        recycler_home_all_items.getLayoutManager().scrollToPosition(0);
+        disabledScrollRecyclerView();
+
     }
 
     @Override
@@ -1155,6 +1159,11 @@ public class PrincipalFragment extends Fragment {
             else if(deviceInches < 6){col=3;}
             else {col=2;}
         }
+    }
+
+    public void disabledScrollRecyclerView(){
+        recycler_home_all_items.setHasFixedSize(true);
+        recycler_home_all_items.setNestedScrollingEnabled(false);
     }
 
 }
