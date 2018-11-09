@@ -274,8 +274,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         Log.d("responce:------------",""+responce);
                         if(responce.equals("save")) {
                             Toast.makeText(RegisterActivity.this, "Sea ha registrado a Yingul exitosamente.", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                            startActivity(intent);
+                            //Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                            //startActivity(intent);
+                            finish();
                         }else{
                             if(responce.equals("email exist")){
                                 new MaterialDialog.Builder(RegisterActivity.this)
