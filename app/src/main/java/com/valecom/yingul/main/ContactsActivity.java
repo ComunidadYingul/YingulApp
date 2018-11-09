@@ -11,6 +11,8 @@ import android.os.Build;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +22,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -61,6 +64,11 @@ public class ContactsActivity extends AppCompatActivity {
     private static final int PICK_CONTACT_REQUEST = 1;
     String TAG="OkHttpConection";
 
+    private static final int i = 100;
+    Cursor c;
+    ArrayList<Yng_AndroidContact> contacts;
+    //ArrayAdapter<String> adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,12 +98,12 @@ public class ContactsActivity extends AppCompatActivity {
                 startActivityForResult(i, PICK_CONTACT_REQUEST);
             }
         });
-        array_list = new ArrayList<Yng_AndroidContact>();
-        adapter = new AndroidContactAdapter(getApplicationContext(), array_list);
+        //array_list = new ArrayList<Yng_AndroidContact>();
+        //adapter = new AndroidContactAdapter(getApplicationContext(), array_list);
 
         list = (ListView) findViewById(R.id.list);
         // Assigning the adapter to ListView
-        list.setAdapter(adapter);
+        //list.setAdapter(adapter);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
@@ -115,7 +123,22 @@ public class ContactsActivity extends AppCompatActivity {
                 }
             }
         });
-        loadContacts();
+        //loadContacts();
+
+        if(checkPermission()){
+            getContacts();
+        }else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, i);
+        }
+    }
+
+    public boolean checkPermission(){
+        int permission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS);
+        if(permission == PackageManager.PERMISSION_GRANTED){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public void loadContacts(){
@@ -232,7 +255,7 @@ public class ContactsActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        /*super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (requestCode == READ_CONTACTS) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -247,7 +270,47 @@ public class ContactsActivity extends AppCompatActivity {
             } else {
 
             }
+        }*/
+
+        if(requestCode == i){
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                getContacts();
+            }else{
+                Toast.makeText(this, "Necesitas permisos", Toast.LENGTH_SHORT).show();
+                finish();
+            }
         }
+    }
+
+    private void getContacts(){
+        c = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, ContactsContract.Contacts.DISPLAY_NAME+ " ASC ");
+        contacts = new ArrayList<Yng_AndroidContact>();
+
+        int n = 0;
+
+        while (c.moveToNext()){
+            String id = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID));
+            String name = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+            String number = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+            Yng_AndroidContact android_contact = new Yng_AndroidContact();
+            android_contact.setAndroid_contact_Name(name);
+            android_contact.setAndroid_contact_TelefonNr(number);
+
+            if(n%2 == 0) {
+                contacts.add(android_contact);
+            }
+            n++;
+        }
+
+        Log.e("Total Contacts:  ", String.valueOf(contacts.size()));
+
+        //adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, contacts);
+        adapter = new AndroidContactAdapter(getApplicationContext(), contacts);
+
+        list.setAdapter(adapter);
+
+        //YingulcheckAndOrder(contacts);
     }
 
     @Override
@@ -320,9 +383,10 @@ public class ContactsActivity extends AppCompatActivity {
                                 Gson gson = new Gson();
                                 user = gson.fromJson(String.valueOf(response), Yng_User.class);
                                 android_contact.setUser(user);
-                                array_list.set(position, android_contact);
+                                contacts.set(position, android_contact);
                             } catch (Exception ex) {
-                                Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "-----  "+ex.getMessage(), Toast.LENGTH_SHORT).show();
+                                Log.e("exception----", ex.getMessage());
                             }
                         }
                     }, new Response.ErrorListener() {
