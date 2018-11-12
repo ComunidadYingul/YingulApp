@@ -67,7 +67,6 @@ public class ContactsActivity extends AppCompatActivity {
     private static final int i = 100;
     Cursor c;
     ArrayList<Yng_AndroidContact> contacts;
-    //ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,12 +97,8 @@ public class ContactsActivity extends AppCompatActivity {
                 startActivityForResult(i, PICK_CONTACT_REQUEST);
             }
         });
-        //array_list = new ArrayList<Yng_AndroidContact>();
-        //adapter = new AndroidContactAdapter(getApplicationContext(), array_list);
 
         list = (ListView) findViewById(R.id.list);
-        // Assigning the adapter to ListView
-        //list.setAdapter(adapter);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
@@ -123,7 +118,8 @@ public class ContactsActivity extends AppCompatActivity {
                 }
             }
         });
-        //loadContacts();
+
+        contacts = new ArrayList<Yng_AndroidContact>();
 
         if(checkPermission()){
             getContacts();
@@ -141,136 +137,8 @@ public class ContactsActivity extends AppCompatActivity {
         }
     }
 
-    public void loadContacts(){
-        progressDialog.show();
-        if (progressDialog != null && progressDialog.isShowing()) {
-            progressDialog.dismiss();
-        }
-        Log.e("Mostrar","mostrar");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (getApplicationContext().checkSelfPermission(Manifest.permission.WRITE_CONTACTS)
-                    != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.WRITE_CONTACTS},
-                        WRITE_CONTACTS);
-            }else{
-                readPermissions();
-            }
-        }else{
-            readPermissions();
-        }
-    }
-    public void readPermissions(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (getApplicationContext().checkSelfPermission(Manifest.permission.READ_CONTACTS)
-                    != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.READ_CONTACTS},
-                        READ_CONTACTS);
-            }else{
-                fp_get_Android_Contacts();
-            }
-        }else{
-            fp_get_Android_Contacts();
-        }
-    }
-
-    public void fp_get_Android_Contacts() {
-        array_list.clear();
-        ContentResolver cr = getApplicationContext().getContentResolver();
-        Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
-                null, null, null, null);
-
-        if ((cur != null ? cur.getCount() : 0) > 0) {
-            while (cur != null && cur.moveToNext()) {
-
-                String id = cur.getString(
-                        cur.getColumnIndex(ContactsContract.Contacts._ID));
-                String name = cur.getString(cur.getColumnIndex(
-                        ContactsContract.Contacts.DISPLAY_NAME));
-
-                if (cur.getInt(cur.getColumnIndex(
-                        ContactsContract.Contacts.HAS_PHONE_NUMBER)) > 0) {
-                    Cursor pCur = cr.query(
-                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                            null,
-                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
-                            new String[]{id}, null);
-                    while (pCur.moveToNext()) {
-                        Yng_AndroidContact android_contact = new Yng_AndroidContact();
-                        String phoneNo = pCur.getString(pCur.getColumnIndex(
-                                ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        android_contact.setAndroid_contact_Name(name);
-                        android_contact.setAndroid_contact_TelefonNr(phoneNo);
-                        if(android_contact.getAndroid_contact_Name()!=null){
-                            Log.e("Contacto",android_contact.getAndroid_contact_ID()+"---"+android_contact.getAndroid_contact_Name()+"---"+android_contact.getAndroid_contact_TelefonNr());
-                            if(!checkRepeated(array_list,android_contact)) {
-                                array_list.add(android_contact);
-                            }
-                        }
-                    }
-                    pCur.close();
-                }
-            }
-        }
-        if(cur!=null){
-            cur.close();
-        }
-        Collections.sort(array_list, new Comparator<Yng_AndroidContact>() {
-            public int compare(Yng_AndroidContact obj1, Yng_AndroidContact obj2) {
-                return obj1.getAndroid_contact_Name().compareTo(obj2.getAndroid_contact_Name());
-            }
-        });
-
-        Collections.reverse(array_list);
-        Yng_AndroidContact android_contact = new Yng_AndroidContact();
-        android_contact.setAndroid_contact_Name("Nuevo grupo");
-        array_list.add(android_contact);
-        Collections.reverse(array_list);
-
-        //YingulcheckAndOrder(array_list);
-
-
-    }
-
-    public boolean checkRepeated(ArrayList<Yng_AndroidContact> array_list,Yng_AndroidContact android_contact){
-        for (Yng_AndroidContact androidContact : array_list) {
-            if(android_contact.getAndroid_contact_TelefonNr() != null){
-                if(androidContact.getAndroid_contact_TelefonNr().contains(android_contact.getAndroid_contact_TelefonNr().replace(" ","").replace("+","").replace("-",""))||android_contact.getAndroid_contact_TelefonNr().contains(androidContact.getAndroid_contact_TelefonNr().replace(" ","").replace("+","").replace("-",""))){
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public void YingulcheckAndOrder(ArrayList<Yng_AndroidContact> listBackup){
-        for (int i=0; i<listBackup.size();i++) {
-            if(i==(listBackup.size()-1)){
-                getUserByPhoneNumber(listBackup.get(i),i,true);
-            }else{
-                getUserByPhoneNumber(listBackup.get(i),i,false);
-            }
-        }
-        //adapter.notifyDataSetChanged();
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        /*super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == READ_CONTACTS) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                fp_get_Android_Contacts();
-            } else {
-
-            }
-        }
-        if (requestCode == WRITE_CONTACTS) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                readPermissions();
-            } else {
-
-            }
-        }*/
 
         if(requestCode == i){
             if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
@@ -284,7 +152,7 @@ public class ContactsActivity extends AppCompatActivity {
 
     private void getContacts(){
         c = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, ContactsContract.Contacts.DISPLAY_NAME+ " ASC ");
-        contacts = new ArrayList<Yng_AndroidContact>();
+        contacts.clear();
 
         int n = 0;
 
@@ -305,12 +173,10 @@ public class ContactsActivity extends AppCompatActivity {
 
         Log.e("Total Contacts:  ", String.valueOf(contacts.size()));
 
-        //adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, contacts);
         adapter = new AndroidContactAdapter(getApplicationContext(), contacts);
 
         list.setAdapter(adapter);
 
-        //YingulcheckAndOrder(contacts);
     }
 
     @Override
@@ -323,7 +189,8 @@ public class ContactsActivity extends AppCompatActivity {
                 super.onActivityResult(requestCode, resultCode, data);
                 if (resultCode == RESULT_OK) {
                     Log.e("======","============contacto guardado");
-                    loadContacts();
+                    Toast.makeText(this, "Contacto guardado exitosamente.", Toast.LENGTH_SHORT).show();
+                    getContacts();
                 }
                 break;
         }
@@ -346,25 +213,11 @@ public class ContactsActivity extends AppCompatActivity {
 
             case R.id.menu_update:
 
-                loadContacts();
+                getContacts();
 
                 return true;
 
             case R.id.menu_search:
-                /*SharedPreferences settings = getSharedPreferences(LoginActivity.SESSION_USER, MODE_PRIVATE);
-                if (settings == null || settings.getInt("logged_in", 0) == 0 || settings.getString("api_key", "").equals("")) {
-                    Intent intent = new Intent(this, LoginActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    finish();
-                }else{
-                    if(favorite){
-                        deleteFavorite(Network.API_URL+"favorite/delete/"+itemId+"/"+settings.getString("username",""),"");
-                    }else{
-                        addFavorite(Network.API_URL+"favorite/create/"+itemId+"/"+settings.getString("username",""),"");
-                    }
-                }*/
-                //Toast.makeText(this, "Buscar", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(menuItem);
