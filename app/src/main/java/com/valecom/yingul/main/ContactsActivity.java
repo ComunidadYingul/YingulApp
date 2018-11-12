@@ -167,10 +167,9 @@ public class ContactsActivity extends AppCompatActivity {
             android_contact.setAndroid_contact_Name(name);
             android_contact.setAndroid_contact_TelefonNr(number);
 
-            Log.e("Contactos:---", id+" - "+name);
-
             if(!name.equals(comp)){
                 contacts.add(android_contact);
+                Log.e("Contactos:---", id+" - "+name);
             }
             comp = name;
 
