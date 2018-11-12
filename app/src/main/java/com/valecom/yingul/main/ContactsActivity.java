@@ -156,6 +156,8 @@ public class ContactsActivity extends AppCompatActivity {
 
         int n = 0;
 
+        String comp = "";
+
         while (c.moveToNext()){
             String id = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID));
             String name = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
@@ -165,10 +167,17 @@ public class ContactsActivity extends AppCompatActivity {
             android_contact.setAndroid_contact_Name(name);
             android_contact.setAndroid_contact_TelefonNr(number);
 
-            if(n%2 == 0) {
+            Log.e("Contactos:---", id+" - "+name);
+
+            if(!name.equals(comp)){
                 contacts.add(android_contact);
             }
-            n++;
+            comp = name;
+
+            //if(n%2 == 0) {
+                //contacts.add(android_contact);
+            //}
+            //n++;
         }
 
         Log.e("Total Contacts:  ", String.valueOf(contacts.size()));
