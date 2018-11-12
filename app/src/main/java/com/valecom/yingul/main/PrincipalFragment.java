@@ -194,6 +194,7 @@ public class PrincipalFragment extends Fragment {
 
         manager_all_items = new StaggeredGridLayoutManager(col,1);
         recycler_home_all_items = (RecyclerView) rootView.findViewById(R.id.rv_home_all_items);
+        recycler_home_all_items.setItemAnimator(null);
         recycler_home_all_items.setHasFixedSize(true);
         recycler_home_all_items.setNestedScrollingEnabled(false);
         recycler_home_all_items.setLayoutManager(manager_all_items);
