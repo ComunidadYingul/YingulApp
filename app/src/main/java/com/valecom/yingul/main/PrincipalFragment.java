@@ -68,7 +68,9 @@ import java.util.concurrent.TimeUnit;
 import me.relex.circleindicator.CircleIndicator;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 
 
@@ -121,6 +123,7 @@ public class PrincipalFragment extends Fragment {
     int paso;
     int start;
     int end;
+    int total;
 
     public PrincipalFragment() {
         // Required empty public constructor
@@ -137,6 +140,7 @@ public class PrincipalFragment extends Fragment {
         paso = 20;
         start=0;
         end =paso;
+        total = 0;
 
         recyclerResponsive();
 
@@ -243,12 +247,18 @@ public class PrincipalFragment extends Fragment {
                 super.onScrollStateChanged(recyclerView, newState);
 
                 if (!recyclerView.canScrollVertically(1)) {
-                    Log.e("Position:---","final");
-                    if(array_all_items.size() % paso == 0) {
+
+                    if(array_all_items.size() < total && end != total) {
                         start += paso;
                         end += paso;
+                        if(total < end) {
+                            end = total;
+                        }
                         updateAllItems();
+                    }else{
+
                     }
+                    Log.d("Parametros:-----","start: "+start+"  end: "+end+ "  total: "+total);
                 }
 
 
@@ -969,7 +979,8 @@ public class PrincipalFragment extends Fragment {
         adapter_category = new StoreHomeAdapter(getActivity(), array_category);
         recycler_home_category.setAdapter(adapter_category);
 
-        loadJSONFromAssetHomeAllItems();
+        getQuantityAllItems();
+        //loadJSONFromAssetHomeAllItems();
         //setAdapterHomeAllItems();
     }
 
@@ -1093,6 +1104,55 @@ public class PrincipalFragment extends Fragment {
         recycler_home_all_items.getLayoutManager().scrollToPosition(0);
         disabledScrollRecyclerView();
 
+    }
+
+    public int getQuantityAllItems(){
+        //http://backendyingul-env.cqx28e6j2j.us-west-2.elasticbeanstalk.com/item/getQuantityAllItems
+
+        String url = Network.API_URL + "item/getQuantityAllItems";
+
+        MediaType JSON= MediaType.parse("application/json; charset=utf-8");
+        OkHttpClient httpClient = new OkHttpClient();
+        RequestBody body = RequestBody.create(JSON, "");
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(url)
+                .addHeader("Content-Type","application/json")
+                .get()
+                .build();
+        httpClient.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                Log.e("Mensaje", "error in getting response using async okhttp call");
+            }
+            @Override public void onResponse(Call call, okhttp3.Response response) throws IOException {
+                ResponseBody responseBody = response.body();
+                if (!response.isSuccessful()) {
+                    throw new IOException("Error response " + response);
+                }
+
+                final String responce=""+(responseBody.string());
+                Log.d("responce",""+responce);
+                total = Integer.valueOf(responce);
+
+                if(total < end){
+                    end = total;
+                }
+
+                loadJSONFromAssetHomeAllItems();
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                    Log.d("Parametros:-----","start: "+start+"  end: "+end+ "  total: "+total);
+
+
+                    }
+                });
+
+            }
+        });
+
+
+        return 60;
     }
 
     @Override

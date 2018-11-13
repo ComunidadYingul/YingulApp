@@ -3,6 +3,7 @@ package com.valecom.yingul.main;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
@@ -16,7 +17,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -187,7 +190,7 @@ public class HomeFragment extends Fragment
 
     public View getTabView(int icon,int badge) {
         // Given you have a custom layout in `res/layout/custom_tab.xml` with a TextView and ImageView
-        View v = LayoutInflater.from(getContext()).inflate(R.layout.custom_tablayout_item_layout, null);
+        View v = LayoutInflater.from(getContext()).inflate(R.layout.custom_tablayout_item_layout_2, null);
         ImageView itemImage = (ImageView) v.findViewById(R.id.itemImage);
         TextView cart_badge = (TextView) v.findViewById(R.id.cart_badge);
         itemImage.setImageResource(icon);
@@ -398,4 +401,9 @@ public class HomeFragment extends Fragment
         });
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+    }
 }
