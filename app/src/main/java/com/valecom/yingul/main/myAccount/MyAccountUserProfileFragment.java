@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -53,7 +57,8 @@ import okhttp3.ResponseBody;
  */
 public class MyAccountUserProfileFragment extends Fragment {
 
-    private TextView textFullname,textUsername,textEmail,textPhone,textDocument,textTitleUser,textBusinessName,textBusinessDocument,editInputTitle,textUserUbication;
+    private TextView textFullname,textUsername,textEmail,textPhone,textDocument,textTitleUser,
+            textBusinessName,textBusinessDocument,editInputTitle,textUserUbication,textLegend;
     private LinearLayout lytEditDocument,lytTitleBusiness,lytBodyBusiness,lytEditBusinessName,lytEditBusinessDocument,lytEditPhone,lytSecondInput;
     private MaterialDialog setting_address_edit_dialog;
     private EditText editUserDocumentNumber,editInputText,editSecondInputText;
@@ -243,6 +248,54 @@ public class MyAccountUserProfileFragment extends Fragment {
                                 View view = setting_address_edit_dialog.getCustomView();
                                 editInputTitle = (TextView) view.findViewById(R.id.textTitle);
                                 editInputText = (EditText) view.findViewById(R.id.editInputText);
+                                textLegend = (TextView) view.findViewById(R.id.textLegend);
+
+                                setting_address_edit_dialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
+
+                                editInputText.addTextChangedListener(new TextWatcher() {
+                                    @Override
+                                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                                    }
+
+                                    @Override
+                                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                                    }
+
+                                    @Override
+                                    public void afterTextChanged(Editable editable) {
+                                        String aux=editInputText.getText().toString().trim();
+                                        if(editInputText.getText().toString().trim().contains("-")){
+                                            aux=editInputText.getText().toString().trim().replace("-","");
+                                        }
+                                        if(aux.length()>2&&aux.length()<=10){
+                                            if(aux.contains("-")){
+                                                aux=aux.replace("-","");
+                                            }
+                                            editInputText.removeTextChangedListener(this);
+                                            editInputText.setText(aux.substring(0, 2)+"-".toString()+aux.substring(2, aux.length()));
+                                            editInputText.setSelection(editInputText.getText().toString().trim().length() );  // Set selection
+                                            editInputText.addTextChangedListener(this);
+                                        }
+                                        if(aux.length()>10){
+                                            if(aux.contains("-")){
+                                                aux=aux.replace("-","");
+                                            }
+                                            editInputText.removeTextChangedListener(this);
+                                            editInputText.setText(aux.substring(0, 2)+"-"+aux.substring(2, 10)+"-"+aux.substring(10, aux.length()));
+                                            editInputText.setSelection(editInputText.getText().toString().trim().length() );  // Set selection
+                                            editInputText.addTextChangedListener(this);
+                                        }
+
+                                        if(!val.valCuit2(editInputText)){
+                                            setting_address_edit_dialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
+                                        }else{
+                                            setting_address_edit_dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
+                                        }
+                                    }
+                                });
+
                                 editInputTitle.setText("Editar CUIT");
                                 editInputText.setHint("CUIT escribe solo números");
                                 editInputText.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -457,7 +510,10 @@ public class MyAccountUserProfileFragment extends Fragment {
                             Gson gson = new Gson();
                             business = gson.fromJson(String.valueOf(response), Yng_Business.class);
                             textBusinessName.setText(business.getBusinessName());
-                            textBusinessDocument.setText(business.getDocumentNumber());
+                            if(business.getDocumentType().equals("CUIT")){
+                                String cuitNumber = business.getDocumentNumber().toString();
+                                textBusinessDocument.setText(cuitNumber.substring(0,2)+"-"+cuitNumber.substring(2,10)+"-"+cuitNumber.substring(10));
+                            }
                         }
                         catch (Exception ex)
                         {

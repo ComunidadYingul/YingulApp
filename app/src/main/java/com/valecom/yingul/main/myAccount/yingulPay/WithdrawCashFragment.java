@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +28,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.valecom.yingul.R;
+import com.valecom.yingul.Util.Validacion;
 import com.valecom.yingul.adapter.SimpleAdapterBank;
 import com.valecom.yingul.main.LoginActivity;
 import com.valecom.yingul.model.Yng_Account;
@@ -118,6 +121,53 @@ public class WithdrawCashFragment extends Fragment {
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
         spTypeAccount.setAdapter(spinnerArrayAdapter);
 
+        spCuitCuil.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(Spinner parent, View view, int position, long id) {
+                editCuitCuil.setText("");
+            }
+        });
+
+        editCuitCuil.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(spCuitCuil.getSelectedItemPosition() == 1) {
+                    String aux = editCuitCuil.getText().toString().trim();
+                    if (editCuitCuil.getText().toString().trim().contains("-")) {
+                        aux = editCuitCuil.getText().toString().trim().replace("-", "");
+                    }
+                    if (aux.length() > 2 && aux.length() <= 10) {
+                        if (aux.contains("-")) {
+                            aux = aux.replace("-", "");
+                        }
+                        editCuitCuil.removeTextChangedListener(this);
+                        editCuitCuil.setText(aux.substring(0, 2) + "-".toString() + aux.substring(2, aux.length()));
+                        editCuitCuil.setSelection(editCuitCuil.getText().toString().trim().length());  // Set selection
+                        editCuitCuil.addTextChangedListener(this);
+                    }
+                    if (aux.length() > 10) {
+                        if (aux.contains("-")) {
+                            aux = aux.replace("-", "");
+                        }
+                        editCuitCuil.removeTextChangedListener(this);
+                        editCuitCuil.setText(aux.substring(0, 2) + "-" + aux.substring(2, 10) + "-" + aux.substring(10, aux.length()));
+                        editCuitCuil.setSelection(editCuitCuil.getText().toString().trim().length());  // Set selection
+                        editCuitCuil.addTextChangedListener(this);
+                    }
+                }
+            }
+        });
+
         buttonWiretransfer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
@@ -153,7 +203,7 @@ public class WithdrawCashFragment extends Fragment {
                     yngWireTransfer.setBank(yngBank);
                     yngWireTransfer.setTitularName(editTitularName.getText().toString());
                     yngWireTransfer.setCuitCuil(spCuitCuil.getSelectedItem().toString());
-                    yngWireTransfer.setCuitCuilNumber(Long.valueOf(editCuitCuil.getText().toString()));
+                    yngWireTransfer.setCuitCuilNumber(Long.valueOf(editCuitCuil.getText().toString().trim().replace("-","")));
                     if(spTypeAccount.getSelectedItemPosition()==1){
                         yngWireTransfer.setAccountType("CURRENT");
                     }else if(spTypeAccount.getSelectedItemPosition()==2){
@@ -295,8 +345,8 @@ public class WithdrawCashFragment extends Fragment {
                     Object item = parent.getSelectedItem();
                     //Object item = parent.getItemAtPosition(pos);
                     //int idSeleccionado = ((YngCategory) item).getId();
-                    String nombre = ((Yng_Bank) item).getBankId().toString();
-                    Toast.makeText(getActivity(), nombre, Toast.LENGTH_SHORT).show();
+                    //String nombre = ((Yng_Bank) item).getBankId().toString();
+                    //Toast.makeText(getActivity(), nombre, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -486,14 +536,19 @@ public class WithdrawCashFragment extends Fragment {
 
         boolean isValid = true;
 
+        Validacion val = new Validacion();
+
         if (editTitularName.getText().toString().trim().length() == 0)
         {
             editTitularName.setError("Nombre requerido");
             editTitularName.requestFocus();
             isValid = false;
-        } else if (editCuitCuil.getText().toString().trim().length() == 0)
+        } else if (spCuitCuil.getSelectedItemPosition() == 1 && !val.valCuit(editCuitCuil))
         {
-            editCuitCuil.setError("Apellido requerido");
+            isValid = false;
+        } else if (spCuitCuil.getSelectedItemPosition() == 0 && editCuitCuil.getText().toString().trim().length() == 0)
+        {
+            editCuitCuil.setError("Campo requerido");
             editCuitCuil.requestFocus();
             isValid = false;
         } else if (spBank.getSelectedItemPosition()==0)

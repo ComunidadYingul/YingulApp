@@ -357,7 +357,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }else if (!val.valCadVacia(editDocumentNumber))
         {
             isValid = false;
-        }else {
+        }else if(checkBussines.isChecked() && !val.valCuit(editDocumentNumber))
+        {
+            isValid = false;
+        }else{
             isValid = true;
         }
         return isValid;

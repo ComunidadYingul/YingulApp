@@ -289,4 +289,50 @@ public class Validacion {
             return true;
         }
     }
+
+    /**********************  VALIDACION DE CUIT ****************/
+    public boolean valCuit(EditText view){
+        String REGEX = "^[0-9]{2}-[0-9]{8}-[0-9]{1}$";
+        Pattern patron = Pattern.compile(REGEX);
+        if(view.getText().toString().trim().length() <= 0){
+            view.requestFocus();
+            view.setError("Campo requerido");
+            return false;
+        }else if (!patron.matcher(view.getText().toString().trim()).matches()){
+            view.requestFocus();
+            view.setError("Por favor ingrese un CUIT con el formato ej.(xx-xxxxxxxx-x)");
+            return false;
+        }else {
+            return true;
+        }
+    }
+
+    public boolean valCuit2(EditText view){
+        String REGEX = "^[0-9]{2}-[0-9]{8}-[0-9]{1}$";
+        Pattern patron = Pattern.compile(REGEX);
+        if(view.getText().toString().trim().length() <= 0){
+            return false;
+        }else if (!patron.matcher(view.getText().toString().trim()).matches()){
+            return false;
+        }else {
+            return true;
+        }
+    }
+
+    /**********************  VALIDACION DE CUIT ****************/
+    public boolean valDni(EditText view){
+        String REGEX = "^[0-9]{2}.[0-9]{3}.[0-9]{3}$";
+        Pattern patron = Pattern.compile(REGEX);
+        if(view.getText().toString().trim().length() <= 0){
+            view.requestFocus();
+            view.setError("Campo requerido");
+            return false;
+        }else if (!patron.matcher(view.getText().toString().trim()).matches()){
+            view.requestFocus();
+            view.setError("Por favor ingrese un DNI con el formato ej.(xx.xxx.xxx)");
+            return false;
+        }else {
+            return true;
+        }
+    }
 }
