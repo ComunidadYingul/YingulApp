@@ -278,52 +278,79 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             //startActivity(intent);
                             finish();
                         }else{
-                            if(responce.equals("email exist")){
-                                new MaterialDialog.Builder(RegisterActivity.this)
-                                        .title("El correo ya esta registrado")
-                                        .content("El correo que ingreso ya se encuentra registrado en Yingul Company intente con un correo diferente")
-                                        .positiveText(R.string.ok)
-                                        .cancelable(false)
-                                        .positiveColorRes(R.color.colorAccent)
-                                        .callback(new MaterialDialog.ButtonCallback()
-                                        {
-                                            @Override
-                                            public void onPositive(MaterialDialog dialog)
+                            switch (responce){
+                                case "email exist":
+                                    new MaterialDialog.Builder(RegisterActivity.this)
+                                            .title("El correo ya esta registrado")
+                                            .content("El correo que ingreso ya se encuentra registrado en Yingul Company intente con un correo diferente")
+                                            .positiveText(R.string.ok)
+                                            .cancelable(false)
+                                            .positiveColorRes(R.color.colorAccent)
+                                            .callback(new MaterialDialog.ButtonCallback()
                                             {
-                                                progressDialog.dismiss();
-                                                dialog.dismiss();
-
-                                                if (dialog != null && dialog.isShowing())
+                                                @Override
+                                                public void onPositive(MaterialDialog dialog)
                                                 {
-                                                    // If the response is JSONObject instead of expected JSONArray
+                                                    progressDialog.dismiss();
                                                     dialog.dismiss();
+
+                                                    if (dialog != null && dialog.isShowing())
+                                                    {
+                                                        // If the response is JSONObject instead of expected JSONArray
+                                                        dialog.dismiss();
+                                                    }
                                                 }
-                                            }
-                                        })
-                                        .show();
-                            }else{
-                                new MaterialDialog.Builder(RegisterActivity.this)
-                                        .title("Oops!!!")
-                                        .content("Algo salio mal por favor vuelva a intentar en unos minutos")
-                                        .positiveText(R.string.ok)
-                                        .cancelable(false)
-                                        .positiveColorRes(R.color.colorAccent)
-                                        .callback(new MaterialDialog.ButtonCallback()
-                                        {
-                                            @Override
-                                            public void onPositive(MaterialDialog dialog)
+                                            })
+                                            .show();
+                                    break;
+                                case "documentNumberExists":
+                                    new MaterialDialog.Builder(RegisterActivity.this)
+                                            .title("El CUIT ya esta registrado")
+                                            .content("El CUIT que ingreso ya se encuentra registrado en Yingul Company intente con un cuit diferente")
+                                            .positiveText(R.string.ok)
+                                            .cancelable(false)
+                                            .positiveColorRes(R.color.colorAccent)
+                                            .callback(new MaterialDialog.ButtonCallback()
                                             {
-                                                progressDialog.dismiss();
-                                                dialog.dismiss();
-
-                                                if (dialog != null && dialog.isShowing())
+                                                @Override
+                                                public void onPositive(MaterialDialog dialog)
                                                 {
-                                                    // If the response is JSONObject instead of expected JSONArray
+                                                    progressDialog.dismiss();
                                                     dialog.dismiss();
+
+                                                    if (dialog != null && dialog.isShowing())
+                                                    {
+                                                        // If the response is JSONObject instead of expected JSONArray
+                                                        dialog.dismiss();
+                                                    }
                                                 }
-                                            }
-                                        })
-                                        .show();
+                                            })
+                                            .show();
+                                    break;
+                                default:
+                                    new MaterialDialog.Builder(RegisterActivity.this)
+                                            .title("Oops!!!")
+                                            .content("Algo salio mal por favor vuelva a intentar en unos minutos")
+                                            .positiveText(R.string.ok)
+                                            .cancelable(false)
+                                            .positiveColorRes(R.color.colorAccent)
+                                            .callback(new MaterialDialog.ButtonCallback()
+                                            {
+                                                @Override
+                                                public void onPositive(MaterialDialog dialog)
+                                                {
+                                                    progressDialog.dismiss();
+                                                    dialog.dismiss();
+
+                                                    if (dialog != null && dialog.isShowing())
+                                                    {
+                                                        // If the response is JSONObject instead of expected JSONArray
+                                                        dialog.dismiss();
+                                                    }
+                                                }
+                                            })
+                                            .show();
+                                    break;
                             }
                         }
                     }
