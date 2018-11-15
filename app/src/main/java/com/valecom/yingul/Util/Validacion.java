@@ -225,7 +225,7 @@ public class Validacion {
         Pattern patron = Pattern.compile(REGEX_NUMEROS);
         if (!patron.matcher(view.getText().toString().trim()).matches())
         {
-            view.setError("Campo requerido y debe tener formato mes/año");
+            view.setError("Campo requerido y debe tener formato mes/año ej. 02/18");
             view.requestFocus();
             return false;
         }else{
@@ -330,6 +330,18 @@ public class Validacion {
         }else if (!patron.matcher(view.getText().toString().trim()).matches()){
             view.requestFocus();
             view.setError("Por favor ingrese un DNI con el formato ej.(xx.xxx.xxx)");
+            return false;
+        }else {
+            return true;
+        }
+    }
+
+    public boolean valDni2(EditText view){
+        String REGEX = "^[0-9]{2}.[0-9]{3}.[0-9]{3}$";
+        Pattern patron = Pattern.compile(REGEX);
+        if(view.getText().toString().trim().length() <= 0){
+            return false;
+        }else if (!patron.matcher(view.getText().toString().trim()).matches()){
             return false;
         }else {
             return true;

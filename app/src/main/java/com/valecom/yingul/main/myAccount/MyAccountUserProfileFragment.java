@@ -153,9 +153,66 @@ public class MyAccountUserProfileFragment extends Fragment {
                             View view = setting_address_edit_dialog.getCustomView();
                             editUserDocumentNumber = (EditText) view.findViewById(R.id.editDocumentNumber);
                             spinner_currency = (Spinner) view.findViewById(R.id.spinner_currency);
-                            String currency[] = {"DNI","CUIT"};
+                            String currency[] = {"DNI"};
                             ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(view.getContext(),   android.R.layout.simple_spinner_item, currency);
                             spinner_currency.setAdapter(spinnerArrayAdapter);
+
+                            spinner_currency.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(Spinner parent, View view, int position, long id) {
+                                    editUserDocumentNumber.setText("");
+                                }
+                            });
+
+                            setting_address_edit_dialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
+
+                            editUserDocumentNumber.addTextChangedListener(new TextWatcher() {
+                                @Override
+                                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                                }
+
+                                @Override
+                                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                                }
+
+                                @Override
+                                public void afterTextChanged(Editable editable) {
+                                    if(spinner_currency.getSelectedItemPosition() == 0){
+                                        String aux=editUserDocumentNumber.getText().toString().trim();
+                                        if(editUserDocumentNumber.getText().toString().trim().contains("-")){
+                                            aux=editUserDocumentNumber.getText().toString().trim().replace("-","");
+                                        }
+                                        if(aux.length()>2&&aux.length()<=10){
+                                            if(aux.contains(".")){
+                                                aux=aux.replace(".","");
+                                            }
+                                            editUserDocumentNumber.removeTextChangedListener(this);
+                                            editUserDocumentNumber.setText(aux.substring(0, 2)+".".toString()+aux.substring(2, aux.length()));
+                                            editUserDocumentNumber.setSelection(editUserDocumentNumber.getText().toString().trim().length() );  // Set selection
+                                            editUserDocumentNumber.addTextChangedListener(this);
+                                        }
+                                        if(aux.length()>5){
+                                            if(aux.contains(".")){
+                                                aux=aux.replace(".","");
+                                            }
+                                            editUserDocumentNumber.removeTextChangedListener(this);
+                                            editUserDocumentNumber.setText(aux.substring(0, 2)+"."+aux.substring(2, 5)+"."+aux.substring(5, aux.length()));
+                                            editUserDocumentNumber.setSelection(editUserDocumentNumber.getText().toString().trim().length() );  // Set selection
+                                            editUserDocumentNumber.addTextChangedListener(this);
+                                        }
+
+                                        if(!val.valDni2(editUserDocumentNumber)){
+                                            setting_address_edit_dialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
+                                        }else{
+                                            setting_address_edit_dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
+                                        }
+                                    }else{
+
+                                    }
+                                }
+                            });
                         }
                     })
                     .callback(new MaterialDialog.ButtonCallback() {
@@ -170,7 +227,7 @@ public class MyAccountUserProfileFragment extends Fragment {
                                 } else {
                                     temp.setDocumentType("CUIT");
                                 }
-                                temp.setDocumentNumber(editUserDocumentNumber.getText().toString().trim());
+                                temp.setDocumentNumber(editUserDocumentNumber.getText().toString().trim().replace(".",""));
                                 Gson gson = new Gson();
                                 String jsonBody = gson.toJson(temp);
                                 Log.e("user final", jsonBody);
@@ -309,7 +366,7 @@ public class MyAccountUserProfileFragment extends Fragment {
                                     Yng_Business temp = new Yng_Business();
                                     temp = business;
                                     temp.setDocumentType("CUIT");
-                                    temp.setDocumentNumber(editInputText.getText().toString().trim());
+                                    temp.setDocumentNumber(editInputText.getText().toString().trim().replace("-",""));
                                     Gson gson = new Gson();
                                     String jsonBody = gson.toJson(temp);
                                     Log.e("user final", jsonBody);
@@ -417,7 +474,10 @@ public class MyAccountUserProfileFragment extends Fragment {
                             }else{
                                 textPhone.setText(response.getJSONObject("yng_User").getString("phone"));
                             }
-                            textDocument.setText(response.getJSONObject("yng_User").getString("documentType")+" "+response.getJSONObject("yng_User").getString("documentNumber"));
+                            String docType =response.getJSONObject("yng_User").getString("documentType");
+                            String docNumber = response.getJSONObject("yng_User").getString("documentNumber");
+                            docNumber = docNumber.substring(0,2)+"."+docNumber.substring(2,5)+"."+docNumber.substring(5);
+                            textDocument.setText(docType+" "+docNumber);
                             if(person.isBusiness()){
                                 RunGetBusiness();
                                 textTitleUser.setText("Datos del representante");

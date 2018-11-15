@@ -3,6 +3,9 @@ package com.valecom.yingul.main.buy;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,32 +39,87 @@ public class BuySetCardFragment extends Fragment {
         editSecurityCode = (EditText) v.findViewById(R.id.editSecurityCode);
         editTitularDNI = (EditText) v.findViewById(R.id.editTitularDNI);
 
-        buttonSetCard = (Button) v.findViewById(R.id.buttonSetCard);
-        buttonSetCard.setOnClickListener(new View.OnClickListener() {
+        editTitularDNI.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View v) {
-                Validacion val = new Validacion();
-                if(val.valNumRange(editCardNumber,14,16) && val.valCantString(editFullName,3) && val.valExpireDate(editDueDate) && val.valCantString(editSecurityCode,3) && val.valNumMenorADig(editTitularDNI,8)) {
-                    ((BuyActivity) getActivity()).card.setNumber(Long.valueOf(editCardNumber.getText().toString().trim()));
-                    dueDate = editDueDate.getText().toString().trim();
-                    String[] parts = dueDate.split("/");
-                    ((BuyActivity) getActivity()).card.setDueMonth(Integer.parseInt(parts[0]));
-                    ((BuyActivity) getActivity()).card.setDueYear(2000 + Integer.parseInt(parts[1]));
-                    ((BuyActivity) getActivity()).card.setFullName(editFullName.getText().toString().trim());
-                    ((BuyActivity) getActivity()).card.setDni(Long.valueOf(editTitularDNI.getText().toString().trim()));
-                    ((BuyActivity) getActivity()).card.setSecurityCode(Integer.parseInt(editSecurityCode.getText().toString().trim()));
-                    ((BuyActivity) getActivity()).card.setUser(((BuyActivity) getActivity()).user);
-                    ((BuyActivity) getActivity()).payment.setYng_Card(((BuyActivity) getActivity()).card);
-                    BuyItemConfirmFragment fragment = new BuyItemConfirmFragment();
-                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.content_frame, fragment);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String aux = editTitularDNI.getText().toString().trim();
+                if (editTitularDNI.getText().toString().trim().contains(".")) {
+                    aux = editTitularDNI.getText().toString().trim().replace(".", "");
+                }
+                if (aux.length() > 2 && aux.length() <= 5) {
+                    if (aux.contains(".")) {
+                        aux = aux.replace(".", "");
+                    }
+                    editTitularDNI.removeTextChangedListener(this);
+                    editTitularDNI.setText(aux.substring(0, 2) + ".".toString() + aux.substring(2, aux.length()));
+                    editTitularDNI.setSelection(editTitularDNI.getText().toString().trim().length());  // Set selection
+                    editTitularDNI.addTextChangedListener(this);
+                }
+                if (aux.length() > 5) {
+                    if (aux.contains(".")) {
+                        aux = aux.replace(".", "");
+                    }
+                    editTitularDNI.removeTextChangedListener(this);
+                    editTitularDNI.setText(aux.substring(0, 2) + "." + aux.substring(2, 5) + "." + aux.substring(5, aux.length()));
+                    editTitularDNI.setSelection(editTitularDNI.getText().toString().trim().length());  // Set selection
+                    editTitularDNI.addTextChangedListener(this);
                 }
             }
         });
 
+        buttonSetCard = (Button) v.findViewById(R.id.buttonSetCard);
+        buttonSetCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            if(checkValidation()) {
+                ((BuyActivity) getActivity()).card.setNumber(Long.valueOf(editCardNumber.getText().toString().trim()));
+                dueDate = editDueDate.getText().toString().trim();
+                String[] parts = dueDate.split("/");
+                ((BuyActivity) getActivity()).card.setDueMonth(Integer.parseInt(parts[0]));
+                ((BuyActivity) getActivity()).card.setDueYear(2000 + Integer.parseInt(parts[1]));
+                ((BuyActivity) getActivity()).card.setFullName(editFullName.getText().toString().trim());
+                ((BuyActivity) getActivity()).card.setDni(Long.valueOf(editTitularDNI.getText().toString().trim().replace(".","")));
+                ((BuyActivity) getActivity()).card.setSecurityCode(Integer.parseInt(editSecurityCode.getText().toString().trim()));
+                ((BuyActivity) getActivity()).card.setUser(((BuyActivity) getActivity()).user);
+                ((BuyActivity) getActivity()).payment.setYng_Card(((BuyActivity) getActivity()).card);
+                BuyItemConfirmFragment fragment = new BuyItemConfirmFragment();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+            }
+        });
+
         return v;
+    }
+
+    public boolean checkValidation(){
+        Validacion val = new Validacion();
+        if(!val.valNumRange(editCardNumber,14,16)){
+            return false;
+        }else if(!val.valCantString(editFullName,3)){
+            return false;
+        }else if(!val.valExpireDate(editDueDate)){
+            return false;
+        }else if(!val.valCantString(editSecurityCode,3)){
+            return false;
+        }else if(!val.valDni(editTitularDNI)){
+            return false;
+        }else {
+            return true;
+        }
     }
 
     @Override

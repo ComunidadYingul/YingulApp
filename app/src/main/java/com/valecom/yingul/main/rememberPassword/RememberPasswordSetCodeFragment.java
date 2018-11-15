@@ -18,11 +18,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 import com.valecom.yingul.R;
 import com.valecom.yingul.main.MainActivity;
-import com.valecom.yingul.main.NewClientActivity;
-import com.valecom.yingul.main.newUserUbicationEditPersonalInfo.NewUbicationSetDetail1Fragment;
-import com.valecom.yingul.main.newUserUbicationEditPersonalInfo.NewUserUbicationEditPersonalInfoActivity;
 import com.valecom.yingul.model.Yng_ResetPassword;
-import com.valecom.yingul.model.Yng_User;
 import com.valecom.yingul.network.Network;
 
 import org.json.JSONException;

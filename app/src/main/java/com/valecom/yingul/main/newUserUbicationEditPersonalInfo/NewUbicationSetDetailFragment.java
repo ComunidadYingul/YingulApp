@@ -3,6 +3,8 @@ package com.valecom.yingul.main.newUserUbicationEditPersonalInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,13 +55,21 @@ public class NewUbicationSetDetailFragment extends Fragment {
             editPhone.setText(((NewUserUbicationEditPersonalInfoActivity) getActivity()).user.getPhone());
         }
 
-        String typeDocument[] = {"DNI","LC","CI","LE"};
+        //String typeDocument[] = {"DNI","LC","CI","LE"};
+        String typeDocument[] = {"DNI"};
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(v.getContext(),   android.R.layout.simple_spinner_item, typeDocument);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
         spinner_type_document.setAdapter(spinnerArrayAdapter);
 
         checkWithoutNumber = (CheckBox) v.findViewById(R.id.checkWithoutNumber);
         buttonSetUbicationDetail = (Button) v.findViewById(R.id.buttonSetUbicationDetail);
+
+        spinner_type_document.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(Spinner parent, View view, int position, long id) {
+                editDocument.setText("");
+            }
+        });
 
         checkWithoutNumber.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -75,22 +85,51 @@ public class NewUbicationSetDetailFragment extends Fragment {
             }
         });
 
+        editDocument.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(spinner_type_document.getSelectedItemPosition() == 0) {
+                    String aux = editDocument.getText().toString().trim();
+                    if (editDocument.getText().toString().trim().contains(".")) {
+                        aux = editDocument.getText().toString().trim().replace(".", "");
+                    }
+                    if (aux.length() > 2 && aux.length() <= 5) {
+                        if (aux.contains(".")) {
+                            aux = aux.replace(".", "");
+                        }
+                        editDocument.removeTextChangedListener(this);
+                        editDocument.setText(aux.substring(0, 2) + ".".toString() + aux.substring(2, aux.length()));
+                        editDocument.setSelection(editDocument.getText().toString().trim().length());  // Set selection
+                        editDocument.addTextChangedListener(this);
+                    }
+                    if (aux.length() > 5) {
+                        if (aux.contains(".")) {
+                            aux = aux.replace(".", "");
+                        }
+                        editDocument.removeTextChangedListener(this);
+                        editDocument.setText(aux.substring(0, 2) + "." + aux.substring(2, 5) + "." + aux.substring(5, aux.length()));
+                        editDocument.setSelection(editDocument.getText().toString().trim().length());  // Set selection
+                        editDocument.addTextChangedListener(this);
+                    }
+                }
+            }
+        });
+
         buttonSetUbicationDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Validacion val=new Validacion();
-                if(val.validarNumero(editPhone,editPhone.getText().toString())){
-                    editPhone.setError("Campo requerido");
-                }else if(val.validarNumero(editDocument,editDocument.getText().toString())){
-                    editDocument.setError("Campo requerido");
-                }else if(val.validarNumero(editStreet,editStreet.getText().toString())){
-                    editStreet.setError("Campo requerido");
-                }else if(val.validarNumero(editNumber,editNumber.getText().toString()) && !checkWithoutNumber.isChecked()){
-                    editNumber.setError("Campo requerido");
-                }else if(val.validarCadena(editRefence,editRefence.getText().toString())){
-                    editRefence.setError("Campo requerido");
-                }
-                else {
+
+                if (checkValidation()) {
 
                     ((NewUserUbicationEditPersonalInfoActivity) getActivity()).ubication.setStreet(editStreet.getText().toString().trim());
                     ((NewUserUbicationEditPersonalInfoActivity) getActivity()).ubication.setNumber(editNumber.getText().toString().trim());
@@ -102,15 +141,19 @@ public class NewUbicationSetDetailFragment extends Fragment {
                     switch (spinner_type_document.getSelectedItemPosition()) {
                         case 0:
                             ((NewUserUbicationEditPersonalInfoActivity) getActivity()).user.setDocumentType("DNI");
+                            ((NewUserUbicationEditPersonalInfoActivity) getActivity()).user.setDocumentNumber(editDocument.getText().toString().trim().replace(".",""));
                             break;
                         case 1:
                             ((NewUserUbicationEditPersonalInfoActivity) getActivity()).user.setDocumentType("LC");
+                            ((NewUserUbicationEditPersonalInfoActivity) getActivity()).user.setDocumentNumber(editDocument.getText().toString().trim());
                             break;
                         case 2:
                             ((NewUserUbicationEditPersonalInfoActivity) getActivity()).user.setDocumentType("CI");
+                            ((NewUserUbicationEditPersonalInfoActivity) getActivity()).user.setDocumentNumber(editDocument.getText().toString().trim());
                             break;
                         case 3:
                             ((NewUserUbicationEditPersonalInfoActivity) getActivity()).user.setDocumentType("LE");
+                            ((NewUserUbicationEditPersonalInfoActivity) getActivity()).user.setDocumentNumber(editDocument.getText().toString().trim());
                             break;
                     }
                     ((NewUserUbicationEditPersonalInfoActivity) getActivity()).user.setPhone(editPhone.getText().toString().trim());
@@ -120,16 +163,46 @@ public class NewUbicationSetDetailFragment extends Fragment {
                     Gson gson = new Gson();
                     String jsonBody = gson.toJson(((NewUserUbicationEditPersonalInfoActivity) getActivity()).ubication);
                     Log.e("ubica:---", jsonBody);
-
-                    /*NewUbicationSetDetail1Fragment fragment = new NewUbicationSetDetail1Fragment();
-                    FragmentTransaction fragmentTransaction  = getFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.content_frame, fragment);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();*/
                 }
             }
         });
         return v;
+    }
+
+    public boolean checkValidation(){
+        /*Validacion val=new Validacion();
+        if(val.validarNumero(editPhone,editPhone.getText().toString())){
+            editPhone.setError("Campo requerido");
+        }else if(val.validarNumero(editDocument,editDocument.getText().toString())){
+            editDocument.setError("Campo requerido");
+        }else if(val.validarNumero(editStreet,editStreet.getText().toString())){
+            editStreet.setError("Campo requerido");
+        }else if(val.validarNumero(editNumber,editNumber.getText().toString()) && !checkWithoutNumber.isChecked()){
+            editNumber.setError("Campo requerido");
+        }else if(val.validarCadena(editRefence,editRefence.getText().toString())){
+            editRefence.setError("Campo requerido");
+        }*/
+
+        Validacion val=new Validacion();
+        if(val.validarNumero(editPhone,editPhone.getText().toString())){
+            editPhone.setError("Campo requerido");
+            return false;
+        }else if(spinner_type_document.getSelectedItemPosition() == 0 && !val.valDni(editDocument)) {
+            return false;
+        }else if(spinner_type_document.getSelectedItemPosition() != 0 && !val.valNumber(editDocument)){
+            return false;
+        }else if(val.validarNumero(editStreet,editStreet.getText().toString())){
+            editStreet.setError("Campo requerido");
+            return false;
+        }else if(val.validarNumero(editNumber,editNumber.getText().toString()) && !checkWithoutNumber.isChecked()){
+            editNumber.setError("Campo requerido");
+            return false;
+        }else if(val.validarCadena(editRefence,editRefence.getText().toString())){
+            editRefence.setError("Campo requerido");
+            return false;
+        }else {
+            return true;
+        }
     }
 
     @Override
