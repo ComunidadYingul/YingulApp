@@ -671,11 +671,17 @@ public class MyAccountUserProfileFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(responce.equals("save")) {
-                            Toast.makeText(getContext(), "Datos actualizados correctamente.", Toast.LENGTH_SHORT).show();
-                            RunGetPerson();
-                        }else{
-                            Toast.makeText(getContext(), "Algo salio mal porfavor intente mas tarde.",Toast.LENGTH_LONG).show();
+                        switch (responce){
+                            case "save":
+                                Toast.makeText(getContext(), "Datos actualizados correctamente.", Toast.LENGTH_SHORT).show();
+                                RunGetPerson();
+                                break;
+                            case "documentNumberExists":
+                                Toast.makeText(getContext(), "El CUIT ya esta registrado porfavor ingrese otro.",Toast.LENGTH_LONG).show();
+                                break;
+                            default :
+                                Toast.makeText(getContext(), "Algo salio mal porfavor intente mas tarde.",Toast.LENGTH_LONG).show();
+                                break;
                         }
                     }
                 });
