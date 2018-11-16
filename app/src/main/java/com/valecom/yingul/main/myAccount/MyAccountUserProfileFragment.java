@@ -476,7 +476,9 @@ public class MyAccountUserProfileFragment extends Fragment {
                             }
                             String docType =response.getJSONObject("yng_User").getString("documentType");
                             String docNumber = response.getJSONObject("yng_User").getString("documentNumber");
-                            docNumber = docNumber.substring(0,2)+"."+docNumber.substring(2,5)+"."+docNumber.substring(5);
+                            if(docNumber.length() > 0) {
+                                docNumber = docNumber.substring(0, 2) + "." + docNumber.substring(2, 5) + "." + docNumber.substring(5);
+                            }
                             textDocument.setText(docType+" "+docNumber);
                             if(person.isBusiness()){
                                 RunGetBusiness();

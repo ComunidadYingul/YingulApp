@@ -81,7 +81,6 @@
                             android:id="@+id/textFullname"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Preguntas"
                             android:textColor="@color/colorDivider"
                             android:textSize="10sp"/>
 
@@ -136,7 +135,6 @@
                             android:id="@+id/textUsername"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Preguntas"
                             android:textColor="@color/colorDivider"
                             android:textSize="10sp"/>
 
@@ -192,7 +190,6 @@
                             android:id="@+id/textEmail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Preguntas"
                             android:textColor="@color/colorDivider"
                             android:textSize="10sp"/>
 
@@ -248,7 +245,6 @@
                             android:id="@+id/textPhone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Preguntas"
                             android:textColor="@color/colorDivider"
                             android:textSize="10sp"/>
 
@@ -313,7 +309,6 @@
                             android:id="@+id/textDocument"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Preguntas"
                             android:textColor="@color/colorDivider"
                             android:textSize="10sp"/>
 
@@ -400,7 +395,6 @@
                             android:id="@+id/textBusinessName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Preguntas"
                             android:textColor="@color/colorDivider"
                             android:textSize="10sp"/>
 
@@ -464,7 +458,6 @@
                             android:id="@+id/textBusinessDocument"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Preguntas"
                             android:textColor="@color/colorDivider"
                             android:textSize="10sp"/>
 
@@ -544,7 +537,6 @@
                             android:id="@+id/textUserUbication"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Preguntas"
                             android:textColor="@color/colorDivider"
                             android:textSize="10sp"/>
 
